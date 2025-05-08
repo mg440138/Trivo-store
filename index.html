@@ -17,90 +17,128 @@
       padding: 1rem;
       text-align: center;
     }
-    .producto, .carrito {
-      background: white;
-      margin: 1rem auto;
+    .selector-idioma {
+      margin: 1rem;
+      text-align: center;
+    }
+    .productos {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
       padding: 1rem;
-      width: 90%;
-      max-width: 400px;
+    }
+    .producto {
+      background-color: white;
+      padding: 1rem;
+      width: 300px;
       border-radius: 10px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      text-align: center;
     }
-    button {
+    .producto img {
+      width: 100%;
+      height: auto;
+      max-height: 200px;
+      object-fit: cover;
+      margin-bottom: 1rem;
+    }
+    .producto button {
       background-color: #007bff;
       color: white;
       border: none;
       padding: 0.5rem 1rem;
-      border-radius: 5px;
       cursor: pointer;
+      border-radius: 5px;
     }
-    #language-select {
-      margin-top: 0.5rem;
-      padding: 0.25rem;
+    .carrito {
+      background-color: white;
+      margin: 2rem auto;
+      padding: 1rem;
+      max-width: 600px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.8rem;
+      color: #888;
     }
   </style>
 </head>
 <body>
   <header>
     <h1>Trivo Store</h1>
-    <select id="language-select">
-      <option value="es">Español</option>
-      <option value="en">English</option>
-    </select>
+    <div class="selector-idioma">
+      <div id="google_translate_element"></div>
+    </div>
   </header>
 
-  <div class="producto">
-    <img src="https://via.placeholder.com/150" alt="Zapatos" style="display:block; margin:auto;">
-    <h2>Zapatos Deportivos</h2>
-    <p>$49.99</p>
-    <button onclick="agregarAlCarrito('Zapatos Deportivos', 49.99)">Agregar al carrito</button>
+  <div class="productos">
+    <div class="producto">
+      <img src="https://via.placeholder.com/300x200?text=Zapatos+Deportivos" alt="Zapatos Deportivos">
+      <h2>Zapatos Deportivos</h2>
+      <p>$49.99</p>
+      <button onclick="agregarAlCarrito('Zapatos Deportivos', 49.99)">Agregar al carrito</button>
+    </div>
+    <div class="producto">
+      <img src="https://via.placeholder.com/300x200?text=Camisa+Casual" alt="Camisa Casual">
+      <h2>Camisa Casual</h2>
+      <p>$29.99</p>
+      <button onclick="agregarAlCarrito('Camisa Casual', 29.99)">Agregar al carrito</button>
+    </div>
+    <div class="producto">
+      <img src="https://via.placeholder.com/300x200?text=Jeans+Azules" alt="Jeans Azules">
+      <h2>Jeans Azules</h2>
+      <p>$39.99</p>
+      <button onclick="agregarAlCarrito('Jeans Azules', 39.99)">Agregar al carrito</button>
+    </div>
   </div>
 
   <div class="carrito">
-    <h2>Carrito</h2>
+    <h3>Carrito</h3>
     <ul id="lista-carrito"></ul>
     <p>Total: $<span id="total">0.00</span></p>
   </div>
 
-  <script>
-    const carrito = [];
-    const lista = document.getElementById('lista-carrito');
-    const totalSpan = document.getElementById('total');
+  <footer>
+    © 2025 Trivo Store - Todos los derechos reservados
+  </footer>
 
-    function agregarAlCarrito(producto, precio) {
-      carrito.push({ producto, precio });
+  <script>
+    const lista = document.getElementById("lista-carrito");
+    const totalSpan = document.getElementById("total");
+    let total = 0;
+    let carrito = [];
+
+    function agregarAlCarrito(nombre, precio) {
+      carrito.push({ nombre, precio });
       actualizarCarrito();
     }
 
     function actualizarCarrito() {
-      lista.innerHTML = '';
-      let total = 0;
+      lista.innerHTML = "";
+      total = 0;
+
       carrito.forEach(item => {
-        const li = document.createElement('li');
-        li.textContent = `${item.producto} - $${item.precio.toFixed(2)}`;
+        const li = document.createElement("li");
+        li.textContent = `${item.nombre} - $${item.precio.toFixed(2)}`;
         lista.appendChild(li);
         total += item.precio;
       });
+
       totalSpan.textContent = total.toFixed(2);
     }
 
-    document.getElementById("language-select").addEventListener("change", function () {
-      const idioma = this.value;
-      const script = document.createElement("script");
-      script.src = `https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit`;
-      document.body.appendChild(script);
-
-      window.googleTranslateElementInit = function () {
-        new google.translate.TranslateElement(
-          {
-            pageLanguage: "es",
-            includedLanguages: "es,en",
-            layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-          },
-          "language-select"
-        );
-      };
-    });
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'es',
+        includedLanguages: 'es,en',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
   </script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>
