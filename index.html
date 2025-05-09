@@ -2,12 +2,12 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Trivo Store</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Trivo Store - Productos Virtuales</title>
   <style>
     body {
-      font-family: sans-serif;
-      background: #f4f4f4;
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
       margin: 0;
     }
 
@@ -27,28 +27,30 @@
     }
 
     #bienvenida {
-      background: #d4fcd4;
+      background: #dfffe0;
       padding: 1rem;
       text-align: center;
       font-weight: bold;
     }
 
     .seccion {
-      padding: 1rem;
+      padding: 1.5rem;
     }
 
     .producto {
       border: 1px solid #ccc;
+      background: white;
       padding: 1rem;
       margin-bottom: 1rem;
-      background: white;
+      max-width: 600px;
     }
 
     .producto img {
       width: 100%;
       max-width: 300px;
       height: auto;
-      margin-bottom: 0.5rem;
+      display: block;
+      margin-bottom: 1rem;
     }
 
     .producto button {
@@ -60,6 +62,12 @@
       border-radius: 4px;
     }
 
+    #carrito, #contacto {
+      background: #fff;
+      border-top: 1px solid #ccc;
+      padding: 1.5rem;
+    }
+
     form input, form textarea {
       width: 100%;
       padding: 0.5rem;
@@ -69,7 +77,7 @@
     form button {
       background: green;
       color: white;
-      padding: 0.6rem 1rem;
+      padding: 0.6rem 1.2rem;
       border: none;
       border-radius: 4px;
     }
@@ -88,47 +96,47 @@
     </nav>
   </header>
 
-  <!-- Selector de idiomas (más de 100 idiomas) -->
+  <!-- Traductor de Google (100+ idiomas) -->
   <div id="google_translate_element" style="text-align: right; margin: 10px;"></div>
 
   <!-- Sección de productos -->
   <section id="productos" class="seccion">
-    <h2>Productos virtuales</h2>
+    <h2>Productos en oferta</h2>
 
     <div class="producto">
-      <h3>Plantilla Web Pro</h3>
-      <img src="https://via.placeholder.com/300x200?text=Plantilla+Web" alt="Plantilla Web Pro">
-      <p>HTML + CSS profesional para sitios modernos.</p>
-      <p><strong>$20 USD</strong></p>
-      <button onclick="agregarAlCarrito('Plantilla Web Pro', 20)">Agregar al carrito</button>
+      <h3>Mini Audífonos Bluetooth TWS</h3>
+      <img src="https://m.media-amazon.com/images/I/61VnLQeVZHL._AC_SL1500_.jpg" alt="Audífonos Bluetooth TWS">
+      <p>Conexión rápida, estuche con carga, sonido estéreo premium.</p>
+      <p><strong>$18.99 USD</strong></p>
+      <button onclick="agregarAlCarrito('Audífonos TWS', 18.99)">Agregar al carrito</button>
     </div>
 
     <div class="producto">
-      <h3>Curso JavaScript Básico</h3>
-      <img src="https://via.placeholder.com/300x200?text=Curso+JS" alt="Curso JS">
-      <p>Curso descargable en video para aprender desde cero.</p>
-      <p><strong>$15 USD</strong></p>
-      <button onclick="agregarAlCarrito('Curso JavaScript', 15)">Agregar al carrito</button>
+      <h3>Lámpara LED Táctil Recargable</h3>
+      <img src="https://m.media-amazon.com/images/I/61pUv8qlC9L._AC_SL1500_.jpg" alt="Lámpara LED Táctil">
+      <p>3 niveles de luz, batería recargable, ideal para escritorio.</p>
+      <p><strong>$12.50 USD</strong></p>
+      <button onclick="agregarAlCarrito('Lámpara LED', 12.50)">Agregar al carrito</button>
     </div>
 
     <div class="producto">
-      <h3>Pack de Iconos SVG</h3>
-      <img src="https://via.placeholder.com/300x200?text=Iconos+SVG" alt="Pack Iconos SVG">
-      <p>100+ iconos modernos y personalizables.</p>
-      <p><strong>$10 USD</strong></p>
-      <button onclick="agregarAlCarrito('Pack de Iconos SVG', 10)">Agregar al carrito</button>
+      <h3>Soporte Universal Celular 360°</h3>
+      <img src="https://m.media-amazon.com/images/I/51zjjcgKnLL._AC_SL1001_.jpg" alt="Soporte Celular">
+      <p>Rotación libre, base antideslizante, compatible con todos los modelos.</p>
+      <p><strong>$9.99 USD</strong></p>
+      <button onclick="agregarAlCarrito('Soporte Celular', 9.99)">Agregar al carrito</button>
     </div>
   </section>
 
-  <!-- Sección del carrito -->
-  <section id="carrito" class="seccion">
-    <h2>Carrito</h2>
+  <!-- Carrito -->
+  <section id="carrito">
+    <h2>Tu Carrito</h2>
     <div id="contenidoCarrito">Tu carrito está vacío.</div>
     <button onclick="vaciarCarrito()">Vaciar carrito</button>
   </section>
 
-  <!-- Sección de contacto -->
-  <section id="contacto" class="seccion">
+  <!-- Contacto -->
+  <section id="contacto">
     <h2>Contacto</h2>
     <form onsubmit="enviarMensaje(); return false;">
       <input type="text" id="nombre" placeholder="Tu nombre" required>
@@ -140,12 +148,10 @@
 
   <!-- Scripts -->
   <script>
-    // Bienvenida temporal
     setTimeout(() => {
       document.getElementById("bienvenida").style.display = "none";
     }, 5000);
 
-    // Carrito
     let carrito = [];
 
     function agregarAlCarrito(producto, precio) {
@@ -168,7 +174,7 @@
           total += p.precio;
           return `<li>${p.nombre} - $${p.precio}</li>`;
         }).join("");
-        div.innerHTML = `<ul>${items}</ul><strong>Total: $${total}</strong>`;
+        div.innerHTML = `<ul>${items}</ul><strong>Total: $${total.toFixed(2)}</strong>`;
       }
     }
 
@@ -180,7 +186,7 @@
     }
   </script>
 
-  <!-- Script de Google Translate con 100+ idiomas -->
+  <!-- Google Translate -->
   <script type="text/javascript">
     function googleTranslateElementInit() {
       new google.translate.TranslateElement({
@@ -190,7 +196,7 @@
       }, 'google_translate_element');
     }
   </script>
-  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 </body>
 </html>
