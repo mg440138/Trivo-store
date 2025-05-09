@@ -7,9 +7,10 @@
   <style>
     body {
       font-family: sans-serif;
-      background: #f9f9f9;
+      background: #f4f4f4;
       margin: 0;
     }
+
     header {
       background: #333;
       color: white;
@@ -18,29 +19,59 @@
       justify-content: space-between;
       align-items: center;
     }
+
     nav a {
       color: #0ff;
       margin-left: 1rem;
       text-decoration: none;
     }
+
     #bienvenida {
-      background: #dfffdc;
+      background: #d4fcd4;
       padding: 1rem;
       text-align: center;
       font-weight: bold;
     }
+
     .seccion {
       padding: 1rem;
     }
+
     .producto {
       border: 1px solid #ccc;
       padding: 1rem;
       margin-bottom: 1rem;
-      background: #fff;
+      background: white;
     }
+
     .producto img {
       width: 100%;
+      max-width: 300px;
       height: auto;
+      margin-bottom: 0.5rem;
+    }
+
+    .producto button {
+      background: #007BFF;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    form input, form textarea {
+      width: 100%;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    form button {
+      background: green;
+      color: white;
+      padding: 0.6rem 1rem;
+      border: none;
+      border-radius: 4px;
     }
   </style>
 </head>
@@ -57,77 +88,68 @@
     </nav>
   </header>
 
-  <!-- Selector de idioma -->
-  <div style="padding: 1rem; text-align: right;">
-    <label for="idioma" style="margin-right: 8px;">Idioma:</label>
-    <select id="idioma" onchange="cambiarIdioma(this.value)"></select>
-  </div>
+  <!-- Selector de idiomas (más de 100 idiomas) -->
+  <div id="google_translate_element" style="text-align: right; margin: 10px;"></div>
 
-  <!-- Productos -->
+  <!-- Sección de productos -->
   <section id="productos" class="seccion">
     <h2>Productos virtuales</h2>
+
     <div class="producto">
       <h3>Plantilla Web Pro</h3>
-      <img src="https://via.placeholder.com/300x200.png?text=Producto+1" alt="Producto 1">
-      <p>Archivo HTML + CSS para sitios modernos.</p>
-      <button onclick="agregarAlCarrito('Plantilla Web Pro')">Agregar al carrito</button>
+      <img src="https://via.placeholder.com/300x200?text=Plantilla+Web" alt="Plantilla Web Pro">
+      <p>HTML + CSS profesional para sitios modernos.</p>
+      <p><strong>$20 USD</strong></p>
+      <button onclick="agregarAlCarrito('Plantilla Web Pro', 20)">Agregar al carrito</button>
+    </div>
+
+    <div class="producto">
+      <h3>Curso JavaScript Básico</h3>
+      <img src="https://via.placeholder.com/300x200?text=Curso+JS" alt="Curso JS">
+      <p>Curso descargable en video para aprender desde cero.</p>
+      <p><strong>$15 USD</strong></p>
+      <button onclick="agregarAlCarrito('Curso JavaScript', 15)">Agregar al carrito</button>
+    </div>
+
+    <div class="producto">
+      <h3>Pack de Iconos SVG</h3>
+      <img src="https://via.placeholder.com/300x200?text=Iconos+SVG" alt="Pack Iconos SVG">
+      <p>100+ iconos modernos y personalizables.</p>
+      <p><strong>$10 USD</strong></p>
+      <button onclick="agregarAlCarrito('Pack de Iconos SVG', 10)">Agregar al carrito</button>
     </div>
   </section>
 
-  <!-- Carrito -->
+  <!-- Sección del carrito -->
   <section id="carrito" class="seccion">
     <h2>Carrito</h2>
     <div id="contenidoCarrito">Tu carrito está vacío.</div>
     <button onclick="vaciarCarrito()">Vaciar carrito</button>
   </section>
 
-  <!-- Contacto -->
+  <!-- Sección de contacto -->
   <section id="contacto" class="seccion">
-    <h2>Contáctanos</h2>
+    <h2>Contacto</h2>
     <form onsubmit="enviarMensaje(); return false;">
-      <input type="text" id="nombre" placeholder="Nombre" required><br><br>
-      <input type="email" id="email" placeholder="Correo" required><br><br>
-      <textarea id="mensaje" placeholder="Mensaje" required></textarea><br><br>
+      <input type="text" id="nombre" placeholder="Tu nombre" required>
+      <input type="email" id="email" placeholder="Tu correo" required>
+      <textarea id="mensaje" placeholder="Escribe tu mensaje" required></textarea>
       <button type="submit">Enviar</button>
     </form>
   </section>
 
   <!-- Scripts -->
   <script>
-    // Idiomas
-    const idiomas = {
-      af: "Afrikaans", ar: "العربية", az: "Azərbaycanca", be: "Беларуская",
-      bg: "Български", bn: "বাংলা", ca: "Català", cs: "Čeština", da: "Dansk",
-      de: "Deutsch", el: "Ελληνικά", en: "English", es: "Español", et: "Eesti",
-      fa: "فارسی", fi: "Suomi", fr: "Français", gu: "ગુજરાતી", he: "עברית",
-      hi: "हिन्दी", hr: "Hrvatski", hu: "Magyar", id: "Bahasa Indonesia",
-      it: "Italiano", ja: "日本語", jv: "Basa Jawa", ka: "ქართული", kn: "ಕನ್ನಡ",
-      ko: "한국어", lt: "Lietuvių", lv: "Latviešu", ml: "മലയാളം", mr: "मराठी",
-      ms: "Bahasa Melayu", nl: "Nederlands", no: "Norsk", pl: "Polski",
-      pt: "Português", ro: "Română", ru: "Русский", sk: "Slovenčina",
-      sl: "Slovenščina", sq: "Shqip", sr: "Српски", sv: "Svenska", sw: "Kiswahili",
-      ta: "தமிழ்", te: "తెలుగు", th: "ไทย", tr: "Türkçe", uk: "Українська",
-      ur: "اردو", vi: "Tiếng Việt", zh: "中文", zu: "IsiZulu"
-    };
-
-    const selector = document.getElementById("idioma");
-    for (const codigo in idiomas) {
-      const opt = document.createElement("option");
-      opt.value = codigo;
-      opt.textContent = idiomas[codigo];
-      selector.appendChild(opt);
-    }
-
-    // Bienvenida se oculta después de 5 segundos
+    // Bienvenida temporal
     setTimeout(() => {
       document.getElementById("bienvenida").style.display = "none";
     }, 5000);
 
-    // Funciones carrito
+    // Carrito
     let carrito = [];
 
-    function agregarAlCarrito(producto) {
-      carrito.push(producto);
+    function agregarAlCarrito(producto, precio) {
+      carrito.push({ nombre: producto, precio });
       actualizarCarrito();
     }
 
@@ -141,24 +163,34 @@
       if (carrito.length === 0) {
         div.innerText = "Tu carrito está vacío.";
       } else {
-        div.innerHTML = "<ul>" + carrito.map(p => "<li>" + p + "</li>").join("") + "</ul>";
+        let total = 0;
+        const items = carrito.map(p => {
+          total += p.precio;
+          return `<li>${p.nombre} - $${p.precio}</li>`;
+        }).join("");
+        div.innerHTML = `<ul>${items}</ul><strong>Total: $${total}</strong>`;
       }
     }
 
-    // Enviar mensaje
     function enviarMensaje() {
       const nombre = document.getElementById("nombre").value;
       const email = document.getElementById("email").value;
       const mensaje = document.getElementById("mensaje").value;
       alert(`Mensaje enviado:\nNombre: ${nombre}\nEmail: ${email}\nMensaje: ${mensaje}`);
     }
+  </script>
 
-    // Cambiar idioma (redirecciona con Google Translate)
-    function cambiarIdioma(codigo) {
-      const url = `https://translate.google.com/translate?hl=${codigo}&sl=auto&u=${encodeURIComponent(window.location.href)}`;
-      window.location.href = url;
+  <!-- Script de Google Translate con 100+ idiomas -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'es',
+        includedLanguages: 'af,am,ar,az,be,bg,bn,bs,ca,ceb,co,cs,cy,da,de,el,en,eo,es,et,eu,fa,fi,fr,fy,ga,gd,gl,gu,ha,haw,he,hi,hmn,hr,ht,hu,hy,id,ig,is,it,ja,jv,ka,kk,km,kn,ko,ku,ky,la,lb,lo,lt,lv,mg,mi,mk,ml,mn,mr,ms,mt,my,ne,nl,no,ny,pa,pl,ps,pt,ro,ru,rw,sd,si,sk,sl,sm,sn,so,sq,sr,st,su,sv,sw,ta,te,tg,th,tk,tl,tr,tt,ug,uk,ur,uz,vi,xh,yi,yo,zh-CN,zh-TW,zu',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
     }
   </script>
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 </body>
 </html>
