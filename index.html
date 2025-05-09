@@ -3,133 +3,162 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tienda Virtual Trivo</title>
+  <title>Trivo Store</title>
   <style>
-    body { font-family: sans-serif; background: #f9f9f9; margin: 0; }
-    header { background: #333; color: #fff; padding: 1rem; display: flex; justify-content: space-between; align-items: center; }
-    nav a { color: #0ff; margin-left: 1rem; text-decoration: none; }
-    #bienvenida { background: #dfffdc; padding: 1rem; text-align: center; font-weight: bold; }
-    .section { display: none; padding: 1rem; }
-    .producto { margin-bottom: 1rem; border: 1px solid #ccc; padding: 1rem; background: #fff; }
-    .producto img { max-width: 100%; height: auto; }
+    body {
+      font-family: sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+    }
+    header {
+      background: #333;
+      color: white;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    nav a {
+      color: #0ff;
+      margin-left: 1rem;
+      text-decoration: none;
+    }
+    #bienvenida {
+      background: #dfffdc;
+      padding: 1rem;
+      text-align: center;
+      font-weight: bold;
+    }
+    .seccion {
+      padding: 1rem;
+    }
+    .producto {
+      border: 1px solid #ccc;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      background: #fff;
+    }
+    .producto img {
+      width: 100%;
+      height: auto;
+    }
   </style>
 </head>
 <body>
 
-<!-- Selector de idiomas -->
-<div style="padding: 1rem; text-align: right;">
-  <label for="idioma" style="margin-right: 8px;">Idioma:</label>
-  <select id="idioma" onchange="cambiarIdioma(this.value)">
-    <option value="es">Español</option>
-    <option value="en">Inglés</option>
-    <option value="fr">Francés</option>
-    <option value="de">Alemán</option>
-    <option value="it">Italiano</option>
-    <option value="pt">Portugués</option>
-    <option value="zh-CN">Chino</option>
-    <option value="ja">Japonés</option>
-    <option value="ru">Ruso</option>
-    <option value="ar">Árabe</option>
-    <option value="hi">Hindi</option>
-    <option value="ko">Coreano</option>
-    <option value="tr">Turco</option>
-    <option value="vi">Vietnamita</option>
-    <option value="pl">Polaco</option>
-  </select>
-</div>
+  <div id="bienvenida">¡Bienvenido a Trivo Store!</div>
 
-<div id="bienvenida">¡Bienvenido a Trivo Store!</div>
+  <header>
+    <div>Trivo Store</div>
+    <nav>
+      <a href="#productos">Productos</a>
+      <a href="#carrito">Carrito</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </header>
 
-<header>
-  <h1>Trivo Store</h1>
-  <nav>
-    <a href="#" onclick="mostrar('productos')">Productos</a>
-    <a href="#" onclick="mostrar('carrito')">Carrito</a>
-    <a href="#" onclick="mostrar('contacto')">Contacto</a>
-  </nav>
-</header>
-
-<section id="productos" class="section">
-  <h2>Productos virtuales</h2>
-
-  <div class="producto">
-    <img src="https://via.placeholder.com/200x150?text=Logo+Editable" alt="Logo Profesional">
-    <h3>Logo Profesional</h3>
-    <p>Archivo PSD, editable en Photoshop. Ideal para empresas.</p>
-    <button onclick="agregarAlCarrito('Logo Profesional')">Agregar</button>
-    <a href="#" target="_blank"><button>Descargar</button></a>
+  <!-- Selector de idioma -->
+  <div style="padding: 1rem; text-align: right;">
+    <label for="idioma" style="margin-right: 8px;">Idioma:</label>
+    <select id="idioma" onchange="cambiarIdioma(this.value)"></select>
   </div>
 
-  <div class="producto">
-    <img src="https://via.placeholder.com/200x150?text=Plantilla+CV" alt="Plantilla de CV">
-    <h3>Plantilla de CV</h3>
-    <p>Documento en Word listo para editar. Diseño moderno.</p>
-    <button onclick="agregarAlCarrito('Plantilla de CV')">Agregar</button>
-    <a href="#" target="_blank"><button>Descargar</button></a>
-  </div>
+  <!-- Productos -->
+  <section id="productos" class="seccion">
+    <h2>Productos virtuales</h2>
+    <div class="producto">
+      <h3>Plantilla Web Pro</h3>
+      <img src="https://via.placeholder.com/300x200.png?text=Producto+1" alt="Producto 1">
+      <p>Archivo HTML + CSS para sitios modernos.</p>
+      <button onclick="agregarAlCarrito('Plantilla Web Pro')">Agregar al carrito</button>
+    </div>
+  </section>
 
-  <div class="producto">
-    <img src="https://via.placeholder.com/200x150?text=Tarjeta+AI" alt="Diseño de Tarjeta">
-    <h3>Diseño de Tarjeta</h3>
-    <p>Tarjeta de presentación lista para personalizar. Archivo AI.</p>
-    <button onclick="agregarAlCarrito('Diseño de Tarjeta')">Agregar</button>
-    <a href="#" target="_blank"><button>Descargar</button></a>
-  </div>
-</section>
+  <!-- Carrito -->
+  <section id="carrito" class="seccion">
+    <h2>Carrito</h2>
+    <div id="contenidoCarrito">Tu carrito está vacío.</div>
+    <button onclick="vaciarCarrito()">Vaciar carrito</button>
+  </section>
 
-<section id="carrito" class="section">
-  <h2>Carrito</h2>
-  <ul id="items-carrito"></ul>
-  <button onclick="vaciarCarrito()">Vaciar</button>
-</section>
+  <!-- Contacto -->
+  <section id="contacto" class="seccion">
+    <h2>Contáctanos</h2>
+    <form onsubmit="enviarMensaje(); return false;">
+      <input type="text" id="nombre" placeholder="Nombre" required><br><br>
+      <input type="email" id="email" placeholder="Correo" required><br><br>
+      <textarea id="mensaje" placeholder="Mensaje" required></textarea><br><br>
+      <button type="submit">Enviar</button>
+    </form>
+  </section>
 
-<section id="contacto" class="section">
-  <h2>Contáctanos</h2>
-  <form action="https://formspree.io/f/mnqyljqy" method="POST">
-    <input type="text" name="nombre" placeholder="Nombre" required><br>
-    <input type="email" name="email" placeholder="Correo" required><br>
-    <textarea name="mensaje" placeholder="Tu mensaje" required></textarea><br>
-    <button type="submit">Enviar</button>
-  </form>
-</section>
+  <!-- Scripts -->
+  <script>
+    // Idiomas
+    const idiomas = {
+      af: "Afrikaans", ar: "العربية", az: "Azərbaycanca", be: "Беларуская",
+      bg: "Български", bn: "বাংলা", ca: "Català", cs: "Čeština", da: "Dansk",
+      de: "Deutsch", el: "Ελληνικά", en: "English", es: "Español", et: "Eesti",
+      fa: "فارسی", fi: "Suomi", fr: "Français", gu: "ગુજરાતી", he: "עברית",
+      hi: "हिन्दी", hr: "Hrvatski", hu: "Magyar", id: "Bahasa Indonesia",
+      it: "Italiano", ja: "日本語", jv: "Basa Jawa", ka: "ქართული", kn: "ಕನ್ನಡ",
+      ko: "한국어", lt: "Lietuvių", lv: "Latviešu", ml: "മലയാളം", mr: "मराठी",
+      ms: "Bahasa Melayu", nl: "Nederlands", no: "Norsk", pl: "Polski",
+      pt: "Português", ro: "Română", ru: "Русский", sk: "Slovenčina",
+      sl: "Slovenščina", sq: "Shqip", sr: "Српски", sv: "Svenska", sw: "Kiswahili",
+      ta: "தமிழ்", te: "తెలుగు", th: "ไทย", tr: "Türkçe", uk: "Українська",
+      ur: "اردو", vi: "Tiếng Việt", zh: "中文", zu: "IsiZulu"
+    };
 
-<script>
-  let carrito = [];
+    const selector = document.getElementById("idioma");
+    for (const codigo in idiomas) {
+      const opt = document.createElement("option");
+      opt.value = codigo;
+      opt.textContent = idiomas[codigo];
+      selector.appendChild(opt);
+    }
 
-  function mostrar(id) {
-    document.querySelectorAll('.section').forEach(el => el.style.display = 'none');
-    document.getElementById(id).style.display = 'block';
-  }
+    // Bienvenida se oculta después de 5 segundos
+    setTimeout(() => {
+      document.getElementById("bienvenida").style.display = "none";
+    }, 5000);
 
-  function agregarAlCarrito(producto) {
-    carrito.push(producto);
-    actualizarCarrito();
-  }
+    // Funciones carrito
+    let carrito = [];
 
-  function vaciarCarrito() {
-    carrito = [];
-    actualizarCarrito();
-  }
+    function agregarAlCarrito(producto) {
+      carrito.push(producto);
+      actualizarCarrito();
+    }
 
-  function actualizarCarrito() {
-    const lista = document.getElementById('items-carrito');
-    lista.innerHTML = '';
-    carrito.forEach((item) => {
-      const li = document.createElement('li');
-      li.textContent = item;
-      lista.appendChild(li);
-    });
-  }
+    function vaciarCarrito() {
+      carrito = [];
+      actualizarCarrito();
+    }
 
-  function cambiarIdioma(lang) {
-    const url = `https://translate.google.com/translate?hl=${lang}&sl=auto&u=${encodeURIComponent(window.location.href)}`;
-    window.location.href = url;
-  }
+    function actualizarCarrito() {
+      const div = document.getElementById("contenidoCarrito");
+      if (carrito.length === 0) {
+        div.innerText = "Tu carrito está vacío.";
+      } else {
+        div.innerHTML = "<ul>" + carrito.map(p => "<li>" + p + "</li>").join("") + "</ul>";
+      }
+    }
 
-  setTimeout(() => {
-    document.getElementById("bienvenida").style.display = "none";
-  }, 5000);
-</script>
+    // Enviar mensaje
+    function enviarMensaje() {
+      const nombre = document.getElementById("nombre").value;
+      const email = document.getElementById("email").value;
+      const mensaje = document.getElementById("mensaje").value;
+      alert(`Mensaje enviado:\nNombre: ${nombre}\nEmail: ${email}\nMensaje: ${mensaje}`);
+    }
+
+    // Cambiar idioma (redirecciona con Google Translate)
+    function cambiarIdioma(codigo) {
+      const url = `https://translate.google.com/translate?hl=${codigo}&sl=auto&u=${encodeURIComponent(window.location.href)}`;
+      window.location.href = url;
+    }
+  </script>
 
 </body>
 </html>
