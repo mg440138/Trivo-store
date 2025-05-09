@@ -60,9 +60,10 @@
       cursor: pointer;
     }
     .translate {
-      position: absolute;
+      position: fixed;
       top: 10px;
       right: 10px;
+      z-index: 9999;
     }
     @media(max-width: 600px) {
       .navbar { flex-direction: column; align-items: flex-start; }
@@ -92,21 +93,21 @@
 <div id="products" class="products">
   <h2>Productos virtuales</h2>
   <div class="product">
-    <img src="https://via.placeholder.com/200x150" alt="Producto 1" />
+    <img src="https://via.placeholder.com/200x150?text=Plantilla+Pro" alt="Producto 1" />
     <h3>Plantilla Web Pro</h3>
     <p>Archivo HTML + CSS para sitios modernos</p>
     <p><strong>$20 USD</strong></p>
     <button onclick="addToCart('Plantilla Web Pro')">Agregar al carrito</button>
   </div>
   <div class="product">
-    <img src="https://via.placeholder.com/200x150" alt="Producto 2" />
+    <img src="https://via.placeholder.com/200x150?text=Logo+Editable" alt="Producto 2" />
     <h3>Logo Editable</h3>
     <p>Logo PSD editable en Photoshop</p>
     <p><strong>$10 USD</strong></p>
     <button onclick="addToCart('Logo Editable')">Agregar al carrito</button>
   </div>
   <div class="product">
-    <img src="https://via.placeholder.com/200x150" alt="Producto 3" />
+    <img src="https://via.placeholder.com/200x150?text=Manual+PDF" alt="Producto 3" />
     <h3>Manual de Marca PDF</h3>
     <p>Guía profesional de identidad visual</p>
     <p><strong>$15 USD</strong></p>
@@ -124,11 +125,11 @@
 <!-- Contacto -->
 <div id="contact" class="contact">
   <h2>Contacto</h2>
-  <form onsubmit="event.preventDefault(); alert('Mensaje enviado');">
-    <label>Nombre:<br><input type="text" required></label><br><br>
-    <label>Email:<br><input type="email" required></label><br><br>
-    <label>Mensaje:<br><textarea rows="4" required></textarea></label><br><br>
-    <button type="submit">Enviar</button>
+  <form action="https://formspree.io/f/moqgyyjd" method="POST">
+    <label>Nombre:<br><input type="text" name="name" required></label><br><br>
+    <label>Email:<br><input type="email" name="email" required></label><br><br>
+    <label>Mensaje:<br><textarea name="message" rows="4" required></textarea></label><br><br>
+    <button type="submit">Enviar mensaje</button>
   </form>
 </div>
 
@@ -138,7 +139,7 @@
   function googleTranslateElementInit() {
     new google.translate.TranslateElement({
       pageLanguage: 'en',
-      includedLanguages: 'en,es,fr,de,it,pt,ja,zh-CN,ar,ru',
+      includedLanguages: '',
       layout: google.translate.TranslateElement.InlineLayout.SIMPLE
     }, 'google_translate_element');
   }
