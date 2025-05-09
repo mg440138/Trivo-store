@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Trivo Store - Productos Virtuales</title>
   <style>
     body {
@@ -10,7 +10,6 @@
       background: #f9f9f9;
       margin: 0;
     }
-
     header {
       background: #333;
       color: white;
@@ -19,74 +18,51 @@
       justify-content: space-between;
       align-items: center;
     }
-
     nav a {
       color: #0ff;
       margin-left: 1rem;
       text-decoration: none;
     }
-
-    #bienvenida {
-      background: #dfffe0;
+    .section {
       padding: 1rem;
-      text-align: center;
-      font-weight: bold;
     }
-
-    .seccion {
-      padding: 1.5rem;
-    }
-
     .producto {
+      margin: 1rem 0;
       border: 1px solid #ccc;
-      background: white;
       padding: 1rem;
-      margin-bottom: 1rem;
-      max-width: 600px;
+      background: white;
     }
-
     .producto img {
       width: 100%;
-      max-width: 300px;
       height: auto;
+    }
+    #carrito {
+      background: #eef;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+    #contacto input, #contacto textarea {
       display: block;
-      margin-bottom: 1rem;
-    }
-
-    .producto button {
-      background: #007BFF;
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-      border-radius: 4px;
-    }
-
-    #carrito, #contacto {
-      background: #fff;
-      border-top: 1px solid #ccc;
-      padding: 1.5rem;
-    }
-
-    form input, form textarea {
       width: 100%;
+      margin: 0.5rem 0;
       padding: 0.5rem;
-      margin-bottom: 1rem;
     }
-
-    form button {
+    #contacto button {
       background: green;
       color: white;
-      padding: 0.6rem 1.2rem;
+      padding: 0.5rem 1rem;
       border: none;
-      border-radius: 4px;
+      cursor: pointer;
+    }
+    #google_translate_element {
+      text-align: right;
+      margin: 10px;
     }
   </style>
 </head>
 <body>
 
-  <div id="bienvenida">¡Bienvenido a Trivo Store!</div>
-
+  <!-- Encabezado y navegación -->
   <header>
     <div>Trivo Store</div>
     <nav>
@@ -96,93 +72,72 @@
     </nav>
   </header>
 
-  <!-- Traductor de Google (100+ idiomas) -->
-  <div id="google_translate_element" style="text-align: right; margin: 10px;"></div>
+  <!-- Selector de idiomas -->
+  <div id="google_translate_element"></div>
 
-  <!-- Sección de productos -->
-  <section id="productos" class="seccion">
-    <h2>Productos en oferta</h2>
-
-    <div class="producto">
-      <h3>Mini Audífonos Bluetooth TWS</h3>
-      <img src="https://m.media-amazon.com/images/I/61VnLQeVZHL._AC_SL1500_.jpg" alt="Audífonos Bluetooth TWS">
-      <p>Conexión rápida, estuche con carga, sonido estéreo premium.</p>
-      <p><strong>$18.99 USD</strong></p>
-      <button onclick="agregarAlCarrito('Audífonos TWS', 18.99)">Agregar al carrito</button>
-    </div>
+  <!-- Productos -->
+  <section class="section" id="productos">
+    <h2>Productos virtuales</h2>
 
     <div class="producto">
       <h3>Lámpara LED Táctil Recargable</h3>
-      <img src="https://m.media-amazon.com/images/I/61pUv8qlC9L._AC_SL1500_.jpg" alt="Lámpara LED Táctil">
+      <img src="https://via.placeholder.com/300x200?text=Lampara+LED" alt="Lampara LED Táctil" />
       <p>3 niveles de luz, batería recargable, ideal para escritorio.</p>
       <p><strong>$12.50 USD</strong></p>
-      <button onclick="agregarAlCarrito('Lámpara LED', 12.50)">Agregar al carrito</button>
+      <button onclick="agregarAlCarrito('Lámpara LED', 12.5)">Agregar al carrito</button>
     </div>
 
     <div class="producto">
-      <h3>Soporte Universal Celular 360°</h3>
-      <img src="https://m.media-amazon.com/images/I/51zjjcgKnLL._AC_SL1001_.jpg" alt="Soporte Celular">
-      <p>Rotación libre, base antideslizante, compatible con todos los modelos.</p>
-      <p><strong>$9.99 USD</strong></p>
-      <button onclick="agregarAlCarrito('Soporte Celular', 9.99)">Agregar al carrito</button>
+      <h3>Mini Audífonos Bluetooth TWS</h3>
+      <img src="https://via.placeholder.com/300x200?text=Audifonos+Bluetooth" alt="Audífonos Bluetooth" />
+      <p>Compactos, con estuche de carga y micrófono integrado.</p>
+      <p><strong>$18.99 USD</strong></p>
+      <button onclick="agregarAlCarrito('Audífonos TWS', 18.99)">Agregar al carrito</button>
     </div>
   </section>
 
   <!-- Carrito -->
-  <section id="carrito">
+  <section class="section" id="carrito">
     <h2>Tu Carrito</h2>
-    <div id="contenidoCarrito">Tu carrito está vacío.</div>
+    <ul id="lista-carrito"></ul>
+    <p><strong>Total: $<span id="total">0.00</span></strong></p>
     <button onclick="vaciarCarrito()">Vaciar carrito</button>
   </section>
 
   <!-- Contacto -->
-  <section id="contacto">
+  <section class="section" id="contacto">
     <h2>Contacto</h2>
-    <form onsubmit="enviarMensaje(); return false;">
-      <input type="text" id="nombre" placeholder="Tu nombre" required>
-      <input type="email" id="email" placeholder="Tu correo" required>
-      <textarea id="mensaje" placeholder="Escribe tu mensaje" required></textarea>
+    <form>
+      <input type="text" placeholder="Tu nombre" required />
+      <input type="email" placeholder="Tu correo" required />
+      <textarea placeholder="Escribe tu mensaje"></textarea>
       <button type="submit">Enviar</button>
     </form>
   </section>
 
-  <!-- Scripts -->
+  <!-- Script para carrito -->
   <script>
-    setTimeout(() => {
-      document.getElementById("bienvenida").style.display = "none";
-    }, 5000);
-
     let carrito = [];
-
-    function agregarAlCarrito(producto, precio) {
-      carrito.push({ nombre: producto, precio });
+    function agregarAlCarrito(nombre, precio) {
+      carrito.push({ nombre, precio });
       actualizarCarrito();
     }
-
     function vaciarCarrito() {
       carrito = [];
       actualizarCarrito();
     }
-
     function actualizarCarrito() {
-      const div = document.getElementById("contenidoCarrito");
-      if (carrito.length === 0) {
-        div.innerText = "Tu carrito está vacío.";
-      } else {
-        let total = 0;
-        const items = carrito.map(p => {
-          total += p.precio;
-          return `<li>${p.nombre} - $${p.precio}</li>`;
-        }).join("");
-        div.innerHTML = `<ul>${items}</ul><strong>Total: $${total.toFixed(2)}</strong>`;
-      }
-    }
-
-    function enviarMensaje() {
-      const nombre = document.getElementById("nombre").value;
-      const email = document.getElementById("email").value;
-      const mensaje = document.getElementById("mensaje").value;
-      alert(`Mensaje enviado:\nNombre: ${nombre}\nEmail: ${email}\nMensaje: ${mensaje}`);
+      const lista = document.getElementById("lista-carrito");
+      const total = document.getElementById("total");
+      lista.innerHTML = "";
+      let suma = 0;
+      carrito.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = `${item.nombre} - $${item.precio}`;
+        lista.appendChild(li);
+        suma += item.precio;
+      });
+      total.textContent = suma.toFixed(2);
     }
   </script>
 
@@ -191,12 +146,11 @@
     function googleTranslateElementInit() {
       new google.translate.TranslateElement({
         pageLanguage: 'es',
-        includedLanguages: 'af,am,ar,az,be,bg,bn,bs,ca,ceb,co,cs,cy,da,de,el,en,eo,es,et,eu,fa,fi,fr,fy,ga,gd,gl,gu,ha,haw,he,hi,hmn,hr,ht,hu,hy,id,ig,is,it,ja,jv,ka,kk,km,kn,ko,ku,ky,la,lb,lo,lt,lv,mg,mi,mk,ml,mn,mr,ms,mt,my,ne,nl,no,ny,pa,pl,ps,pt,ro,ru,rw,sd,si,sk,sl,sm,sn,so,sq,sr,st,su,sv,sw,ta,te,tg,th,tk,tl,tr,tt,ug,uk,ur,uz,vi,xh,yi,yo,zh-CN,zh-TW,zu',
         layout: google.translate.TranslateElement.InlineLayout.SIMPLE
       }, 'google_translate_element');
     }
   </script>
-  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 </body>
 </html>
