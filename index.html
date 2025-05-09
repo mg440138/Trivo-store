@@ -68,6 +68,25 @@
       if (msg) msg.style.display = "none";
     }, 5000);
   </script>
+  <!-- Bloque de productos oculto -->
+<div id="products-section" style="display:none; padding: 1rem;">
+  <h2>Nuestros productos</h2>
+  <ul>
+    <li>Producto 1 - Descripción breve</li>
+    <li>Producto 2 - Descripción breve</li>
+    <li>Producto 3 - Descripción breve</li>
+  </ul>
+</div>
+
+<!-- Script para mostrar la sección al hacer clic -->
+<script>
+  const productosBtn = document.querySelector('a[href="#"]');
+  const section = document.getElementById('products-section');
+  productosBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    section.style.display = 'block';
+  });
+</script>
 
 </body>
 </html>
