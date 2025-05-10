@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Trivo Store – Productos Virtuales</title>
   <style>
     body {
@@ -39,8 +39,6 @@
       border-radius: 6px;
       font-size: 14px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-      max-height: 200px;
-      overflow-y: auto;
     }
     section {
       padding: 1rem;
@@ -71,7 +69,6 @@
       cursor: pointer;
       font-weight: bold;
     }
-    /* Estilos para el asistente Ronny */
     #ronny-chat {
       position: fixed;
       bottom: 80px;
@@ -88,7 +85,6 @@
     #ronny-chat strong {
       color: #007bff;
     }
-    /* Botón de Ayuda */
     #btn-ayuda {
       position: fixed;
       bottom: 30px;
@@ -129,16 +125,16 @@
     <h2>Productos virtuales</h2>
     <div class="producto">
       <h3>Lámpara LED Recargable</h3>
-      <img src="https://via.placeholder.com/150" alt="Lámpara LED" />
+      <img src="https://cdn-icons-png.flaticon.com/512/1042/1042393.png" alt="Lámpara LED">
       <p>3 niveles de brillo, batería USB, moderna y portátil.</p>
-      <strong>$12.50 USD</strong><br />
+      <strong>$12.50 USD</strong><br>
       <button onclick="agregarAlCarrito('Lámpara LED', 12.5)">Agregar al carrito</button>
     </div>
     <div class="producto">
       <h3>Mouse Inalámbrico AmazonBasics</h3>
-      <img src="https://via.placeholder.com/150" alt="Mouse" />
+      <img src="https://cdn-icons-png.flaticon.com/512/1250/1250615.png" alt="Mouse">
       <p>Sonido estéreo, estuche de carga, micrófono integrado.</p>
-      <strong>$19.50 USD</strong><br />
+      <strong>$19.50 USD</strong><br>
       <button onclick="agregarAlCarrito('Mouse', 19.5)">Agregar al carrito</button>
     </div>
   </section>
@@ -153,9 +149,9 @@
   <section id="contacto" class="contacto">
     <h2>Contáctanos</h2>
     <form>
-      <input type="text" placeholder="Tu nombre" required /><br /><br />
-      <input type="email" placeholder="Tu correo" required /><br /><br />
-      <textarea placeholder="Escribe tu mensaje" required></textarea><br /><br />
+      <input type="text" placeholder="Tu nombre" required><br><br>
+      <input type="email" placeholder="Tu correo" required><br><br>
+      <textarea placeholder="Escribe tu mensaje" required></textarea><br><br>
       <button type="submit">Enviar</button>
     </form>
   </section>
@@ -183,12 +179,10 @@
     <div id="mensaje-proveedor" class="mensaje" style="display:none;"></div>
   </section>
 
-  <!-- Botón de Ayuda -->
   <button id="btn-ayuda" onclick="toggleRonny()">Ayuda</button>
 
-  <!-- Asistente Ronny -->
   <div id="ronny-chat">
-    <strong>Ronny Asistente</strong><br/>
+    <strong>Ronny Asistente</strong><br>
     <p>Hola, soy Ronny. ¿En qué puedo ayudarte hoy?</p>
     <ul>
       <li><button onclick="responderRonny('¿Cómo puedo comprar un producto?')">¿Cómo puedo comprar un producto?</button></li>
@@ -198,9 +192,7 @@
     <p id="respuesta-ronny"></p>
   </div>
 
-  <!-- Scripts -->
   <script>
-    // Carrito de compras
     let total = 0;
     function agregarAlCarrito(producto, precio) {
       const lista = document.getElementById("lista-carrito");
@@ -215,22 +207,16 @@
       total = 0;
       document.getElementById("total").textContent = "0.00";
     }
-
-    // Filtrar por categoría
     function filtrarCategoria(categoria) {
       const mensaje = document.getElementById("mensaje-categoria");
       mensaje.style.display = "block";
       mensaje.textContent = `No hay productos agregados en la categoría "${categoria}" por el momento.`;
     }
-
-    // Mostrar proveedor
     function mostrarProveedor(proveedor) {
       const mensaje = document.getElementById("mensaje-proveedor");
       mensaje.style.display = "block";
       mensaje.textContent = `Mostrando productos del ${proveedor}.`;
     }
-
-    // Asistente Ronny
     function toggleRonny() {
       const ronny = document.getElementById('ronny-chat');
       ronny.style.display = (ronny.style.display === 'none' || ronny.style.display === '') ? 'block' : 'none';
@@ -239,4 +225,21 @@
       const respuesta = document.getElementById('respuesta-ronny');
       if (pregunta === '¿Cómo puedo comprar un producto?') {
         respuesta.textContent = "Para comprar un producto, agrégalo al carrito y procede al pago.";
-      } else if (pregunta === ' 
+      } else if (pregunta === '¿Cuáles son los métodos de pago?') {
+        respuesta.textContent = "Aceptamos tarjetas, PayPal y transferencias bancarias.";
+      } else if (pregunta === '¿Cómo contacto al soporte?') {
+        respuesta.textContent = "Puedes escribirnos usando el formulario de contacto.";
+      } else {
+        respuesta.textContent = "No entiendo la pregunta.";
+      }
+    }
+  </script>
+
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({ pageLanguage: 'es' }, 'google_translate_element');
+    }
+  </script>
+  <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>
