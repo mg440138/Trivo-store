@@ -17,11 +17,21 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      position: relative;
+      flex-wrap: wrap;
     }
     nav a {
-      color: #0ff;
+      color: #00ffff;
       margin-left: 1rem;
       text-decoration: none;
+      font-weight: bold;
+    }
+    #google_translate_element {
+      position: absolute;
+      right: 10px;
+      top: 1rem;
+      z-index: 999;
+      transform: scale(0.9);
     }
     section {
       padding: 1rem;
@@ -29,37 +39,49 @@
     .producto {
       border: 1px solid #ccc;
       padding: 1rem;
-      margin: 1rem 0;
+      margin-bottom: 1rem;
       background: white;
+      text-align: center;
     }
     .producto img {
       max-width: 100%;
       height: auto;
     }
-    #carrito {
+    .carrito, .contacto, .categorias {
       background: #eef;
       padding: 1rem;
+      margin: 1rem;
+      border-radius: 8px;
     }
-    #contacto {
-      padding: 1rem;
-    }
-    form input, form textarea {
-      display: block;
-      margin-bottom: 0.5rem;
-      padding: 0.5rem;
-      width: 100%;
-    }
-    form button {
-      padding: 0.5rem 1rem;
-      background: green;
+    button {
+      background-color: green;
       color: white;
+      padding: 10px;
       border: none;
+      border-radius: 25px;
       cursor: pointer;
+      font-weight: bold;
+    }
+    /* Estilos para el asistente Ronny */
+    #ronny-chat {
+      position: fixed;
+      bottom: 15px;
+      right: 15px;
+      z-index: 9999;
+      background: #fff;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 10px;
+      width: 250px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      display: none;
+    }
+    #ronny-chat strong {
+      color: #007bff;
     }
   </style>
 </head>
 <body>
-
   <header>
     <div>Trivo Store</div>
     <nav>
@@ -67,127 +89,80 @@
       <a href="#carrito">Carrito</a>
       <a href="#contacto">Contacto</a>
     </nav>
+    <div id="google_translate_element"></div>
   </header>
-
-  <div id="google_translate_element"></div>
 
   <section id="productos">
     <h2>Productos virtuales</h2>
-
     <div class="producto">
       <h3>Lámpara LED Recargable</h3>
-      <img src="https://via.placeholder.com/150" alt="Lámpara LED" />
+      <img src="https://i.imgur.com/8fKQGzN.jpeg" alt="Lámpara LED" />
       <p>3 niveles de brillo, batería USB, moderna y portátil.</p>
-      <p><strong>$12.50 USD</strong></p>
-      <button onclick="agregarAlCarrito('Lámpara LED', 12.5)">Agregar al carrito</button>
-    </div>
-
-    <div class="producto">
-      <h3>Mouse Inalámbrico AmazonBasics</h3>
-      <img src="https://via.placeholder.com/150" alt="Mouse" />
-      <p>Sonido estéreo, estuche de carga, micrófono integrado.</p>
-      <p><strong>$19.50 USD</strong></p>
-      <button onclick="agregarAlCarrito('Mouse', 19.5)">Agregar al carrito</button>
+      <strong>$12.50 USD</strong><br />
+      <button>Agregar al carrito</button>
     </div>
   </section>
 
-  <section id="carrito">
+  <section id="carrito" class="carrito">
     <h2>Tu Carrito</h2>
-    <ul id="lista-carrito"></ul>
-    <p>Total: $<span id="total">0.00</span></p>
-    <button onclick="vaciarCarrito()">Vaciar carrito</button>
+    <p>Total: $0.00</p>
+    <button>Vaciar carrito</button>
   </section>
 
-  <section id="contacto">
+  <section id="contacto" class="contacto">
     <h2>Contáctanos</h2>
     <form>
-      <input type="text" placeholder="Tu nombre" required />
-      <input type="email" placeholder="Tu correo" required />
-      <textarea placeholder="Escribe tu mensaje" required></textarea>
+      <input type="text" placeholder="Tu nombre" /><br /><br />
+      <input type="email" placeholder="Tu correo" /><br /><br />
+      <textarea placeholder="Escribe tu mensaje"></textarea><br /><br />
       <button type="submit">Enviar</button>
     </form>
   </section>
 
-  <!-- Script de carrito -->
-  <script>
-    let total = 0;
-    function agregarAlCarrito(producto, precio) {
-      const lista = document.getElementById("lista-carrito");
-      const item = document.createElement("li");
-      item.textContent = `${producto} - $${precio}`;
-      lista.appendChild(item);
-      total += precio;
-      document.getElementById("total").textContent = total.toFixed(2);
-    }
-    function vaciarCarrito() {
-      document.getElementById("lista-carrito").innerHTML = "";
-      total = 0;
-      document.getElementById("total").textContent = "0.00";
-    }
-  </script>
+  <section class="categorias">
+    <h2>Categorías Populares</h2>
+    <ul>
+      <li>Tecnología</li>
+      <li>Accesorios</li>
+      <li>Hogar</li>
+      <li>Moda</li>
+      <li>Electrónica</li>
+      <li>Oficina</li>
+    </ul>
+  </section>
 
-  <!-- Traductor automático -->
-  <script type="text/javascript">
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement({
-        pageLanguage: 'es',
-        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-      }, 'google_translate_element');
-    }
-  </script>
-  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-  <style>
-    #google_translate_element {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      z-index: 9999;
-      background: white;
-      padding: 5px;
-      border-radius: 6px;
-      font-size: 14px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    }
-  </style>
-
-  <!-- Botón flotante de Ayuda -->
+  <!-- Botón de Ayuda -->
   <button onclick="toggleRonny()" style="position: fixed; bottom: 80px; right: 15px; z-index: 9999; padding: 10px 16px; background-color: #28a745; color: white; border: none; border-radius: 50px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.3);">
     Ayuda
   </button>
 
   <!-- Asistente Ronny -->
-  <div id="ronny-chat" style="position:fixed;bottom:15px;right:15px;z-index:9999;background:#fff;border:1px solid #ccc;padding:10px;border-radius:10px;width:250px;box-shadow:0 0 10px rgba(0,0,0,0.1); display: block;">
-    <strong style="color:#007bff;">Ronny Asistente</strong><br/>
+  <div id="ronny-chat">
+    <strong>Ronny Asistente</strong><br/>
     <span id="ronny-text">Hola, soy Ronny. ¿En qué puedo ayudarte hoy?</span>
   </div>
 
   <script>
     function toggleRonny() {
       const ronny = document.getElementById('ronny-chat');
-      ronny.style.display = (ronny.style.display === 'none') ? 'block' : 'none';
+      if (ronny.style.display === 'none' || ronny.style.display === '') {
+        ronny.style.display = 'block';
+      } else {
+        ronny.style.display = 'none';
+      }
     }
   </script>
 
-  <!-- Categorías Populares -->
-  <script>
-    const categorias = ['Tecnología', 'Accesorios', 'Hogar', 'Moda', 'Electrónica', 'Oficina'];
-    const container = document.createElement("div");
-    container.style = "margin: 20px; padding: 10px; background: #f0f0f0; border-radius: 8px;";
-    container.innerHTML = "<h3>Categorías Populares</h3><ul>" + categorias.map(c => `<li>${c}</li>`).join('') + "</ul>";
-    window.addEventListener('DOMContentLoaded', () => {
-      document.body.appendChild(container);
-    });
+  <!-- Google Translate -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'es',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        includedLanguages: 'en,es,de,fr,it,pt,ja,ko,zh-CN,ar',
+      }, 'google_translate_element');
+    }
   </script>
-
-  <!-- Proveedores simulados -->
-  <script>
-    const proveedores = [
-      { nombre: 'Proveedor 1', país: 'China' },
-      { nombre: 'Proveedor 2', país: 'USA' },
-      { nombre: 'Proveedor 3', país: 'México' }
-    ];
-    console.log("Proveedores conectados:", proveedores);
-  </script>
-
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>
