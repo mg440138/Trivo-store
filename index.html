@@ -2,17 +2,16 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Trivo Store - Productos Virtuales</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trivo Store – Productos Virtuales</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       background: #f9f9f9;
       margin: 0;
-      padding-bottom: 100px;
     }
     header {
-      background: #2b2b2b;
+      background: #333;
       color: white;
       padding: 1rem;
       display: flex;
@@ -20,90 +19,49 @@
       align-items: center;
     }
     nav a {
-      color: #00ffff;
+      color: #0ff;
       margin-left: 1rem;
       text-decoration: none;
     }
-    .section {
+    section {
       padding: 1rem;
     }
     .producto {
-      margin: 1rem 0;
       border: 1px solid #ccc;
       padding: 1rem;
+      margin: 1rem 0;
       background: white;
     }
     .producto img {
-      width: 100%;
-      max-width: 300px;
+      max-width: 100%;
       height: auto;
     }
     #carrito {
       background: #eef;
       padding: 1rem;
-      margin-top: 1rem;
     }
-    #contacto input, #contacto textarea {
+    #contacto {
+      padding: 1rem;
+    }
+    form input, form textarea {
       display: block;
-      width: 100%;
-      margin: 0.5rem 0;
+      margin-bottom: 0.5rem;
       padding: 0.5rem;
+      width: 100%;
     }
-    #contacto button {
+    form button {
+      padding: 0.5rem 1rem;
       background: green;
       color: white;
-      padding: 0.5rem 1rem;
       border: none;
       cursor: pointer;
-    }
-    /* Ronny asistente */
-    #ronny {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #ffffff;
-      border: 2px solid #00aaff;
-      border-radius: 10px;
-      padding: 1rem;
-      width: 250px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
-      z-index: 999;
-      font-size: 14px;
-    }
-    #ronny h4 {
-      margin: 0 0 0.5rem 0;
-      color: #007acc;
-    }
-    /* Estilos para el selector de idioma */
-    #google_translate_element {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      z-index: 1000;
-    }
-    .goog-te-gadget {
-      font-family: Arial, sans-serif;
-      font-size: 14px;
-    }
-    .goog-te-combo {
-      padding: 6px;
-      font-size: 1rem;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-    .goog-te-banner-frame.skiptranslate {
-      display: none !important;
-    }
-    body {
-      top: 0px !important;
     }
   </style>
 </head>
 <body>
 
-  <!-- Encabezado -->
   <header>
-    <div><strong>Trivo Store</strong></div>
+    <div>Trivo Store</div>
     <nav>
       <a href="#productos">Productos</a>
       <a href="#carrito">Carrito</a>
@@ -111,40 +69,36 @@
     </nav>
   </header>
 
-  <!-- Selector de idiomas -->
   <div id="google_translate_element"></div>
 
-  <!-- Productos -->
-  <section class="section" id="productos">
+  <section id="productos">
     <h2>Productos virtuales</h2>
 
     <div class="producto">
       <h3>Lámpara LED Recargable</h3>
-      <img src="https://m.media-amazon.com/images/I/61lEfogZkbL._AC_SL1500_.jpg" alt="Lampara LED" />
+      <img src="https://via.placeholder.com/150" alt="Lámpara LED" />
       <p>3 niveles de brillo, batería USB, moderna y portátil.</p>
-      <p><strong>$12.99 USD</strong></p>
-      <button onclick="agregarAlCarrito('Lámpara LED', 12.99)">Agregar al carrito</button>
+      <p><strong>$12.50 USD</strong></p>
+      <button onclick="agregarAlCarrito('Lámpara LED', 12.5)">Agregar al carrito</button>
     </div>
 
     <div class="producto">
-      <h3>Audífonos Bluetooth TWS</h3>
-      <img src="https://m.media-amazon.com/images/I/61LtuGzXeaL._AC_SL1500_.jpg" alt="Audífonos" />
+      <h3>Mouse Inalámbrico AmazonBasics</h3>
+      <img src="https://via.placeholder.com/150" alt="Mouse" />
       <p>Sonido estéreo, estuche de carga, micrófono integrado.</p>
       <p><strong>$19.50 USD</strong></p>
-      <button onclick="agregarAlCarrito('Audífonos TWS', 19.50)">Agregar al carrito</button>
+      <button onclick="agregarAlCarrito('Mouse', 19.5)">Agregar al carrito</button>
     </div>
   </section>
 
-  <!-- Carrito -->
-  <section class="section" id="carrito">
+  <section id="carrito">
     <h2>Tu Carrito</h2>
     <ul id="lista-carrito"></ul>
-    <p><strong>Total: $<span id="total">0.00</span></strong></p>
+    <p>Total: $<span id="total">0.00</span></p>
     <button onclick="vaciarCarrito()">Vaciar carrito</button>
   </section>
 
-  <!-- Contacto -->
-  <section class="section" id="contacto">
+  <section id="contacto">
     <h2>Contáctanos</h2>
     <form>
       <input type="text" placeholder="Tu nombre" required />
@@ -154,63 +108,85 @@
     </form>
   </section>
 
-  <!-- Ronny asistente -->
-  <div id="ronny">
-    <h4>Ronny Asistente</h4>
-    <p id="ronny-msg">Cargando mensaje...</p>
-  </div>
-
-  <!-- Scripts -->
+  <!-- Script de carrito -->
   <script>
-    // Carrito de compras
-    let carrito = [];
-    function agregarAlCarrito(nombre, precio) {
-      carrito.push({ nombre, precio });
-      actualizarCarrito();
+    let total = 0;
+    function agregarAlCarrito(producto, precio) {
+      const lista = document.getElementById("lista-carrito");
+      const item = document.createElement("li");
+      item.textContent = `${producto} - $${precio}`;
+      lista.appendChild(item);
+      total += precio;
+      document.getElementById("total").textContent = total.toFixed(2);
     }
     function vaciarCarrito() {
-      carrito = [];
-      actualizarCarrito();
-    }
-    function actualizarCarrito() {
-      const lista = document.getElementById("lista-carrito");
-      const total = document.getElementById("total");
-      lista.innerHTML = "";
-      let suma = 0;
-      carrito.forEach(item => {
-        const li = document.createElement("li");
-        li.textContent = `${item.nombre} - $${item.precio}`;
-        lista.appendChild(li);
-        suma += item.precio;
-      });
-      total.textContent = suma.toFixed(2);
-    }
-
-    // Ronny asistente
-    const ronnyMsg = document.getElementById("ronny-msg");
-    const lang = navigator.language || navigator.userLanguage;
-    if (lang.startsWith("es")) {
-      ronnyMsg.textContent = "Hola, soy Ronny. ¿En qué puedo ayudarte hoy?";
-    } else if (lang.startsWith("en")) {
-      ronnyMsg.textContent = "Hello, I'm Ronny. How can I help you today?";
-    } else {
-      ronnyMsg.textContent = "Hi! I'm Ronny, your assistant. Need help?";
+      document.getElementById("lista-carrito").innerHTML = "";
+      total = 0;
+      document.getElementById("total").textContent = "0.00";
     }
   </script>
 
-  <!-- Google Translate -->
+  <!-- Traductor automático -->
   <script type="text/javascript">
     function googleTranslateElementInit() {
       new google.translate.TranslateElement({
         pageLanguage: 'es',
-        includedLanguages: 'es,en,fr,de,it,pt,zh-CN,ja,ko',
-        layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-        autoDisplay: false
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
       }, 'google_translate_element');
     }
   </script>
-  <script type="text/javascript"
-    src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <style>
+    #google_translate_element {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 9999;
+      background: white;
+      padding: 5px;
+      border-radius: 6px;
+      font-size: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+  </style>
+
+  <!-- Botón flotante de Ayuda -->
+  <button onclick="toggleRonny()" style="position: fixed; bottom: 80px; right: 15px; z-index: 9999; padding: 10px 16px; background-color: #28a745; color: white; border: none; border-radius: 50px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.3);">
+    Ayuda
+  </button>
+
+  <!-- Asistente Ronny -->
+  <div id="ronny-chat" style="position:fixed;bottom:15px;right:15px;z-index:9999;background:#fff;border:1px solid #ccc;padding:10px;border-radius:10px;width:250px;box-shadow:0 0 10px rgba(0,0,0,0.1); display: block;">
+    <strong style="color:#007bff;">Ronny Asistente</strong><br/>
+    <span id="ronny-text">Hola, soy Ronny. ¿En qué puedo ayudarte hoy?</span>
+  </div>
+
+  <script>
+    function toggleRonny() {
+      const ronny = document.getElementById('ronny-chat');
+      ronny.style.display = (ronny.style.display === 'none') ? 'block' : 'none';
+    }
+  </script>
+
+  <!-- Categorías Populares -->
+  <script>
+    const categorias = ['Tecnología', 'Accesorios', 'Hogar', 'Moda', 'Electrónica', 'Oficina'];
+    const container = document.createElement("div");
+    container.style = "margin: 20px; padding: 10px; background: #f0f0f0; border-radius: 8px;";
+    container.innerHTML = "<h3>Categorías Populares</h3><ul>" + categorias.map(c => `<li>${c}</li>`).join('') + "</ul>";
+    window.addEventListener('DOMContentLoaded', () => {
+      document.body.appendChild(container);
+    });
+  </script>
+
+  <!-- Proveedores simulados -->
+  <script>
+    const proveedores = [
+      { nombre: 'Proveedor 1', país: 'China' },
+      { nombre: 'Proveedor 2', país: 'USA' },
+      { nombre: 'Proveedor 3', país: 'México' }
+    ];
+    console.log("Proveedores conectados:", proveedores);
   </script>
 
 </body>
