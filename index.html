@@ -2,23 +2,26 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Trivo Store – Productos Virtuales</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       background: #f9f9f9;
       margin: 0;
+      padding-top: 60px;
     }
     header {
       background: #333;
       color: white;
       padding: 1rem;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      position: relative;
-      flex-wrap: wrap;
     }
     nav a {
       color: #00ffff;
@@ -27,11 +30,15 @@
       font-weight: bold;
     }
     #google_translate_element {
-      position: absolute;
+      position: fixed;
+      top: 10px;
       right: 10px;
-      top: 1rem;
-      z-index: 999;
-      transform: scale(0.9);
+      z-index: 1001;
+      background: white;
+      padding: 5px;
+      border-radius: 6px;
+      font-size: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
     section {
       padding: 1rem;
@@ -65,7 +72,7 @@
     /* Estilos para el asistente Ronny */
     #ronny-chat {
       position: fixed;
-      bottom: 15px;
+      bottom: 80px;
       right: 15px;
       z-index: 9999;
       background: #fff;
@@ -79,6 +86,21 @@
     #ronny-chat strong {
       color: #007bff;
     }
+    /* Botón de Ayuda */
+    #btn-ayuda {
+      position: fixed;
+      bottom: 30px;
+      right: 15px;
+      z-index: 9999;
+      padding: 10px 16px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
   </style>
 </head>
 <body>
@@ -89,32 +111,41 @@
       <a href="#carrito">Carrito</a>
       <a href="#contacto">Contacto</a>
     </nav>
-    <div id="google_translate_element"></div>
   </header>
+
+  <div id="google_translate_element"></div>
 
   <section id="productos">
     <h2>Productos virtuales</h2>
     <div class="producto">
       <h3>Lámpara LED Recargable</h3>
-      <img src="https://i.imgur.com/8fKQGzN.jpeg" alt="Lámpara LED" />
+      <img src="https://via.placeholder.com/150" alt="Lámpara LED" />
       <p>3 niveles de brillo, batería USB, moderna y portátil.</p>
       <strong>$12.50 USD</strong><br />
-      <button>Agregar al carrito</button>
+      <button onclick="agregarAlCarrito('Lámpara LED', 12.5)">Agregar al carrito</button>
+    </div>
+    <div class="producto">
+      <h3>Mouse Inalámbrico AmazonBasics</h3>
+      <img src="https://via.placeholder.com/150" alt="Mouse" />
+      <p>Sonido estéreo, estuche de carga, micrófono integrado.</p>
+      <strong>$19.50 USD</strong><br />
+      <button onclick="agregarAlCarrito('Mouse', 19.5)">Agregar al carrito</button>
     </div>
   </section>
 
   <section id="carrito" class="carrito">
     <h2>Tu Carrito</h2>
-    <p>Total: $0.00</p>
-    <button>Vaciar carrito</button>
+    <ul id="lista-carrito"></ul>
+    <p>Total: $<span id="total">0.00</span></p>
+    <button onclick="vaciarCarrito()">Vaciar carrito</button>
   </section>
 
   <section id="contacto" class="contacto">
     <h2>Contáctanos</h2>
     <form>
-      <input type="text" placeholder="Tu nombre" /><br /><br />
-      <input type="email" placeholder="Tu correo" /><br /><br />
-      <textarea placeholder="Escribe tu mensaje"></textarea><br /><br />
+      <input type="text" placeholder="Tu nombre" required /><br /><br />
+      <input type="email" placeholder="Tu correo" required /><br /><br />
+      <textarea placeholder="Escribe tu mensaje" required></textarea><br /><br />
       <button type="submit">Enviar</button>
     </form>
   </section>
@@ -122,33 +153,75 @@
   <section class="categorias">
     <h2>Categorías Populares</h2>
     <ul>
-      <li>Tecnología</li>
-      <li>Accesorios</li>
-      <li>Hogar</li>
-      <li>Moda</li>
-      <li>Electrónica</li>
-      <li>Oficina</li>
+      <li><button onclick="filtrarCategoria('Tecnología')">Tecnología</button></li>
+      <li><button onclick="filtrarCategoria('Accesorios')">Accesorios</button></li>
+      <li><button onclick="filtrarCategoria('Hogar')">Hogar</button></li>
+      <li><button onclick="filtrarCategoria('Moda')">Moda</button></li>
+      <li><button onclick="filtrarCategoria('Electrónica')">Electrónica</button></li>
+      <li><button onclick="filtrarCategoria('Oficina')">Oficina</button></li>
+    </ul>
+  </section>
+
+  <section class="proveedores">
+    <h2>Proveedores</h2>
+    <ul>
+      <li>Proveedor 1 - China</li>
+      <li>Proveedor 2 - USA</li>
+      <li>Proveedor 3 - México</li>
     </ul>
   </section>
 
   <!-- Botón de Ayuda -->
-  <button onclick="toggleRonny()" style="position: fixed; bottom: 80px; right: 15px; z-index: 9999; padding: 10px 16px; background-color: #28a745; color: white; border: none; border-radius: 50px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.3);">
-    Ayuda
-  </button>
+  <button id="btn-ayuda" onclick="toggleRonny()">Ayuda</button>
 
   <!-- Asistente Ronny -->
   <div id="ronny-chat">
     <strong>Ronny Asistente</strong><br/>
-    <span id="ronny-text">Hola, soy Ronny. ¿En qué puedo ayudarte hoy?</span>
+    <p>Hola, soy Ronny. ¿En qué puedo ayudarte hoy?</p>
+    <ul>
+      <li><button onclick="responderRonny('¿Cómo puedo comprar un producto?')">¿Cómo puedo comprar un producto?</button></li>
+      <li><button onclick="responderRonny('¿Cuáles son los métodos de pago?')">¿Cuáles son los métodos de pago?</button></li>
+      <li><button onclick="responderRonny('¿Cómo contacto al soporte?')">¿Cómo contacto al soporte?</button></li>
+    </ul>
+    <p id="respuesta-ronny"></p>
   </div>
 
+  <!-- Scripts -->
   <script>
+    // Carrito de compras
+    let total = 0;
+    function agregarAlCarrito(producto, precio) {
+      const lista = document.getElementById("lista-carrito");
+      const item = document.createElement("li");
+      item.textContent = `${producto} - $${precio}`;
+      lista.appendChild(item);
+      total += precio;
+      document.getElementById("total").textContent = total.toFixed(2);
+    }
+    function vaciarCarrito() {
+      document.getElementById("lista-carrito").innerHTML = "";
+      total = 0;
+      document.getElementById("total").textContent = "0.00";
+    }
+
+    // Filtrar por categoría (funcionalidad simulada)
+    function filtrarCategoria(categoria) {
+      alert("Filtrando productos por categoría: " + categoria);
+    }
+
+    // Asistente Ronny
     function toggleRonny() {
       const ronny = document.getElementById('ronny-chat');
-      if (ronny.style.display === 'none' || ronny.style.display === '') {
-        ronny.style.display = 'block';
-      } else {
-        ronny.style.display = 'none';
+      ronny.style.display = (ronny.style.display === 'none' || ronny.style.display === '') ? 'block' : 'none';
+    }
+    function responderRonny(pregunta) {
+      const respuesta = document.getElementById('respuesta-ronny');
+      if (pregunta === '¿Cómo puedo comprar un producto?') {
+        respuesta.textContent = "Para comprar un producto, agrégalo al carrito y procede al pago.";
+      } else if (pregunta === '¿Cuáles son los métodos de pago?') {
+        respuesta.textContent = "Aceptamos tarjetas de crédito, PayPal y transferencias bancarias.";
+      } else if (pregunta === '¿Cómo contacto al soporte?') {
+        respuesta.textContent = "Puedes contactarnos a través del formulario de contacto en la sección correspondiente.";
       }
     }
   </script>
