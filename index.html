@@ -2,16 +2,17 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Trivo Store - Productos Virtuales</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       background: #f9f9f9;
       margin: 0;
+      padding-bottom: 100px;
     }
     header {
-      background: #333;
+      background: #2b2b2b;
       color: white;
       padding: 1rem;
       display: flex;
@@ -19,7 +20,7 @@
       align-items: center;
     }
     nav a {
-      color: #0ff;
+      color: #00ffff;
       margin-left: 1rem;
       text-decoration: none;
     }
@@ -34,6 +35,7 @@
     }
     .producto img {
       width: 100%;
+      max-width: 300px;
       height: auto;
     }
     #carrito {
@@ -55,16 +57,36 @@
       cursor: pointer;
     }
     #google_translate_element {
-      text-align: right;
-      margin: 10px;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+
+    /* Ronny asistente */
+    #ronny {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #ffffff;
+      border: 2px solid #00aaff;
+      border-radius: 10px;
+      padding: 1rem;
+      width: 250px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      z-index: 999;
+      font-size: 14px;
+    }
+    #ronny h4 {
+      margin: 0 0 0.5rem 0;
+      color: #007acc;
     }
   </style>
 </head>
 <body>
 
-  <!-- Encabezado y navegación -->
+  <!-- Encabezado -->
   <header>
-    <div>Trivo Store</div>
+    <div><strong>Trivo Store</strong></div>
     <nav>
       <a href="#productos">Productos</a>
       <a href="#carrito">Carrito</a>
@@ -80,19 +102,19 @@
     <h2>Productos virtuales</h2>
 
     <div class="producto">
-      <h3>Lámpara LED Táctil Recargable</h3>
-      <img src="https://via.placeholder.com/300x200?text=Lampara+LED" alt="Lampara LED Táctil" />
-      <p>3 niveles de luz, batería recargable, ideal para escritorio.</p>
-      <p><strong>$12.50 USD</strong></p>
-      <button onclick="agregarAlCarrito('Lámpara LED', 12.5)">Agregar al carrito</button>
+      <h3>Lámpara LED Recargable</h3>
+      <img src="https://m.media-amazon.com/images/I/61lEfogZkbL._AC_SL1500_.jpg" alt="Lampara LED" />
+      <p>3 niveles de brillo, batería USB, moderna y portátil.</p>
+      <p><strong>$12.99 USD</strong></p>
+      <button onclick="agregarAlCarrito('Lámpara LED', 12.99)">Agregar al carrito</button>
     </div>
 
     <div class="producto">
-      <h3>Mini Audífonos Bluetooth TWS</h3>
-      <img src="https://via.placeholder.com/300x200?text=Audifonos+Bluetooth" alt="Audífonos Bluetooth" />
-      <p>Compactos, con estuche de carga y micrófono integrado.</p>
-      <p><strong>$18.99 USD</strong></p>
-      <button onclick="agregarAlCarrito('Audífonos TWS', 18.99)">Agregar al carrito</button>
+      <h3>Audífonos Bluetooth TWS</h3>
+      <img src="https://m.media-amazon.com/images/I/61LtuGzXeaL._AC_SL1500_.jpg" alt="Audífonos" />
+      <p>Sonido estéreo, estuche de carga, micrófono integrado.</p>
+      <p><strong>$19.50 USD</strong></p>
+      <button onclick="agregarAlCarrito('Audífonos TWS', 19.50)">Agregar al carrito</button>
     </div>
   </section>
 
@@ -106,16 +128,22 @@
 
   <!-- Contacto -->
   <section class="section" id="contacto">
-    <h2>Contacto</h2>
+    <h2>Contáctanos</h2>
     <form>
       <input type="text" placeholder="Tu nombre" required />
       <input type="email" placeholder="Tu correo" required />
-      <textarea placeholder="Escribe tu mensaje"></textarea>
+      <textarea placeholder="Escribe tu mensaje" required></textarea>
       <button type="submit">Enviar</button>
     </form>
   </section>
 
-  <!-- Script para carrito -->
+  <!-- Ronny asistente -->
+  <div id="ronny">
+    <h4>Ronny Asistente</h4>
+    <p id="ronny-msg">Cargando mensaje...</p>
+  </div>
+
+  <!-- Carrito script -->
   <script>
     let carrito = [];
     function agregarAlCarrito(nombre, precio) {
@@ -150,7 +178,21 @@
       }, 'google_translate_element');
     }
   </script>
-  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  <!-- Ronny auto-idioma -->
+  <script>
+    const ronnyMsg = document.getElementById("ronny-msg");
+    const lang = navigator.language || navigator.userLanguage;
+
+    if (lang.startsWith("es")) {
+      ronnyMsg.textContent = "Hola, soy Ronny. ¿En qué puedo ayudarte hoy?";
+    } else if (lang.startsWith("en")) {
+      ronnyMsg.textContent = "Hello, I'm Ronny. How can I help you today?";
+    } else {
+      ronnyMsg.textContent = "Hi! I'm Ronny, your assistant. Need help?";
+    }
+  </script>
 
 </body>
 </html>
