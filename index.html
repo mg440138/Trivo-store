@@ -39,8 +39,6 @@
       border-radius: 6px;
       font-size: 14px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-      max-height: 200px;
-      overflow-y: auto;
     }
     section {
       padding: 1rem;
@@ -56,7 +54,7 @@
       max-width: 100%;
       height: auto;
     }
-    .carrito, .contacto, .categorias, .proveedores {
+    .carrito, .contacto, .categorias {
       background: #eef;
       padding: 1rem;
       margin: 1rem;
@@ -102,14 +100,6 @@
       font-weight: bold;
       cursor: pointer;
       box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-    }
-    .mensaje {
-      background-color: #fff3cd;
-      border: 1px solid #ffeeba;
-      padding: 10px;
-      border-radius: 5px;
-      margin-top: 10px;
-      color: #856404;
     }
   </style>
 </head>
@@ -170,17 +160,15 @@
       <li><button onclick="filtrarCategoria('Electrónica')">Electrónica</button></li>
       <li><button onclick="filtrarCategoria('Oficina')">Oficina</button></li>
     </ul>
-    <div id="mensaje-categoria" class="mensaje" style="display:none;"></div>
   </section>
 
   <section class="proveedores">
     <h2>Proveedores</h2>
     <ul>
-      <li><button onclick="mostrarProveedor('Proveedor 1')">Proveedor 1 - China</button></li>
-      <li><button onclick="mostrarProveedor('Proveedor 2')">Proveedor 2 - USA</button></li>
-      <li><button onclick="mostrarProveedor('Proveedor 3')">Proveedor 3 - México</button></li>
+      <li>Proveedor 1 - China</li>
+      <li>Proveedor 2 - USA</li>
+      <li>Proveedor 3 - México</li>
     </ul>
-    <div id="mensaje-proveedor" class="mensaje" style="display:none;"></div>
   </section>
 
   <!-- Botón de Ayuda -->
@@ -216,13 +204,36 @@
       document.getElementById("total").textContent = "0.00";
     }
 
-    // Filtrar por categoría
+    // Filtrar por categoría (funcionalidad simulada)
     function filtrarCategoria(categoria) {
-      const mensaje = document.getElementById("mensaje-categoria");
-      mensaje.style.display = "block";
-      mensaje.textContent = `No hay productos agregados en la categoría "${categoria}" por el momento.`;
+      alert("Filtrando productos por categoría: " + categoria);
     }
 
-    // Mostrar proveedor
-    function mostrarProveedor(proveedor) {
-      const mensaje = document.getElementById("mensaje 
+    // Asistente Ronny
+    function toggleRonny() {
+      const ronny = document.getElementById('ronny-chat');
+      ronny.style.display = (ronny.style.display === 'none' || ronny.style.display === '') ? 'block' : 'none';
+    }
+    function responderRonny(pregunta) {
+      const respuesta = document.getElementById('respuesta-ronny');
+      if (pregunta === '¿Cómo puedo comprar un producto?') {
+        respuesta.textContent = "Para comprar un producto, agrégalo al carrito y procede al pago.";
+      } else if (pregunta === '¿Cuáles son los métodos de pago?') {
+        respuesta.textContent = "Aceptamos tarjetas de crédito, PayPal y transferencias bancarias.";
+      } else if (pregunta === '¿Cómo contacto al soporte?') {
+        respuesta.textContent = "Puedes contactarnos a través del formulario de contacto en la sección correspondiente.";
+      }
+    }
+  </script>
+
+  <!-- Google Translate -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'es',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        includedLanguages: 'en,es,de,fr,it,pt,ja,ko,zh-CN,ar',
+      }, 'google_translate_element');
+    }
+  </script>
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js? 
