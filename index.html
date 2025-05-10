@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Trivo Store – Productos Virtuales</title>
   <style>
-    /* Estilos generales */
     body {
       font-family: Arial, sans-serif;
       background: #f9f9f9;
@@ -29,6 +28,19 @@
       margin-left: 1rem;
       text-decoration: none;
       font-weight: bold;
+    }
+    #google_translate_element {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 1001;
+      background: white;
+      padding: 5px;
+      border-radius: 6px;
+      font-size: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      max-height: 200px;
+      overflow-y: auto;
     }
     section {
       padding: 1rem;
@@ -59,7 +71,6 @@
       cursor: pointer;
       font-weight: bold;
     }
-    /* Estilos para el asistente Ronny */
     #ronny-chat {
       position: fixed;
       bottom: 80px;
@@ -76,7 +87,6 @@
     #ronny-chat strong {
       color: #007bff;
     }
-    /* Botón de Ayuda */
     #btn-ayuda {
       position: fixed;
       bottom: 30px;
@@ -99,18 +109,6 @@
       margin-top: 10px;
       color: #856404;
     }
-    /* Estilos para el selector de idioma flotante */
-    #translate-wrapper {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 1001;
-      background: white;
-      padding: 5px;
-      border-radius: 6px;
-      font-size: 14px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    }
   </style>
 </head>
 <body>
@@ -123,23 +121,20 @@
     </nav>
   </header>
 
-  <!-- Selector de idioma flotante -->
-  <div id="translate-wrapper">
-    <div id="google_translate_element"></div>
-  </div>
+  <div id="google_translate_element"></div>
 
   <section id="productos">
     <h2>Productos virtuales</h2>
     <div class="producto">
       <h3>Lámpara LED Recargable</h3>
-      <img src="https://cdn-icons-png.flaticon.com/512/1042/1042393.png" alt="Lámpara LED">
+      <img src="https://via.placeholder.com/150" alt="Lámpara LED">
       <p>3 niveles de brillo, batería USB, moderna y portátil.</p>
       <strong>$12.50 USD</strong><br>
       <button onclick="agregarAlCarrito('Lámpara LED', 12.5)">Agregar al carrito</button>
     </div>
     <div class="producto">
       <h3>Mouse Inalámbrico AmazonBasics</h3>
-      <img src="https://cdn-icons-png.flaticon.com/512/1250/1250615.png" alt="Mouse">
+      <img src="https://via.placeholder.com/150" alt="Mouse">
       <p>Sonido estéreo, estuche de carga, micrófono integrado.</p>
       <strong>$19.50 USD</strong><br>
       <button onclick="agregarAlCarrito('Mouse', 19.5)">Agregar al carrito</button>
@@ -186,24 +181,32 @@
     <div id="mensaje-proveedor" class="mensaje" style="display:none;"></div>
   </section>
 
-  <!-- Botón de Ayuda -->
   <button id="btn-ayuda" onclick="toggleRonny()">Ayuda</button>
 
-  <!-- Asistente Ronny -->
   <div id="ronny-chat">
     <strong>Ronny Asistente</strong><br>
     <p>Hola, soy Ronny. ¿En qué puedo ayudarte hoy?</p>
     <ul>
-      <li><button onclick="responderRonny('¿Cómo puedo comprar un producto?')">¿Cómo puedo comprar un producto?</button></li>
-      <li><button onclick="responderRonny('¿Cuáles son los métodos de pago?')">¿Cuáles son los métodos de pago?</button></li>
-      <li><button onclick="responderRonny('¿Cómo contacto al soporte?')">¿Cómo contacto al soporte?</button></li>
+      <li><button onclick="responderRonny('comprar')">¿Cómo comprar un producto?</button></li>
+      <li><button onclick="responderRonny('pagos')">¿Métodos de pago?</button></li>
+      <li><button onclick="responderRonny('soporte')">¿Contacto de soporte?</button></li>
     </ul>
     <p id="respuesta-ronny"></p>
   </div>
 
-  <!-- Scripts -->
+  <!-- Google Translate -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'es',
+        includedLanguages: 'es,en,fr,it,de,pt,zh,ja,ar,ru',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+  </script>
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
   <script>
-    // Carrito de compras
     let total = 0;
     function agregarAlCarrito(producto, precio) {
       const lista = document.getElementById("lista-carrito");
@@ -213,14 +216,40 @@
       total += precio;
       document.getElementById("total").textContent = total.toFixed(2);
     }
+
     function vaciarCarrito() {
       document.getElementById("lista-carrito").innerHTML = "";
       total = 0;
       document.getElementById("total").textContent = "0.00";
     }
 
-    // Filtrar por categoría
     function filtrarCategoria(categoria) {
       const mensaje = document.getElementById("mensaje-categoria");
       mensaje.style.display = "block";
-      mensaje.textContent = `No hay productos agregados en la categoría "${categoria}" 
+      mensaje.textContent = `No hay productos agregados en la categoría "${categoria}" por el momento.`;
+    }
+
+    function mostrarProveedor(proveedor) {
+      const mensaje = document.getElementById("mensaje-proveedor");
+      mensaje.style.display = "block";
+      mensaje.textContent = `Mostrando productos del ${proveedor}.`;
+    }
+
+    function toggleRonny() {
+      const ronny = document.getElementById('ronny-chat');
+      ronny.style.display = (ronny.style.display === 'none' || ronny.style.display === '') ? 'block' : 'none';
+    }
+
+    function responderRonny(pregunta) {
+      const respuesta = document.getElementById('respuesta-ronny');
+      if (pregunta === 'comprar') {
+        respuesta.textContent = "Agrega un producto al carrito y haz clic en pagar.";
+      } else if (pregunta === 'pagos') {
+        respuesta.textContent = "Aceptamos tarjetas, PayPal y criptomonedas.";
+      } else if (pregunta === 'soporte') {
+        respuesta.textContent = "Contáctanos desde el formulario o por correo.";
+      }
+    }
+  </script>
+</body>
+</html>
