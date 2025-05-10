@@ -56,12 +56,6 @@
       border: none;
       cursor: pointer;
     }
-    #google_translate_element {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-    }
-
     /* Ronny asistente */
     #ronny {
       position: fixed;
@@ -79,6 +73,29 @@
     #ronny h4 {
       margin: 0 0 0.5rem 0;
       color: #007acc;
+    }
+    /* Estilos para el selector de idioma */
+    #google_translate_element {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 1000;
+    }
+    .goog-te-gadget {
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+    }
+    .goog-te-combo {
+      padding: 6px;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .goog-te-banner-frame.skiptranslate {
+      display: none !important;
+    }
+    body {
+      top: 0px !important;
     }
   </style>
 </head>
@@ -143,8 +160,9 @@
     <p id="ronny-msg">Cargando mensaje...</p>
   </div>
 
-  <!-- Carrito script -->
+  <!-- Scripts -->
   <script>
+    // Carrito de compras
     let carrito = [];
     function agregarAlCarrito(nombre, precio) {
       carrito.push({ nombre, precio });
@@ -167,24 +185,10 @@
       });
       total.textContent = suma.toFixed(2);
     }
-  </script>
 
-  <!-- Google Translate -->
-  <script type="text/javascript">
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement({
-        pageLanguage: 'es',
-        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-      }, 'google_translate_element');
-    }
-  </script>
-  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-  <!-- Ronny auto-idioma -->
-  <script>
+    // Ronny asistente
     const ronnyMsg = document.getElementById("ronny-msg");
     const lang = navigator.language || navigator.userLanguage;
-
     if (lang.startsWith("es")) {
       ronnyMsg.textContent = "Hola, soy Ronny. ¿En qué puedo ayudarte hoy?";
     } else if (lang.startsWith("en")) {
@@ -192,6 +196,21 @@
     } else {
       ronnyMsg.textContent = "Hi! I'm Ronny, your assistant. Need help?";
     }
+  </script>
+
+  <!-- Google Translate -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'es',
+        includedLanguages: 'es,en,fr,de,it,pt,zh-CN,ja,ko',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        autoDisplay: false
+      }, 'google_translate_element');
+    }
+  </script>
+  <script type="text/javascript"
+    src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
   </script>
 
 </body>
