@@ -5,240 +5,190 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Trivo Store – Productos Virtuales</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f9f9f9;
-      margin: 0;
-      padding-top: 60px;
-    }
+    body { font-family: Arial, sans-serif; background: #f9f9f9; margin: 0; padding-top: 60px; }
     header {
-      background: #333;
-      color: white;
-      padding: 1rem;
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 1000;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      background: #333; color: white; padding: 1rem;
+      position: fixed; top: 0; width: 100%; z-index: 1000;
+      display: flex; justify-content: space-between; align-items: center;
     }
     nav a {
-      color: #00ffff;
-      margin-left: 1rem;
-      text-decoration: none;
-      font-weight: bold;
+      color: #00ffff; margin-left: 1rem; text-decoration: none; font-weight: bold;
     }
     #google_translate_element {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      z-index: 1001;
-      background: white;
-      padding: 5px;
-      border-radius: 6px;
-      font-size: 14px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-      max-height: 200px;
-      overflow-y: auto;
+      position: fixed; top: 10px; right: 10px; z-index: 1001;
+      background: white; padding: 5px; border-radius: 6px;
+      font-size: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      max-height: 200px; overflow-y: auto;
     }
-    section {
-      padding: 1rem;
-    }
+    section { padding: 1rem; }
     .producto {
-      border: 1px solid #ccc;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      background: white;
-      text-align: center;
+      border: 1px solid #ccc; padding: 1rem; margin-bottom: 1rem;
+      background: white; text-align: center;
     }
-    .producto img {
-      max-width: 100%;
-      height: auto;
-    }
+    .producto img { max-width: 100%; height: auto; }
     .carrito, .contacto, .categorias, .proveedores {
-      background: #eef;
-      padding: 1rem;
-      margin: 1rem;
-      border-radius: 8px;
+      background: #eef; padding: 1rem; margin: 1rem; border-radius: 8px;
     }
     button {
-      background-color: green;
-      color: white;
-      padding: 10px;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      font-weight: bold;
+      background-color: green; color: white; padding: 10px;
+      border: none; border-radius: 25px; cursor: pointer; font-weight: bold;
     }
     #ronny-chat {
-      position: fixed;
-      bottom: 80px;
-      right: 15px;
-      z-index: 9999;
-      background: #fff;
-      border: 1px solid #ccc;
-      padding: 10px;
-      border-radius: 10px;
-      width: 250px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      display: none;
-    }
-    #ronny-chat strong {
-      color: #007bff;
+      position: fixed; bottom: 80px; right: 15px; z-index: 9999;
+      background: #fff; border: 1px solid #ccc; padding: 10px;
+      border-radius: 10px; width: 250px; display: none;
     }
     #btn-ayuda {
-      position: fixed;
-      bottom: 30px;
-      right: 15px;
-      z-index: 9999;
-      padding: 10px 16px;
-      background-color: #28a745;
-      color: white;
-      border: none;
-      border-radius: 50px;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      position: fixed; bottom: 30px; right: 15px; z-index: 9999;
+      padding: 10px 16px; background-color: #28a745; color: white;
+      border: none; border-radius: 50px; font-weight: bold;
     }
     .mensaje {
-      background-color: #fff3cd;
-      border: 1px solid #ffeeba;
-      padding: 10px;
-      border-radius: 5px;
-      margin-top: 10px;
-      color: #856404;
+      background-color: #fff3cd; border: 1px solid #ffeeba;
+      padding: 10px; border-radius: 5px; margin-top: 10px; color: #856404;
     }
   </style>
 </head>
 <body>
-  <header>
-    <div>Trivo Store</div>
-    <nav>
-      <a href="#productos">Productos</a>
-      <a href="#carrito">Carrito</a>
-      <a href="#contacto">Contacto</a>
-    </nav>
-  </header>
 
-  <div id="google_translate_element"></div>
+<header>
+  <div>Trivo Store</div>
+  <nav>
+    <a href="#productos">Productos</a>
+    <a href="#carrito">Carrito</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
+</header>
 
-  <section id="productos">
-    <h2>Productos virtuales</h2>
-    <div class="producto">
-      <h3>Lámpara LED Recargable</h3>
-      <img src="https://via.placeholder.com/150" alt="Lámpara LED">
-      <p>3 niveles de brillo, batería USB, moderna y portátil.</p>
-      <strong>$12.50 USD</strong><br>
-      <button onclick="agregarAlCarrito('Lámpara LED', 12.5)">Agregar al carrito</button>
-    </div>
-    <div class="producto">
-      <h3>Mouse Inalámbrico AmazonBasics</h3>
-      <img src="https://via.placeholder.com/150" alt="Mouse">
-      <p>Sonido estéreo, estuche de carga, micrófono integrado.</p>
-      <strong>$19.50 USD</strong><br>
-      <button onclick="agregarAlCarrito('Mouse', 19.5)">Agregar al carrito</button>
-    </div>
-  </section>
+<div id="google_translate_element"></div>
 
-  <section id="carrito" class="carrito">
-    <h2>Tu Carrito</h2>
-    <ul id="lista-carrito"></ul>
-    <p>Total: $<span id="total">0.00</span></p>
-    <button onclick="vaciarCarrito()">Vaciar carrito</button>
-  </section>
-
-  <section id="contacto" class="contacto">
-    <h2>Contáctanos</h2>
-    <form>
-      <input type="text" placeholder="Tu nombre" required><br><br>
-      <input type="email" placeholder="Tu correo" required><br><br>
-      <textarea placeholder="Escribe tu mensaje" required></textarea><br><br>
-      <button type="submit">Enviar</button>
-    </form>
-  </section>
-
-  <section class="categorias">
-    <h2>Categorías Populares</h2>
-    <ul>
-      <li><button onclick="filtrarCategoria('Tecnología')">Tecnología</button></li>
-      <li><button onclick="filtrarCategoria('Accesorios')">Accesorios</button></li>
-      <li><button onclick="filtrarCategoria('Hogar')">Hogar</button></li>
-      <li><button onclick="filtrarCategoria('Moda')">Moda</button></li>
-      <li><button onclick="filtrarCategoria('Electrónica')">Electrónica</button></li>
-      <li><button onclick="filtrarCategoria('Oficina')">Oficina</button></li>
-    </ul>
-    <div id="mensaje-categoria" class="mensaje" style="display:none;"></div>
-  </section>
-
-  <section class="proveedores">
-    <h2>Proveedores</h2>
-    <ul>
-      <li><button onclick="mostrarProveedor('Proveedor 1')">Proveedor 1 - China</button></li>
-      <li><button onclick="mostrarProveedor('Proveedor 2')">Proveedor 2 - USA</button></li>
-      <li><button onclick="mostrarProveedor('Proveedor 3')">Proveedor 3 - México</button></li>
-    </ul>
-    <div id="mensaje-proveedor" class="mensaje" style="display:none;"></div>
-  </section>
-
-  <button id="btn-ayuda" onclick="toggleRonny()">Ayuda</button>
-
-  <div id="ronny-chat">
-    <strong>Ronny Asistente</strong><br>
-    <p>Hola, soy Ronny. ¿En qué puedo ayudarte hoy?</p>
-    <ul>
-      <li><button onclick="responderRonny('¿Cómo puedo comprar un producto?')">¿Cómo puedo comprar un producto?</button></li>
-      <li><button onclick="responderRonny('¿Cuáles son los métodos de pago?')">¿Cuáles son los métodos de pago?</button></li>
-      <li><button onclick="responderRonny('¿Cómo contacto al soporte?')">¿Cómo contacto al soporte?</button></li>
-    </ul>
-    <p id="respuesta-ronny"></p>
+<section id="productos">
+  <h2>Productos virtuales</h2>
+  <div class="producto">
+    <h3>Lámpara LED Recargable</h3>
+    <img src="https://via.placeholder.com/150" alt="Lámpara LED">
+    <p>3 niveles de brillo, batería USB, moderna y portátil.</p>
+    <strong>$12.50 USD</strong><br>
+    <button onclick="agregarAlCarrito('Lámpara LED', 12.5)">Agregar al carrito</button>
   </div>
+  <div class="producto">
+    <h3>Mouse Inalámbrico AmazonBasics</h3>
+    <img src="https://via.placeholder.com/150" alt="Mouse">
+    <p>Sonido estéreo, estuche de carga, micrófono integrado.</p>
+    <strong>$19.50 USD</strong><br>
+    <button onclick="agregarAlCarrito('Mouse', 19.5)">Agregar al carrito</button>
+  </div>
+</section>
 
-  <script>
-    let total = 0;
-    function agregarAlCarrito(producto, precio) {
-      const lista = document.getElementById("lista-carrito");
-      const item = document.createElement("li");
-      item.textContent = `${producto} - $${precio}`;
-      lista.appendChild(item);
-      total += precio;
-      document.getElementById("total").textContent = total.toFixed(2);
+<section id="carrito" class="carrito">
+  <h2>Tu Carrito</h2>
+  <ul id="lista-carrito"></ul>
+  <p>Total: $<span id="total">0.00</span></p>
+  <button onclick="vaciarCarrito()">Vaciar carrito</button>
+</section>
+
+<section id="contacto" class="contacto">
+  <h2>Contáctanos</h2>
+  <form>
+    <input type="text" placeholder="Tu nombre" required><br><br>
+    <input type="email" placeholder="Tu correo" required><br><br>
+    <textarea placeholder="Escribe tu mensaje" required></textarea><br><br>
+    <button type="submit">Enviar</button>
+  </form>
+</section>
+
+<section class="categorias">
+  <h2>Categorías Populares</h2>
+  <ul>
+    <li><button onclick="filtrarCategoria('Tecnología')">Tecnología</button></li>
+    <li><button onclick="filtrarCategoria('Accesorios')">Accesorios</button></li>
+    <li><button onclick="filtrarCategoria('Hogar')">Hogar</button></li>
+    <li><button onclick="filtrarCategoria('Moda')">Moda</button></li>
+    <li><button onclick="filtrarCategoria('Electrónica')">Electrónica</button></li>
+    <li><button onclick="filtrarCategoria('Oficina')">Oficina</button></li>
+  </ul>
+  <div id="mensaje-categoria" class="mensaje" style="display:none;"></div>
+</section>
+
+<section class="proveedores">
+  <h2>Proveedores</h2>
+  <ul>
+    <li><button onclick="mostrarProveedor('Proveedor 1')">Proveedor 1 - China</button></li>
+    <li><button onclick="mostrarProveedor('Proveedor 2')">Proveedor 2 - USA</button></li>
+    <li><button onclick="mostrarProveedor('Proveedor 3')">Proveedor 3 - México</button></li>
+  </ul>
+  <div id="mensaje-proveedor" class="mensaje" style="display:none;"></div>
+</section>
+
+<!-- Botón de Ayuda -->
+<button id="btn-ayuda" onclick="toggleRonny()">Ayuda</button>
+
+<!-- Asistente Ronny -->
+<div id="ronny-chat">
+  <strong>Ronny Asistente</strong><br>
+  <p>Hola, soy Ronny. ¿En qué puedo ayudarte hoy?</p>
+  <ul>
+    <li><button onclick="responderRonny('¿Cómo puedo comprar un producto?')">¿Cómo puedo comprar un producto?</button></li>
+    <li><button onclick="responderRonny('¿Cuáles son los métodos de pago?')">¿Cuáles son los métodos de pago?</button></li>
+    <li><button onclick="responderRonny('¿Cómo contacto al soporte?')">¿Cómo contacto al soporte?</button></li>
+  </ul>
+  <p id="respuesta-ronny"></p>
+</div>
+
+<script>
+  // Traductor
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({pageLanguage: 'es'}, 'google_translate_element');
+  }
+
+  // Carrito
+  let total = 0;
+  function agregarAlCarrito(producto, precio) {
+    const lista = document.getElementById("lista-carrito");
+    const item = document.createElement("li");
+    item.textContent = `${producto} - $${precio}`;
+    lista.appendChild(item);
+    total += precio;
+    document.getElementById("total").textContent = total.toFixed(2);
+  }
+  function vaciarCarrito() {
+    document.getElementById("lista-carrito").innerHTML = "";
+    total = 0;
+    document.getElementById("total").textContent = "0.00";
+  }
+
+  // Categorías
+  function filtrarCategoria(categoria) {
+    const mensaje = document.getElementById("mensaje-categoria");
+    mensaje.style.display = "block";
+    mensaje.textContent = `No hay productos agregados en la categoría "${categoria}" por el momento.`;
+  }
+
+  // Proveedores
+  function mostrarProveedor(proveedor) {
+    const mensaje = document.getElementById("mensaje-proveedor");
+    mensaje.style.display = "block";
+    mensaje.textContent = `Mostrando productos del ${proveedor}.`;
+  }
+
+  // Ronny
+  function toggleRonny() {
+    const ronny = document.getElementById('ronny-chat');
+    ronny.style.display = (ronny.style.display === 'none') ? 'block' : 'none';
+  }
+
+  function responderRonny(pregunta) {
+    const respuesta = document.getElementById('respuesta-ronny');
+    if (pregunta.includes('comprar')) {
+      respuesta.textContent = "Para comprar un producto, agrégalo al carrito y procede al pago.";
+    } else if (pregunta.includes('pago')) {
+      respuesta.textContent = "Aceptamos tarjetas, PayPal y transferencias.";
+    } else if (pregunta.includes('soporte')) {
+      respuesta.textContent = "Puedes escribirnos desde la sección de contacto.";
     }
-    function vaciarCarrito() {
-      document.getElementById("lista-carrito").innerHTML = "";
-      total = 0;
-      document.getElementById("total").textContent = "0.00";
-    }
-    function filtrarCategoria(categoria) {
-      const mensaje = document.getElementById("mensaje-categoria");
-      mensaje.style.display = "block";
-      mensaje.textContent = `No hay productos agregados en la categoría "${categoria}" por el momento.`;
-    }
-    function mostrarProveedor(proveedor) {
-      const mensaje = document.getElementById("mensaje-proveedor");
-      mensaje.style.display = "block";
-      mensaje.textContent = `Mostrando productos del ${proveedor}.`;
-    }
-    function toggleRonny() {
-      const ronny = document.getElementById('ronny-chat');
-      ronny.style.display = (ronny.style.display === 'none' || ronny.style.display === '') ? 'block' : 'none';
-    }
-    function responderRonny(pregunta) {
-      const respuesta = document.getElementById('respuesta-ronny');
-      if (pregunta === '¿Cómo puedo comprar un producto?') {
-        respuesta.textContent = "Para comprar un producto, agrégalo al carrito y procede al pago.";
-      } else if (pregunta === '¿Cuáles son los métodos de pago?') {
-        respuesta.textContent = "Aceptamos tarjetas de crédito, PayPal y transferencias.";
-      } else if (pregunta === '¿Cómo contacto al soporte?') {
-        respuesta.textContent = "Puedes contactarnos mediante el formulario de contacto.";
-      } else {
-        respuesta.textContent = "";
-      }
-    }
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement({pageLanguage: 'es'}, 'google_translate_element');
-    }
-  </script>
-  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  }
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 </body>
 </html>
