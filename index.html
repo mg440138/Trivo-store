@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Trivo Store – Productos Virtuales</title>
   <style>
     body {
@@ -101,6 +101,15 @@
       margin-top: 10px;
       color: #856404;
     }
+    @media (max-width: 768px) {
+      #google_translate_element {
+        top: auto;
+        bottom: 10px;
+        left: 10px;
+        font-size: 12px;
+        padding: 3px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -164,7 +173,7 @@
   <div id="mensaje-categoria" class="mensaje" style="display:none;"></div>
 </section>
 
-<section class="proveedores">
+<section class="proveedores" id="admin-proveedores" style="display: none;">
   <h2>Proveedores</h2>
   <ul>
     <li><button onclick="mostrarProveedor('Proveedor 1')">Proveedor 1 - China</button></li>
@@ -229,14 +238,4 @@
     const respuesta = document.getElementById('respuesta-ronny');
     if (pregunta.includes('comprar')) {
       respuesta.textContent = "Para comprar un producto, agrégalo al carrito y procede al pago.";
-    } else if (pregunta.includes('pago')) {
-      respuesta.textContent = "Aceptamos tarjetas, PayPal y transferencias.";
-    } else if (pregunta.includes('soporte')) {
-      respuesta.textContent = "Puedes escribirnos desde la sección de contacto.";
-    }
-  }
-</script>
-<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-</body>
-</html>
+    } else 
