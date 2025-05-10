@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Trivo Store – Productos Virtuales</title>
   <style>
+    /* Estilos generales */
     body {
       font-family: Arial, sans-serif;
       background: #f9f9f9;
@@ -28,17 +29,6 @@
       margin-left: 1rem;
       text-decoration: none;
       font-weight: bold;
-    }
-    #google_translate_element {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      z-index: 1001;
-      background: white;
-      padding: 5px;
-      border-radius: 6px;
-      font-size: 14px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
     section {
       padding: 1rem;
@@ -69,6 +59,7 @@
       cursor: pointer;
       font-weight: bold;
     }
+    /* Estilos para el asistente Ronny */
     #ronny-chat {
       position: fixed;
       bottom: 80px;
@@ -85,6 +76,7 @@
     #ronny-chat strong {
       color: #007bff;
     }
+    /* Botón de Ayuda */
     #btn-ayuda {
       position: fixed;
       bottom: 30px;
@@ -107,6 +99,18 @@
       margin-top: 10px;
       color: #856404;
     }
+    /* Estilos para el selector de idioma flotante */
+    #translate-wrapper {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1001;
+      background: white;
+      padding: 5px;
+      border-radius: 6px;
+      font-size: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
   </style>
 </head>
 <body>
@@ -119,7 +123,10 @@
     </nav>
   </header>
 
-  <div id="google_translate_element"></div>
+  <!-- Selector de idioma flotante -->
+  <div id="translate-wrapper">
+    <div id="google_translate_element"></div>
+  </div>
 
   <section id="productos">
     <h2>Productos virtuales</h2>
@@ -179,8 +186,10 @@
     <div id="mensaje-proveedor" class="mensaje" style="display:none;"></div>
   </section>
 
+  <!-- Botón de Ayuda -->
   <button id="btn-ayuda" onclick="toggleRonny()">Ayuda</button>
 
+  <!-- Asistente Ronny -->
   <div id="ronny-chat">
     <strong>Ronny Asistente</strong><br>
     <p>Hola, soy Ronny. ¿En qué puedo ayudarte hoy?</p>
@@ -192,7 +201,9 @@
     <p id="respuesta-ronny"></p>
   </div>
 
+  <!-- Scripts -->
   <script>
+    // Carrito de compras
     let total = 0;
     function agregarAlCarrito(producto, precio) {
       const lista = document.getElementById("lista-carrito");
@@ -207,39 +218,9 @@
       total = 0;
       document.getElementById("total").textContent = "0.00";
     }
+
+    // Filtrar por categoría
     function filtrarCategoria(categoria) {
       const mensaje = document.getElementById("mensaje-categoria");
       mensaje.style.display = "block";
-      mensaje.textContent = `No hay productos agregados en la categoría "${categoria}" por el momento.`;
-    }
-    function mostrarProveedor(proveedor) {
-      const mensaje = document.getElementById("mensaje-proveedor");
-      mensaje.style.display = "block";
-      mensaje.textContent = `Mostrando productos del ${proveedor}.`;
-    }
-    function toggleRonny() {
-      const ronny = document.getElementById('ronny-chat');
-      ronny.style.display = (ronny.style.display === 'none' || ronny.style.display === '') ? 'block' : 'none';
-    }
-    function responderRonny(pregunta) {
-      const respuesta = document.getElementById('respuesta-ronny');
-      if (pregunta === '¿Cómo puedo comprar un producto?') {
-        respuesta.textContent = "Para comprar un producto, agrégalo al carrito y procede al pago.";
-      } else if (pregunta === '¿Cuáles son los métodos de pago?') {
-        respuesta.textContent = "Aceptamos tarjetas, PayPal y transferencias bancarias.";
-      } else if (pregunta === '¿Cómo contacto al soporte?') {
-        respuesta.textContent = "Puedes escribirnos usando el formulario de contacto.";
-      } else {
-        respuesta.textContent = "No entiendo la pregunta.";
-      }
-    }
-  </script>
-
-  <script type="text/javascript">
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement({ pageLanguage: 'es' }, 'google_translate_element');
-    }
-  </script>
-  <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-</body>
-</html>
+      mensaje.textContent = `No hay productos agregados en la categoría "${categoria}" 
