@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Trivo Store – Productos Virtuales</title>
   <style>
     body {
@@ -29,19 +29,6 @@
       text-decoration: none;
       font-weight: bold;
     }
-    #google_translate_element {
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      z-index: 1001;
-      background: white;
-      padding: 5px;
-      border-radius: 6px;
-      font-size: 14px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-      max-height: 200px;
-      overflow-y: auto;
-    }
     section { padding: 1rem; }
     .producto {
       border: 1px solid #ccc;
@@ -54,7 +41,7 @@
       max-width: 100%;
       height: auto;
     }
-    .carrito, .contacto, .categorias, .proveedores {
+    .carrito, .contacto, .categorias, .proveedores, .inventario {
       background: #eef;
       padding: 1rem;
       margin: 1rem;
@@ -93,13 +80,18 @@
       border-radius: 50px;
       font-weight: bold;
     }
-    .mensaje {
-      background-color: #fff3cd;
-      border: 1px solid #ffeeba;
-      padding: 10px;
-      border-radius: 5px;
-      margin-top: 10px;
-      color: #856404;
+    #google_translate_element {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 1001;
+      background: white;
+      padding: 5px;
+      border-radius: 6px;
+      font-size: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      max-height: 200px;
+      overflow-y: auto;
     }
     @media (max-width: 768px) {
       #google_translate_element {
@@ -120,6 +112,7 @@
     <a href="#productos">Productos</a>
     <a href="#carrito">Carrito</a>
     <a href="#contacto">Contacto</a>
+    <a href="#inventario">Inventario</a>
   </nav>
 </header>
 
@@ -137,7 +130,7 @@
   <div class="producto">
     <h3>Mouse Inalámbrico AmazonBasics</h3>
     <img src="https://via.placeholder.com/150" alt="Mouse">
-    <p>Sonido estéreo, estuche de carga, micrófono integrado.</p>
+    <p>Mouse óptico inalámbrico, silencioso, ergonómico.</p>
     <strong>$19.50 USD</strong><br>
     <button onclick="agregarAlCarrito('Mouse', 19.5)">Agregar al carrito</button>
   </div>
@@ -170,10 +163,16 @@
     <li><button onclick="filtrarCategoria('Electrónica')">Electrónica</button></li>
     <li><button onclick="filtrarCategoria('Oficina')">Oficina</button></li>
   </ul>
-  <div id="mensaje-categoria" class="mensaje" style="display:none;"></div>
 </section>
 
-<section class="proveedores" id="admin-proveedores">
+<section id="inventario" class="inventario">
+  <h2>Inventario Interno</h2>
+  <textarea id="areaInventario" rows="10" style="width:100%;">Lámpara LED Recargable - 20 unidades
+Mouse Inalámbrico AmazonBasics - 15 unidades</textarea><br><br>
+  <button onclick="descargarInventario()">Exportar Inventario (CSV)</button>
+</section>
+
+<section class="proveedores">
   <h2>Proveedores</h2>
   <ul>
     <li><button onclick="mostrarProveedor('Proveedor 1')">Proveedor 1 - China</button></li>
@@ -218,34 +217,42 @@
   }
 
   function filtrarCategoria(categoria) {
-    const mensaje = document.getElementById("mensaje-categoria");
-    mensaje.style.display = "block";
-    mensaje.textContent = `No hay productos agregados en la categoría "${categoria}" por el momento.`;
+    alert(`Mostrando productos de la categoría: ${categoria}`);
   }
 
-  function mostrarProveedor(proveedor) {
+  function mostrarProveedor(nombre) {
     const mensaje = document.getElementById("mensaje-proveedor");
     mensaje.style.display = "block";
-    mensaje.textContent = `Mostrando productos del ${proveedor}.`;
+    mensaje.textContent = `Mostrando productos del ${nombre}.`;
   }
 
   function toggleRonny() {
-    const ronny = document.getElementById('ronny-chat');
-    ronny.style.display = (ronny.style.display === 'none') ? 'block' : 'none';
+    const ronny = document.getElementById("ronny-chat");
+    ronny.style.display = (ronny.style.display === "none") ? "block" : "none";
   }
 
   function responderRonny(pregunta) {
-    const respuesta = document.getElementById('respuesta-ronny');
-    if (pregunta.includes('comprar')) {
-      respuesta.textContent = "Para comprar un producto, agrégalo al carrito y procede al pago.";
-    } else if (pregunta.includes('pago')) {
+    const respuesta = document.getElementById("respuesta-ronny");
+    if (pregunta.includes("comprar")) {
+      respuesta.textContent = "Agrega productos al carrito y procede al pago.";
+    } else if (pregunta.includes("pago")) {
       respuesta.textContent = "Aceptamos tarjetas, PayPal y transferencias.";
-    } else if (pregunta.includes('soporte')) {
-      respuesta.textContent = "Puedes escribirnos desde la sección de contacto.";
+    } else if (pregunta.includes("soporte")) {
+      respuesta.textContent = "Escríbenos desde la sección de contacto.";
     }
+  }
+
+  function descargarInventario() {
+    const contenido = document.getElementById("areaInventario").value;
+    const blob = new Blob([contenido], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const enlace = document.createElement("a");
+    enlace.href = url;
+    enlace.download = "inventario.csv";
+    enlace.click();
+    URL.revokeObjectURL(url);
   }
 </script>
 <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
 </body>
 </html>
