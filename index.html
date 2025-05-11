@@ -4,35 +4,85 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Trivo Store</title>
+  <!-- TIDIO -->
+  <!-- <script src="https://code.tidio.co/YOUR_PUBLIC_KEY.js" async></script> -->
   <style>
-    body { font-family: Arial, sans-serif; background-color: #f8f8ff; margin: 0; padding: 0; }
-    header { background-color: #1a1a1a; padding: 10px; text-align: center; }
-    header h1 { color: white; margin: 0; }
-    nav a { color: cyan; margin: 0 15px; text-decoration: none; font-weight: bold; }
-    section { padding: 20px; }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f8ff;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #1a1a1a;
+      padding: 10px;
+      text-align: center;
+    }
+    header h1 {
+      color: white;
+      margin: 0;
+    }
+    nav a {
+      color: cyan;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    section {
+      padding: 20px;
+    }
     .producto, .calculadora {
-      border: 1px solid #ccc; border-radius: 5px; margin: 20px 0;
-      padding: 15px; background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin: 20px 0;
+      padding: 15px;
+      background-color: white;
     }
-    .producto img { width: 150px; height: auto; margin: 10px; display: inline-block; }
+    .producto img {
+      width: 150px;
+      height: auto;
+      margin: 10px;
+      display: inline-block;
+    }
     .boton-carrito, .boton {
-      background-color: green; color: white; padding: 8px 15px;
-      border: none; border-radius: 5px; cursor: pointer;
+      background-color: green;
+      color: white;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
     }
-
     .categoria, .proveedor {
-      background-color: green; color: white; display: inline-block;
-      padding: 5px 10px; border-radius: 15px; margin: 5px; cursor: pointer;
+      background-color: green;
+      color: white;
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 15px;
+      margin: 5px;
+      cursor: pointer;
     }
     .exportar {
-      background-color: green; color: white; padding: 6px 12px;
-      border: none; border-radius: 5px; margin-top: 10px;
+      background-color: green;
+      color: white;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 5px;
+      margin-top: 10px;
     }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
   </style>
 </head>
 <body>
+
   <header>
     <h1>Trivo Store</h1>
     <nav>
@@ -47,8 +97,8 @@
   <section id="inventario">
     <h2>Inventario Interno</h2>
     <table id="tabla-inventario">
-      <thead><tr><th>Producto</th><th>Unidades</th></tr>
-
+      <thead>
+        <tr><th>Producto</th><th>Unidades</th></tr>
       </thead>
       <tbody>
         <tr><td>Lámpara LED Recargable</td><td>20</td></tr>
@@ -67,9 +117,8 @@
     <div class="proveedor" onclick="mostrarProveedor('Ejdropshipping')">Ejdropshipping</div>
     <div class="proveedor" onclick="mostrarProveedor('AutoDS')">AutoDS</div>
     <div class="proveedor" onclick="mostrarProveedor('DSers')">DSers</div>
-
     <p id="mensaje-proveedor"></p>
-    <p><strong>Sistema listo para uso manual y automatizado.</strong></p>
+    <p><strong>Sistema listo para uso manual y automatizado.</strong> Solo falta activar AutoDS con la licencia correspondiente.</p>
   </section>
 
   <section id="productos">
@@ -78,19 +127,17 @@
       <h3>Mouse Inalámbrico AmazonBasics</h3>
       <p>Mouse óptico inalámbrico, ergonómico y silencioso.</p>
       <p><strong>Precio:</strong> $19.50 USD</p>
-      <img src="https://m.media-amazon.com/images/I/61LtuGzXeaL._AC_SL1500_.jpg" alt="Mouse">
+      <img src="https://m.media-amazon.com/images/I/61LtuGzXeaL._AC_SL1500_.jpg" alt="Imagen del producto">
       <button class="boton-carrito">Agregar al carrito</button>
     </div>
     <div class="producto">
       <h3>Auriculares Traductores</h3>
       <p>Traducción en tiempo real, compatible con apps gratuitas.</p>
       <p><strong>Precio:</strong> $45.00 USD</p>
-      <img src="https://m.media-amazon.com/images/I/61xNzlj5ktL._AC_SL1500_.jpg" alt="Auriculares">
+      <img src="https://m.media-amazon.com/images/I/61xNzlj5ktL._AC_SL1500_.jpg" alt="Imagen del producto">
       <button class="boton-carrito">Agregar al carrito</button>
     </div>
   </section>
-</body>
-</html>
 
   <section id="agregar-producto">
     <h2>Agregar Producto Manualmente</h2>
