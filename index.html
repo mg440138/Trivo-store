@@ -5,48 +5,101 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Trivo Store – Productos Virtuales</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #f9f9f9; margin: 0; padding-top: 60px; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding-top: 60px;
+    }
     header {
-      background: #333; color: white; padding: 1rem; position: fixed;
-      top: 0; width: 100%; z-index: 1000; display: flex;
-      justify-content: space-between; align-items: center;
+      background: #333;
+      color: white;
+      padding: 1rem;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
     nav a {
-      color: #00ffff; margin-left: 1rem; text-decoration: none; font-weight: bold;
+      color: #00ffff;
+      margin-left: 1rem;
+      text-decoration: none;
+      font-weight: bold;
     }
     section { padding: 1rem; }
     .producto {
-      border: 1px solid #ccc; padding: 1rem; margin-bottom: 1rem;
-      background: white; text-align: center;
+      border: 1px solid #ccc;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      background: white;
+      text-align: center;
     }
-    .producto img { max-width: 100%; height: auto; }
+    .producto img {
+      max-width: 100%;
+      height: auto;
+    }
     .carrito, .contacto, .categorias, .proveedores, .inventario {
-      background: #eef; padding: 1rem; margin: 1rem; border-radius: 8px;
+      background: #eef;
+      padding: 1rem;
+      margin: 1rem;
+      border-radius: 8px;
     }
     button {
-      background-color: green; color: white; padding: 10px;
-      border: none; border-radius: 25px; cursor: pointer; font-weight: bold;
+      background-color: green;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: bold;
     }
     #ronny-chat {
-      position: fixed; bottom: 80px; right: 15px; z-index: 9999;
-      background: #fff; border: 1px solid #ccc; padding: 10px;
-      border-radius: 10px; width: 250px; display: none;
+      position: fixed;
+      bottom: 80px;
+      right: 15px;
+      z-index: 9999;
+      background: #fff;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 10px;
+      width: 250px;
+      display: none;
     }
     #btn-ayuda {
-      position: fixed; bottom: 30px; right: 15px; z-index: 9999;
-      padding: 10px 16px; background-color: #28a745;
-      color: white; border: none; border-radius: 50px; font-weight: bold;
+      position: fixed;
+      bottom: 30px;
+      right: 15px;
+      z-index: 9999;
+      padding: 10px 16px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-weight: bold;
     }
     #google_translate_element {
-      position: fixed; top: 10px; left: 10px; z-index: 1001;
-      background: white; padding: 5px; border-radius: 6px;
-      font-size: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-      max-height: 200px; overflow-y: auto;
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 1001;
+      background: white;
+      padding: 5px;
+      border-radius: 6px;
+      font-size: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      max-height: 200px;
+      overflow-y: auto;
     }
     @media (max-width: 768px) {
       #google_translate_element {
-        top: auto; bottom: 10px; left: 10px;
-        font-size: 12px; padding: 3px;
+        top: auto;
+        bottom: 10px;
+        left: 10px;
+        font-size: 12px;
+        padding: 3px;
       }
     }
   </style>
@@ -70,7 +123,7 @@
 
   <div class="producto">
     <h3>Lámpara LED Recargable</h3>
-    <img src="https://via.placeholder.com/150" alt="Lámpara LED">
+    <img src="https://i5.walmartimages.com/asr/8f3c1d4e-6a4e-4b5a-8f7d-1d2b3a9e2c3e_1.8f3c1d4e6a4e4b5a8f7d1d2b3a9e2c3e.jpeg" alt="Lámpara LED">
     <p>3 niveles de brillo, batería USB, moderna y portátil.</p>
     <strong>$12.50 USD</strong><br>
     <button onclick="agregarAlCarrito('Lámpara LED', 12.5)">Agregar al carrito</button>
@@ -78,7 +131,7 @@
 
   <div class="producto">
     <h3>Mouse Inalámbrico AmazonBasics</h3>
-    <img src="https://via.placeholder.com/150" alt="Mouse">
+    <img src="https://images-na.ssl-images-amazon.com/images/I/71gK6y2x6XL._AC_SL1500_.jpg" alt="Mouse">
     <p>Mouse óptico inalámbrico, silencioso, ergonómico.</p>
     <strong>$19.50 USD</strong><br>
     <button onclick="agregarAlCarrito('Mouse', 19.5)">Agregar al carrito</button>
@@ -86,7 +139,7 @@
 
   <div class="producto">
     <h3>Auriculares Traductores</h3>
-    <img src="https://via.placeholder.com/150" alt="Auriculares">
+    <img src="https://cdn.shopify.com/s/files/1/0275/3311/3831/products/auriculares-traductores.jpg?v=1616161616" alt="Auriculares">
     <p>Traducción en tiempo real, compatible con apps gratuitas.</p>
     <strong>$45.00 USD</strong><br>
     <button onclick="agregarAlCarrito('Auriculares', 45)">Agregar al carrito</button>
@@ -124,7 +177,7 @@
 
 <section id="inventario" class="inventario">
   <h2>Inventario Interno</h2>
-  <textarea id="areaInventario" rows="8" style="width:100%;">Lámpara LED Recargable - 20 unidades
+  <textarea id="areaInventario" rows="10" style="width:100%;">Lámpara LED Recargable - 20 unidades
 Mouse Inalámbrico AmazonBasics - 15 unidades
 Auriculares Traductores - 10 unidades</textarea><br><br>
   <button onclick="descargarInventario()">Exportar Inventario (CSV)</button>
@@ -137,10 +190,11 @@ Auriculares Traductores - 10 unidades</textarea><br><br>
     <li><button onclick="mostrarProveedor('CJdropshipping')">CJdropshipping</button></li>
     <li><button onclick="mostrarProveedor('Ejdropshipping')">Ejdropshipping</button></li>
     <li><button onclick="mostrarProveedor('Temu')">Temu</button></li>
-    <li><button onclick="mostrarProveedor('AutoDS')">AutoDS (Automatizado)</button></li>
-    <li><button onclick="mostrarProveedor('DSers')">DSers (Automatizado)</button></li>
+    <li><button onclick="mostrarProveedor('AutoDS')">AutoDS</button></li>
+    <li><button onclick="mostrarProveedor('DSers')">DSers</button></li>
   </ul>
   <div id="mensaje-proveedor" class="mensaje" style="display:none;"></div>
+  <p><strong>Sistema listo para uso manual y automatizado. Solo falta activar el plan.</strong></p>
 </section>
 
 <button id="btn-ayuda" onclick="toggleRonny()">Ayuda</button>
