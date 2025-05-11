@@ -74,6 +74,7 @@
     <h1>Trivo Store</h1>
     <nav>
       <a href="#productos">Productos</a>
+      <a href="#agregar-producto">Agregar</a>
       <a href="#contacto">Contacto</a>
       <a href="#carrito">Carrito</a>
       <a href="#inventario">Inventario</a>
@@ -96,7 +97,6 @@
     <div class="proveedor">Ejdropshipping</div>
     <div class="proveedor">AutoDS</div>
     <div class="proveedor">DSers</div>
-    <p>Mostrando productos del proveedor: CJdropshipping.</p>
     <p><strong>Sistema listo para uso manual y automatizado.</strong> Solo falta activar AutoDS con la licencia correspondiente.</p>
   </section>
 
@@ -126,6 +126,17 @@
       <img src="https://m.media-amazon.com/images/I/61L4l3egGgL._AC_SL1500_.jpg" alt="Imagen del producto">
       <button class="boton-carrito">Agregar al carrito</button>
     </div>
+  </section>
+
+  <section id="agregar-producto">
+    <h2>Agregar Producto Manualmente</h2>
+    <form onsubmit="agregarProducto(event)">
+      <input type="text" id="nombre" placeholder="Nombre del producto" required><br><br>
+      <input type="text" id="descripcion" placeholder="Descripción" required><br><br>
+      <input type="number" id="precio" placeholder="Precio USD" step="0.01" required><br><br>
+      <input type="url" id="imagen" placeholder="URL de la imagen" required><br><br>
+      <button type="submit" class="boton-carrito">Agregar Producto</button>
+    </form>
   </section>
 
   <section id="carrito">
@@ -164,6 +175,28 @@
   <script>
     function googleTranslateElementInit() {
       new google.translate.TranslateElement({pageLanguage: 'es'}, 'google_translate_element');
+    }
+
+    function agregarProducto(e) {
+      e.preventDefault();
+      const nombre = document.getElementById('nombre').value;
+      const descripcion = document.getElementById('descripcion').value;
+      const precio = document.getElementById('precio').value;
+      const imagen = document.getElementById('imagen').value;
+
+      const productoHTML = `
+        <div class="producto">
+          <h3>${nombre}</h3>
+          <p>${descripcion}</p>
+          <p><strong>Precio:</strong> $${parseFloat(precio).toFixed(2)} USD</p>
+          <img src="${imagen}" alt="Imagen del producto">
+          <button class="boton-carrito">Agregar al carrito</button>
+        </div>
+      `;
+
+      document.getElementById("productos").insertAdjacentHTML("beforeend", productoHTML);
+      e.target.reset();
+      alert("Producto agregado correctamente.");
     }
   </script>
   <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
