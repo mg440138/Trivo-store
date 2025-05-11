@@ -7,10 +7,13 @@
   <style>
     body { font-family: Arial, sans-serif; background: #f9f9f9; margin: 0; padding-top: 60px; }
     header {
-      background: #333; color: white; padding: 1rem; position: fixed; top: 0;
-      width: 100%; z-index: 1000; display: flex; justify-content: space-between; align-items: center;
+      background: #333; color: white; padding: 1rem; position: fixed;
+      top: 0; width: 100%; z-index: 1000; display: flex;
+      justify-content: space-between; align-items: center;
     }
-    nav a { color: #00ffff; margin-left: 1rem; text-decoration: none; font-weight: bold; }
+    nav a {
+      color: #00ffff; margin-left: 1rem; text-decoration: none; font-weight: bold;
+    }
     section { padding: 1rem; }
     .producto {
       border: 1px solid #ccc; padding: 1rem; margin-bottom: 1rem;
@@ -121,23 +124,21 @@
 
 <section id="inventario" class="inventario">
   <h2>Inventario Interno</h2>
-  <textarea id="areaInventario" rows="8" style="width:100%;">
-Lámpara LED Recargable - 20 unidades
+  <textarea id="areaInventario" rows="8" style="width:100%;">Lámpara LED Recargable - 20 unidades
 Mouse Inalámbrico AmazonBasics - 15 unidades
-Auriculares Traductores - 10 unidades
-</textarea><br><br>
+Auriculares Traductores - 10 unidades</textarea><br><br>
   <button onclick="descargarInventario()">Exportar Inventario (CSV)</button>
 </section>
 
 <section class="proveedores">
-  <h2>Proveedores</h2>
+  <h2>Proveedores (Manual y Automatizado)</h2>
   <ul>
     <li><button onclick="mostrarProveedor('AliExpress')">AliExpress</button></li>
     <li><button onclick="mostrarProveedor('CJdropshipping')">CJdropshipping</button></li>
     <li><button onclick="mostrarProveedor('Ejdropshipping')">Ejdropshipping</button></li>
     <li><button onclick="mostrarProveedor('Temu')">Temu</button></li>
-    <li><button onclick="mostrarProveedor('AutoDS')">AutoDS</button></li>
-    <li><button onclick="mostrarProveedor('DSers')">DSers</button></li>
+    <li><button onclick="mostrarProveedor('AutoDS')">AutoDS (Automatizado)</button></li>
+    <li><button onclick="mostrarProveedor('DSers')">DSers (Automatizado)</button></li>
   </ul>
   <div id="mensaje-proveedor" class="mensaje" style="display:none;"></div>
 </section>
