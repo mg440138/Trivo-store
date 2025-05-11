@@ -1,196 +1,172 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Trivo Store – Productos Virtuales</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trivo Store</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #f9f9f9; margin: 0; padding-top: 60px; }
-    header { background: #333; color: white; padding: 1rem; position: fixed; top: 0; width: 100%; z-index: 1000; display: flex; justify-content: space-between; align-items: center; }
-    nav a { color: #00ffff; margin-left: 1rem; text-decoration: none; font-weight: bold; }
-    section { padding: 1rem; }
-    .producto { border: 1px solid #ccc; padding: 1rem; margin-bottom: 1rem; background: white; text-align: center; }
-    .producto img { max-width: 100%; height: auto; }
-    .carrito, .contacto, .categorias, .proveedores, .inventario, .estado { background: #eef; padding: 1rem; margin: 1rem; border-radius: 8px; }
-    button { background-color: green; color: white; padding: 10px; border: none; border-radius: 25px; cursor: pointer; font-weight: bold; }
-    #ronny-chat { position: fixed; bottom: 80px; right: 15px; z-index: 9999; background: #fff; border: 1px solid #ccc; padding: 10px; border-radius: 10px; width: 250px; display: none; }
-    #btn-ayuda { position: fixed; bottom: 30px; right: 15px; z-index: 9999; padding: 10px 16px; background-color: #28a745; color: white; border: none; border-radius: 50px; font-weight: bold; }
-    #google_translate_element { position: fixed; top: 10px; left: 10px; z-index: 1001; background: white; padding: 5px; border-radius: 6px; font-size: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); max-height: 200px; overflow-y: auto; }
-    @media (max-width: 768px) {
-      #google_translate_element { top: auto; bottom: 10px; left: 10px; font-size: 12px; padding: 3px; }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f8ff;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #1a1a1a;
+      padding: 10px;
+      text-align: center;
+    }
+    header h1 {
+      color: white;
+      margin: 0;
+    }
+    nav a {
+      color: cyan;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    section {
+      padding: 20px;
+    }
+    .producto {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin: 20px 0;
+      padding: 15px;
+      background-color: white;
+    }
+    .producto img {
+      width: 150px;
+      height: auto;
+      margin: 10px;
+      display: inline-block;
+    }
+    .boton-carrito {
+      background-color: green;
+      color: white;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .categoria, .proveedor {
+      background-color: green;
+      color: white;
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 15px;
+      margin: 5px 5px;
+    }
+    .exportar {
+      background-color: green;
+      color: white;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 5px;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
 
-<header>
-  <div>Trivo Store</div>
-  <nav>
-    <a href="#productos">Productos</a>
-    <a href="#carrito">Carrito</a>
-    <a href="#contacto">Contacto</a>
-    <a href="#inventario">Inventario</a>
-  </nav>
-</header>
+  <header>
+    <h1>Trivo Store</h1>
+    <nav>
+      <a href="#productos">Productos</a>
+      <a href="#contacto">Contacto</a>
+      <a href="#carrito">Carrito</a>
+      <a href="#inventario">Inventario</a>
+    </nav>
+  </header>
 
-<div id="google_translate_element"></div>
+  <section id="inventario">
+    <h2>Inventario Interno</h2>
+    <p>Lámpara LED Recargable - 20 unidades<br>
+    Mouse Inalámbrico AmazonBasics - 15 unidades<br>
+    Auriculares Traductores - 10 unidades</p>
+    <button class="exportar">Exportar Inventario (CSV)</button>
+  </section>
 
-<section class="estado">
-  <h2>Estado del Sistema</h2>
-  <p>Modo manual y automatizado activado. Solo falta pagar la licencia para activar AutoDS.</p>
-</section>
+  <section id="proveedores">
+    <h2>Proveedores (Manual y Automatizado)</h2>
+    <div class="proveedor">AliExpress</div>
+    <div class="proveedor">Temu</div>
+    <div class="proveedor">CJdropshipping</div>
+    <div class="proveedor">Ejdropshipping</div>
+    <div class="proveedor">AutoDS</div>
+    <div class="proveedor">DSers</div>
+    <p>Mostrando productos del proveedor: CJdropshipping.</p>
+    <p><strong>Sistema listo para uso manual y automatizado.</strong> Solo falta activar AutoDS con la licencia correspondiente.</p>
+  </section>
 
-<section id="productos">
-  <h2>Productos virtuales</h2>
+  <section id="productos">
+    <h2>Productos virtuales</h2>
 
-  <div class="producto">
-    <h3>Lámpara LED Recargable</h3>
-    <img src="https://m.media-amazon.com/images/I/71UOQfUuGuL._AC_SX679_.jpg" alt="Lámpara LED">
-    <p>3 niveles de brillo, batería USB, moderna y portátil.</p>
-    <strong>$12.50 USD</strong><br>
-    <button onclick="agregarAlCarrito('Lámpara LED', 12.5)">Agregar al carrito</button>
-  </div>
+    <div class="producto">
+      <h3>Mouse Inalámbrico AmazonBasics</h3>
+      <p>Mouse óptico inalámbrico, silencioso, ergonómico.</p>
+      <p><strong>Precio:</strong> $19.50 USD</p>
+      <img src="https://m.media-amazon.com/images/I/61LtuGzXeaL._AC_SL1500_.jpg" alt="Imagen del producto">
+      <button class="boton-carrito">Agregar al carrito</button>
+    </div>
 
-  <div class="producto">
-    <h3>Mouse Inalámbrico AmazonBasics</h3>
-    <img src="https://m.media-amazon.com/images/I/61LtuGzXeaL._AC_SX679_.jpg" alt="Mouse">
-    <p>Mouse óptico inalámbrico, silencioso, ergonómico.</p>
-    <strong>$19.50 USD</strong><br>
-    <button onclick="agregarAlCarrito('Mouse', 19.5)">Agregar al carrito</button>
-  </div>
+    <div class="producto">
+      <h3>Auriculares Traductores</h3>
+      <p>Traducción en tiempo real, compatible con apps gratuitas.</p>
+      <p><strong>Precio:</strong> $45.00 USD</p>
+      <img src="https://m.media-amazon.com/images/I/61xNzlj5ktL._AC_SL1500_.jpg" alt="Imagen del producto">
+      <button class="boton-carrito">Agregar al carrito</button>
+    </div>
 
-  <div class="producto">
-    <h3>Auriculares Traductores</h3>
-    <img src="https://m.media-amazon.com/images/I/51nDpzNltlL._AC_SX679_.jpg" alt="Auriculares">
-    <p>Traducción en tiempo real, compatible con apps gratuitas.</p>
-    <strong>$45.00 USD</strong><br>
-    <button onclick="agregarAlCarrito('Auriculares', 45)">Agregar al carrito</button>
-  </div>
+    <div class="producto">
+      <h3>Lámpara LED Recargable</h3>
+      <p>3 niveles de brillo, batería USB, moderna y portátil.</p>
+      <p><strong>Precio:</strong> $12.50 USD</p>
+      <img src="https://m.media-amazon.com/images/I/61L4l3egGgL._AC_SL1500_.jpg" alt="Imagen del producto">
+      <button class="boton-carrito">Agregar al carrito</button>
+    </div>
+  </section>
 
-</section>
+  <section id="carrito">
+    <h2>Tu Carrito</h2>
+    <p>No hay productos en el carrito.</p>
+    <button class="exportar">Vaciar carrito</button>
+  </section>
 
-<section id="carrito" class="carrito">
-  <h2>Tu Carrito</h2>
-  <ul id="lista-carrito"></ul>
-  <p>Total: $<span id="total">0.00</span></p>
-  <button onclick="vaciarCarrito()">Vaciar carrito</button>
-</section>
+  <section id="contacto">
+    <h2>Contáctanos</h2>
+    <form>
+      <input type="text" placeholder="Tu nombre"><br><br>
+      <input type="email" placeholder="Tu correo"><br><br>
+      <textarea placeholder="Escribe tu mensaje"></textarea><br><br>
+      <button class="boton-carrito">Enviar</button>
+    </form>
+  </section>
 
-<section id="contacto" class="contacto">
-  <h2>Contáctanos</h2>
-  <form>
-    <input type="text" placeholder="Tu nombre" required><br><br>
-    <input type="email" placeholder="Tu correo" required><br><br>
-    <textarea placeholder="Escribe tu mensaje" required></textarea><br><br>
-    <button type="submit">Enviar</button>
-  </form>
-</section>
+  <section>
+    <h2>Categorías Populares</h2>
+    <div class="categoria">Tecnología</div>
+    <div class="categoria">Accesorios</div>
+    <div class="categoria">Hogar</div>
+    <div class="categoria">Moda</div>
+  </section>
 
-<section class="categorias">
-  <h2>Categorías Populares</h2>
-  <ul>
-    <li><button onclick="filtrarCategoria('Tecnología')">Tecnología</button></li>
-    <li><button onclick="filtrarCategoria('Accesorios')">Accesorios</button></li>
-    <li><button onclick="filtrarCategoria('Hogar')">Hogar</button></li>
-    <li><button onclick="filtrarCategoria('Moda')">Moda</button></li>
-    <li><button onclick="filtrarCategoria('Electrónica')">Electrónica</button></li>
-    <li><button onclick="filtrarCategoria('Oficina')">Oficina</button></li>
-  </ul>
-</section>
+  <section>
+    <h2>Estado del Sistema</h2>
+    <p>Modo manual y automatizado activado. Solo falta pagar la licencia para activar AutoDS.</p>
+  </section>
 
-<section id="inventario" class="inventario">
-  <h2>Inventario Interno</h2>
-  <textarea id="areaInventario" rows="8" style="width:100%;">
-Lámpara LED Recargable - 20 unidades
-Mouse Inalámbrico AmazonBasics - 15 unidades
-Auriculares Traductores - 10 unidades</textarea><br><br>
-  <button onclick="descargarInventario()">Exportar Inventario (CSV)</button>
-</section>
+  <div id="google_translate_element" style="margin: 20px;"></div>
 
-<section class="proveedores">
-  <h2>Proveedores</h2>
-  <ul>
-    <li><button onclick="mostrarProveedor('AliExpress')">AliExpress</button></li>
-    <li><button onclick="mostrarProveedor('Temu')">Temu</button></li>
-    <li><button onclick="mostrarProveedor('CJdropshipping')">CJdropshipping</button></li>
-    <li><button onclick="mostrarProveedor('Ejdropshipping')">Ejdropshipping</button></li>
-    <li><button onclick="mostrarProveedor('AutoDS')">AutoDS</button></li>
-    <li><button onclick="mostrarProveedor('DSers')">DSers</button></li>
-  </ul>
-  <div id="mensaje-proveedor" class="mensaje" style="display:none;"></div>
-</section>
+  <button style="position:fixed; bottom:10px; right:10px; background-color:green; color:white; border:none; border-radius:50%; width:60px; height:60px; font-size:24px; cursor:pointer;">?</button>
 
-<button id="btn-ayuda" onclick="toggleRonny()">Ayuda</button>
-
-<div id="ronny-chat">
-  <strong>Ronny Asistente</strong><br>
-  <p>Hola, soy Ronny. ¿En qué puedo ayudarte hoy?</p>
-  <ul>
-    <li><button onclick="responderRonny('¿Cómo puedo comprar un producto?')">¿Cómo puedo comprar un producto?</button></li>
-    <li><button onclick="responderRonny('¿Cuáles son los métodos de pago?')">¿Cuáles son los métodos de pago?</button></li>
-    <li><button onclick="responderRonny('¿Cómo contacto al soporte?')">¿Cómo contacto al soporte?</button></li>
-  </ul>
-  <p id="respuesta-ronny"></p>
-</div>
-
-<script>
-  function googleTranslateElementInit() {
-    new google.translate.TranslateElement({pageLanguage: 'es'}, 'google_translate_element');
-  }
-
-  let total = 0;
-  function agregarAlCarrito(producto, precio) {
-    const lista = document.getElementById("lista-carrito");
-    const item = document.createElement("li");
-    item.textContent = `${producto} - $${precio}`;
-    lista.appendChild(item);
-    total += precio;
-    document.getElementById("total").textContent = total.toFixed(2);
-  }
-
-  function vaciarCarrito() {
-    document.getElementById("lista-carrito").innerHTML = "";
-    total = 0;
-    document.getElementById("total").textContent = "0.00";
-  }
-
-  function filtrarCategoria(categoria) {
-    alert(`Mostrando productos de la categoría: ${categoria}`);
-  }
-
-  function mostrarProveedor(nombre) {
-    const mensaje = document.getElementById("mensaje-proveedor");
-    mensaje.style.display = "block";
-    mensaje.textContent = `Mostrando productos del proveedor: ${nombre}.`;
-  }
-
-  function toggleRonny() {
-    const ronny = document.getElementById("ronny-chat");
-    ronny.style.display = (ronny.style.display === "none") ? "block" : "none";
-  }
-
-  function responderRonny(pregunta) {
-    const respuesta = document.getElementById("respuesta-ronny");
-    if (pregunta.includes("comprar")) {
-      respuesta.textContent = "Agrega productos al carrito y procede al pago.";
-    } else if (pregunta.includes("pago")) {
-      respuesta.textContent = "Aceptamos tarjetas, PayPal y transferencias.";
-    } else if (pregunta.includes("soporte")) {
-      respuesta.textContent = "Escríbenos desde la sección de contacto.";
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'es'}, 'google_translate_element');
     }
-  }
+  </script>
+  <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
-  function descargarInventario() {
-    const contenido = document.getElementById("areaInventario").value;
-    const blob = new Blob([contenido], { type: 'text/csv' });
-    const url = URL.createObjectURL(blob);
-    const enlace = document.createElement("a");
-    enlace.href = url;
-    enlace.download = "inventario.csv";
-    enlace.click();
-    URL.revokeObjectURL(url);
-  }
-</script>
-<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>
