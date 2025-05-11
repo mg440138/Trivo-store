@@ -1,275 +1,82 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Trivo Store</title>
-  <!-- TIDIO (activarlo con tu clave pública) -->
-  <!-- <script src="https://code.tidio.co/YOUR_PUBLIC_KEY.js" async></script> -->
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f8f8ff;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background-color: #1a1a1a;
-      padding: 10px;
-      text-align: center;
-    }
-    header h1 {
-      color: white;
-      margin: 0;
-    }
-    nav a {
-      color: cyan;
-      margin: 0 15px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    section {
-      padding: 20px;
-    }
-    .producto, .calculadora {
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      margin: 20px 0;
-      padding: 15px;
-      background-color: white;
-    }
-    .producto img {
-      width: 150px;
-      height: auto;
-      margin: 10px;
-      display: inline-block;
-    }
-    .boton-carrito, .boton {
-      background-color: green;
-      color: white;
-      padding: 8px 15px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .categoria, .proveedor {
-      background-color: green;
-      color: white;
-      display: inline-block;
-      padding: 5px 10px;
-      border-radius: 15px;
-      margin: 5px;
-      cursor: pointer;
-    }
-    .exportar {
-      background-color: green;
-      color: white;
-      padding: 6px 12px;
-      border: none;
-      border-radius: 5px;
-      margin-top: 10px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 8px;
-      text-align: left;
-    }
-  </style>
-</head>
-<body>
+<section class="calculadora">
+  <h2>Calculadora de Precio Final</h2>
 
-  <header>
-    <h1>Trivo Store</h1>
-    <nav>
-      <a href="#productos">Productos</a>
-      <a href="#agregar-producto">Agregar</a>
-      <a href="#contacto">Contacto</a>
-      <a href="#carrito">Carrito</a>
-      <a href="#inventario">Inventario</a>
-    </nav>
-  </header>
+  <label>Precio Base USD:
+    <input type="number" id="precioBase" step="0.01">
+  </label><br><br>
 
-  <section id="inventario">
-    <h2>Inventario Interno</h2>
-    <table id="tabla-inventario">
-      <thead>
-        <tr><th>Producto</th><th>Unidades</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>Lámpara LED Recargable</td><td>20</td></tr>
-        <tr><td>Mouse AmazonBasics</td><td>15</td></tr>
-        <tr><td>Auriculares Traductores</td><td>10</td></tr>
-      </tbody>
-    </table>
-    <button class="exportar" onclick="exportarInventario()">Exportar Inventario (CSV)</button>
-  </section>
+  <label>Envío USD:
+    <input type="number" id="envio" step="0.01">
+  </label><br><br>
 
-  <section id="proveedores">
-    <h2>Proveedores (Manual y Automatizado)</h2>
-    <div class="proveedor" onclick="mostrarProveedor('AliExpress')">AliExpress</div>
-    <div class="proveedor" onclick="mostrarProveedor('Temu')">Temu</div>
-    <div class="proveedor" onclick="mostrarProveedor('CJdropshipping')">CJdropshipping</div>
-    <div class="proveedor" onclick="mostrarProveedor('Ejdropshipping')">Ejdropshipping</div>
-    <div class="proveedor" onclick="mostrarProveedor('AutoDS')">AutoDS</div>
-    <div class="proveedor" onclick="mostrarProveedor('DSers')">DSers</div>
-    <p id="mensaje-proveedor"></p>
-    <p><strong>Sistema listo para uso manual y automatizado.</strong> Solo falta activar AutoDS con la licencia correspondiente.</p>
-  </section>
+  <label>Margen Ganancia (%):
+    <input type="number" id="ganancia" value="30" step="1">
+  </label><br><br>
 
-  <section id="productos">
-    <h2>Productos virtuales</h2>
-    <div class="producto">
-      <h3>Mouse Inalámbrico AmazonBasics</h3>
-      <p>Mouse óptico inalámbrico, ergonómico y silencioso.</p>
-      <p><strong>Precio:</strong> $19.50 USD</p>
-      <img src="https://m.media-amazon.com/images/I/61LtuGzXeaL._AC_SL1500_.jpg" alt="Imagen del producto">
-      <button class="boton-carrito">Agregar al carrito</button>
-    </div>
-    <div class="producto">
-      <h3>Auriculares Traductores</h3>
-      <p>Traducción en tiempo real, compatible con apps gratuitas.</p>
-      <p><strong>Precio:</strong> $45.00 USD</p>
-      <img src="https://m.media-amazon.com/images/I/61xNzlj5ktL._AC_SL1500_.jpg" alt="Imagen del producto">
-      <button class="boton-carrito">Agregar al carrito</button>
-    </div>
-  </section>
+  <button onclick="calcularPrecio()" class="boton">Calcular</button>
+  <button onclick="guardarCalculo()" class="boton" style="background-color:orange; margin-left:10px;">Guardar</button>
+  <button onclick="exportarHistorial()" class="exportar" style="background-color:#444;">Exportar Historial (CSV)</button>
 
-  <section id="agregar-producto">
-    <h2>Agregar Producto Manualmente</h2>
-    <form onsubmit="agregarProducto(event)">
-      <input type="text" id="nombre" placeholder="Nombre del producto" required><br><br>
-      <input type="text" id="descripcion" placeholder="Descripción" required><br><br>
-      <input type="number" id="precio" placeholder="Precio USD" step="0.01" required><br><br>
-      <input type="url" id="imagen" placeholder="URL de la imagen" required><br><br>
-      <button type="submit" class="boton">Agregar Producto</button>
-    </form>
-  </section>
+  <p id="resultado" style="margin-top:15px;"></p>
+  <ul id="historial" style="margin-top:10px; list-style-type:disc;"></ul>
+</section>
 
-  <section class="calculadora">
-    <h2>Calculadora de Precio Final</h2>
-    <label>Precio Base USD: <input type="number" id="precioBase" step="0.01"></label><br><br>
-    <label>Envío USD: <input type="number" id="envio" step="0.01"></label><br><br>
-    <label>Margen Ganancia (%): <input type="number" id="ganancia" value="30" step="1"></label><br><br>
-    <button onclick="calcularPrecio()" class="boton">Calcular</button>
-    <p id="resultado"></p>
-  </section>
+<script>
+  function calcularPrecio() {
+    const base = parseFloat(document.getElementById('precioBase').value);
+    const envio = parseFloat(document.getElementById('envio').value);
+    const margen = parseFloat(document.getElementById('ganancia').value);
 
-  <section id="carrito">
-    <h2>Tu Carrito</h2>
-    <p>No hay productos en el carrito.</p>
-    <button class="exportar">Vaciar carrito</button>
-  </section>
+    if (!isNaN(base) && !isNaN(envio) && !isNaN(margen)) {
+      const totalCosto = base + envio;
+      const precioFinal = totalCosto * (1 + margen / 100);
+      const gananciaNeta = precioFinal - totalCosto;
 
-  <section id="contacto">
-    <h2>Contáctanos</h2>
-    <form>
-      <input type="text" placeholder="Tu nombre"><br><br>
-      <input type="email" placeholder="Tu correo"><br><br>
-      <textarea placeholder="Escribe tu mensaje"></textarea><br><br>
-      <button class="boton">Enviar</button>
-    </form>
-  </section>
-
-  <section>
-    <h2>Categorías Populares</h2>
-    <div class="categoria" onclick="filtrarCategoria('Tecnología')">Tecnología</div>
-    <div class="categoria" onclick="filtrarCategoria('Accesorios')">Accesorios</div>
-    <div class="categoria" onclick="filtrarCategoria('Hogar')">Hogar</div>
-    <div class="categoria" onclick="filtrarCategoria('Moda')">Moda</div>
-  </section>
-
-  <div id="google_translate_element" style="margin: 20px;"></div>
-
-  <button style="position:fixed; bottom:10px; right:10px; background-color:green; color:white; border:none; border-radius:50%; width:60px; height:60px; font-size:24px; cursor:pointer;" onclick="toggleAyuda()">?</button>
-
-  <div id="ayudaBot" style="display:none; position:fixed; bottom:80px; right:10px; background:white; padding:15px; border-radius:10px; border:1px solid #ccc;">
-    <p><strong>Ronny Asistente</strong></p>
-    <p>Hola, ¿en qué puedo ayudarte?</p>
-    <ul>
-      <li><button onclick="alert('Para comprar, selecciona un producto y agrégalo al carrito.')">¿Cómo comprar?</button></li>
-      <li><button onclick="alert('Aceptamos tarjetas, PayPal y transferencias.')">¿Métodos de pago?</button></li>
-      <li><button onclick="alert('Usa la sección de contacto.')">¿Soporte?</button></li>
-    </ul>
-  </div>
-
-  <script>
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement({pageLanguage: 'es'}, 'google_translate_element');
-    }
-
-    function toggleAyuda() {
-      const ayuda = document.getElementById("ayudaBot");
-      ayuda.style.display = ayuda.style.display === "none" ? "block" : "none";
-    }
-
-    function mostrarProveedor(nombre) {
-      document.getElementById("mensaje-proveedor").textContent = `Mostrando productos del proveedor: ${nombre}`;
-    }
-
-    function filtrarCategoria(categoria) {
-      alert(`Filtrando productos de la categoría: ${categoria}`);
-    }
-
-    function agregarProducto(e) {
-      e.preventDefault();
-      const nombre = document.getElementById('nombre').value;
-      const descripcion = document.getElementById('descripcion').value;
-      const precio = parseFloat(document.getElementById('precio').value).toFixed(2);
-      const imagen = document.getElementById('imagen').value;
-
-      const productoHTML = `
-        <div class="producto">
-          <h3>${nombre}</h3>
-          <p>${descripcion}</p>
-          <p><strong>Precio:</strong> $${precio} USD</p>
-          <img src="${imagen}" alt="Imagen del producto">
-          <button class="boton-carrito">Agregar al carrito</button>
-        </div>
+      document.getElementById('resultado').innerHTML = `
+        <strong>Precio final sugerido:</strong> $${precioFinal.toFixed(2)} USD<br>
+        <strong>Ganancia neta estimada:</strong> $${gananciaNeta.toFixed(2)} USD
       `;
-      document.getElementById("productos").insertAdjacentHTML("beforeend", productoHTML);
-      e.target.reset();
-      alert("Producto agregado correctamente.");
+    } else {
+      document.getElementById('resultado').textContent = "Por favor completa todos los campos.";
+    }
+  }
+
+  function guardarCalculo() {
+    const resultado = document.getElementById("resultado").innerHTML;
+    if (resultado) {
+      const historial = document.getElementById("historial");
+      const item = document.createElement("li");
+      item.innerHTML = resultado;
+      historial.appendChild(item);
+    } else {
+      alert("Primero calcula un resultado.");
+    }
+  }
+
+  function exportarHistorial() {
+    const historialItems = document.querySelectorAll("#historial li");
+    if (historialItems.length === 0) {
+      alert("No hay historial para exportar.");
+      return;
     }
 
-    function calcularPrecio() {
-      const base = parseFloat(document.getElementById('precioBase').value);
-      const envio = parseFloat(document.getElementById('envio').value);
-      const margen = parseFloat(document.getElementById('ganancia').value);
-      if (!isNaN(base) && !isNaN(envio) && !isNaN(margen)) {
-        const total = (base + envio) * (1 + margen / 100);
-        document.getElementById('resultado').textContent = `Precio final sugerido: $${total.toFixed(2)} USD`;
-      } else {
-        document.getElementById('resultado').textContent = "Por favor completa todos los campos.";
+    let csv = "Precio Final, Ganancia Neta\n";
+    historialItems.forEach(item => {
+      const texto = item.textContent;
+      const match = texto.match(/\$([\d.]+).*?\$([\d.]+)/);
+      if (match) {
+        const precio = match[1];
+        const ganancia = match[2];
+        csv += `${precio},${ganancia}\n`;
       }
-    }
+    });
 
-    function exportarInventario() {
-      const tabla = document.getElementById("tabla-inventario");
-      let csv = [];
-      for (let i = 0; i < tabla.rows.length; i++) {
-        let row = [], cols = tabla.rows[i].cells;
-        for (let j = 0; j < cols.length; j++) {
-          row.push(cols[j].innerText);
-        }
-        csv.push(row.join(","));
-      }
-      const csvContent = csv.join("\n");
-      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-      const link = document.createElement("a");
-      link.setAttribute("href", URL.createObjectURL(blob));
-      link.setAttribute("download", "inventario.csv");
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-  </script>
-
-  <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-</body>
-</html>
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    link.setAttribute("href", URL.createObjectURL(blob));
+    link.setAttribute("download", "historial_trivo.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+</script>
