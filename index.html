@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Trivo Store – Productos Virtuales</title>
   <style>
     body {
@@ -120,6 +120,7 @@
 
 <section id="productos">
   <h2>Productos virtuales</h2>
+
   <div class="producto">
     <h3>Lámpara LED Recargable</h3>
     <img src="https://via.placeholder.com/150" alt="Lámpara LED">
@@ -127,12 +128,21 @@
     <strong>$12.50 USD</strong><br>
     <button onclick="agregarAlCarrito('Lámpara LED', 12.5)">Agregar al carrito</button>
   </div>
+
   <div class="producto">
     <h3>Mouse Inalámbrico AmazonBasics</h3>
     <img src="https://via.placeholder.com/150" alt="Mouse">
     <p>Mouse óptico inalámbrico, silencioso, ergonómico.</p>
     <strong>$19.50 USD</strong><br>
     <button onclick="agregarAlCarrito('Mouse', 19.5)">Agregar al carrito</button>
+  </div>
+
+  <div class="producto">
+    <h3>Auriculares Traductores</h3>
+    <img src="https://via.placeholder.com/150" alt="Auriculares">
+    <p>Traducción en tiempo real, compatible con apps gratuitas.</p>
+    <strong>$45.00 USD</strong><br>
+    <button onclick="agregarAlCarrito('Auriculares', 45)">Agregar al carrito</button>
   </div>
 </section>
 
@@ -167,17 +177,18 @@
 
 <section id="inventario" class="inventario">
   <h2>Inventario Interno</h2>
-  <textarea id="areaInventario" rows="10" style="width:100%;">Lámpara LED Recargable - 20 unidades
-Mouse Inalámbrico AmazonBasics - 15 unidades</textarea><br><br>
+  <textarea id="areaInventario" rows="8" style="width:100%;">Lámpara LED Recargable - 20 unidades
+Mouse Inalámbrico AmazonBasics - 15 unidades
+Auriculares Traductores - 10 unidades</textarea><br><br>
   <button onclick="descargarInventario()">Exportar Inventario (CSV)</button>
 </section>
 
 <section class="proveedores">
   <h2>Proveedores</h2>
   <ul>
-    <li><button onclick="mostrarProveedor('Proveedor 1')">Proveedor 1 - China</button></li>
-    <li><button onclick="mostrarProveedor('Proveedor 2')">Proveedor 2 - USA</button></li>
-    <li><button onclick="mostrarProveedor('Proveedor 3')">Proveedor 3 - México</button></li>
+    <li><button onclick="mostrarProveedor('AliExpress')">Proveedor: AliExpress</button></li>
+    <li><button onclick="mostrarProveedor('CJdropshipping')">Proveedor: CJdropshipping</button></li>
+    <li><button onclick="mostrarProveedor('Temu')">Proveedor: Temu</button></li>
   </ul>
   <div id="mensaje-proveedor" class="mensaje" style="display:none;"></div>
 </section>
@@ -223,7 +234,7 @@ Mouse Inalámbrico AmazonBasics - 15 unidades</textarea><br><br>
   function mostrarProveedor(nombre) {
     const mensaje = document.getElementById("mensaje-proveedor");
     mensaje.style.display = "block";
-    mensaje.textContent = `Mostrando productos del ${nombre}.`;
+    mensaje.textContent = `Mostrando productos del proveedor: ${nombre}.`;
   }
 
   function toggleRonny() {
@@ -254,5 +265,6 @@ Mouse Inalámbrico AmazonBasics - 15 unidades</textarea><br><br>
   }
 </script>
 <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 </body>
 </html>
