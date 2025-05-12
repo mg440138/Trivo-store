@@ -44,8 +44,9 @@
       width: 150px;
       height: auto;
       margin: 10px;
+      display: inline-block;
     }
-    .boton-carrito, .exportar {
+    .boton-carrito {
       background-color: green;
       color: white;
       padding: 8px 15px;
@@ -59,14 +60,59 @@
       display: inline-block;
       padding: 5px 10px;
       border-radius: 15px;
-      margin: 5px;
+      margin: 5px 5px;
       cursor: pointer;
     }
-    footer {
-      text-align: center;
-      font-size: 14px;
-      padding: 20px;
-      color: #333;
+    .exportar {
+      background-color: green;
+      color: white;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+    /* Estilos para el asistente */
+    #ayudaBot {
+      display: none;
+      position: fixed;
+      bottom: 80px;
+      right: 10px;
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      width: 300px;
+      max-height: 400px;
+      overflow-y: auto;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    #ayudaBot h3 {
+      margin-top: 0;
+    }
+    #ayudaBot p {
+      margin: 10px 0;
+    }
+    #ayudaBot .respuesta {
+      background-color: #f1f1f1;
+      padding: 8px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+    #ayudaBot input[type="text"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    #ayudaBot button {
+      margin-top: 10px;
+      background-color: green;
+      color: white;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -86,14 +132,10 @@
 
   <section id="inventario">
     <h2>Inventario Interno</h2>
-    <table border="1" style="width: 100%;">
-      <tr><th>Producto</th><th>Unidades</th></tr>
-      <tr><td>Lámpara LED Recargable</td><td>20</td></tr>
-      <tr><td>Mouse AmazonBasics</td><td>15</td></tr>
-      <tr><td>Auriculares Traductores</td><td>10</td></tr>
-    </table>
-    <br>
-    <button class="exportar" onclick="exportarInventario()">Exportar Inventario (CSV)</button>
+    <p>Lámpara LED Recargable - 20 unidades<br>
+    Mouse Inalámbrico AmazonBasics - 15 unidades<br>
+    Auriculares Traductores - 10 unidades</p>
+    <button class="exportar">Exportar Inventario (CSV)</button>
   </section>
 
   <section id="proveedores">
@@ -105,15 +147,33 @@
     <div class="proveedor" onclick="mostrarProveedor('AutoDS')">AutoDS</div>
     <div class="proveedor" onclick="mostrarProveedor('DSers')">DSers</div>
     <p id="mensaje-proveedor"></p>
+    <p><strong>Sistema listo para uso manual y automatizado.</strong> Solo falta activar AutoDS con la licencia correspondiente.</p>
   </section>
 
   <section id="productos">
     <h2>Productos virtuales</h2>
+
     <div class="producto">
       <h3>Mouse Inalámbrico AmazonBasics</h3>
       <p>Mouse óptico inalámbrico, silencioso, ergonómico.</p>
       <p><strong>Precio:</strong> $19.50 USD</p>
-      <img src="https://m.media-amazon.com/images/I/61LtuGzXeaL._AC_SL1500_.jpg" alt="Mouse AmazonBasics">
+      <img src="https://m.media-amazon.com/images/I/61LtuGzXeaL._AC_SL1500_.jpg" alt="Imagen del producto">
+      <button class="boton-carrito">Agregar al carrito</button>
+    </div>
+
+    <div class="producto">
+      <h3>Auriculares Traductores</h3>
+      <p>Traducción en tiempo real, compatible con apps gratuitas.</p>
+      <p><strong>Precio:</strong> $45.00 USD</p>
+      <img src="https://m.media-amazon.com/images/I/61xNzlj5ktL._AC_SL1500_.jpg" alt="Imagen del producto">
+      <button class="boton-carrito">Agregar al carrito</button>
+    </div>
+
+    <div class="producto">
+      <h3>Lámpara LED Recargable</h3>
+      <p>3 niveles de brillo, batería USB, moderna y portátil.</p>
+      <p><strong>Precio:</strong> $12.50 USD</p>
+      <img src="https://m.media-amazon.com/images/I/61L4l3egGgL._AC_SL1500_.jpg" alt="Imagen del producto">
       <button class="boton-carrito">Agregar al carrito</button>
     </div>
   </section>
@@ -127,6 +187,18 @@
       <input type="url" id="imagen" placeholder="URL de la imagen" required><br><br>
       <button type="submit" class="boton-carrito">Agregar Producto</button>
     </form>
+  </section>
+
+  <section id="calculadora">
+    <h2>Calculadora de Precio Final Avanzada</h2>
+    <form onsubmit="calcularPrecio(event)">
+      <input type="number" id="precioBase" placeholder="Precio Base USD" required><br><br>
+      <input type="number" id="envio" placeholder="Envío USD" required><br><br>
+      <input type="number" id="impuestos" placeholder="Impuestos %" required><br><br>
+      <input type="number" id="ganancia" placeholder="Margen Ganancia %" required><br><br>
+      <button type="submit" class="boton-carrito">Calcular</button>
+    </form>
+    <p id="resultadoPrecio"></p>
   </section>
 
   <section id="carrito">
@@ -149,25 +221,49 @@
     <h2>Categorías Populares</h2>
     <div class="categoria" onclick="filtrarCategoria('Tecnología')">Tecnología</div>
     <div class="categoria" onclick="filtrarCategoria('Accesorios')">Accesorios</div>
-    <div class="categoria" onclick="filtrarCategoria('Hogar')">Hogar</div>
-    <div class="categoria" onclick="filtrarCategoria('Moda')">Moda</div>
+    <div class="categoria" onclick="filtrarCategoria('Hogar 
+
   </section>
 
-  <section>
-    <div id="google_translate_element" style="margin: 30px auto; text-align: center;"></div>
-  </section>
+  <div id="google_translate_element" style="margin: 20px;"></div>
 
-  <footer>
-    <p>&copy; 2024 Trivo Store. Todos los derechos reservados.</p>
-  </footer>
+  <button onclick="toggleAyuda()" style="position:fixed; bottom:10px; right:10px; background-color:green; color:white; border:none; border-radius:50%; width:60px; height:60px; font-size:24px; cursor:pointer;">?</button>
 
-  <script type="text/javascript">
+  <div id="ayudaBot">
+    <h3>Box Ablanda - Asistente TRIVO</h3>
+    <p class="respuesta">Hola, soy Ronny. ¿Qué necesitas?</p>
+    <input type="text" id="preguntaUsuario" placeholder="Escribe tu pregunta...">
+    <button onclick="responderAsistente()">Enviar</button>
+  </div>
+
+  <script>
     function googleTranslateElementInit() {
-      new google.translate.TranslateElement({
-        pageLanguage: 'es',
-        includedLanguages: 'es,en,fr,it,de,pt,zh-CN,ja',
-        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-      }, 'google_translate_element');
+      new google.translate.TranslateElement({pageLanguage: 'es'}, 'google_translate_element');
+    }
+
+    function toggleAyuda() {
+      const ayuda = document.getElementById("ayudaBot");
+      ayuda.style.display = ayuda.style.display === "none" ? "block" : "none";
+    }
+
+    function responderAsistente() {
+      const pregunta = document.getElementById("preguntaUsuario").value.toLowerCase();
+      let respuesta = "Lo siento, no entiendo tu pregunta.";
+
+      if (pregunta.includes("cómo comprar")) {
+        respuesta = "Para comprar, selecciona un producto y agrégalo al carrito.";
+      } else if (pregunta.includes("pago")) {
+        respuesta = "Aceptamos tarjetas, PayPal y transferencias.";
+      } else if (pregunta.includes("proveedor")) {
+        respuesta = "Puedes elegir proveedor en la sección correspondiente.";
+      } else if (pregunta.includes("marca") || pregunta.includes("permitido")) {
+        respuesta = "Evita marcas registradas como Nike, Apple o Gucci. El sistema lo detectará.";
+      }
+
+      const div = document.createElement("p");
+      div.className = "respuesta";
+      div.textContent = respuesta;
+      document.getElementById("ayudaBot").appendChild(div);
     }
 
     function mostrarProveedor(nombre) {
@@ -178,37 +274,67 @@
       alert(`Filtrando productos de la categoría: ${categoria}`);
     }
 
-    function exportarInventario() {
-      let csv = "Producto,Unidades\nLámpara LED Recargable,20\nMouse AmazonBasics,15\nAuriculares Traductores,10";
-      let blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-      let link = document.createElement("a");
-      link.setAttribute("href", URL.createObjectURL(blob));
-      link.setAttribute("download", "inventario.csv");
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+    function calcularPrecio(e) {
+      e.preventDefault();
+      const base = parseFloat(document.getElementById('precioBase').value);
+      const envio = parseFloat(document.getElementById('envio').value);
+      const impuestos = parseFloat(document.getElementById('impuestos').value);
+      const ganancia = parseFloat(document.getElementById('ganancia').value);
+
+      if (!isNaN(base) && !isNaN(envio) && !isNaN(impuestos) && !isNaN(ganancia)) {
+        const precioFinal = (base + envio) * (1 + impuestos / 100) * (1 + ganancia / 100);
+        document.getElementById("resultadoPrecio").textContent = `Precio final sugerido: $${precioFinal.toFixed(2)} USD`;
+      } else {
+        document.getElementById("resultadoPrecio").textContent = "Completa todos los campos correctamente.";
+      }
+    }
+
+    function aplicarLogoAutomatico(nombreProducto) {
+      const marcasProhibidas = ["Nike", "Adidas", "Apple", "Samsung", "Louis Vuitton", "Gucci"];
+      let esSeguro = true;
+      marcasProhibidas.forEach(marca => {
+        if (nombreProducto.toLowerCase().includes(marca.toLowerCase())) {
+          esSeguro = false;
+        }
+      });
+
+      if (esSeguro) {
+        return `
+          <img src="https://cdn-icons-png.flaticon.com/512/732/732219.png" class="logo-trivo" alt="Logo TRIVO">
+          <div class="producto-con-logo">✓ Producto verificado por TRIVO</div>
+        `;
+      } else {
+        return `<div class="producto-rechazado">Producto rechazado por contener marca registrada</div>`;
+      }
     }
 
     function agregarProducto(e) {
       e.preventDefault();
-      const nombre = document.getElementById('nombre')?.value;
-      const descripcion = document.getElementById('descripcion')?.value;
-      const precio = parseFloat(document.getElementById('precio')?.value).toFixed(2);
-      const imagen = document.getElementById('imagen')?.value;
+      const nombre = document.getElementById('nombre').value;
+      const descripcion = document.getElementById('descripcion').value;
+      const precio = parseFloat(document.getElementById('precio').value).toFixed(2);
+      const imagen = document.getElementById('imagen').value;
 
-      const nuevoProducto = `
+      const logoHTML = aplicarLogoAutomatico(nombre);
+
+      const productoHTML = `
         <div class="producto">
           <h3>${nombre}</h3>
           <p>${descripcion}</p>
           <p><strong>Precio:</strong> $${precio} USD</p>
+          ${logoHTML}
           <img src="${imagen}" alt="Imagen del producto">
           <button class="boton-carrito">Agregar al carrito</button>
         </div>
       `;
-      document.getElementById("productos").insertAdjacentHTML("beforeend", nuevoProducto);
+
+      document.getElementById("productos").insertAdjacentHTML("beforeend", productoHTML);
       e.target.reset();
+      alert("Producto agregado correctamente.");
     }
   </script>
-  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 </body>
 </html>
