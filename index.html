@@ -1,119 +1,20 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Trivo Store</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f8f8ff;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background-color: #1a1a1a;
-      padding: 10px;
-      text-align: center;
-    }
-    header img {
-      max-width: 120px;
-      margin-top: 10px;
-    }
-    header h1 {
-      color: white;
-      margin: 0;
-    }
-    nav a {
-      color: cyan;
-      margin: 0 15px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    section {
-      padding: 20px;
-    }
-    .producto {
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      margin: 20px 0;
-      padding: 15px;
-      background-color: white;
-    }
-    .producto img {
-      width: 150px;
-      height: auto;
-      margin: 10px;
-      display: inline-block;
-    }
-    .boton-carrito {
-      background-color: green;
-      color: white;
-      padding: 8px 15px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .categoria, .proveedor {
-      background-color: green;
-      color: white;
-      display: inline-block;
-      padding: 5px 10px;
-      border-radius: 15px;
-      margin: 5px 5px;
-      cursor: pointer;
-    }
-    .exportar {
-      background-color: green;
-      color: white;
-      padding: 6px 12px;
-      border: none;
-      border-radius: 5px;
-      margin-top: 10px;
-    }
-    /* Estilos para el asistente */
-    #ayudaBot {
-      display: none;
-      position: fixed;
-      bottom: 80px;
-      right: 10px;
-      background: white;
-      padding: 15px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      width: 300px;
-      max-height: 400px;
-      overflow-y: auto;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-    #ayudaBot h3 {
-      margin-top: 0;
-    }
-    #ayudaBot p {
-      margin: 10px 0;
-    }
-    #ayudaBot .respuesta {
-      background-color: #f1f1f1;
-      padding: 8px;
-      border-radius: 5px;
-      margin-bottom: 10px;
-    }
-    #ayudaBot input[type="text"] {
-      width: 100%;
-      padding: 8px;
-      margin-top: 10px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-    #ayudaBot button {
-      margin-top: 10px;
-      background-color: green;
-      color: white;
-      padding: 6px 12px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
+    body { font-family: Arial, sans-serif; background: #f8f8ff; margin: 0; padding: 0; }
+    header { background: #1a1a1a; padding: 10px; text-align: center; }
+    header img { max-width: 100px; display: block; margin: 0 auto 10px; }
+    header h1 { color: white; margin: 0; }
+    nav a { color: cyan; margin: 0 15px; text-decoration: none; font-weight: bold; }
+    section { padding: 20px; }
+    .producto { border: 1px solid #ccc; border-radius: 5px; margin: 20px 0; padding: 15px; background: white; }
+    .producto img { width: 150px; height: auto; margin: 10px; display: inline-block; }
+    .boton-carrito, .exportar { background: green; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; }
+    .categoria, .proveedor { background: green; color: white; display: inline-block; padding: 5px 10px; border-radius: 15px; margin: 5px; cursor: pointer; }
   </style>
 </head>
 <body>
@@ -129,6 +30,8 @@
       <a href="#inventario">Inventario</a>
     </nav>
   </header>
+
+  <div id="google_translate_element" style="text-align:right; padding: 10px;"></div>
 
   <section id="inventario">
     <h2>Inventario Interno</h2>
@@ -147,12 +50,10 @@
     <div class="proveedor" onclick="mostrarProveedor('AutoDS')">AutoDS</div>
     <div class="proveedor" onclick="mostrarProveedor('DSers')">DSers</div>
     <p id="mensaje-proveedor"></p>
-    <p><strong>Sistema listo para uso manual y automatizado.</strong> Solo falta activar AutoDS con la licencia correspondiente.</p>
   </section>
 
   <section id="productos">
     <h2>Productos virtuales</h2>
-
     <div class="producto">
       <h3>Mouse Inalámbrico AmazonBasics</h3>
       <p>Mouse óptico inalámbrico, silencioso, ergonómico.</p>
@@ -160,7 +61,6 @@
       <img src="https://m.media-amazon.com/images/I/61LtuGzXeaL._AC_SL1500_.jpg" alt="Imagen del producto">
       <button class="boton-carrito">Agregar al carrito</button>
     </div>
-
     <div class="producto">
       <h3>Auriculares Traductores</h3>
       <p>Traducción en tiempo real, compatible con apps gratuitas.</p>
@@ -168,7 +68,6 @@
       <img src="https://m.media-amazon.com/images/I/61xNzlj5ktL._AC_SL1500_.jpg" alt="Imagen del producto">
       <button class="boton-carrito">Agregar al carrito</button>
     </div>
-
     <div class="producto">
       <h3>Lámpara LED Recargable</h3>
       <p>3 niveles de brillo, batería USB, moderna y portátil.</p>
@@ -190,13 +89,13 @@
   </section>
 
   <section id="calculadora">
-    <h2>Calculadora de Precio Final Avanzada</h2>
+    <h2>Calculadora Avanzada</h2>
     <form onsubmit="calcularPrecio(event)">
       <input type="number" id="precioBase" placeholder="Precio Base USD" required><br><br>
-      <input type="number" id="envio" placeholder="Envío USD" required><br><br>
+      <input type="number" id="envio" placeholder="Costo Envío USD" required><br><br>
       <input type="number" id="impuestos" placeholder="Impuestos %" required><br><br>
       <input type="number" id="ganancia" placeholder="Margen Ganancia %" required><br><br>
-      <button type="submit" class="boton-carrito">Calcular</button>
+      <button class="boton-carrito">Calcular</button>
     </form>
     <p id="resultadoPrecio"></p>
   </section>
@@ -212,7 +111,7 @@
     <form>
       <input type="text" placeholder="Tu nombre"><br><br>
       <input type="email" placeholder="Tu correo"><br><br>
-      <textarea placeholder="Escribe tu mensaje"></textarea><br><br>
+      <textarea placeholder="Mensaje"></textarea><br><br>
       <button class="boton-carrito">Enviar</button>
     </form>
   </section>
@@ -221,24 +120,24 @@
     <h2>Categorías Populares</h2>
     <div class="categoria" onclick="filtrarCategoria('Tecnología')">Tecnología</div>
     <div class="categoria" onclick="filtrarCategoria('Accesorios')">Accesorios</div>
-    <div class="categoria" onclick="filtrarCategoria('Hogar 
-
+    <div class="categoria" onclick="filtrarCategoria('Hogar')">Hogar</div>
+    <div class="categoria" onclick="filtrarCategoria('Moda')">Moda</div>
   </section>
 
-  <div id="google_translate_element" style="margin: 20px;"></div>
-
-  <button onclick="toggleAyuda()" style="position:fixed; bottom:10px; right:10px; background-color:green; color:white; border:none; border-radius:50%; width:60px; height:60px; font-size:24px; cursor:pointer;">?</button>
-
-  <div id="ayudaBot">
-    <h3>Box Ablanda - Asistente TRIVO</h3>
-    <p class="respuesta">Hola, soy Ronny. ¿Qué necesitas?</p>
-    <input type="text" id="preguntaUsuario" placeholder="Escribe tu pregunta...">
-    <button onclick="responderAsistente()">Enviar</button>
+  <button onclick="toggleAyuda()" style="position:fixed; bottom:10px; right:10px; background:green; color:white; border:none; border-radius:50%; width:60px; height:60px; font-size:24px; cursor:pointer;">?</button>
+  <div id="ayudaBot" style="display:none; position:fixed; bottom:80px; right:10px; background:white; padding:15px; border-radius:10px; border:1px solid #ccc;">
+    <p><strong>Ronny Asistente</strong></p>
+    <p>Hola, ¿en qué puedo ayudarte?</p>
+    <ul>
+      <li><button onclick="alert('Selecciona un producto y agrégalo al carrito.')">¿Cómo comprar?</button></li>
+      <li><button onclick="alert('Aceptamos tarjetas, PayPal y transferencias.')">¿Métodos de pago?</button></li>
+      <li><button onclick="alert('Usa la sección de contacto.')">¿Soporte?</button></li>
+    </ul>
   </div>
 
   <script>
     function googleTranslateElementInit() {
-      new google.translate.TranslateElement({pageLanguage: 'es'}, 'google_translate_element');
+      new google.translate.TranslateElement({pageLanguage: 'es', includedLanguages: 'en,es,fr,de,pt,it,zh-CN,ru,ja,ar,ko,tr,hi'}, 'google_translate_element');
     }
 
     function toggleAyuda() {
@@ -246,66 +145,22 @@
       ayuda.style.display = ayuda.style.display === "none" ? "block" : "none";
     }
 
-    function responderAsistente() {
-      const pregunta = document.getElementById("preguntaUsuario").value.toLowerCase();
-      let respuesta = "Lo siento, no entiendo tu pregunta.";
-
-      if (pregunta.includes("cómo comprar")) {
-        respuesta = "Para comprar, selecciona un producto y agrégalo al carrito.";
-      } else if (pregunta.includes("pago")) {
-        respuesta = "Aceptamos tarjetas, PayPal y transferencias.";
-      } else if (pregunta.includes("proveedor")) {
-        respuesta = "Puedes elegir proveedor en la sección correspondiente.";
-      } else if (pregunta.includes("marca") || pregunta.includes("permitido")) {
-        respuesta = "Evita marcas registradas como Nike, Apple o Gucci. El sistema lo detectará.";
-      }
-
-      const div = document.createElement("p");
-      div.className = "respuesta";
-      div.textContent = respuesta;
-      document.getElementById("ayudaBot").appendChild(div);
-    }
-
     function mostrarProveedor(nombre) {
       document.getElementById("mensaje-proveedor").textContent = `Mostrando productos del proveedor: ${nombre}`;
     }
 
-    function filtrarCategoria(categoria) {
-      alert(`Filtrando productos de la categoría: ${categoria}`);
+    function filtrarCategoria(cat) {
+      alert(`Filtrando productos de la categoría: ${cat}`);
     }
 
-    function calcularPrecio(e) {
-      e.preventDefault();
+    function calcularPrecio(event) {
+      event.preventDefault();
       const base = parseFloat(document.getElementById('precioBase').value);
       const envio = parseFloat(document.getElementById('envio').value);
       const impuestos = parseFloat(document.getElementById('impuestos').value);
       const ganancia = parseFloat(document.getElementById('ganancia').value);
-
-      if (!isNaN(base) && !isNaN(envio) && !isNaN(impuestos) && !isNaN(ganancia)) {
-        const precioFinal = (base + envio) * (1 + impuestos / 100) * (1 + ganancia / 100);
-        document.getElementById("resultadoPrecio").textContent = `Precio final sugerido: $${precioFinal.toFixed(2)} USD`;
-      } else {
-        document.getElementById("resultadoPrecio").textContent = "Completa todos los campos correctamente.";
-      }
-    }
-
-    function aplicarLogoAutomatico(nombreProducto) {
-      const marcasProhibidas = ["Nike", "Adidas", "Apple", "Samsung", "Louis Vuitton", "Gucci"];
-      let esSeguro = true;
-      marcasProhibidas.forEach(marca => {
-        if (nombreProducto.toLowerCase().includes(marca.toLowerCase())) {
-          esSeguro = false;
-        }
-      });
-
-      if (esSeguro) {
-        return `
-          <img src="https://cdn-icons-png.flaticon.com/512/732/732219.png" class="logo-trivo" alt="Logo TRIVO">
-          <div class="producto-con-logo">✓ Producto verificado por TRIVO</div>
-        `;
-      } else {
-        return `<div class="producto-rechazado">Producto rechazado por contener marca registrada</div>`;
-      }
+      const total = (base + envio) * (1 + impuestos / 100) * (1 + ganancia / 100);
+      document.getElementById("resultadoPrecio").textContent = `Precio final: $${total.toFixed(2)} USD`;
     }
 
     function agregarProducto(e) {
@@ -314,27 +169,19 @@
       const descripcion = document.getElementById('descripcion').value;
       const precio = parseFloat(document.getElementById('precio').value).toFixed(2);
       const imagen = document.getElementById('imagen').value;
-
-      const logoHTML = aplicarLogoAutomatico(nombre);
-
       const productoHTML = `
         <div class="producto">
           <h3>${nombre}</h3>
           <p>${descripcion}</p>
           <p><strong>Precio:</strong> $${precio} USD</p>
-          ${logoHTML}
           <img src="${imagen}" alt="Imagen del producto">
           <button class="boton-carrito">Agregar al carrito</button>
-        </div>
-      `;
-
+        </div>`;
       document.getElementById("productos").insertAdjacentHTML("beforeend", productoHTML);
       e.target.reset();
-      alert("Producto agregado correctamente.");
     }
   </script>
 
   <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
 </body>
 </html>
