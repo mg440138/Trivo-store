@@ -5,21 +5,97 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Trivo Store</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f8f8ff; }
-    header { background-color: #111; color: white; text-align: center; padding: 20px 0; }
-    nav a { color: cyan; margin: 0 10px; text-decoration: none; font-weight: bold; }
-    section, footer { padding: 20px; max-width: 700px; margin: auto; }
-    h2 { margin-top: 30px; }
-    .green-btn { background-color: green; color: white; padding: 10px; border: none; margin-top: 10px; }
-    .tag { background-color: green; color: white; padding: 6px 12px; border-radius: 15px; margin: 5px; display: inline-block; }
-    .product-box { border: 1px solid #ccc; padding: 10px; margin: 10px 0; background-color: white; }
-    input, textarea { width: 100%; padding: 8px; margin-top: 5px; margin-bottom: 10px; }
-    .floating-help { position: fixed; bottom: 20px; right: 20px; background-color: green; color: white; border-radius: 50%; width: 50px; height: 50px; text-align: center; font-size: 30px; line-height: 50px; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f8ff;
+    }
+    header {
+      background-color: #111;
+      color: white;
+      text-align: center;
+      padding: 20px 0;
+    }
+    nav a {
+      color: cyan;
+      margin: 0 10px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    section, footer {
+      padding: 20px;
+      max-width: 700px;
+      margin: auto;
+    }
+    h2 {
+      margin-top: 30px;
+    }
+    .green-btn {
+      background-color: green;
+      color: white;
+      padding: 10px;
+      border: none;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    .tag {
+      background-color: green;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 15px;
+      margin: 5px;
+      display: inline-block;
+    }
+    .product-box {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin: 10px 0;
+      background-color: white;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      margin-bottom: 10px;
+    }
+    .floating-help {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: green;
+      color: white;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      text-align: center;
+      font-size: 30px;
+      line-height: 50px;
+      cursor: pointer;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table, th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+    }
+    .logo {
+      display: block;
+      margin: 0 auto;
+      width: 200px;
+    }
+    #verification-message {
+      margin-top: 10px;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
 
   <header>
+    <img src="https://via.placeholder.com/200x50?text=TRIVO+Logo" alt="TRIVO Logo" class="logo">
     <h1>Trivo Store</h1>
     <nav>
       <a href="#productos">Productos</a>
@@ -32,7 +108,7 @@
 
   <section id="inventario">
     <h2>Inventario Interno</h2>
-    <table border="1" width="100%">
+    <table>
       <tr><th>Producto</th><th>Unidades</th></tr>
       <tr><td>Lámpara LED Recargable</td><td>20</td></tr>
       <tr><td>Mouse AmazonBasics</td><td>15</td></tr>
@@ -57,25 +133,27 @@
     <div class="product-box">
       <h3>Mouse Inalámbrico AmazonBasics</h3>
       <p>Mouse óptico inalámbrico, ergonómico y silencioso.</p>
-      <img src="https://m.media-amazon.com/images/I/61LtuGzXeaL._AC_SL1500_.jpg" alt="Mouse AmazonBasics" width="100%">
+      <img src="https://m.media-amazon.com/images/I/61LtuGzXeaL._AC_SL1500_.jpg" alt="Mouse AmazonBasics" style="width:100%; height:auto;">
     </div>
   </section>
 
   <section id="agregar">
     <h2>Agregar Producto Manualmente</h2>
-    <input type="text" placeholder="Nombre del producto">
-    <input type="text" placeholder="Descripción">
-    <input type="text" placeholder="Precio USD">
-    <input type="text" placeholder="URL de la imagen">
-    <button class="green-btn">Agregar Producto</button>
+    <input type="text" id="product-name" placeholder="Nombre del producto">
+    <input type="text" id="product-description" placeholder="Descripción">
+    <input type="text" id="product-price" placeholder="Precio USD">
+    <input type="text" id="product-image" placeholder="URL de la imagen">
+    <button class="green-btn" onclick="verifyProduct()">Agregar Producto</button>
+    <div id="verification-message"></div>
   </section>
 
   <section>
     <h2>Calculadora de Precio Final</h2>
-    <input type="text" placeholder="Precio Base USD">
-    <input type="text" placeholder="Envío USD">
-    <input type="text" placeholder="Margen Ganancia (%)" value="30">
-    <button class="green-btn">Calcular</button>
+    <input type="number" id="base-price" placeholder="Precio Base USD">
+    <input type="number" id="shipping-cost" placeholder="Envío USD">
+    <input type="number" id="profit-margin" placeholder="Margen Ganancia (%)" value="30">
+    <button class="green-btn" onclick="calculateFinalPrice()">Calcular</button>
+    <div id="final-price"></div>
   </section>
 
   <section id="carrito">
@@ -109,11 +187,38 @@
     <p>Con la tecnología de Google Traductor</p>
   </section>
 
-  <div class="floating-help">?</div>
+  <div class="floating-help" onclick="openHelp()">?</div>
 
   <footer>
-    <p>&copy; 2024 Trivo Store. Todos los derechos reservados.</p>
+    <p>&copy; 2025 Trivo Store. Todos los derechos reservados.</p>
   </footer>
+
+  <script>
+    function verifyProduct() {
+      const name = document.getElementById('product-name').value.toLowerCase();
+      const prohibitedBrands = ['nike', 'adidas', 'apple', 'samsung'];
+      const messageDiv = document.getElementById('verification-message');
+      if (prohibitedBrands.some(brand => name.includes(brand))) {
+        messageDiv.textContent = 'Producto rechazado: marca registrada no permitida.';
+        messageDiv.style.color = 'red';
+      } else {
+        messageDiv.textContent = 'Producto verificado por TRIVO.';
+        messageDiv.style.color = 'green';
+      }
+    }
+
+    function calculateFinalPrice() {
+      const basePrice = parseFloat(document.getElementById('base-price').value) || 0;
+      const shipping = parseFloat(document.getElementById('shipping-cost').value) || 0;
+      const margin = parseFloat(document.getElementById('profit-margin').value) || 0;
+      const finalPrice = (basePrice + shipping) * (1 + margin / 100);
+      document.getElementById('final-price').textContent = 'Precio final: $' + finalPrice.toFixed(2);
+    }
+
+    function openHelp() {
+      alert('¿Necesitas ayuda? Contáctanos a través del formulario de contacto.');
+    }
+  </script>
 
 </body>
 </html>
