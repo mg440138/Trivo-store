@@ -183,5 +183,31 @@
   </script>
 
   <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <!-- Forzar logo visible -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const logo = document.querySelector("header img");
+    if (!logo || !logo.src || logo.naturalWidth === 0) {
+      const fallback = document.createElement("img");
+      fallback.src = "https://cdn-icons-png.flaticon.com/512/732/732219.png";
+      fallback.alt = "Logo TRIVO (fallback)";
+      fallback.style.maxWidth = "120px";
+      document.querySelector("header").prepend(fallback);
+    }
+  });
+</script>
+
+<!-- Traductor de Google completo y forzado -->
+<div id="google_translate_element" style="margin: 20px;"></div>
+<script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'es',
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+      autoDisplay: true
+    }, 'google_translate_element');
+  }
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>
