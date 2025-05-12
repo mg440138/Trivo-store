@@ -1,30 +1,84 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Trivo Store</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f8f8ff; }
-    header { background-color: #111; color: white; text-align: center; padding: 20px 0; }
-    nav a { color: cyan; margin: 0 10px; text-decoration: none; font-weight: bold; }
-    section, footer { padding: 20px; max-width: 700px; margin: auto; }
-    h2 { margin-top: 30px; }
-    .green-btn { background-color: green; color: white; padding: 10px; border: none; margin-top: 10px; }
-    .tag { background-color: green; color: white; padding: 6px 12px; border-radius: 15px; margin: 5px; display: inline-block; }
-    .product-box { border: 1px solid #ccc; padding: 10px; margin: 10px 0; background-color: white; }
-    input, textarea { width: 100%; padding: 8px; margin-top: 5px; margin-bottom: 10px; }
-    .floating-help { position: fixed; bottom: 20px; right: 20px; background-color: green; color: white; border-radius: 50%; width: 50px; height: 50px; text-align: center; font-size: 30px; line-height: 50px; }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f8ff;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #1a1a1a;
+      padding: 10px;
+      text-align: center;
+    }
+    header img {
+      max-width: 120px;
+      margin-top: 10px;
+    }
+    header h1 {
+      color: white;
+      margin: 0;
+    }
+    nav a {
+      color: cyan;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    section {
+      padding: 20px;
+    }
+    .producto {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin: 20px 0;
+      padding: 15px;
+      background-color: white;
+    }
+    .producto img {
+      width: 150px;
+      height: auto;
+      margin: 10px;
+    }
+    .boton-carrito, .exportar {
+      background-color: green;
+      color: white;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .categoria, .proveedor {
+      background-color: green;
+      color: white;
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 15px;
+      margin: 5px;
+      cursor: pointer;
+    }
+    footer {
+      text-align: center;
+      font-size: 14px;
+      padding: 20px;
+      color: #333;
+    }
   </style>
 </head>
 <body>
 
   <header>
+    <img src="https://asistente.trivo.com.ec/reason_1550604396439/reason_1550604396439_1" alt="Logo TRIVO">
     <h1>Trivo Store</h1>
     <nav>
       <a href="#productos">Productos</a>
+      <a href="#agregar-producto">Agregar</a>
       <a href="#contacto">Contacto</a>
-      <a href="#agregar">Agregar</a>
       <a href="#carrito">Carrito</a>
       <a href="#inventario">Inventario</a>
     </nav>
@@ -32,88 +86,129 @@
 
   <section id="inventario">
     <h2>Inventario Interno</h2>
-    <table border="1" width="100%">
+    <table border="1" style="width: 100%;">
       <tr><th>Producto</th><th>Unidades</th></tr>
       <tr><td>Lámpara LED Recargable</td><td>20</td></tr>
       <tr><td>Mouse AmazonBasics</td><td>15</td></tr>
       <tr><td>Auriculares Traductores</td><td>10</td></tr>
     </table>
-    <button class="green-btn">Exportar Inventario (CSV)</button>
+    <br>
+    <button class="exportar" onclick="exportarInventario()">Exportar Inventario (CSV)</button>
   </section>
 
-  <section>
+  <section id="proveedores">
     <h2>Proveedores (Manual y Automatizado)</h2>
-    <div class="tag">AliExpress</div>
-    <div class="tag">Temu</div>
-    <div class="tag">CJdropshipping</div>
-    <div class="tag">Ejdropshipping</div>
-    <div class="tag">AutoDS</div>
-    <div class="tag">DSers</div>
-    <p><strong>Sistema listo para uso manual y automatizado.</strong> Solo falta activar AutoDS con la licencia correspondiente.</p>
+    <div class="proveedor" onclick="mostrarProveedor('AliExpress')">AliExpress</div>
+    <div class="proveedor" onclick="mostrarProveedor('Temu')">Temu</div>
+    <div class="proveedor" onclick="mostrarProveedor('CJdropshipping')">CJdropshipping</div>
+    <div class="proveedor" onclick="mostrarProveedor('Ejdropshipping')">Ejdropshipping</div>
+    <div class="proveedor" onclick="mostrarProveedor('AutoDS')">AutoDS</div>
+    <div class="proveedor" onclick="mostrarProveedor('DSers')">DSers</div>
+    <p id="mensaje-proveedor"></p>
   </section>
 
   <section id="productos">
     <h2>Productos virtuales</h2>
-    <div class="product-box">
+    <div class="producto">
       <h3>Mouse Inalámbrico AmazonBasics</h3>
-      <p>Mouse óptico inalámbrico, ergonómico y silencioso.</p>
-      <img src="https://m.media-amazon.com/images/I/61LtuGzXeaL._AC_SL1500_.jpg" alt="Mouse AmazonBasics" width="100%">
+      <p>Mouse óptico inalámbrico, silencioso, ergonómico.</p>
+      <p><strong>Precio:</strong> $19.50 USD</p>
+      <img src="https://m.media-amazon.com/images/I/61LtuGzXeaL._AC_SL1500_.jpg" alt="Mouse AmazonBasics">
+      <button class="boton-carrito">Agregar al carrito</button>
     </div>
   </section>
 
-  <section id="agregar">
+  <section id="agregar-producto">
     <h2>Agregar Producto Manualmente</h2>
-    <input type="text" placeholder="Nombre del producto">
-    <input type="text" placeholder="Descripción">
-    <input type="text" placeholder="Precio USD">
-    <input type="text" placeholder="URL de la imagen">
-    <button class="green-btn">Agregar Producto</button>
-  </section>
-
-  <section>
-    <h2>Calculadora de Precio Final</h2>
-    <input type="text" placeholder="Precio Base USD">
-    <input type="text" placeholder="Envío USD">
-    <input type="text" placeholder="Margen Ganancia (%)" value="30">
-    <button class="green-btn">Calcular</button>
+    <form onsubmit="agregarProducto(event)">
+      <input type="text" id="nombre" placeholder="Nombre del producto" required><br><br>
+      <input type="text" id="descripcion" placeholder="Descripción" required><br><br>
+      <input type="number" id="precio" placeholder="Precio USD" step="0.01" required><br><br>
+      <input type="url" id="imagen" placeholder="URL de la imagen" required><br><br>
+      <button type="submit" class="boton-carrito">Agregar Producto</button>
+    </form>
   </section>
 
   <section id="carrito">
     <h2>Tu Carrito</h2>
     <p>No hay productos en el carrito.</p>
-    <button class="green-btn">Vaciar carrito</button>
+    <button class="exportar">Vaciar carrito</button>
   </section>
 
   <section id="contacto">
     <h2>Contáctanos</h2>
-    <input type="text" placeholder="Tu nombre">
-    <input type="email" placeholder="Tu correo">
-    <textarea placeholder="Escribe tu mensaje"></textarea>
-    <button class="green-btn">Enviar</button>
+    <form>
+      <input type="text" placeholder="Tu nombre"><br><br>
+      <input type="email" placeholder="Tu correo"><br><br>
+      <textarea placeholder="Escribe tu mensaje"></textarea><br><br>
+      <button class="boton-carrito">Enviar</button>
+    </form>
   </section>
 
   <section>
     <h2>Categorías Populares</h2>
-    <div class="tag">Tecnología</div>
-    <div class="tag">Accesorios</div>
-    <div class="tag">Hogar</div>
-    <div class="tag">Moda</div>
+    <div class="categoria" onclick="filtrarCategoria('Tecnología')">Tecnología</div>
+    <div class="categoria" onclick="filtrarCategoria('Accesorios')">Accesorios</div>
+    <div class="categoria" onclick="filtrarCategoria('Hogar')">Hogar</div>
+    <div class="categoria" onclick="filtrarCategoria('Moda')">Moda</div>
   </section>
 
   <section>
-    <label for="idioma">Seleccionar idioma</label><br>
-    <select id="idioma">
-      <option>Español</option>
-      <option>Inglés</option>
-    </select>
-    <p>Con la tecnología de Google Traductor</p>
+    <div id="google_translate_element" style="margin: 30px auto; text-align: center;"></div>
   </section>
-
-  <div class="floating-help">?</div>
 
   <footer>
     <p>&copy; 2024 Trivo Store. Todos los derechos reservados.</p>
   </footer>
 
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'es',
+        includedLanguages: 'es,en,fr,it,de,pt,zh-CN,ja',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+
+    function mostrarProveedor(nombre) {
+      document.getElementById("mensaje-proveedor").textContent = `Mostrando productos del proveedor: ${nombre}`;
+    }
+
+    function filtrarCategoria(categoria) {
+      alert(`Filtrando productos de la categoría: ${categoria}`);
+    }
+
+    function exportarInventario() {
+      let csv = "Producto,Unidades\nLámpara LED Recargable,20\nMouse AmazonBasics,15\nAuriculares Traductores,10";
+      let blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      let link = document.createElement("a");
+      link.setAttribute("href", URL.createObjectURL(blob));
+      link.setAttribute("download", "inventario.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function agregarProducto(e) {
+      e.preventDefault();
+      const nombre = document.getElementById('nombre')?.value;
+      const descripcion = document.getElementById('descripcion')?.value;
+      const precio = parseFloat(document.getElementById('precio')?.value).toFixed(2);
+      const imagen = document.getElementById('imagen')?.value;
+
+      const nuevoProducto = `
+        <div class="producto">
+          <h3>${nombre}</h3>
+          <p>${descripcion}</p>
+          <p><strong>Precio:</strong> $${precio} USD</p>
+          <img src="${imagen}" alt="Imagen del producto">
+          <button class="boton-carrito">Agregar al carrito</button>
+        </div>
+      `;
+      document.getElementById("productos").insertAdjacentHTML("beforeend", nuevoProducto);
+      e.target.reset();
+    }
+  </script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>
