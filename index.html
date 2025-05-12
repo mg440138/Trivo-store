@@ -5,230 +5,115 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Trivo Store</title>
   <style>
-    body { font-family: Arial, sans-serif; background-color: #f8f8ff; margin: 0; padding: 0; }
-    header { background-color: #1a1a1a; padding: 10px; text-align: center; }
-    header h1 { color: white; margin: 0; }
-    nav a { color: cyan; margin: 0 15px; text-decoration: none; font-weight: bold; }
-    section { padding: 20px; }
-    .producto, .calculadora {
-      border: 1px solid #ccc; border-radius: 5px; margin: 20px 0;
-      padding: 15px; background-color: white;
-    }
-    .producto img { width: 150px; height: auto; margin: 10px; display: inline-block; }
-    .boton-carrito, .boton {
-      background-color: green; color: white; padding: 8px 15px;
-      border: none; border-radius: 5px; cursor: pointer;
-    }
-    .categoria, .proveedor {
-      background-color: green; color: white; display: inline-block;
-      padding: 5px 10px; border-radius: 15px; margin: 5px; cursor: pointer;
-    }
-    .exportar {
-      background-color: green; color: white;
-      padding: 6px 12px; border: none; border-radius: 5px; margin-top: 10px;
-    }
-    table {
-      width: 100%; border-collapse: collapse; margin-top: 20px;
-    }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-    .logo-trivo { width: 180px; height: auto; margin: 10px auto; display: block; }
-    .producto-con-logo::after {
-      content: "✓ Producto verificado por TRIVO"; color: green;
-      font-weight: bold; display: block; margin-top: 10px;
-    }
-    .producto-rechazado {
-      border: 2px solid red; background-color: #fff3f3;
-      padding: 10px; color: red; font-weight: bold;
-    }
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f8f8ff; }
+    header { background-color: #111; color: white; text-align: center; padding: 20px 0; }
+    nav a { color: cyan; margin: 0 10px; text-decoration: none; font-weight: bold; }
+    section, footer { padding: 20px; max-width: 700px; margin: auto; }
+    h2 { margin-top: 30px; }
+    .green-btn { background-color: green; color: white; padding: 10px; border: none; margin-top: 10px; }
+    .tag { background-color: green; color: white; padding: 6px 12px; border-radius: 15px; margin: 5px; display: inline-block; }
+    .product-box { border: 1px solid #ccc; padding: 10px; margin: 10px 0; background-color: white; }
+    input, textarea { width: 100%; padding: 8px; margin-top: 5px; margin-bottom: 10px; }
+    .floating-help { position: fixed; bottom: 20px; right: 20px; background-color: green; color: white; border-radius: 50%; width: 50px; height: 50px; text-align: center; font-size: 30px; line-height: 50px; }
   </style>
 </head>
 <body>
 
-<header>
-  <h1>Trivo Store</h1>
-  <nav>
-    <a href="#productos">Productos</a>
-    <a href="#agregar-producto">Agregar</a>
-    <a href="#contacto">Contacto</a>
-    <a href="#carrito">Carrito</a>
-    <a href="#inventario">Inventario</a>
-  </nav>
-</header>
+  <header>
+    <h1>Trivo Store</h1>
+    <nav>
+      <a href="#productos">Productos</a>
+      <a href="#contacto">Contacto</a>
+      <a href="#agregar">Agregar</a>
+      <a href="#carrito">Carrito</a>
+      <a href="#inventario">Inventario</a>
+    </nav>
+  </header>
 
-<section id="inventario">
-  <h2>Inventario Interno</h2>
-  <table id="tabla-inventario">
-    <thead><tr><th>Producto</th><th>Unidades</th></tr></thead>
-    <tbody>
+  <section id="inventario">
+    <h2>Inventario Interno</h2>
+    <table border="1" width="100%">
+      <tr><th>Producto</th><th>Unidades</th></tr>
       <tr><td>Lámpara LED Recargable</td><td>20</td></tr>
       <tr><td>Mouse AmazonBasics</td><td>15</td></tr>
       <tr><td>Auriculares Traductores</td><td>10</td></tr>
-    </tbody>
-  </table>
-  <button class="exportar" onclick="exportarInventario()">Exportar Inventario (CSV)</button>
-</section>
+    </table>
+    <button class="green-btn">Exportar Inventario (CSV)</button>
+  </section>
 
-<section id="proveedores">
-  <h2>Proveedores (Manual y Automatizado)</h2>
-  <div class="proveedor" onclick="mostrarProveedor('AliExpress')">AliExpress</div>
-  <div class="proveedor" onclick="mostrarProveedor('Temu')">Temu</div>
-  <div class="proveedor" onclick="mostrarProveedor('CJdropshipping')">CJdropshipping</div>
-  <div class="proveedor" onclick="mostrarProveedor('Ejdropshipping')">Ejdropshipping</div>
-  <div class="proveedor" onclick="mostrarProveedor('AutoDS')">AutoDS</div>
-  <div class="proveedor" onclick="mostrarProveedor('DSers')">DSers</div>
-  <p id="mensaje-proveedor"></p>
-  <p><strong>Sistema listo para uso manual y automatizado.</strong></p>
-</section>
+  <section>
+    <h2>Proveedores (Manual y Automatizado)</h2>
+    <div class="tag">AliExpress</div>
+    <div class="tag">Temu</div>
+    <div class="tag">CJdropshipping</div>
+    <div class="tag">Ejdropshipping</div>
+    <div class="tag">AutoDS</div>
+    <div class="tag">DSers</div>
+    <p><strong>Sistema listo para uso manual y automatizado.</strong> Solo falta activar AutoDS con la licencia correspondiente.</p>
+  </section>
 
-<section id="productos">
-  <h2>Productos virtuales</h2>
-</section>
+  <section id="productos">
+    <h2>Productos virtuales</h2>
+    <div class="product-box">
+      <h3>Mouse Inalámbrico AmazonBasics</h3>
+      <p>Mouse óptico inalámbrico, ergonómico y silencioso.</p>
+      <img src="https://m.media-amazon.com/images/I/61LtuGzXeaL._AC_SL1500_.jpg" alt="Mouse AmazonBasics" width="100%">
+    </div>
+  </section>
 
-<section id="agregar-producto">
-  <h2>Agregar Producto Manualmente</h2>
-  <form onsubmit="agregarProducto(event)">
-    <input type="text" id="nombre" placeholder="Nombre del producto" required><br><br>
-    <input type="text" id="descripcion" placeholder="Descripción" required><br><br>
-    <input type="number" id="precio" placeholder="Precio USD" step="0.01" required><br><br>
-    <input type="url" id="imagen" placeholder="URL de la imagen" required><br><br>
-    <button type="submit" class="boton">Agregar Producto</button>
-  </form>
-</section>
+  <section id="agregar">
+    <h2>Agregar Producto Manualmente</h2>
+    <input type="text" placeholder="Nombre del producto">
+    <input type="text" placeholder="Descripción">
+    <input type="text" placeholder="Precio USD">
+    <input type="text" placeholder="URL de la imagen">
+    <button class="green-btn">Agregar Producto</button>
+  </section>
 
-<section class="calculadora">
-  <h2>Calculadora de Precio Final</h2>
-  <label>Precio Base USD: <input type="number" id="precioBase" step="0.01"></label><br><br>
-  <label>Envío USD: <input type="number" id="envio" step="0.01"></label><br><br>
-  <label>Margen Ganancia (%): <input type="number" id="ganancia" value="30" step="1"></label><br><br>
-  <button onclick="calcularPrecio()" class="boton">Calcular</button>
-  <p id="resultado"></p>
-</section>
+  <section>
+    <h2>Calculadora de Precio Final</h2>
+    <input type="text" placeholder="Precio Base USD">
+    <input type="text" placeholder="Envío USD">
+    <input type="text" placeholder="Margen Ganancia (%)" value="30">
+    <button class="green-btn">Calcular</button>
+  </section>
 
-<section id="carrito">
-  <h2>Tu Carrito</h2>
-  <p>No hay productos en el carrito.</p>
-  <button class="exportar">Vaciar carrito</button>
-</section>
+  <section id="carrito">
+    <h2>Tu Carrito</h2>
+    <p>No hay productos en el carrito.</p>
+    <button class="green-btn">Vaciar carrito</button>
+  </section>
 
-<section id="contacto">
-  <h2>Contáctanos</h2>
-  <form>
-    <input type="text" placeholder="Tu nombre"><br><br>
-    <input type="email" placeholder="Tu correo"><br><br>
-    <textarea placeholder="Escribe tu mensaje"></textarea><br><br>
-    <button class="boton">Enviar</button>
-  </form>
-</section>
+  <section id="contacto">
+    <h2>Contáctanos</h2>
+    <input type="text" placeholder="Tu nombre">
+    <input type="email" placeholder="Tu correo">
+    <textarea placeholder="Escribe tu mensaje"></textarea>
+    <button class="green-btn">Enviar</button>
+  </section>
 
-<section>
-  <h2>Categorías Populares</h2>
-  <div class="categoria" onclick="filtrarCategoria('Tecnología')">Tecnología</div>
-  <div class="categoria" onclick="filtrarCategoria('Accesorios')">Accesorios</div>
-  <div class="categoria" onclick="filtrarCategoria('Hogar')">Hogar</div>
-  <div class="categoria" onclick="filtrarCategoria('Moda')">Moda</div>
-</section>
+  <section>
+    <h2>Categorías Populares</h2>
+    <div class="tag">Tecnología</div>
+    <div class="tag">Accesorios</div>
+    <div class="tag">Hogar</div>
+    <div class="tag">Moda</div>
+  </section>
 
-<div id="google_translate_element" style="margin: 20px;"></div>
+  <section>
+    <label for="idioma">Seleccionar idioma</label><br>
+    <select id="idioma">
+      <option>Español</option>
+      <option>Inglés</option>
+    </select>
+    <p>Con la tecnología de Google Traductor</p>
+  </section>
 
-<button style="position:fixed; bottom:10px; right:10px; background-color:green; color:white; border:none; border-radius:50%; width:60px; height:60px; font-size:24px; cursor:pointer;" onclick="toggleAyuda()">?</button>
+  <div class="floating-help">?</div>
 
-<div id="ayudaBot" style="display:none; position:fixed; bottom:80px; right:10px; background:white; padding:15px; border-radius:10px; border:1px solid #ccc;">
-  <p><strong>Ronny Asistente</strong></p>
-  <p>Hola, ¿en qué puedo ayudarte?</p>
-  <ul>
-    <li><button onclick="alert('Para comprar, selecciona un producto y agrégalo al carrito.')">¿Cómo comprar?</button></li>
-    <li><button onclick="alert('Aceptamos tarjetas, PayPal y transferencias.')">¿Métodos de pago?</button></li>
-    <li><button onclick="alert('Usa la sección de contacto.')">¿Soporte?</button></li>
-  </ul>
-</div>
+  <footer>
+    <p>&copy; 2024 Trivo Store. Todos los derechos reservados.</p>
+  </footer>
 
-<script>
-  function googleTranslateElementInit() {
-    new google.translate.TranslateElement({pageLanguage: 'es'}, 'google_translate_element');
-  }
-
-  function toggleAyuda() {
-    const ayuda = document.getElementById("ayudaBot");
-    ayuda.style.display = ayuda.style.display === "none" ? "block" : "none";
-  }
-
-  function mostrarProveedor(nombre) {
-    document.getElementById("mensaje-proveedor").textContent = `Mostrando productos del proveedor: ${nombre}`;
-  }
-
-  function filtrarCategoria(categoria) {
-    alert(`Filtrando productos de la categoría: ${categoria}`);
-  }
-
-  function aplicarLogoAutomatico(nombreProducto) {
-    const marcasProhibidas = ["Nike", "Adidas", "Apple", "Samsung", "Louis Vuitton", "Gucci"];
-    let esSeguro = true;
-    marcasProhibidas.forEach(marca => {
-      if (nombreProducto.toLowerCase().includes(marca.toLowerCase())) {
-        esSeguro = false;
-      }
-    });
-    if (esSeguro) {
-      return `<img src="https://cdn-icons-png.flaticon.com/512/732/732219.png" class="logo-trivo" alt="Logo TRIVO"><div class="producto-con-logo"></div>`;
-    } else {
-      return `<div class="producto-rechazado">Producto rechazado por contener marca registrada</div>`;
-    }
-  }
-
-  function agregarProducto(e) {
-    e.preventDefault();
-    const nombre = document.getElementById('nombre').value;
-    const descripcion = document.getElementById('descripcion').value;
-    const precio = parseFloat(document.getElementById('precio').value).toFixed(2);
-    const imagen = document.getElementById('imagen').value;
-    const logoHTML = aplicarLogoAutomatico(nombre);
-    const productoHTML = `
-      <div class="producto">
-        <h3>${nombre}</h3>
-        <p>${descripcion}</p>
-        <p><strong>Precio:</strong> $${precio} USD</p>
-        ${logoHTML}
-        <img src="${imagen}" alt="Imagen del producto">
-        <button class="boton-carrito">Agregar al carrito</button>
-      </div>`;
-    document.getElementById("productos").insertAdjacentHTML("beforeend", productoHTML);
-    e.target.reset();
-    alert("Producto agregado correctamente.");
-  }
-
-  function calcularPrecio() {
-    const base = parseFloat(document.getElementById('precioBase').value);
-    const envio = parseFloat(document.getElementById('envio').value);
-    const margen = parseFloat(document.getElementById('ganancia').value);
-    if (!isNaN(base) && !isNaN(envio) && !isNaN(margen)) {
-      const total = (base + envio) * (1 + margen / 100);
-      document.getElementById('resultado').textContent = `Precio final sugerido: $${total.toFixed(2)} USD`;
-    } else {
-      document.getElementById('resultado').textContent = "Por favor completa todos los campos.";
-    }
-  }
-
-  function exportarInventario() {
-    const tabla = document.getElementById("tabla-inventario");
-    let csv = [];
-    for (let i = 0; i < tabla.rows.length; i++) {
-      let row = [], cols = tabla.rows[i].cells;
-      for (let j = 0; j < cols.length; j++) {
-        row.push(cols[j].innerText);
-      }
-      csv.push(row.join(","));
-    }
-    const csvContent = csv.join("\n");
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-    const link = document.createElement("a");
-    link.setAttribute("href", URL.createObjectURL(blob));
-    link.setAttribute("download", "inventario.csv");
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }
-</script>
-
-<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>
