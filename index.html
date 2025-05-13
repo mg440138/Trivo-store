@@ -270,5 +270,71 @@
     }, 500);
   });
 </script>
+  <!-- BLOQUE FINAL: Forzar logo, robot, botones y scroll de idiomas -->
+<style>
+  /* Forzar visibilidad del logo */
+  header img {
+    max-width: 120px !important;
+    display: block !important;
+  }
+
+  /* Fallback de scroll al menú de idioma */
+  .goog-te-menu-frame.skiptranslate,
+  .goog-te-menu2 {
+    max-height: 300px !important;
+    overflow-y: auto !important;
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // Forzar imagen del logo si no carga
+    const logo = document.querySelector("header img");
+    if (!logo || !logo.src || logo.src === "") {
+      const fallback = document.createElement("img");
+      fallback.src = "https://cdn-icons-png.flaticon.com/512/5968/5968204.png";
+      fallback.alt = "Logo TRIVO";
+      fallback.style.maxWidth = "120px";
+      document.querySelector("header").prepend(fallback);
+    }
+
+    // Ocultar ayuda al cargar
+    const ayudaBot = document.getElementById("ayudaBot");
+    if (ayudaBot) ayudaBot.style.display = "none";
+
+    // Mostrar/ocultar robot
+    window.toggleAyuda = function () {
+      const ayuda = document.getElementById("ayudaBot");
+      if (ayuda) {
+        ayuda.style.display = ayuda.style.display === "none" ? "block" : "none";
+      }
+    };
+
+    // Mostrar proveedor
+    window.mostrarProveedor = function (nombre) {
+      const mensaje = document.getElementById("mensaje-proveedor");
+      if (mensaje) {
+        mensaje.textContent = `Mostrando productos del proveedor: ${nombre}`;
+      }
+    };
+
+    // Filtro por categoría
+    window.filtrarCategoria = function (cat) {
+      alert(`Filtrando productos de la categoría: ${cat}`);
+    };
+  });
+
+  // Reforzar scroll vertical del menú de idiomas
+  window.addEventListener("load", () => {
+    const interval = setInterval(() => {
+      const frame = document.querySelector(".goog-te-menu-frame");
+      if (frame) {
+        frame.style.maxHeight = "300px";
+        frame.style.overflowY = "scroll";
+        clearInterval(interval);
+      }
+    }, 500);
+  });
+</script>
 </body>
 </html>
