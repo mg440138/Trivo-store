@@ -244,6 +244,75 @@
     e.target.reset();
   }
 </script>
+  <!-- BLOQUE: Ronny Detector Inteligente -->
+<script>
+  const bloqueoMarcasON = true;
+  const alertaVisualON = true;
+
+  const marcasProhibidas = [
+    "AmazonBasics", "Apple", "Nike", "Adidas", "Samsung", "Sony", "Microsoft", "Google", "Lenovo", "LG",
+    "Gucci", "Louis Vuitton", "Prada", "Hermes", "Chanel", "Versace", "Dior", "Balenciaga", "Under Armour",
+    "PlayStation", "Xbox", "Nintendo", "LEGO", "Marvel", "DC", "Star Wars"
+  ];
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const productos = document.querySelectorAll(".producto");
+    productos.forEach(producto => {
+      const titulo = producto.querySelector("h3")?.innerText || "";
+      marcasProhibidas.forEach(marca => {
+        if (titulo.toLowerCase().includes(marca.toLowerCase())) {
+          if (bloqueoMarcasON) {
+            producto.style.display = "none";
+          } else if (alertaVisualON) {
+            producto.style.border = "2px solid red";
+            const advertencia = document.createElement("p");
+            advertencia.innerText = "Este producto podría infringir derechos de marca.";
+            advertencia.style.color = "red";
+            producto.appendChild(advertencia);
+          }
+        }
+      });
+    });
+  });
+
+  function agregarProducto(event) {
+    event.preventDefault();
+    const nombre = document.getElementById("nombre").value.trim();
+    const descripcion = document.getElementById("descripcion").value.trim();
+    const precio = parseFloat(document.getElementById("precio").value);
+    const imagen = document.getElementById("imagen").value.trim();
+
+    const esProhibido = marcasProhibidas.some(marca =>
+      nombre.toLowerCase().includes(marca.toLowerCase())
+    );
+
+    if (bloqueoMarcasON && esProhibido) {
+      alert("Producto bloqueado por contener una marca registrada.");
+      return;
+    }
+
+    const nuevo = document.createElement("div");
+    nuevo.className = "producto";
+    nuevo.innerHTML = `
+      <h3>${nombre}</h3>
+      <p>${descripcion}</p>
+      <p><strong>Precio:</strong> $${precio.toFixed(2)} USD</p>
+      <img src="${imagen}" alt="Imagen del producto">
+      <button class="boton-carrito">Agregar al carrito</button>
+    `;
+
+    if (alertaVisualON && esProhibido) {
+      nuevo.style.border = "2px solid red";
+      const advertencia = document.createElement("p");
+      advertencia.innerText = "Este producto podría infringir derechos de marca.";
+      advertencia.style.color = "red";
+      nuevo.appendChild(advertencia);
+    }
+
+    document.getElementById("productos").appendChild(nuevo);
+    event.target.reset();
+  }
+</script>
 
 </body>
 </html>
