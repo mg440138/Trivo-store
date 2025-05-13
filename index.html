@@ -15,6 +15,13 @@
     .producto img { width: 150px; height: auto; margin: 10px; display: inline-block; }
     .boton-carrito, .exportar { background: green; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; }
     .categoria, .proveedor { background: green; color: white; display: inline-block; padding: 5px 10px; border-radius: 15px; margin: 5px; cursor: pointer; }
+
+    /* Forzar scroll vertical en selector de idioma */
+    .goog-te-menu-frame,
+    .goog-te-menu2 {
+      max-height: 300px !important;
+      overflow-y: auto !important;
+    }
   </style>
 </head>
 <body>
@@ -135,18 +142,39 @@
     </ul>
   </div>
 
-      const ayuda = document.getElementById("ayudaBot");
-      ayuda.style.display = ayuda.style.display === "none" ? "block" : "none";
-    }
+  <!-- SCRIPT FUNCIONAL -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Forzar imagen del logo
+      const logo = document.querySelector("header img");
+      if (!logo || !logo.src || logo.src === "") {
+        const fallback = document.createElement("img");
+        fallback.src = "https://cdn-icons-png.flaticon.com/512/5968/5968204.png";
+        fallback.alt = "Logo TRIVO";
+        fallback.style.maxWidth = "120px";
+        document.querySelector("header").prepend(fallback);
+      }
 
-    function mostrarProveedor(nombre) {
-      document.getElementById("mensaje-proveedor").textContent = `Mostrando productos del proveedor: ${nombre}`;
-    }
+      // Robot
+      const ayudaBot = document.getElementById("ayudaBot");
+      if (ayudaBot) ayudaBot.style.display = "none";
+      window.toggleAyuda = function () {
+        ayudaBot.style.display = ayudaBot.style.display === "none" ? "block" : "none";
+      };
 
-    function filtrarCategoria(cat) {
-      alert(`Filtrando productos de la categoría: ${cat}`);
-    }
+      // Proveedor
+      window.mostrarProveedor = function (nombre) {
+        const mensaje = document.getElementById("mensaje-proveedor");
+        if (mensaje) mensaje.textContent = `Mostrando productos del proveedor: ${nombre}`;
+      };
 
+      // Categoría
+      window.filtrarCategoria = function (cat) {
+        alert(`Filtrando productos de la categoría: ${cat}`);
+      };
+    });
+
+    // Calculadora
     function calcularPrecio(event) {
       event.preventDefault();
       const base = parseFloat(document.getElementById('precioBase').value);
@@ -157,6 +185,7 @@
       document.getElementById("resultadoPrecio").textContent = `Precio final: $${total.toFixed(2)} USD`;
     }
 
+    // Agregar producto
     function agregarProducto(e) {
       e.preventDefault();
       const nombre = document.getElementById('nombre').value;
@@ -174,167 +203,31 @@
       document.getElementById("productos").insertAdjacentHTML("beforeend", productoHTML);
       e.target.reset();
     }
+
+    // Forzar scroll vertical menú de idioma
+    window.addEventListener("load", () => {
+      const interval = setInterval(() => {
+        const frame = document.querySelector(".goog-te-menu-frame");
+        if (frame) {
+          frame.style.maxHeight = "300px";
+          frame.style.overflowY = "scroll";
+          clearInterval(interval);
+        }
+      }, 500);
+    });
   </script>
 
+  <!-- Google Translate Script -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'es',
+        includedLanguages: 'en,es,fr,de,it,pt,zh-CN,ja,ko,ru',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+  </script>
   <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-  <!-- Forzar logo visible -->
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const logo = document.querySelector("header img");
-    if (!logo || !logo.src || logo.naturalWidth === 0) {
-      const fallback = document.createElement("img");
-      fallback.src = "https://cdn-icons-png.flaticon.com/512/732/732219.png";
-      fallback.alt = "Logo TRIVO (fallback)";
-      fallback.style.maxWidth = "120px";
-      document.querySelector("header").prepend(fallback);
-    }
-  });
-</script>
 
-  <div id="google_translate_element"></div>
-<script type="text/javascript">
-  function googleTranslateElementInit() {
-    new google.translate.TranslateElement({
-      pageLanguage: 'es',
-      includedLanguages: 'en,es,fr,de,it,pt,zh-CN,ja,ko,ru',
-      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-    }, 'google_translate_element');
-  }
-</script>
-<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-  <style>
-  /* Forzar visibilidad del logo */
-  header img {
-    max-width: 120px !important;
-    display: block !important;
-  }
-
-  /* Forzar scroll vertical en selector de idioma */
-  .goog-te-menu-frame {
-    max-height: 300px !important;
-    overflow-y: auto !important;
-  }
-</style>
-
-<script>
-  // Forzar carga de imagen del logo si no se muestra
-  document.addEventListener("DOMContentLoaded", () => {
-    const logo = document.querySelector("header img");
-    if (!logo || !logo.src || logo.src === "") {
-      const fallback = document.createElement("img");
-      fallback.src = "https://cdn-icons-png.flaticon.com/512/5968/5968204.png";
-      fallback.alt = "Logo TRIVO (fallback)";
-      fallback.style.maxWidth = "120px";
-      document.querySelector("header").prepend(fallback);
-    }
-
-    // Inicializar robot de ayuda
-    const ayudaBot = document.getElementById("ayudaBot");
-    if (ayudaBot) {
-      ayudaBot.style.display = "none";
-    }
-
-    // Función para mostrar/ocultar robot
-    window.toggleAyuda = function () {
-      const ayuda = document.getElementById("ayudaBot");
-      if (ayuda) {
-        ayuda.style.display = ayuda.style.display === "none" ? "block" : "none";
-      }
-    };
-
-    // Función para mostrar proveedor
-    window.mostrarProveedor = function (nombre) {
-      const mensaje = document.getElementById("mensaje-proveedor");
-      if (mensaje) {
-        mensaje.textContent = `Mostrando productos del proveedor: ${nombre}`;
-      }
-    };
-
-    // Función para filtrar por categoría
-    window.filtrarCategoria = function (cat) {
-      alert(`Filtrando productos de la categoría: ${cat}`);
-    };
-  });
-</script>
-
-<script>
-  // Reforzar scroll en menú de idiomas si el CSS no es suficiente
-  window.addEventListener('load', () => {
-    const interval = setInterval(() => {
-      const frame = document.querySelector('.goog-te-menu-frame');
-      if (frame) {
-        frame.style.maxHeight = '300px';
-        frame.style.overflowY = 'scroll';
-        clearInterval(interval);
-      }
-    }, 500);
-  });
-</script>
-  <!-- BLOQUE FINAL: Forzar logo, robot, botones y scroll de idiomas -->
-<style>
-  /* Forzar visibilidad del logo */
-  header img {
-    max-width: 120px !important;
-    display: block !important;
-  }
-
-  /* Fallback de scroll al menú de idioma */
-  .goog-te-menu-frame.skiptranslate,
-  .goog-te-menu2 {
-    max-height: 300px !important;
-    overflow-y: auto !important;
-  }
-</style>
-
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    // Forzar imagen del logo si no carga
-    const logo = document.querySelector("header img");
-    if (!logo || !logo.src || logo.src === "") {
-      const fallback = document.createElement("img");
-      fallback.src = "https://cdn-icons-png.flaticon.com/512/5968/5968204.png";
-      fallback.alt = "Logo TRIVO";
-      fallback.style.maxWidth = "120px";
-      document.querySelector("header").prepend(fallback);
-    }
-
-    // Ocultar ayuda al cargar
-    const ayudaBot = document.getElementById("ayudaBot");
-    if (ayudaBot) ayudaBot.style.display = "none";
-
-    // Mostrar/ocultar robot
-    window.toggleAyuda = function () {
-      const ayuda = document.getElementById("ayudaBot");
-      if (ayuda) {
-        ayuda.style.display = ayuda.style.display === "none" ? "block" : "none";
-      }
-    };
-
-    // Mostrar proveedor
-    window.mostrarProveedor = function (nombre) {
-      const mensaje = document.getElementById("mensaje-proveedor");
-      if (mensaje) {
-        mensaje.textContent = `Mostrando productos del proveedor: ${nombre}`;
-      }
-    };
-
-    // Filtro por categoría
-    window.filtrarCategoria = function (cat) {
-      alert(`Filtrando productos de la categoría: ${cat}`);
-    };
-  });
-
-  // Reforzar scroll vertical del menú de idiomas
-  window.addEventListener("load", () => {
-    const interval = setInterval(() => {
-      const frame = document.querySelector(".goog-te-menu-frame");
-      if (frame) {
-        frame.style.maxHeight = "300px";
-        frame.style.overflowY = "scroll";
-        clearInterval(interval);
-      }
-    }, 500);
-  });
-</script>
 </body>
 </html>
