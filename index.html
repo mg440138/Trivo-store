@@ -1,24 +1,71 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Trivo Store</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #f8f8ff; margin: 0; padding: 0; }
-    header { background: #1a1a1a; padding: 10px; text-align: center; }
-    header img { max-width: 100px; display: block; margin: 0 auto 10px; }
-    header h1 { color: white; margin: 0; }
-    nav a { color: cyan; margin: 0 15px; text-decoration: none; font-weight: bold; }
-    section { padding: 20px; }
-    .producto { border: 1px solid #ccc; border-radius: 5px; margin: 20px 0; padding: 15px; background: white; }
-    .producto img { width: 150px; height: auto; margin: 10px; display: inline-block; }
-    .boton-carrito, .exportar { background: green; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; }
-    .categoria, .proveedor { background: green; color: white; display: inline-block; padding: 5px 10px; border-radius: 15px; margin: 5px; cursor: pointer; }
-
-    /* Forzar scroll vertical en selector de idioma */
-    .goog-te-menu-frame,
-    .goog-te-menu2 {
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f8ff;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #1a1a1a;
+      padding: 10px;
+      text-align: center;
+    }
+    header img {
+      max-width: 120px;
+      display: block;
+      margin: 0 auto 10px;
+    }
+    header h1 {
+      color: white;
+      margin: 0;
+    }
+    nav a {
+      color: cyan;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    section {
+      padding: 20px;
+    }
+    .producto {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin: 20px 0;
+      padding: 15px;
+      background: white;
+    }
+    .producto img {
+      width: 150px;
+      height: auto;
+      margin: 10px;
+      display: inline-block;
+    }
+    .boton-carrito, .exportar {
+      background: green;
+      color: white;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .categoria, .proveedor {
+      background: green;
+      color: white;
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 15px;
+      margin: 5px;
+      cursor: pointer;
+    }
+    /* Estilos para el menú de idiomas */
+    .goog-te-menu-frame, .goog-te-menu2 {
       max-height: 300px !important;
       overflow-y: auto !important;
     }
@@ -27,7 +74,7 @@
 <body>
 
   <header>
-    <img src="https://asistente.trivo.com.ec/reason_1550604396439/reason_1550604396439_1" alt="Logo TRIVO">
+    <img src="https://cdn-icons-png.flaticon.com/512/732/732219.png" alt="Logo TRIVO">
     <h1>Trivo Store</h1>
     <nav>
       <a href="#productos">Productos</a>
@@ -142,39 +189,33 @@
     </ul>
   </div>
 
-  <!-- SCRIPT FUNCIONAL -->
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      // Forzar imagen del logo
-      const logo = document.querySelector("header img");
-      if (!logo || !logo.src || logo.src === "") {
-        const fallback = document.createElement("img");
-        fallback.src = "https://cdn-icons-png.flaticon.com/512/5968/5968204.png";
-        fallback.alt = "Logo TRIVO";
-        fallback.style.maxWidth = "120px";
-        document.querySelector("header").prepend(fallback);
+    function toggleAyuda() {
+      const ayuda = document.getElementById("ayudaBot");
+      ayuda.style.display = ayuda.style.display === "none" ? "block" : "none";
+    }
+
+    function mostrarProveedor 
+
+  <script>
+    function toggleAyuda() {
+      const ayuda = document.getElementById("ayudaBot");
+      if (ayuda) {
+        ayuda.style.display = ayuda.style.display === "none" ? "block" : "none";
       }
+    }
 
-      // Robot
-      const ayudaBot = document.getElementById("ayudaBot");
-      if (ayudaBot) ayudaBot.style.display = "none";
-      window.toggleAyuda = function () {
-        ayudaBot.style.display = ayudaBot.style.display === "none" ? "block" : "none";
-      };
+    function mostrarProveedor(nombre) {
+      const mensaje = document.getElementById("mensaje-proveedor");
+      if (mensaje) {
+        mensaje.textContent = `Mostrando productos del proveedor: ${nombre}`;
+      }
+    }
 
-      // Proveedor
-      window.mostrarProveedor = function (nombre) {
-        const mensaje = document.getElementById("mensaje-proveedor");
-        if (mensaje) mensaje.textContent = `Mostrando productos del proveedor: ${nombre}`;
-      };
+    function filtrarCategoria(cat) {
+      alert(`Filtrando productos de la categoría: ${cat}`);
+    }
 
-      // Categoría
-      window.filtrarCategoria = function (cat) {
-        alert(`Filtrando productos de la categoría: ${cat}`);
-      };
-    });
-
-    // Calculadora
     function calcularPrecio(event) {
       event.preventDefault();
       const base = parseFloat(document.getElementById('precioBase').value);
@@ -185,7 +226,6 @@
       document.getElementById("resultadoPrecio").textContent = `Precio final: $${total.toFixed(2)} USD`;
     }
 
-    // Agregar producto
     function agregarProducto(e) {
       e.preventDefault();
       const nombre = document.getElementById('nombre').value;
@@ -204,7 +244,19 @@
       e.target.reset();
     }
 
-    // Forzar scroll vertical menú de idioma
+    // Forzar imagen del logo si no carga
+    document.addEventListener("DOMContentLoaded", () => {
+      const logo = document.querySelector("header img");
+      if (!logo || !logo.src || logo.naturalWidth === 0) {
+        const fallback = document.createElement("img");
+        fallback.src = "https://cdn-icons-png.flaticon.com/512/5968/5968204.png";
+        fallback.alt = "Logo TRIVO (fallback)";
+        fallback.style.maxWidth = "120px";
+        document.querySelector("header").prepend(fallback);
+      }
+    });
+
+    // Forzar scroll vertical del menú de idiomas
     window.addEventListener("load", () => {
       const interval = setInterval(() => {
         const frame = document.querySelector(".goog-te-menu-frame");
@@ -217,7 +269,6 @@
     });
   </script>
 
-  <!-- Google Translate Script -->
   <script type="text/javascript">
     function googleTranslateElementInit() {
       new google.translate.TranslateElement({
@@ -227,6 +278,7 @@
       }, 'google_translate_element');
     }
   </script>
+
   <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 </body>
