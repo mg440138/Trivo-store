@@ -244,6 +244,75 @@
     e.target.reset();
   }
 </script>
+  <!-- BLOQUE FINAL: Traductor deslizante + Robot visual + Seguridad -->
+<style>
+  /* Forzar scroll vertical del menú de idiomas */
+  .goog-te-menu-frame, .goog-te-menu2 {
+    max-height: 300px !important;
+    overflow-y: scroll !important;
+  }
+
+  /* Diseño visual del robot */
+  #robotTrivo {
+    position: fixed;
+    bottom: 90px;
+    left: 20px;
+    z-index: 9999;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    border-radius: 50%;
+    background-color: transparent;
+  }
+
+  #robotTrivo img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  }
+</style>
+
+<!-- Icono visual del robot (elige solo uno y borra los otros si deseas) -->
+<div id="robotTrivo" title="Robot Trivo">
+  <img src="https://cdn-icons-png.flaticon.com/512/4712/4712100.png" alt="Robot Trivo" />
+  <!-- Alternativas:
+  <img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png" />
+  <img src="https://cdn-icons-png.flaticon.com/512/4712/4712129.png" />
+  <img src="https://cdn-icons-png.flaticon.com/512/4712/4712147.png" />
+  -->
+</div>
+
+<script>
+  // Forzar scroll vertical del menú de idiomas cuando cargue
+  window.addEventListener('load', () => {
+    const interval = setInterval(() => {
+      const frame = document.querySelector('.goog-te-menu-frame');
+      if (frame) {
+        frame.style.maxHeight = '300px';
+        frame.style.overflowY = 'scroll';
+        clearInterval(interval);
+      }
+    }, 500);
+  });
+
+  // Seguridad: detectar y ocultar productos prohibidos (por marca)
+  const marcasProhibidas = ['nike', 'adidas', 'apple', 'gucci', 'louis vuitton'];
+
+  function revisarProductos() {
+    const productos = document.querySelectorAll('.producto');
+    productos.forEach(producto => {
+      const texto = producto.textContent.toLowerCase();
+      if (marcasProhibidas.some(marca => texto.includes(marca))) {
+        producto.style.display = 'none';
+        console.warn("Producto ocultado por marca prohibida.");
+      }
+    });
+  }
+
+  // Ejecutar revisión después de que cargue el contenido
+  window.addEventListener('DOMContentLoaded', revisarProductos);
+</script>
 
 </body>
 </html>
