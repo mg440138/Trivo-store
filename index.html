@@ -313,6 +313,29 @@
     event.target.reset();
   }
 </script>
+  <!-- BLOQUE REFUERZO: Detector silencioso -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const marcasProhibidas = [
+      "nike", "adidas", "apple", "samsung", "sony", "gucci", "louis vuitton",
+      "prada", "hermes", "chanel", "versace", "dior", "balenciaga", "under armour",
+      "playstation", "xbox", "nintendo", "lego", "marvel", "dc", "star wars"
+    ];
+
+    const productos = document.querySelectorAll(".producto");
+    productos.forEach(producto => {
+      const texto = producto.textContent.toLowerCase();
+      const esProhibido = marcasProhibidas.some(marca => texto.includes(marca));
+      if (esProhibido) {
+        producto.style.display = "none";
+        producto.setAttribute("data-oculto", "true");
+      }
+    });
+
+    // Descomentar si quieres mostrar los ocultos
+    // document.querySelectorAll('[data-oculto="true"]').forEach(p => p.style.display = "block");
+  });
+</script>
 
 </body>
 </html>
