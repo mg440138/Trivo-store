@@ -492,6 +492,67 @@
     panel.style.display = panel.style.display === "block" ? "none" : "block";
   }
 </script>
+  <!-- BLOQUE: Detector de Marcas + Fix Traductor + Fallback Logo -->
+<style>
+  /* Forzar scroll vertical del menú de idiomas */
+  .goog-te-menu-frame, .goog-te-menu2 {
+    max-height: 300px !important;
+    overflow-y: auto !important;
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f0f0f0;
+  }
+</style>
+
+<script>
+  // Detector de marcas registradas peligrosas
+  const marcasPeligrosas = [
+    "nike", "adidas", "apple", "samsung", "sony", "gucci",
+    "prada", "microsoft", "hp", "dell", "lenovo", "google",
+    "facebook", "instagram", "puma", "converse", "versace"
+  ];
+
+  function contieneMarca(nombre) {
+    const nombreMin = nombre.toLowerCase();
+    return marcasPeligrosas.some(marca => nombreMin.includes(marca));
+  }
+
+  function agregarProducto(e) {
+    e.preventDefault();
+    const nombre = document.getElementById('nombre').value;
+    const descripcion = document.getElementById('descripcion').value;
+    const precio = parseFloat(document.getElementById('precio').value).toFixed(2);
+    const imagen = document.getElementById('imagen').value;
+
+    if (contieneMarca(nombre)) {
+      alert("Este producto contiene una marca registrada o peligrosa. No se puede subir.");
+      return;
+    }
+
+    const productoHTML = `
+      <div class="producto">
+        <h3>${nombre}</h3>
+        <p>${descripcion}</p>
+        <p><strong>Precio:</strong> $${precio} USD</p>
+        <img src="${imagen}" alt="Imagen del producto">
+        <button class="boton-carrito">Agregar al carrito</button>
+      </div>`;
+    document.getElementById("productos").insertAdjacentHTML("beforeend", productoHTML);
+    e.target.reset();
+    alert("Producto agregado correctamente.");
+  }
+
+  // Forzar fallback si el logo no carga
+  document.addEventListener("DOMContentLoaded", () => {
+    const logo = document.querySelector("header img");
+    if (!logo || !logo.src || logo.naturalWidth === 0) {
+      const fallback = document.createElement("img");
+      fallback.src = "https://cdn-icons-png.flaticon.com/512/732/732219.png";
+      fallback.alt = "Logo TRIVO (fallback)";
+      fallback.style.maxWidth = "120px";
+      document.querySelector("header").prepend(fallback);
+    }
+  });
+</script>
 
 </body>
 </html>
