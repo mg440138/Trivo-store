@@ -366,6 +366,70 @@
     style="width:50px; height:50px; cursor:pointer;"
   />
   </div>
+  <!-- BLOQUE FINAL: Traductor deslizante + Robot visual (1 solo) + Seguridad de productos -->
+<style>
+  /* Forzar scroll vertical del menú de idiomas */
+  .goog-te-menu-frame, .goog-te-menu2 {
+    max-height: 300px !important;
+    overflow-y: scroll !important;
+  }
+
+  /* Diseño del robot visual */
+  #robotTrivo {
+    position: fixed;
+    bottom: 90px;
+    left: 20px;
+    z-index: 9999;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    border-radius: 50%;
+    background-color: transparent;
+  }
+
+  #robotTrivo img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  }
+</style>
+
+<!-- Icono único del robot (personalizable) -->
+<div id="robotTrivo" title="Robot Trivo" onclick="toggleAyuda()">
+  <img src="https://cdn-icons-png.flaticon.com/512/4712/4712100.png" alt="Robot Trivo" />
+</div>
+
+<script>
+  // Forzar scroll vertical del menú de idiomas
+  window.addEventListener('load', () => {
+    const interval = setInterval(() => {
+      const frame = document.querySelector('.goog-te-menu-frame');
+      if (frame) {
+        frame.style.maxHeight = '300px';
+        frame.style.overflowY = 'scroll';
+        clearInterval(interval);
+      }
+    }, 500);
+  });
+
+  // Seguridad: ocultar productos con marcas prohibidas
+  const marcasProhibidas = ['nike', 'adidas', 'apple', 'gucci', 'louis vuitton', 'samsung', 'sony'];
+
+  function revisarProductos() {
+    const productos = document.querySelectorAll('.producto');
+    productos.forEach(producto => {
+      const texto = producto.textContent.toLowerCase();
+      if (marcasProhibidas.some(marca => texto.includes(marca))) {
+        producto.style.display = 'none';
+        console.warn("Producto ocultado por marca registrada.");
+      }
+    });
+  }
+
+  // Revisión automática después de cargar el contenido
+  window.addEventListener('DOMContentLoaded', revisarProductos);
+</script>
 
 </body>
 </html>
