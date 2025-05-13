@@ -313,6 +313,68 @@
   // Ejecutar revisión después de que cargue el contenido
   window.addEventListener('DOMContentLoaded', revisarProductos);
 </script>
+  <!-- RONY AVANZADO + BARRA DE IDIOMA FORZADA -->
+<style>
+  #ronyAvanzado {
+    position: fixed;
+    bottom: 85px;
+    left: 10px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-image: url('https://cdn-icons-png.flaticon.com/512/4712/4712107.png');
+    background-size: cover;
+    z-index: 9999;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  }
+  #panelRony {
+    display: none;
+    position: fixed;
+    bottom: 165px;
+    left: 10px;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 12px;
+    z-index: 9999;
+    width: 260px;
+  }
+  #panelRony h3 {
+    margin-top: 0;
+  }
+  #panelRony button {
+    display: block;
+    margin-top: 6px;
+    width: 100%;
+    padding: 8px;
+    border: none;
+    background: #008CBA;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .goog-te-menu-frame, .goog-te-menu2 {
+    max-height: 300px !important;
+    overflow-y: auto !important;
+  }
+</style>
+
+<div id="ronyAvanzado" onclick="toggleRonyPanel()"></div>
+<div id="panelRony">
+  <h3>Rony Asistente Avanzado</h3>
+  <button onclick="alert('Selecciona un producto y agrégalo al carrito.')">¿Cómo comprar?</button>
+  <button onclick="alert('Aceptamos tarjetas, PayPal y transferencias.')">¿Métodos de pago?</button>
+  <button onclick="alert('Usa la sección de contacto para soporte.')">¿Soporte?</button>
+  <button onclick="alert('Evita subir productos con marcas registradas.')">¿Detecta productos con marcas?</button>
+</div>
+
+<script>
+  function toggleRonyPanel() {
+    const panel = document.getElementById("panelRony");
+    panel.style.display = panel.style.display === "block" ? "none" : "block";
+  }
+</script>
 
 </body>
 </html>
