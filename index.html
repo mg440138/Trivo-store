@@ -208,13 +208,19 @@
     ayuda.style.display = ayuda.style.display === "none" ? "block" : "none";
   }
   
-
+function mostrarProveedor(nombre) {
+  const mensaje = document.getElementById("mensaje-proveedor");
+  if (mensaje) {
+    mensaje.textContent = `Mostrando productos del proveedor: ${nombre}`;
   }
 }
 
-  function calcularPrecio(event) {
-    event.preventDefault();
-    const base = parseFloat(document.getElementById('precioBase').value);
+function filtrarCategoria(cat) {
+  const mensaje = document.getElementById("mensaje-categoria");
+  if (mensaje) {
+    mensaje.textContent = `Filtrando productos de la categoría: ${cat}`;
+  }
+}
     const envio = parseFloat(document.getElementById('envio').value);
     const impuestos = parseFloat(document.getElementById('impuestos').value);
     const ganancia = parseFloat(document.getElementById('ganancia').value);
