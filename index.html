@@ -209,12 +209,18 @@
   }
 
   function mostrarProveedor(nombre) {
-    document.getElementById("mensaje-proveedor").textContent = `Mostrando productos del proveedor: ${nombre}`;
+  const mensaje = document.getElementById("mensaje-proveedor");
+  if (mensaje) {
+    mensaje.textContent = `Mostrando productos del proveedor: ${nombre}`;
   }
+}
 
-  function filtrarCategoria(cat) {
+function filtrarCategoria(cat) {
   const mensaje = document.getElementById("mensaje-categoria");
   if (mensaje) {
+    mensaje.textContent = `Filtrando productos de la categoría: ${cat}`;
+  }
+}
     mensaje.textContent = `Filtrando productos de la categoría: ${cat}`;
   }
 }
