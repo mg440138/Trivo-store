@@ -213,7 +213,10 @@
   }
 
   function filtrarCategoria(cat) {
-  document.getElementById("mensaje-categoria").textContent = `Filtrando productos de la categoría: ${cat}`;
+  const mensaje = document.getElementById("mensaje-categoria");
+  if (mensaje) {
+    mensaje.textContent = `Filtrando productos de la categoría: ${cat}`;
+  }
 }
 
   function calcularPrecio(event) {
