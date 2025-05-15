@@ -103,6 +103,20 @@
   <div class="proveedor" onclick="mostrarProveedor('AutoDS')">AutoDS</div>
   <div class="proveedor" onclick="mostrarProveedor('DSers')">DSers</div>
   <p id="mensaje-proveedor" style="font-weight:bold; color:purple;"></p>
+<script>
+  // Detectar si el usuario está en un iPhone o dispositivo móvil
+  const esMovil = /iPhone|Android|iPad|iPod/i.test(navigator.userAgent);
+
+  // Si es móvil, redirige automáticamente al traductor alternativo de 1688
+  if (esMovil) {
+    const boton1688 = document.querySelector('.proveedor[onclick*="m-1688-com.translate.goog"]');
+    if (boton1688) {
+      boton1688.onclick = function () {
+        window.open('https://translate.google.com/translate?sl=zh-CN&tl=es&u=https://www.1688.com', '_blank');
+      };
+    }
+  }
+</script>  
   <div class="proveedor" onclick="window.open('https://translate.google.com/translate?sl=zh-CN&tl=es&u=https://www.1688.com', '_blank')">
   Ir a 1688 (Traducido al Español)
 </div>
