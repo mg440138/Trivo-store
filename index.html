@@ -213,8 +213,8 @@
   }
 
   function filtrarCategoria(cat) {
-    alert(`Filtrando productos de la categoría: ${cat}`);
-  }
+  document.getElementById("mensaje-categoria").textContent = `Filtrando productos de la categoría: ${cat}`;
+}
 
   function calcularPrecio(event) {
     event.preventDefault();
