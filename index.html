@@ -69,6 +69,30 @@
       overflow-y: auto !important;
     }
   </style>
+  <!-- Traductor de Google -->
+<div id="google_translate_element" style="text-align:right;"></div>
+
+<script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'es',
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+      includedLanguages: 'en,es,fr,de,it,pt,zh-CN,ja,ko,ru',
+      autoDisplay: false
+    }, 'google_translate_element');
+  }
+</script>
+
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<style>
+  .goog-te-menu-frame, .goog-te-menu2 {
+    max-height: 300px !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    z-index: 9999 !important;
+  }
+</style>
   <style>
 .goog-te-menu-frame, .goog-te-menu2 {
     max-height: 400px !important;
