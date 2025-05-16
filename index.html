@@ -574,6 +574,7 @@ const productoHTML = `
     <h3>${nombre}</h3>
     <p>${descripcion}</p>
     <p><strong>Categoría:</strong> ${categoria}</p>
+    document.getElementById("productos").insertAdjacentHTML("afterbegin", productoHTML);
     <p><strong>Precio:</strong> $${precio} USD</p>
     <img src="${imagen}" alt="Imagen del producto">
     <button class="boton-carrito">Agregar al carrito</button>
