@@ -249,10 +249,16 @@ Ir a 1688 (Versión traducida para iPhone)
     <input type="text" id="descripcion" placeholder="Descripción" required><br><br>
     <input type="number" id="precio" placeholder="Precio USD" step="0.01" required><br><br>
     <input type="text" id="categoria" placeholder="Categoría del producto" required><br><br>
+    
     <input type="file" id="imagenArchivo" accept="image/*" required><br><br>
 <img id="vistaPrevia" src="" alt="Vista previa" style="max-width:150px; display:none;"><br><br>
     <button type="submit" class="boton-carrito">Agregar Producto</button>
   </form>
+</section>
+      <!-- Bloque de categorías dinámicas -->
+<section id="categorias-dinamicas" style="padding: 20px;">
+  <h2>Categorías Disponibles</h2>
+  <div id="botones-categorias" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
 </section>
 <p id="mensaje-confirmacion" style="text-align:center; color:green; font-weight:bold;"></p>
 <section id="calculadora">
