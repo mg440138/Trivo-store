@@ -611,6 +611,19 @@ function notificarCategoriaNueva(categoria) {
   setTimeout(() => mensajeCategoria.remove(), 4000);
 }
 });
+      // Mostrar mensaje visual cuando se crea una nueva categoría
+function notificarCategoriaNueva(categoria) {
+  const contenedor = document.getElementById("botones-categorias");
+  const mensajeCategoria = document.createElement("p");
+  mensajeCategoria.textContent = `¡Nueva categoría creada: "${categoria}"!`;
+  mensajeCategoria.style.color = "blue";
+  mensajeCategoria.style.fontWeight = "bold";
+  mensajeCategoria.style.margin = "10px 0";
+  contenedor.appendChild(mensajeCategoria);
+
+  // Ocultar mensaje después de 4 segundos
+  setTimeout(() => mensajeCategoria.remove(), 4000);
+}
 </script>
 </header>
 </html>
