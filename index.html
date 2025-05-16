@@ -577,13 +577,18 @@ function filtrarCategoria(cat) {
   document.addEventListener("DOMContentLoaded", () => {
     const logo = document.querySelector("header img");
     if (!logo || !logo.src || logo.naturalWidth === 0) {
-      const fallback = document.createElement("img");
-      fallback.src = "https://cdn-icons-png.flaticon.com/512/732/732219.png";
-      fallback.alt = "Logo TRIVO (fallback)";
-      fallback.style.maxWidth = "120px";
-      document.querySelector("header").prepend(fallback);
-    }
+    // Verificador de imagen rota para productos nuevos
+document.addEventListener("DOMContentLoaded", () => {
+  const imagenes = document.querySelectorAll(".producto img");
+  imagenes.forEach(img => {
+    img.onerror = () => {
+      img.src = "https://cdn-icons-png.flaticon.com/512/2748/2748558.png";
+      img.alt = "Imagen no disponible";
+    };
   });
+});
 </script>
+</header>
+</html>
 </header>
 </html>
