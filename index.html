@@ -560,18 +560,21 @@ function filtrarCategoria(cat) {
       return;
     }
 
-    const productoHTML = `
-      <div class="producto">
-        <h3>${nombre}</h3>
-        <p>${descripcion}</p>
-        <p><strong>Precio:</strong> $${precio} USD</p>
-        <img src="${imagen}" alt="Imagen del producto">
-        <button class="boton-carrito">Agregar al carrito</button>
-      </div>`;
-    document.getElementById("productos").insertAdjacentHTML("beforeend", productoHTML);
-    e.target.reset();
-    alert("Producto agregado correctamente.");
-  }
+    const categoria = document.getElementById('categoria').value;
+
+const productoHTML = `
+  <div class="producto" data-categoria="${categoria}">
+    <h3>${nombre}</h3>
+    <p>${descripcion}</p>
+    <p><strong>Categoría:</strong> ${categoria}</p>
+    <p><strong>Precio:</strong> $${precio} USD</p>
+    <img src="${imagen}" alt="Imagen del producto">
+    <button class="boton-carrito">Agregar al carrito</button>
+  </div>`;
+
+document.getElementById("productos").insertAdjacentHTML("beforeend", productoHTML);
+e.target.reset();
+alert("Producto agregado correctamente.");
 
   // Forzar fallback si el logo no carga
   document.addEventListener("DOMContentLoaded", () => {
