@@ -254,6 +254,22 @@ Ir a 1688 (Versión traducida para iPhone)
 <input type="url" id="imagenURL" placeholder="URL de la imagen (opcional)"><br><br>
     <input type="file" id="imagenArchivo" accept="image/*" required><br><br>
 <img id="vistaPrevia" src="" alt="Vista previa" style="max-width:150px; display:none;"><br><br>
+    <script>
+  const imagenInput = document.getElementById("imagenArchivo");
+  const vistaPrevia = document.getElementById("vistaPrevia");
+
+  imagenInput.addEventListener("change", function () {
+    const archivo = imagenInput.files[0];
+    if (archivo) {
+      const lector = new FileReader();
+      lector.onload = function (e) {
+        vistaPrevia.src = e.target.result;
+        vistaPrevia.style.display = "block";
+      };
+      lector.readAsDataURL(archivo);
+    }
+  });
+</script>
     <button type="submit" class="boton-carrito">Agregar Producto</button>
   </form>
 </section>
