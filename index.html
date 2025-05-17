@@ -265,7 +265,20 @@ Ir a 1688 (Versión traducida para iPhone)
       lector.onload = function (e) {
         vistaPrevia.src = e.target.result;
         vistaPrevia.style.display = "block";
-      
+   <script>
+  const inputURL = document.getElementById("imagenURL");
+  const vistaPrevia = document.getElementById("vistaPrevia");
+
+  inputURL.addEventListener("input", () => {
+    const url = inputURL.value.trim();
+    if (url) {
+      vistaPrevia.src = url;
+      vistaPrevia.style.display = "block";
+    } else {
+      vistaPrevia.style.display = "none";
+    }
+  });
+</script>   
   <div id="botones-categorias" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
 </section>
 <p id="mensaje-confirmacion" style="text-align:center; color:green; font-weight:bold;"></p>
