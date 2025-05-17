@@ -144,7 +144,11 @@
 </style>
 </head>
 <body>
-
+<div id="botones-categorias" style="margin: 20px;">
+  <button onclick="abrirPestanaImportacion()" style="padding:10px 20px; background-color:green; color:white; border:none; border-radius:5px;">
+    Importar producto desde 1688
+  </button>
+</div>
 <
   <img src="https://i.postimg.cc/gX3B7WDq/IMG-7023.png" alt="Logotipo de Trivo" style="height: 50px;">
   <h1>Trivo Store</h1>
@@ -640,8 +644,7 @@ if (window.name === "autoImportarProducto") {
     console.error(error);
   }
 }
-    <!-- Bloque 4: Botón para importar desde otra pestaña -->
-<button onclick="abrirPestanaImportacion()">Importar producto desde 1688</button>
+    
 
 <script>
 function abrirPestanaImportacion() {
