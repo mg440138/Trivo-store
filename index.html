@@ -796,7 +796,56 @@ function notificarCategoriaNueva(categoria) {
     alert("Error al obtener la información del producto.");
     console.error(error);
   }
-</script>
+<!-- Plataforma de Importación de Productos desde 1688 -->
+<section id="importador-1688" style="padding: 20px; border: 1px solid #ccc; margin-top: 20px;">
+  <h2>Importar Producto desde 1688</h2>
+  <form id="form-importar">
+    <label for="url-1688">URL del producto de 1688:</label><br>
+    <input type="url" id="url-1688" name="url-1688" placeholder="https://detail.1688.com/..." required style="width: 100%; padding: 8px; margin: 10px 0;"><br>
+    <button type="submit" style="padding: 10px 20px;">Importar</button>
+  </form>
+  <div id="vista-previa" style="margin-top: 20px; display: none;">
+    <h3>Vista Previa del Producto</h3>
+    <img id="imagen-producto" src="" alt="Imagen del producto" style="max-width: 200px;"><br>
+    <label for="nombre-producto">Nombre:</label><br>
+    <input type="text" id="nombre-producto" name="nombre-producto" style="width: 100%; padding: 8px; margin: 10px 0;"><br>
+    <label for="precio-producto">Precio:</label><br>
+    <input type="text" id="precio-producto" name="precio-producto" style="width: 100%; padding: 8px; margin: 10px 0;"><br>
+    <button id="agregar-producto" style="padding: 10px 20px;">Agregar a la Tienda</button>
+  </div>
+</section>
+
+<script>
+  document.getElementById('form-importar').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const url = document.getElementById('url-1688').value;
+    // Simulación de extracción de datos
+    // En una implementación real, se requeriría un backend que realice scraping o utilice una API
+    // Aquí se simulan los datos para efectos demostrativos
+    const datosSimulados = {
+      nombre: 'Producto de ejemplo',
+      precio: '100.00',
+      imagen: 'https://via.placeholder.com/200'
+    };
+    document.getElementById('imagen-producto').src = datosSimulados.imagen;
+    document.getElementById('nombre-producto').value = datosSimulados.nombre;
+    document.getElementById('precio-producto').value = datosSimulados.precio;
+    document.getElementById('vista-previa').style.display = 'block';
+  });
+
+  document.getElementById('agregar-producto').addEventListener('click', function() {
+    const nombre = document.getElementById('nombre-producto').value;
+    const precio = document.getElementById('precio-producto').value;
+    const imagen = document.getElementById('imagen-producto').src;
+    // Aquí puedes integrar la lógica para agregar el producto a tu tienda
+    // Por ejemplo, enviando estos datos a tu backend o almacenándolos en localStorage
+    alert('Producto agregado: ' + nombre + ' - Precio: ' + precio);
+    // Reiniciar formulario
+    document.getElementById('form-importar').reset();
+    document.getElementById('vista-previa').style.display = 'none';
+  });
+</script>  
+
 </body>
 </html>
 
