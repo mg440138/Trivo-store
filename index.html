@@ -637,13 +637,7 @@ if (window.name === "autoImportarProducto") {
       </div>
     `;
 
-    document.getElementById("productos").insertAdjacentHTML("afterbegin", productoHTML);
-    alert("Producto importado automáticamente desde otra pestaña.");
-  } catch (error) {
-    alert("Error al importar automáticamente.");
-    console.error(error);
-  }
-}
+  
     
 
 <script>
@@ -768,6 +762,30 @@ function notificarCategoriaNueva(categoria) {
       console.error(error);
     }
   }
-</script>      
+<script>
+  try {
+    const nombre = document.querySelector("title")?.innerText || "Producto sin título";
+    const descripcion = "Producto importado automáticamente.";
+    const precio = (Math.random() * 50 + 10).toFixed(2);
+    const imagen = document.querySelector("img")?.src || "";
+
+    const productoHTML = `
+      <div class="producto">
+        <h3>${nombre}</h3>
+        <p>${descripcion}</p>
+        <p><strong>Precio:</strong> $${precio} USD</p>
+        <img src="${imagen}" alt="Imagen del producto">
+        <button class="boton-carrito">Agregar al carrito</button>
+      </div>
+    `;
+
+    document.getElementById("productos").insertAdjacentHTML("afterbegin", productoHTML);
+    alert("Producto agregado exitosamente.");
+  } catch (error) {
+    alert("Error al obtener la información del producto.");
+    console.error(error);
+  }
+</script>
+</body>
 </html>
 
