@@ -640,6 +640,22 @@ if (window.name === "autoImportarProducto") {
     console.error(error);
   }
 }
+    <!-- Bloque 4: Botón para importar desde otra pestaña -->
+<button onclick="abrirPestanaImportacion()">Importar producto desde 1688</button>
+
+<script>
+function abrirPestanaImportacion() {
+  const url = prompt("Pega aquí la URL del producto de 1688:");
+  if (url) {
+    const nuevaVentana = window.open(url, "_blank");
+    if (nuevaVentana) {
+      nuevaVentana.name = "autoImportarProducto";
+    } else {
+      alert("Tu navegador bloqueó la nueva pestaña. Desbloquéala e inténtalo de nuevo.");
+    }
+  }
+}
+</script>
   }
 }
 </script>
