@@ -249,11 +249,16 @@ Ir a 1688 (Versión traducida para iPhone)
     <input type="text" id="descripcion" placeholder="Descripción" required><br><br>
     <input type="number" id="precio" placeholder="Precio USD" step="0.01" required><br><br>
     <input type="text" id="categoria" placeholder="Categoría del producto" required><br><br>
+
     <label>Sube una imagen o pega un enlace:</label><br>
-<input type="file" id="imagenArchivo" accept="image/*"><br><br>
-<input type="url" id="imagenURL" placeholder="URL de la imagen (opcional)"><br><br>
-    <input type="file" id="imagenArchivo" accept="image/*" required><br><br>
-<img id="vistaPrevia" src="" alt="Vista previa" style="max-width:150px; display:none;"><br><br>
+    <input type="file" id="imagenArchivo" accept="image/*"><br><br>
+    <input type="url" id="imagenURL" placeholder="URL de la imagen (opcional)"><br><br>
+
+    <img id="vistaPrevia" src="" alt="Vista previa" style="max-width:150px; display:none;"><br><br>
+
+    <button type="submit" class="boton-carrito">Agregar Producto</button>
+  </form>
+</section>
     <script>
   const imagenInput = document.getElementById("imagenArchivo");
   const vistaPrevia = document.getElementById("vistaPrevia");
