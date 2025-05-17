@@ -743,35 +743,7 @@ function notificarCategoriaNueva(categoria) {
     const url = prompt("Pega aquí la URL del producto desde 1688:");
     if (!url) return alert("No ingresaste una URL.");
 
-    try {
-      const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`);
-      const data = await response.json();
-
-      // Procesamiento básico
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(data.contents, "text/html");
-
-      const nombre = doc.querySelector("title")?.innerText || "Producto sin título";
-      const descripcion = "Producto importado automáticamente.";
-      const precio = (Math.random() * 50 + 10).toFixed(2);
-      const imagen = doc.querySelector("img")?.src || "";
-
-      const productoHTML = `
-        <div class="producto">
-          <h3>${nombre}</h3>
-          <p>${descripcion}</p>
-          <p><strong>Precio:</strong> $${precio} USD</p>
-          <img src="${imagen}" alt="Imagen del producto">
-          <button class="boton-carrito">Agregar al carrito</button>
-        </div>
-      `;
-
-      document.getElementById("productos").insertAdjacentHTML("afterbegin", productoHTML);
-      alert("Producto agregado exitosamente.");
-    } catch (error) {
-      alert("Error al obtener la información del producto.");
-      console.error(error);
-    }
+    
   }
 <script>
   try {
