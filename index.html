@@ -582,33 +582,66 @@ function filtrarCategoria(cat) {
   }
 
   function agregarProducto(e) {
-    e.preventDefault();
-    const nombre = document.getElementById('nombre').value;
-    const descripcion = document.getElementById('descripcion').value;
-    const precio = parseFloat(document.getElementById('precio').value).toFixed(2);
-    const imagen = document.getElementById('imagen').value;
+  e.preventDefault();
+  const nombre = document.getElementById('nombre').value;
+  const descripcion = document.getElementById('descripcion').value;
+  const precio = parseFloat(document.getElementById('precio').value).toFixed(2);
+  const archivo = document.getElementById('imagenArchivo').files[0];
+  const url = document.getElementById('imagenURL').value.trim();
+  const imagen = archivo ? URL.createObjectURL(archivo) : url;
 
-    if (contieneMarca(nombre)) {
-      alert("Este producto contiene una marca registrada o peligrosa. No se puede subir.");
-      return;
-    }
+  if (contieneMarca(nombre)) {
+    alert("Este producto contiene una marca registrada o peligrosa. No se puede subir.");
+    return;
+  }
 
-    const categoria = document.getElementById('categoria').value;
+  const categoria = document.getElementById('categoria').value;
 
-const productoHTML = `
-  <div class="producto" data-categoria="${categoria}">
-    <h3>${nombre}</h3>
-    <p>${descripcion}</p>
-    <p><strong>Categoría:</strong> ${categoria}</p>
-    document.getElementById("productos").insertAdjacentHTML("afterbegin", productoHTML);
-    <p><strong>Precio:</strong> $${precio} USD</p>
-    <img src="${imagen}" alt="Imagen del producto">
-    <button class="boton-carrito">Agregar al carrito</button>
-  </div>`;
+  const productoHTML = `
+    <div class="producto" data-categoria="${categoria}">
+      <h3>${nombre}</h3>
+      <p>${descripcion}</p>
+      <p><strong>Categoría:</strong> ${categoria}</p>
+      <p><strong>Precio:</strong> $${precio} USD</p>
+      <img src="${imagen}" alt="Imagen del producto">
+      <button class="boton-carrito">Agregar al carrito</button>
+    </div>
+  `;
 
-document.getElementById("productos").insertAdjacentHTML("beforeend", productoHTML);
-e.target.reset();
-alert("Producto agregado correctamente.");
+  document.getElementById("productos").insertAdjacentHTML("beforeend", productoHTML);
+  e.target.reset();
+  alert("Producto agregado correctamente.");
+}function agregarProducto(e) {
+  e.preventDefault();
+  const nombre = document.getElementById('nombre').value;
+  const descripcion = document.getElementById('descripcion').value;
+  const precio = parseFloat(document.getElementById('precio').value).toFixed(2);
+  const archivo = document.getElementById('imagenArchivo').files[0];
+  const url = document.getElementById('imagenURL').value.trim();
+  const imagen = archivo ? URL.createObjectURL(archivo) : url;
+
+  if (contieneMarca(nombre)) {
+    alert("Este producto contiene una marca registrada o peligrosa. No se puede subir.");
+    return;
+  }
+
+  const categoria = document.getElementById('categoria').value;
+
+  const productoHTML = `
+    <div class="producto" data-categoria="${categoria}">
+      <h3>${nombre}</h3>
+      <p>${descripcion}</p>
+      <p><strong>Categoría:</strong> ${categoria}</p>
+      <p><strong>Precio:</strong> $${precio} USD</p>
+      <img src="${imagen}" alt="Imagen del producto">
+      <button class="boton-carrito">Agregar al carrito</button>
+    </div>
+  `;
+
+  document.getElementById("productos").insertAdjacentHTML("beforeend", productoHTML);
+  e.target.reset();
+  alert("Producto agregado correctamente.");
+}
 
   // Forzar fallback si el logo no carga
   document.addEventListener("DOMContentLoaded", () => {
