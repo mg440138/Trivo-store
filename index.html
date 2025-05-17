@@ -149,6 +149,17 @@
     Importar producto desde 1688
   </button>
 </div>
+  <script>
+  function abrirPestanaImportacion() {
+    const url = prompt("Pega aquí la URL del producto de 1688:");
+    if (url) {
+      const nuevaVentana = window.open(url, "_blank");
+      if (!nuevaVentana) {
+        alert("Tu navegador bloqueó la pestaña. Activa las ventanas emergentes e inténtalo de nuevo.");
+      }
+    }
+  }
+</script>
 <
   <img src="https://i.postimg.cc/gX3B7WDq/IMG-7023.png" alt="Logotipo de Trivo" style="height: 50px;">
   <h1>Trivo Store</h1>
