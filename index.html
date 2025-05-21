@@ -216,6 +216,15 @@ Ir a 1688 (Versión traducida para iPhone)
   </div>
 
   <div id="contenedor-categorias"></div>
+  <!-- Formulario para agregar productos manualmente -->
+<form id="formulario-producto" onsubmit="agregarProducto(event)" style="margin: 20px 0;">
+  <input type="text" id="nombre" placeholder="Nombre del producto" required><br><br>
+  <input type="text" id="descripcion" placeholder="Descripción" required><br><br>
+  <input type="number" id="precio" placeholder="Precio USD" required><br><br>
+  <input type="text" id="categoria" placeholder="Categoría" required><br><br>
+  <input type="file" id="imagen" accept="image/*" required><br><br>
+  <button type="submit" style="padding: 10px 20px;">Publicar producto</button>
+</form>
   <script>
   const productos = [
     {
