@@ -250,6 +250,30 @@ Ir a 1688 (Versión traducida para iPhone)
     }
   ];
 function agregarProducto(event) {
+  function mostrarCategoriasPopulares() {
+  const contenedor = document.getElementById("contenedor-categorias");
+  const categoriasUnicas = [...new Set(productos.map(p => p.categoria))];
+
+  const titulo = document.createElement("h2");
+  titulo.innerText = "Categorías Populares";
+  contenedor.appendChild(titulo);
+
+  categoriasUnicas.forEach(categoria => {
+    const boton = document.createElement("button");
+    boton.innerText = categoria;
+    boton.style.margin = "5px";
+    boton.style.padding = "8px 12px";
+    boton.style.borderRadius = "20px";
+    boton.style.border = "none";
+    boton.style.backgroundColor = "green";
+    boton.style.color = "white";
+    boton.onclick = () => alert(`Has hecho clic en: ${categoria}`);
+    contenedor.appendChild(boton);
+  });
+}
+
+// Ejecutar al cargar
+mostrarCategoriasPopulares();
   event.preventDefault();
 
   const nombre = document.getElementById("nombre").value;
