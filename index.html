@@ -206,7 +206,97 @@ Ir a 1688 (Versión traducida para iPhone)
     <button class="boton-carrito">Agregar al carrito</button>
   </div>
 </section>
+<!-- BODEGA TRIVO AUTOMATIZADA -->
+<section id="bodega-trivo">
+  <h1 style="text-align:center;">Bodega de Productos</h1>
 
+  <div id="buscador" style="max-width:400px;margin:0 auto 30px;display:flex;">
+    <input type="text" id="filtro" placeholder="Buscar producto..." onkeyup="filtrarProductos()" style="flex:1;padding:10px;border:1px solid #ccc;border-radius:6px 0 0 6px;">
+    <button onclick="filtrarProductos()" style="padding:10px 20px;border:none;background-color:#007bff;color:white;border-radius:0 6px 6px 0;cursor:pointer;">Buscar</button>
+  </div>
+
+  <div id="contenedor-categorias"></div>
+
+  <script>
+    const productos = [
+      {
+        nombre: "Patineta eléctrica",
+        descripcion: "Velocidad máxima de 25km/h",
+        precio: "$299.99",
+        imagen: "patineta.jpg",
+        categoria: "Transporte"
+      },
+      {
+        nombre: "Zapatillas deportivas",
+        descripcion: "Perfectas para correr y caminar",
+        precio: "$59.99",
+        imagen: "zapatillas.jpg",
+        categoria: "Calzado"
+      },
+      {
+        nombre: "Casco de realidad virtual",
+        descripcion: "Alta definición e inmersión",
+        precio: "$199.99",
+        imagen: "casco.jpg",
+        categoria: "Tecnología"
+      }
+    ];
+
+    function crearProductoHTML(prod) {
+      return `
+        <div class="producto" datos-nombre="${prod.nombre.toLowerCase()}" style="background:white;border-radius:10px;padding:20px;box-shadow:0 0 5px rgba(0,0,0,0.1);max-width:400px;margin:20px auto;text-align:center;">
+          <img src="/images/${prod.imagen}" alt="${prod.nombre}" style="width:100%;border-radius:8px;margin-bottom:10px;">
+          <h3 style="margin:10px 0 5px;color:#222;">${prod.nombre}</h3>
+          <p style="color:#555;font-size:14px;">${prod.descripcion}</p>
+          <strong style="display:block;margin:10px 0;font-size:18px;">${prod.precio}</strong>
+          <button onclick="publicar(this)" style="background-color:green;color:white;padding:10px 15px;border:none;border-radius:5px;cursor:pointer;">Publicar</button>
+          <div class="publicado" style="color:green;font-weight:bold;display:none;margin-top:10px;">Publicado con éxito</div>
+        </div>`;
+    }
+
+    function mostrarProductos() {
+      const contenedor = document.getElementById('contenedor-categorias');
+      contenedor.innerHTML = '';
+      const categoriasAgrupadas = {};
+
+      productos.forEach(prod => {
+        if (!categoriasAgrupadas[prod.categoria]) {
+          categoriasAgrupadas[prod.categoria] = [];
+        }
+        categoriasAgrupadas[prod.categoria].push(prod);
+      });
+
+      for (const categoria in categoriasAgrupadas) {
+        const seccion = document.createElement('div');
+        seccion.className = 'categoria';
+        seccion.innerHTML = `<h2 style="color:#444;border-bottom:1px solid #ccc;padding-bottom:5px;">${categoria}</h2>` +
+          categoriasAgrupadas[categoria].map(crearProductoHTML).join('');
+        contenedor.appendChild(seccion);
+      }
+    }
+
+    function publicar(boton) {
+      boton.disabled = true;
+      boton.innerText = "Publicando...";
+      setTimeout(() => {
+        boton.style.display = "none";
+        boton.nextElementSibling.style.display = "block";
+      }, 1000);
+    }
+
+    function filtrarProductos() {
+      const filtro = document.getElementById('filtro').value.toLowerCase();
+      const productosHTML = document.querySelectorAll('.producto');
+      productosHTML.forEach(prod => {
+        const nombre = prod.getAttribute('datos-nombre');
+        prod.style.display = nombre.includes(filtro) ? 'block' : 'none';
+      });
+    }
+
+    mostrarProductos();
+  </script>
+</section>
+<!-- FIN BODEGA -->
 <section id="agregar-producto">
   <h2>Agregar Producto Manualmente</h2>
   <form onsubmit="agregarProducto(event)">
