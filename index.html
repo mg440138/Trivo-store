@@ -817,7 +817,79 @@ function notificarCategoriaNueva(categoria) {
     document.getElementById('vista-previa').style.display = 'none';
   });
 </script>  
+<!-- BLOQUE DE BODEGA COMPLETA -->
+<h2 style="text-align: center; margin-top: 40px;">Control de Bodega</h2>
+<div style="text-align: center; margin-bottom: 20px;">
+  <button onclick="mostrarBodega()" style="background-color: limegreen; color: white; padding: 10px 20px; border-radius: 5px;">Entrar a la Bodega</button>
+  <button onclick="ocultarBodega()" style="background-color: crimson; color: white; padding: 10px 20px; border-radius: 5px;">Cerrar Bodega</button>
+</div>
 
+<div id="bodega" style="display: none;">
+  <h2 style="text-align: center;">Bodega de Productos</h2>
+
+  <div style="text-align: center; margin-bottom: 10px;">
+    <input type="text" id="buscador" placeholder="Buscar producto..." onkeyup="buscarProducto()" style="padding: 8px; width: 60%; border-radius: 5px;">
+  </div>
+
+  <div style="text-align: center; margin-bottom: 20px;">
+    <button onclick="publicarTodos()" style="background-color: gold; color: black; padding: 10px 15px; border-radius: 5px;">Publicar Todos</button>
+  </div>
+
+  <!-- PRODUCTO 1 -->
+  <div class="producto" datos-nombre="Patineta eléctrica" style="background: white; margin: 10px auto; max-width: 400px; padding: 15px; border-radius: 10px; box-shadow: 0 0 5px #ccc;">
+    <p style="color: crimson;">🔴 Patineta eléctrica</p>
+    <h3>Patineta eléctrica</h3>
+    <p>Velocidad máxima de 25km/h</p>
+    <strong>$299.99</strong><br>
+    <button class="botonPublicar" onclick="publicar(this)">Publicar</button>
+    <div class="publicado" style="color: green; margin-top: 5px; display: none;">Producto publicado</div>
+  </div>
+
+  <!-- PRODUCTO 2 -->
+  <div class="producto" datos-nombre="Zapatillas deportivas" style="background: white; margin: 10px auto; max-width: 400px; padding: 15px; border-radius: 10px; box-shadow: 0 0 5px #ccc;">
+    <p style="color: crimson;">🔴 Zapatillas deportivas</p>
+    <h3>Zapatillas deportivas</h3>
+    <p>Perfectas para correr y caminar</p>
+    <strong>$59.99</strong><br>
+    <button class="botonPublicar" onclick="publicar(this)">Publicar</button>
+    <div class="publicado" style="color: green; margin-top: 5px; display: none;">Producto publicado</div>
+  </div>
+</div>
+
+<script>
+  function publicar(boton) {
+    boton.disabled = true;
+    boton.innerText = "Publicando...";
+    setTimeout(() => {
+      boton.style.display = "none";
+      const mensaje = boton.nextElementSibling;
+      mensaje.style.display = "block";
+    }, 1000);
+  }
+
+  function publicarTodos() {
+    const botones = document.querySelectorAll(".botonPublicar:not(:disabled)");
+    botones.forEach(btn => btn.click());
+  }
+
+  function mostrarBodega() {
+    document.getElementById("bodega").style.display = "block";
+  }
+
+  function ocultarBodega() {
+    document.getElementById("bodega").style.display = "none";
+  }
+
+  function buscarProducto() {
+    const filtro = document.getElementById("buscador").value.toLowerCase();
+    const productos = document.querySelectorAll(".producto");
+    productos.forEach(producto => {
+      const nombre = producto.getAttribute("datos-nombre").toLowerCase();
+      producto.style.display = nombre.includes(filtro) ? "block" : "none";
+    });
+  }
+</script>
+<!-- FIN BLOQUE DE BODEGA -->
 </body>
 </html>
 
