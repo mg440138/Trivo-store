@@ -226,6 +226,54 @@ Ir a 1688 (Versión traducida para iPhone)
   <button type="submit" style="padding: 10px 20px;">Publicar producto</button>
 </form>
   <script>
+    const productos = [
+  {
+    nombre: "Patineta eléctrica",
+    descripcion: "Velocidad máxima de 25km/h",
+    precio: "$299.99",
+    imagen: "https://m.media-amazon.com/images/I/61xNzU7+5jL._AC_SX679_.jpg",
+    categoria: "Transporte"
+  },
+  {
+    nombre: "Zapatillas deportivas",
+    descripcion: "Perfectas para correr y caminar",
+    precio: "$59.99",
+    imagen: "https://m.media-amazon.com/images/I/71R1A5yq3eL._AC_UX695_.jpg",
+    categoria: "Calzado"
+  },
+  {
+    nombre: "Casco de realidad virtual",
+    descripcion: "Alta definición e inmersión",
+    precio: "$89.99",
+    imagen: "https://m.media-amazon.com/images/I/51WUGXweZGL._AC_SX679_.jpg",
+    categoria: "Tecnología"
+  }
+];
+
+function mostrarCategoriasPopulares() {
+  const contenedor = document.getElementById("contenedor-categorias");
+  const categoriasUnicas = [...new Set(productos.map(p => p.categoria))];
+
+  const titulo = document.createElement("h2");
+  titulo.innerText = "Categorías Populares";
+  contenedor.appendChild(titulo);
+
+  categoriasUnicas.forEach(categoria => {
+    const boton = document.createElement("button");
+    boton.innerText = categoria;
+    boton.style.margin = "5px";
+    boton.style.padding = "8px 12px";
+    boton.style.borderRadius = "20px";
+    boton.style.border = "none";
+    boton.style.backgroundColor = "green";
+    boton.style.color = "white";
+    boton.onclick = () => alert(`Has hecho clic en: ${categoria}`);
+    contenedor.appendChild(boton);
+  });
+}
+
+// Ejecutar al cargar
+mostrarCategoriasPopulares();
   const productos = [
     {
       nombre: "Patineta eléctrica",
