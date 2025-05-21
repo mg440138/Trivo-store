@@ -187,3 +187,138 @@
 </div>
 
 <!-- Continúa en BLOQUE 3... -->
+
+  <!-- BLOQUE 3 - Desde la línea 190 -->
+
+<section id="productos">
+  <h2>Productos virtuales</h2>
+
+  <div class="producto">
+    <h3>Mouse Inalámbrico AmazonBasics</h3>
+    <p>Mouse óptico inalámbrico, silencioso, ergonómico.</p>
+    <p><strong>Precio:</strong> $19.50 USD</p>
+    <img src="https://m.media-amazon.com/images/I/61LtuGzXeaL._AC_SL1500_.jpg" alt="Imagen del producto">
+    <button class="boton-carrito">Agregar al carrito</button>
+  </div>
+
+  <div class="producto">
+    <h3>Auriculares Traductores</h3>
+    <p>Traducción en tiempo real, compatible con apps gratuitas.</p>
+    <p><strong>Precio:</strong> $45.00 USD</p>
+    <img src="https://m.media-amazon.com/images/I/61xNzlj5ktL._AC_SL1500_.jpg" alt="Imagen del producto">
+    <button class="boton-carrito">Agregar al carrito</button>
+  </div>
+
+  <div class="producto">
+    <h3>Lámpara LED Recargable</h3>
+    <p>3 niveles de brillo, batería USB, moderna y portátil.</p>
+    <p><strong>Precio:</strong> $12.50 USD</p>
+    <img src="https://m.media-amazon.com/images/I/61L4l3egGgL._AC_SL1500_.jpg" alt="Imagen del producto">
+    <button class="boton-carrito">Agregar al carrito</button>
+  </div>
+</section>
+
+<!-- Fin BLOQUE 3 -->
+
+<!-- Continúa en BLOQUE 4... -->
+
+  <!-- BLOQUE 4 - Continuación -->
+
+<!-- BODEGA TRIVO AUTOMATIZADA -->
+<section id="bodega-trivo">
+  <h1 style="text-align:center;">Bodega de Productos</h1>
+
+  <div id="buscador" style="max-width:400px;margin:0 auto 30px;display:flex;">
+    <input type="text" id="filtro" placeholder="Buscar producto..." onkeyup="filtrarProductos()" style="flex:1;padding:10px;border:1px solid #ccc;border-radius:6px 0 0 6px;">
+    <button onclick="filtrarProductos()" style="padding:10px 20px;border:none;background-color:#007bff;color:white;border-radius:0 6px 6px 0;cursor:pointer;">Buscar</button>
+  </div>
+
+  <div id="contenedor-categorias"></div>
+
+  <form id="formulario-producto" onsubmit="agregarProducto(event)" style="margin: 20px 0;">
+    <input type="text" id="nombre" placeholder="Nombre del producto" required><br><br>
+    <input type="text" id="descripcion" placeholder="Descripción" required><br><br>
+    <input type="number" id="precio" placeholder="Precio USD" required><br><br>
+    <input type="text" id="categoria" placeholder="Categoría" required><br><br>
+    <input type="file" id="imagen" accept="image/*" required><br><br>
+    <button type="submit" style="padding: 10px 20px;">Publicar producto</button>
+  </form>
+
+  <script>
+    const productos = [
+      {
+        nombre: "Patineta eléctrica",
+        descripcion: "Velocidad máxima de 25km/h",
+        precio: "$299.99",
+        imagen: "https://m.media-amazon.com/images/I/61xNzU7+5jL._AC_SX679_.jpg",
+        categoria: "Transporte"
+      },
+      {
+        nombre: "Zapatillas deportivas",
+        descripcion: "Perfectas para correr y caminar",
+        precio: "$59.99",
+        imagen: "https://m.media-amazon.com/images/I/71R1A5yq3eL._AC_UX695_.jpg",
+        categoria: "Calzado"
+      },
+      {
+        nombre: "Casco de realidad virtual",
+        descripcion: "Alta definición e inmersión",
+        precio: "$89.99",
+        imagen: "https://m.media-amazon.com/images/I/51WUGXweZGL._AC_SX679_.jpg",
+        categoria: "Tecnología"
+      }
+    ];
+
+    function mostrarCategoriasPopulares() {
+      const contenedor = document.getElementById("contenedor-categorias");
+      const categoriasUnicas = [...new Set(productos.map(p => p.categoria))];
+
+      const titulo = document.createElement("h2");
+      titulo.innerText = "Categorías Populares";
+      contenedor.appendChild(titulo);
+
+      categoriasUnicas.forEach(categoria => {
+        const boton = document.createElement("button");
+        boton.innerText = categoria;
+        boton.style.margin = "5px";
+        boton.style.padding = "8px 12px";
+        boton.style.borderRadius = "20px";
+        boton.style.border = "none";
+        boton.style.backgroundColor = "green";
+        boton.style.color = "white";
+        boton.onclick = () => alert(`Has hecho clic en: ${categoria}`);
+        contenedor.appendChild(boton);
+      });
+    }
+
+    mostrarCategoriasPopulares();
+
+    function agregarProducto(event) {
+      event.preventDefault();
+
+      const nombre = document.getElementById("nombre").value;
+      const descripcion = document.getElementById("descripcion").value;
+      const precio = document.getElementById("precio").value;
+      const categoria = document.getElementById("categoria").value;
+      const imagenInput = document.getElementById("imagen");
+      const imagenURL = URL.createObjectURL(imagenInput.files[0]);
+
+      const productoHTML = `
+        <div style="border: 1px solid #ccc; border-radius: 10px; padding: 15px; margin-bottom: 20px;">
+          <h3 style="margin: 0;">${nombre}</h3>
+          <p>${descripcion}</p>
+          <p><strong>Precio:</strong> $${precio}</p>
+          <img src="${imagenURL}" alt="${nombre}" style="width: 100%; max-width: 300px; border-radius: 10px;">
+          <p style="font-style: italic; color: green;">Categoría: ${categoria}</p>
+        </div>
+      `;
+
+      document.getElementById("contenedor-categorias").innerHTML += productoHTML;
+      event.target.reset();
+    }
+  </script>
+</section>
+
+<!-- Fin BLOQUE 4 -->
+
+<!-- ¿Quieres que siga con el BLOQUE 5 ahora mismo? Solo dime “sí”. -->
