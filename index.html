@@ -216,6 +216,31 @@ Ir a 1688 (Versión traducida para iPhone)
   </div>
 
   <div id="contenedor-categorias"></div>
+  <script>
+  const productos = [
+    {
+      nombre: "Patineta eléctrica",
+      descripcion: "Velocidad máxima de 25km/h",
+      precio: "$299.99",
+      imagen: "https://m.media-amazon.com/images/I/61xNz1j5ktL._AC_SL1500_.jpg",
+      categoria: "Transporte"
+    },
+    {
+      nombre: "Zapatillas deportivas",
+      descripcion: "Perfectas para correr y caminar",
+      precio: "$45.99",
+      imagen: "https://m.media-amazon.com/images/I/71fw5ZLuCXL._AC_UL1500_.jpg",
+      categoria: "Calzado"
+    },
+    {
+      nombre: "Casco de realidad virtual",
+      descripcion: "Alta definición e inmersión",
+      precio: "$89.99",
+      imagen: "https://m.media-amazon.com/images/I/51E3fzqvOLL._AC_SL1000_.jpg",
+      categoria: "Tecnología"
+    }
+  ];
+</script>
   <!-- Formulario para agregar productos a la bodega con imagen -->
 <form id="formulario-producto" onsubmit="agregarProducto(event)" style="margin: 30px auto; max-width: 400px; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px #ccc;">
   <input type="text" id="nombre" placeholder="Nombre del producto" required style="margin-bottom: 10px; width: 100%; padding: 10px;">
