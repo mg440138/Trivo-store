@@ -1,152 +1,189 @@
+<!-- BLOQUE 1 - LÍNEAS 1 A 250 -->
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Trivo Store</title>
   <style>
     body {
       font-family: Arial, sans-serif;
+      background: #f8f8ff;
       margin: 0;
       padding: 0;
     }
     header {
-      background-color: #333;
-      color: white;
-      padding: 1em;
+      background: #1a1a1a;
+      padding: 10px;
       text-align: center;
     }
-    main {
-      padding: 1em;
+    header img {
+      max-width: 120px;
+      display: block;
+      margin: 0 auto 10px;
+    }
+    header h1 {
+      color: white;
+      margin: 0;
+    }
+    nav a {
+      color: cyan;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    section {
+      padding: 20px;
     }
     .producto {
       border: 1px solid #ccc;
       border-radius: 5px;
-      padding: 1em;
-      margin-bottom: 1em;
+      margin: 20px 0;
+      padding: 15px;
+      background: white;
     }
     .producto img {
-      max-width: 100%;
+      width: 150px;
       height: auto;
+      margin: 10px;
+      display: inline-block;
     }
-    .categorias {
-      margin-bottom: 2em;
-    }
-    .categorias button {
-      margin: 0.5em;
-      padding: 0.5em 1em;
-      border: none;
-      border-radius: 20px;
-      background-color: green;
+    .boton-carrito, .exportar {
+      background: green;
       color: white;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
       cursor: pointer;
     }
-    footer {
-      background-color: #333;
+    .categoria, .proveedor {
+      background: green;
       color: white;
-      text-align: center;
-      padding: 1em;
-      position: fixed;
-      width: 100%;
-      bottom: 0;
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 15px;
+      margin: 5px;
+      cursor: pointer;
+    }
+    .goog-te-menu-frame, .goog-te-menu2 {
+      max-height: 300px !important;
+      overflow-y: auto !important;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Trivo Store</h1>
-  </header>
-  <main>
-    <section class="categorias" id="contenedor-categorias">
-      <!-- Categorías populares se insertarán aquí -->
-    </section>
-    <section id="lista-productos">
-      <!-- Lista de productos se insertará aquí -->
-    </section>
-  </main>
-  <footer>
-    <p>&copy; 2025 Trivo Store. Todos los derechos reservados.</p>
-  </footer>
-  <script>
-    const productos = [
-      {
-        nombre: "Producto 1",
-        descripcion: "Descripción del producto 1",
-        precio: 10.99,
-        categoria: "Categoría A",
-        imagen: "ruta/imagen1.jpg"
-      },
-      {
-        nombre: "Producto 2",
-        descripcion: "Descripción del producto 2",
-        precio: 15.99,
-        categoria: "Categoría B",
-        imagen: "ruta/imagen2.jpg"
-      },
-      {
-        nombre: "Producto 3",
-        descripcion: "Descripción del producto 3",
-        precio: 12.99,
-        categoria: "Categoría A",
-        imagen: "ruta/imagen3.jpg"
+
+<header>
+  <img src="https://i.postimg.cc/gX3B7WDq/IMG-7023.png" alt="Logotipo de Trivo" style="height: 50px;">
+  <h1>Trivo Store</h1>
+  <nav>
+    <a href="#productos">Productos</a>
+    <a href="#agregar-producto">Agregar</a>
+    <a href="#contacto">Contacto</a>
+    <a href="#carrito">Carrito</a>
+    <a href="#inventario">Inventario</a>
+  </nav>
+</header>
+
+<!-- Traductor de Google -->
+<div id="google_translate_element" style="text-align:right; padding: 10px;"></div>
+<script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'es',
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+      includedLanguages: 'en,es,fr,de,it,pt,zh-CN,ja,ko,ru',
+      autoDisplay: false
+    }, 'google_translate_element');
+  }
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<div style="text-align: center; margin-top: 30px;">
+  <a href="https://m.1688.com" target="_blank" style="display: inline-block; background-color: #4CAF50; color: white; padding: 12px 20px; text-align: center; text-decoration: none; border-radius: 10px; margin: 10px;">
+    Ir a 1688 (Versión traducida para iPhone)
+  </a>
+  <a href="https://m.1688.com" target="_blank" style="display: inline-block; background-color: #1b5e20; color: white; padding: 12px 20px; text-align: center; text-decoration: none; border-radius: 10px; margin: 10px;">
+    Ir a 1688 (Fábricas en Español) Accesorios
+  </a>
+</div>
+
+<div id="botones-categorias" style="margin: 20px;">
+  <button onclick="abrirPestanaImportacion()" style="padding:10px 20px; background-color:green; color:white; border:none; border-radius:5px;">
+    Importar producto desde 1688
+  </button>
+</div>
+<script>
+  function abrirPestanaImportacion() {
+    const url = prompt("Pega aquí la URL del producto de 1688:");
+    if (url) {
+      const nuevaVentana = window.open(url, "_blank");
+      if (!nuevaVentana) {
+        alert("Tu navegador bloqueó la pestaña. Activa las ventanas emergentes e inténtalo de nuevo.");
       }
-      // Agrega más productos según sea necesario
-    ];
-
-    function mostrarCategoriasPopulares() {
-      const contenedor = document.getElementById("contenedor-categorias");
-      const categoriasUnicas = [...new Set(productos.map(p => p.categoria))];
-
-      const titulo = document.createElement("h2");
-      titulo.innerText = "Categorías Populares";
-      contenedor.appendChild(titulo);
-
-      categoriasUnicas.forEach(categoria => {
-        const boton = document.createElement("button");
-        boton.innerText = categoria;
-        boton.onclick = () => filtrarPorCategoria(categoria);
-        contenedor.appendChild(boton);
-      });
     }
+  }
+</script>
 
-    function mostrarProductos(lista) {
-      const contenedor = document.getElementById("lista-productos");
-      contenedor.innerHTML = "";
+<section id="inventario">
+  <h2>Inventario Interno</h2>
+  <p>Lámpara LED Recargable - 20 unidades<br>
+  Mouse Inalámbrico AmazonBasics - 15 unidades<br>
+  Auriculares Traductores - 10 unidades</p>
+  <button class="exportar">Exportar Inventario (CSV)</button>
+</section>
 
-      lista.forEach(producto => {
-        const div = document.createElement("div");
-        div.className = "producto";
+<section id="proveedores">
+  <h2>Proveedores (Manual y Automatizado)</h2>
+  <div class="proveedor" onclick="mostrarProveedor('AliExpress')">AliExpress</div>
+  <div class="proveedor" onclick="mostrarProveedor('Temu')">Temu</div>
+  <div class="proveedor" onclick="mostrarProveedor('CJdropshipping')">CJdropshipping</div>
+  <div class="proveedor" onclick="mostrarProveedor('Ejdropshipping')">Ejdropshipping</div>
+  <div class="proveedor" onclick="mostrarProveedor('AutoDS')">AutoDS</div>
+  <div class="proveedor" onclick="mostrarProveedor('DSers')">DSers</div>
+  <p id="mensaje-proveedor" style="font-weight:bold; color:purple;"></p>
+</section>
 
-        const img = document.createElement("img");
-        img.src = producto.imagen;
-        img.alt = producto.nombre;
+<!-- Fin del BLOQUE 1 -->
+  <!-- BLOQUE 2 - LÍNEAS 149 A 298 -->
 
-        const nombre = document.createElement("h3");
-        nombre.innerText = producto.nombre;
+<a href="https://m-1688-com.translate.goog/?_x_tr_sl=zh-CN&_x_tr_tl=es&_x_tr_hl=es-419" target="_blank">
+  <button style="background-color: #0078d7; color: white; padding: 12px 20px; border: none; border-radius: 6px; font-size: 16px; margin-top: 10px;">
+    Ir a 1688 Traducido (Recomendado usar en Microsoft Edge)
+  </button>
+</a>
+<a href="https://www-1688-com.translate.goog/?_x_tr_sl=zh-CN&_x_tr_tl=es&_x_tr_hl=es&_x_tr_pto=wapp" target="_blank" style="display:inline-block;background-color:#1a8f00;color:white;padding:10px 20px;margin:5px;border-radius:10px;font-weight:bold;text-decoration:none;">
+  Ir a 1688 (Versión traducida para iPhone)
+</a>
+<!-- Alternativa funcional para iPhone -->
+<div class="proveedor" onclick="window.open('https://www.1688.com', '_blank')">
+  Ir a 1688 (Versión directa para iPhone)
+</div>
 
-        const descripcion = document.createElement("p");
-        descripcion.innerText = producto.descripcion;
+<script>
+  // Detectar si el usuario está en un iPhone o dispositivo móvil
+  const esMovil = /iPhone|Android|iPad|iPod/i.test(navigator.userAgent);
 
-        const precio = document.createElement("p");
-        precio.innerText = `Precio: $${producto.precio}`;
-
-        div.appendChild(img);
-        div.appendChild(nombre);
-        div.appendChild(descripcion);
-        div.appendChild(precio);
-
-        contenedor.appendChild(div);
-      });
+  // Si es móvil, redirige automáticamente al traductor alternativo de 1688
+  if (esMovil) {
+    const boton1688 = document.querySelector('.proveedor[onclick*="m-1688-com.translate.goog"]');
+    if (boton1688) {
+      boton1688.onclick = function () {
+        window.open('https://translate.google.com/translate?sl=zh-CN&tl=es&u=https://www.1688.com', '_blank');
+      };
     }
+  }
+</script>
 
-    function filtrarPorCategoria(categoria) {
-      const productosFiltrados = productos.filter(p => p.categoria === categoria);
-      mostrarProductos(productosFiltrados);
-    }
+<div class="proveedor" onclick="window.open('https://translate.google.com/translate?sl=zh-CN&tl=es&u=https://www.1688.com', '_blank')">
+  Ir a 1688 (Traducido al Español)
+</div>
+<div class="proveedor" onclick="window.open('https://m-1688-com.translate.goog/?_x_tr_sl=zh-CN&_x_tr_tl=es&_x_tr_hl=es-419&_x_tr_pto=wapp', '_blank')">
+  Ir a 1688 (Fábricas en Español)
+</div>
+<div class="proveedor" onclick="window.open('https://translate.google.com/translate?hl=es&sl=zh-CN&u=https://www.1688.com', '_blank')">
+  Ir a 1688 (Fábricas en Español)
+</div>
 
-    // Inicializar la tienda
-    mostrarCategoriasPopulares();
-    mostrarProductos(productos);
-  </script>
-</body>
-</html>
+<!-- Continúa en BLOQUE 3... -->
