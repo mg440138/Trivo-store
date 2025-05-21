@@ -216,7 +216,57 @@ Ir a 1688 (Versión traducida para iPhone)
   </div>
 
   <div id="contenedor-categorias"></div>
+<script>
+  function agregarProducto(event) {
+    event.preventDefault();
 
+    const nombre = document.getElementById("nombre").value;
+    const descripcion = document.getElementById("descripcion").value;
+    const precio = document.getElementById("precio").value;
+    const categoria = document.getElementById("categoria").value || "Otros";
+
+    const archivoImagen = document.querySelector('input[type="file"]').files[0];
+    const urlImagen = document.getElementById("url-imagen").value;
+
+    let imagenSrc = "";
+
+    if (urlImagen.trim() !== "") {
+      imagenSrc = urlImagen;
+    } else if (archivoImagen) {
+      imagenSrc = URL.createObjectURL(archivoImagen);
+    }
+
+    const productoHTML = `
+      <div class="producto" datos-nombre="${nombre}">
+        <img src="${imagenSrc}" alt="${nombre}" style="max-width:100%; border-radius: 8px;" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+        <h3>${nombre}</h3>
+        <p>${descripcion}</p>
+        <strong>$${parseFloat(precio).toFixed(2)}</strong>
+        <button onclick="publicar(this)">Publicar</button>
+        <div class="publicado">Publicado con éxito</div>
+      </div>
+    `;
+
+    // Buscar la categoría o crearla
+    let contenedor = document.getElementById("bodega-" + categoria.toLowerCase());
+    if (!contenedor) {
+      contenedor = document.createElement("div");
+      contenedor.id = "bodega-" + categoria.toLowerCase();
+      contenedor.innerHTML = `<h2 style="color: purple;">${categoria}</h2>`;
+      document.getElementById("lista-productos").appendChild(contenedor);
+    }
+
+    contenedor.insertAdjacentHTML("beforeend", productoHTML);
+
+    // Limpiar formulario
+    document.getElementById("nombre").value = "";
+    document.getElementById("descripcion").value = "";
+    document.getElementById("precio").value = "";
+    document.getElementById("categoria").value = "";
+    document.getElementById("url-imagen").value = "";
+    document.querySelector('input[type="file"]').value = "";
+  }
+</script>
   <script>
     const productos = [
       {
