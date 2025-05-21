@@ -866,28 +866,27 @@ function notificarCategoriaNueva(categoria) {
       mensaje.style.display = "block";
     }, 1000);
   }
+function publicarTodos() {
+  const botones = document.querySelectorAll(".botonPublicar:not(:disabled)");
+  botones.forEach(btn => btn.click());
+}
 
-  function publicarTodos() {
-    const botones = document.querySelectorAll(".botonPublicar:not(:disabled)");
-    botones.forEach(btn => btn.click());
-  }
+function mostrarBodega() {
+  document.getElementById("bodega").style.display = "block";
+}
 
-  function mostrarBodega() {
-    document.getElementById("bodega").style.display = "block";
-  }
+function ocultarBodega() {
+  document.getElementById("bodega").style.display = "none";
+}
 
-  function ocultarBodega() {
-    document.getElementById("bodega").style.display = "none";
-  }
-
-  function buscarProducto() {
-    const filtro = document.getElementById("buscador").value.toLowerCase();
-    const productos = document.querySelectorAll(".producto");
-    productos.forEach(producto => {
-      const nombre = producto.getAttribute("datos-nombre").toLowerCase();
-      producto.style.display = nombre.includes(filtro) ? "block" : "none";
-    });
-  }
+function buscarProducto() {
+  const filtro = document.getElementById("buscador").value.toLowerCase();
+  const productos = document.querySelectorAll(".producto");
+  productos.forEach(producto => {
+    const nombre = producto.getAttribute("datos-nombre")?.toLowerCase() || "";
+    producto.style.display = nombre.includes(filtro) ? "flex" : "none";
+  });
+}
 </script>
 <!-- FIN BLOQUE DE BODEGA -->
 </body>
