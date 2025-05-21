@@ -249,6 +249,29 @@ Ir a 1688 (Versión traducida para iPhone)
       categoria: "Tecnología"
     }
   ];
+function agregarProducto(event) {
+  event.preventDefault();
+
+  const nombre = document.getElementById("nombre").value;
+  const descripcion = document.getElementById("descripcion").value;
+  const precio = document.getElementById("precio").value;
+  const categoria = document.getElementById("categoria").value;
+  const imagenInput = document.getElementById("imagen");
+  const imagenURL = URL.createObjectURL(imagenInput.files[0]);
+
+  const productoHTML = `
+    <div style="border: 1px solid #ccc; border-radius: 10px; padding: 15px; margin-bottom: 20px;">
+      <h3 style="margin: 0;">${nombre}</h3>
+      <p>${descripcion}</p>
+      <p><strong>Precio:</strong> $${precio}</p>
+      <img src="${imagenURL}" alt="${nombre}" style="width: 100%; max-width: 300px; border-radius: 10px;">
+      <p style="font-style: italic; color: green;">Categoría: ${categoria}</p>
+    </div>
+  `;
+
+  document.getElementById("contenedor-categorias").innerHTML += productoHTML;
+  event.target.reset();
+}    
 </script>
   <!-- Formulario para agregar productos a la bodega con imagen -->
 <form id="formulario-producto" onsubmit="agregarProducto(event)" style="margin: 30px auto; max-width: 400px; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px #ccc;">
