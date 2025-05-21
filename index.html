@@ -216,6 +216,15 @@ Ir a 1688 (Versión traducida para iPhone)
   </div>
 
   <div id="contenedor-categorias"></div>
+  <!-- Formulario para agregar productos a la bodega con imagen -->
+<form id="formulario-producto" onsubmit="agregarProducto(event)" style="margin: 30px auto; max-width: 400px; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px #ccc;">
+  <input type="text" id="nombre" placeholder="Nombre del producto" required style="margin-bottom: 10px; width: 100%; padding: 10px;">
+  <input type="text" id="descripcion" placeholder="Descripción" required style="margin-bottom: 10px; width: 100%; padding: 10px;">
+  <input type="number" id="precio" placeholder="Precio USD" required style="margin-bottom: 10px; width: 100%; padding: 10px;">
+  <input type="text" id="categoria" placeholder="Categoría del producto" required style="margin-bottom: 10px; width: 100%; padding: 10px;">
+  <input type="file" id="imagen" accept="image/*" required style="margin-bottom: 10px;">
+  <button type="submit" style="width: 100%; padding: 10px; background: green; color: white; border: none; border-radius: 4px;">Agregar Producto</button>
+</form>
 <script>
   function agregarProducto(event) {
     event.preventDefault();
