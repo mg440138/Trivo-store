@@ -467,6 +467,64 @@ mostrarCategoriasPopulares();
         </div>`;
     }
 
+    <!-- IMPORTADOR AUTOMATIZADO DESDE 1688 -->
+<section id="importador-1688" style="padding: 20px; border: 1px solid #ccc; margin-top: 20px;">
+  <h2>Importar Producto desde 1688</h2>
+  <form id="form-importar">
+    <label for="url-1688">URL del producto de 1688:</label><br>
+    <input type="url" id="url-1688" name="url-1688" placeholder="https://detail.1688.com/..." required style="width: 100%; padding: 8px; margin: 10px 0;"><br>
+    <button type="submit" style="padding: 10px 20px;">Importar</button>
+  </form>
+  <div id="vista-previa" style="margin-top: 20px; display: none;">
+    <h3>Vista Previa del Producto</h3>
+    <img id="imagen-producto" src="" alt="Imagen del producto" style="max-width: 200px;"><br>
+    <label for="nombre-producto">Nombre:</label><br>
+    <input type="text" id="nombre-producto" name="nombre-producto" style="width: 100%; padding: 8px; margin: 10px 0;"><br>
+    <label for="precio-producto">Precio:</label><br>
+    <input type="text" id="precio-producto" name="precio-producto" style="width: 100%; padding: 8px; margin: 10px 0;"><br>
+    <button id="agregar-producto" style="padding: 10px 20px;">Agregar a la Tienda</button>
+  </div>
+</section>
+
+<!-- SCRIPT AUTOMATIZADO -->
+<script>
+  document.getElementById('form-importar').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const url = document.getElementById('url-1688').value;
+
+    // Datos simulados temporalmente (sin backend aún)
+    const datosSimulados = {
+      nombre: 'Producto importado automáticamente',
+      precio: (Math.random() * 50 + 10).toFixed(2),
+      imagen: 'https://via.placeholder.com/200'
+    };
+
+    document.getElementById('imagen-producto').src = datosSimulados.imagen;
+    document.getElementById('nombre-producto').value = datosSimulados.nombre;
+    document.getElementById('precio-producto').value = datosSimulados.precio;
+    document.getElementById('vista-previa').style.display = 'block';
+  });
+
+  document.getElementById('agregar-producto').addEventListener('click', function() {
+    const nombre = document.getElementById('nombre-producto').value;
+    const precio = document.getElementById('precio-producto').value;
+    const imagen = document.getElementById('imagen-producto').src;
+
+    const productoHTML = `
+      <div class="producto">
+        <h3>${nombre}</h3>
+        <p>Producto importado automáticamente.</p>
+        <p><strong>Precio:</strong> $${precio} USD</p>
+        <img src="${imagen}" alt="${nombre}" style="max-width: 200px;">
+        <button class="boton-carrito">Agregar al carrito</button>
+      </div>
+    `;
+
+    const contenedor = document.getElementById("productos") || document.body;
+    contenedor.insertAdjacentHTML("afterbegin", productoHTML);
+    alert('Producto agregado exitosamente.');
+  });
+</script>
     function mostrarProductos() {
       const contenedor = document.getElementById('contenedor-categorias');
       contenedor.innerHTML = '';
