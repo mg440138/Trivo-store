@@ -476,6 +476,40 @@ mostrarCategoriasPopulares();
     categoria: "Accesorios"
   }
 ];
+    <!-- Bloque para importar productos automáticamente desde 1688 -->
+<section id="importar1688" style="margin-top: 40px;">
+  <h2>Importar producto desde 1688</h2>
+  <input type="text" id="urlProducto" placeholder="Pega la URL del producto de 1688 aquí" style="width: 80%; padding: 10px;">
+  <button onclick="importarProducto()" style="padding: 10px; background-color: green; color: white;">Importar</button>
+  <div id="resultadoImportacion" style="margin-top: 20px;"></div>
+</section>
+
+<script>
+async function importarProducto() {
+  const url = document.getElementById('urlProducto').value;
+  if (!url) return alert('Por favor, ingresa una URL válida.');
+
+  try {
+    const respuesta = await fetch('https://trivo-import.vercel.app/importar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url })
+    });
+
+    const producto = await respuesta.json();
+    const resultado = document.getElementById('resultadoImportacion');
+    resultado.innerHTML = `
+      <h3>Producto Importado:</h3>
+      <p><strong>Nombre:</strong> ${producto.nombre}</p>
+      <p><strong>Precio:</strong> ${producto.precio}</p>
+      <img src="${producto.imagen}" alt="Imagen del producto" style="max-width:200px;">
+    `;
+  } catch (error) {
+    alert('Error al importar el producto.');
+    console.error(error);
+  }
+}
+</script>
       const productos = [
   {
     nombre: "Trípode Bluetooth 160cm",
