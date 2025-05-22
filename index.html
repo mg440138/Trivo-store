@@ -1270,7 +1270,29 @@ function buscarProducto() {
     producto.style.display = nombre.includes(filtro) ? "flex" : "none";
   });
 }
+  // FUNCIÓN PARA IMPORTAR PRODUCTOS DESDE 1688
+function importarProducto() {
+
+  const url = document.getElementById("url-1688").value;
+
+  const nuevoProducto = {
+    nombre: "Producto importado automáticamente",
+    descripcion: "Descripción temporal desde 1688",
+    precio: "¥82.00",
+    imagen: "https://via.placeholder.com/150",
+    categoria: "Importados"
+  };
+
+  productos.push(nuevoProducto);
+  mostrarProductos();
+}
 </script>
+ <!-- BLOQUE IMPORTAR DESDE 1688 -->
+<div style="margin: 20px;">
+  <h2>Importar Producto desde 1688</h2>
+  <input type="text" id="url-1688" placeholder="URL del producto de 1688" style="width: 300px;">
+  <button onclick="importarProducto()">Importar</button>
+</div>     
 <!-- FIN BLOQUE DE BODEGA -->
 </body>
 </html>
