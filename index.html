@@ -1292,7 +1292,78 @@ function importarProducto() {
   <h2>Importar Producto desde 1688</h2>
   <input type="text" id="url-1688" placeholder="URL del producto de 1688" style="width: 300px;">
   <button onclick="importarProducto()">Importar</button>
-</div>     
+</div> 
+      <!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Trivo Store</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 20px;
+    }
+    .seccion-privada {
+      display: none;
+      background: #fffbe6;
+      border: 1px solid #ffd966;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 6px;
+    }
+    .seccion-publica {
+      background: #fff;
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Tienda Trivo</h1>
+
+  <div class="seccion-publica">
+    <h2>Bienvenido a la tienda pública</h2>
+    <p>Aquí puedes ver nuestros productos disponibles.</p>
+    <!-- Aquí va tu código actual de productos públicos -->
+  </div>
+
+  <div id="formularioAcceso">
+    <h2>Acceso para el dueño</h2>
+    <input type="password" id="claveAcceso" placeholder="Clave secreta..." />
+    <button onclick="verificarAcceso()">Entrar</button>
+    <p id="mensajeClave" style="color: red;"></p>
+  </div>
+
+  <div id="seccionPrivada" class="seccion-privada">
+    <h2>Panel Privado</h2>
+    <p>Este contenido es solo visible para el dueño.</p>
+    <!-- Aquí va el formulario de subir productos, importar desde 1688, etc. -->
+  </div>
+
+  <script>
+    async function verificarAcceso() {
+      const claveIngresada = document.getElementById("claveAcceso").value;
+      const hashEsperado = "d4145855438c953f965b3e6a40d13788bacc1ca4984cb261559441eedd935d04"; // Trivo2025!
+
+      const encoder = new TextEncoder();
+      const data = encoder.encode(claveIngresada);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+      if (hashHex === hashEsperado) {
+        document.getElementById("seccionPrivada").style.display = "block";
+        document.getElementById("formularioAcceso").style.display = "none";
+      } else {
+        document.getElementById("mensajeClave").textContent = "Clave incorrecta";
+      }
+    }
+  </script>
+</body>
+</html>
 <!-- FIN BLOQUE DE BODEGA -->
 </body>
 </html>
