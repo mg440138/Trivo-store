@@ -1362,8 +1362,53 @@ function importarProducto() {
       }
     }
   </script>
+  <!-- BLOQUE DE ACCESO PRIVADO -->
+<div style="margin: 40px 0; text-align: center;">
+  <h2>Acceso para el dueño</h2>
+  <input type="password" id="clave" placeholder="Clave de acceso" />
+  <button onclick="verificarClave()">Entrar</button>
+  <p id="mensajeClave" style="color: red; display: none;">Clave incorrecta</p>
+</div>
+
+<!-- SECCIÓN PRIVADA OCULTA HASTA QUE SE INGRESE LA CLAVE CORRECTA -->
+<div id="bloquePrivado" style="display: none; padding: 20px; border: 2px solid #000; margin: 30px;">
+  <h2>Control de Bodega</h2>
+  <button style="background-color: green; color: white;">Entrar a la Bodega</button>
+  <button style="background-color: red; color: white;">Cerrar Bodega</button>
+
+  <h2 style="margin-top: 30px;">Importar Producto desde 1688</h2>
+  <input type="text" id="url-1688" placeholder="URL del producto de 1688" />
+  <button onclick="importarProducto()">Importar</button>
+
+  <h3 style="margin-top: 30px;">Enlaces Rápidos:</h3>
+  <a href="https://m.1688.com" target="_blank">Ir a 1688 (Versión para iPhone)</a><br>
+  <a href="https://m.1688.com/offer_search/-C9FA_BDCB_CEC4.html" target="_blank">Fábricas en español</a><br>
+</div>
+
+<!-- SCRIPT DE VERIFICACIÓN -->
+<script>
+  function verificarClave() {
+    const clave = document.getElementById("clave").value;
+    if (clave === "trivo2025!") {
+      document.getElementById("bloquePrivado").style.display = "block";
+      document.getElementById("mensajeClave").style.display = "none";
+    } else {
+      document.getElementById("mensajeClave").style.display = "block";
+    }
+  }
+
+  function importarProducto() {
+    const url = document.getElementById("url-1688").value;
+    if (url) {
+      alert("Producto importado desde: " + url);
+      // Aquí puedes poner el código real de importación si lo tienes
+    } else {
+      alert("Ingresa la URL del producto");
+    }
+  }
+</script>
+<!-- FIN DEL BLOQUE -->
 </body>
 </html>
 <!-- FIN BLOQUE DE BODEGA -->
-</body>
-</html>
+
