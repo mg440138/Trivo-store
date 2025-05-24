@@ -2,96 +2,40 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Trivo Store</title>
   <style>
-    /* Estilos básicos para diseño responsivo */
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-    header, nav, main, footer {
-      padding: 1em;
-    }
-    nav button {
-      margin-right: 1em;
-    }
-    section {
-      display: none;
-    }
-    .visible {
-      display: block;
-    }
-    /* Estilos para el logo */
-    .logo {
-      max-width: 150px;
-      height: auto;
-    }
-    /* Diseño responsivo */
-    @media (max-width: 600px) {
-      nav button {
-        display: block;
-        margin-bottom: 0.5em;
-      }
-    }
+    body { font-family: Arial, sans-serif; background: #f8f8ff; margin: 0; padding: 0; }
+    header { background: #1a1a1a; padding: 10px; text-align: center; }
+    header img { max-width: 120px; display: block; margin: 0 auto 10px; }
+    header h1 { color: white; margin: 0; }
+    nav a { color: cyan; margin: 0 15px; text-decoration: none; font-weight: bold; }
+    .boton { background: green; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; }
+    .categoria, .proveedor { background: green; color: white; padding: 5px 10px; border-radius: 15px; margin: 5px; display: inline-block; cursor: pointer; }
+    .privado { display: none; }
   </style>
 </head>
 <body>
 
-  <header>
-    <img src="ruta/a/tu/logo.png" alt="Logo de Trivo" class="logo" />
-  </header>
-
+<header>
+  <img src="https://i.postimg.cc/gX3B7WDq/IMG-7023.png" alt="Logotipo Trivo" />
+  <h1>Trivo Store</h1>
   <nav>
-    <button onclick="mostrarSeccion('publico')">Sección Pública</button>
-    <button onclick="mostrarAdmin()">Sección Privada</button>
+    <a href="#productos">Productos</a>
+    <a href="#categorias">Categorías</a>
+    <a href="#proveedores">Proveedores</a>
+    <a href="#contacto">Contacto</a>
+    <a href="#privado" onclick="togglePrivado()">Panel Privado</a>
   </nav>
+</header>
 
-  <main>
-    <!-- Sección Pública -->
-    <section id="publico" class="visible">
-      <h2>Bienvenido a Trivo Store</h2>
-      <p>Contenido público visible para todos los usuarios.</p>
-      <!-- Aquí puedes incluir más contenido público -->
-    </section>
+<div id="google_translate_element" style="text-align:right; padding: 10px;"></div>
 
-    <!-- Sección Privada -->
-    <section id="privado">
-      <h2>Panel de Administración</h2>
-      <nav>
-        <button onclick="mostrarSubseccion('proveedores')">Proveedores</button>
-        <button onclick="mostrarSubseccion('categorias')">Categorías</button>
-      </nav>
-      <div id="proveedores" class="subseccion">
-        <h3>Proveedores</h3>
-        <ul>
-          <li>AliExpress</li>
-          <li>Temu</li>
-          <li>CJdropshipping</li>
-          <li>EJDropshipping</li>
-          <li>DSers</li>
-        </ul>
-      </div>
-      <div id="categorias" class="subseccion">
-        <h3>Categorías</h3>
-        <ul>
-          <li>Tecnología</li>
-          <li>Accesorios</li>
-          <li>Hogar</li>
-          <li>Moda</li>
-        </ul>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <p>&copy; 2025 Trivo Store. Todos los derechos reservados.</p>
-  </footer>
-
-  <script>
-    const claveCorrecta = "trivo2025!";
-
-    function mostrarSeccion(id) {
-      document.getElementById('publico').classList.remove('visible');
-      document.getElementById('privado
+<section id="productos">
+  <h2>Productos Destacados</h2>
+  <div class="producto">
+    <h3>Auriculares Traductores</h3>
+    <p>Traducción en tiempo real - $45.00 USD</p>
+    <button class="boton">Agregar al carrito</button>
+  </div>
+</section>
