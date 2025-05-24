@@ -80,15 +80,74 @@
       <li>Moda</li>
     </ul>
   </section>
-  <!-- Traductor de Google -->
-<div id="google_translate_element" style="margin-top: 20px;"></div>
-<script type="text/javascript">
-  function googleTranslateElementInit() {
-    new google.translate.TranslateElement({
-      pageLanguage: 'es',
-      includedLanguages: 'es,en,pt,fr,de,it,zh-CN,ja',
-      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-    }, 'google_translate_element');
+  <!-- ===== BOTONES PÚBLICO / DUEÑO ===== -->
+<div style="text-align:center; margin-top: 20px;">
+  <button onclick="window.location.href='https://trivo-store-oficial.vercel.app'" style="padding: 10px 20px; margin: 5px; font-size: 16px;">Ver Tienda Pública</button>
+  <button onclick="document.getElementById('panelPrivado').style.display='block'" style="padding: 10px 20px; margin: 5px; font-size: 16px;">Ingresar como Dueño</button>
+</div>
+
+<!-- ===== TRADUCTOR DESLIZABLE ===== -->
+<div style="text-align:center; margin-top:20px;">
+  <h3>Seleccionar idioma</h3>
+  <div style="max-height: 150px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px; display: inline-block; width: 300px; text-align: left;">
+    <select onchange="window.open(`https://translate.google.com/translate?sl=es&tl=${this.value}&u=https://trivo-store-oficial.vercel.app`, '_blank')" style="width: 100%; font-size: 14px;">
+      <option value="en">Inglés</option>
+      <option value="fr">Francés</option>
+      <option value="de">Alemán</option>
+      <option value="pt">Portugués</option>
+      <option value="it">Italiano</option>
+      <option value="zh-CN">Chino (Simplificado)</option>
+      <option value="ja">Japonés</option>
+      <option value="ko">Coreano</option>
+      <option value="ru">Ruso</option>
+      <option value="ar">Árabe</option>
+      <option value="hi">Hindi</option>
+      <option value="tr">Turco</option>
+      <option value="pl">Polaco</option>
+      <option value="nl">Holandés</option>
+      <option value="sv">Sueco</option>
+      <option value="uk">Ucraniano</option>
+      <option value="vi">Vietnamita</option>
+      <option value="th">Tailandés</option>
+      <option value="fa">Persa</option>
+      <option value="el">Griego</option>
+      <option value="he">Hebreo</option>
+      <option value="ro">Rumano</option>
+      <option value="cs">Checo</option>
+      <option value="hu">Húngaro</option>
+      <option value="id">Indonesio</option>
+      <option value="ms">Malayo</option>
+      <option value="bn">Bengalí</option>
+      <option value="ta">Tamil</option>
+      <option value="te">Telugu</option>
+      <option value="ur">Urdu</option>
+      <!-- Puedes agregar más idiomas si lo deseas -->
+    </select>
+  </div>
+</div>
+
+<!-- ===== PANEL PRIVADO (SOLO DUEÑO) ===== -->
+<div id="panelPrivado" style="display:none; text-align:center; margin-top:30px;">
+  <h3>Ingresa la clave de acceso</h3>
+  <input type="password" id="clavePrivada" placeholder="Clave de dueño" style="padding:8px; font-size:16px;" />
+  <br /><br />
+  <button onclick="validarClave()" style="padding: 10px 20px; font-size: 16px;">Acceder</button>
+
+  <div id="contenidoPrivado" style="display:none; margin-top:30px;">
+    <!-- Aquí va el contenido privado que ya tienes integrado (inventario, bodega, proveedores, etc.) -->
+    <h3 style="color:green;">Acceso concedido. Bienvenido, dueño.</h3>
+    <!-- Tu contenido privado debe continuar debajo de esta línea -->
+  </div>
+</div>
+
+<script>
+  function validarClave() {
+    const clave = document.getElementById("clavePrivada").value;
+    if (clave === "trivo2025!") {
+      document.getElementById("contenidoPrivado").style.display = "block";
+    } else {
+      alert("Clave incorrecta");
+    }
   }
 </script>
 <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
