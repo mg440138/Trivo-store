@@ -37,3 +37,154 @@
     <li>Lámpara LED Recargable - $12.50</li>
   </ul>
 </section>
+<!-- === INICIO ZONA PRIVADA === -->
+<section id="privado" style="background: #f9f9f9; padding: 20px;">
+
+  <h2 style="text-align:center;">Zona Privada - Herramientas de Gestión</h2>
+
+  <!-- Inventario -->
+  <section id="inventario">
+    <h3>Inventario Interno</h3>
+    <ul>
+      <li>Lámpara LED Recargable - 20 unidades</li>
+      <li>Mouse Inalámbrico AmazonBasics - 15 unidades</li>
+      <li>Auriculares Traductores - 10 unidades</li>
+    </ul>
+    <button class="exportar">Exportar Inventario</button>
+  </section>
+
+  <!-- Bodega Automática -->
+  <section id="bodega-trivo">
+    <h3>Bodega de Productos</h3>
+    <input type="text" id="filtro" placeholder="Buscar producto..." onkeyup="filtrarProductos()" style="width:100%; padding:10px;">
+
+    <div id="lista-productos"></div>
+  </section>
+
+  <!-- Agregar Producto Manual -->
+  <section id="agregar-producto">
+    <h3>Agregar Producto</h3>
+    <form onsubmit="agregarProducto(event)">
+      <input type="text" id="nombre" placeholder="Nombre" required><br>
+      <input type="text" id="descripcion" placeholder="Descripción" required><br>
+      <input type="number" id="precio" placeholder="Precio USD" required><br>
+      <input type="text" id="categoria" placeholder="Categoría" required><br>
+      <input type="file" id="imagen" accept="image/*" required><br>
+      <button type="submit">Publicar producto</button>
+    </form>
+  </section>
+
+  <!-- Herramientas adicionales -->
+  <section id="herramientas">
+    <h3>Herramientas Administrativas</h3>
+    <button onclick="mostrarBodega()">Mostrar Bodega</button>
+    <button onclick="ocultarBodega()">Ocultar Bodega</button>
+    <button onclick="publicarTodos()">Publicar Todos</button>
+    <button onclick="cerrarSesion()">Cerrar sesión</button>
+  </section>
+
+</section>
+<!-- === FIN ZONA PRIVADA === -->
+
+<!-- === FUNCIONES JS === -->
+<script>
+  const productos = [
+    {
+      nombre: "Patineta eléctrica",
+      descripcion: "Velocidad máxima de 25km/h",
+      precio: "$299.99",
+      imagen: "https://m.media-amazon.com/images/I/61xNzU7+5jL._AC_SX679_.jpg",
+      categoria: "Transporte"
+    },
+    {
+      nombre: "Zapatillas deportivas",
+      descripcion: "Perfectas para correr y caminar",
+      precio: "$59.99",
+      imagen: "https://m.media-amazon.com/images/I/71R1A5yq3eL._AC_UX695_.jpg",
+      categoria: "Calzado"
+    },
+    {
+      nombre: "Casco de realidad virtual",
+      descripcion: "Alta definición e inmersión",
+      precio: "$89.99",
+      imagen: "https://m.media-amazon.com/images/I/51WUGXweZGL._AC_SX679_.jpg",
+      categoria: "Tecnología"
+    }
+  ];
+
+  function crearProductoHTML(prod) {
+    return `
+      <div class="producto" datos-nombre="${prod.nombre.toLowerCase()}">
+        <img src="${prod.imagen}" alt="${prod.nombre}" style="max-width:100px;"><br>
+        <h4>${prod.nombre}</h4>
+        <p>${prod.descripcion}</p>
+        <strong>${prod.precio}</strong>
+        <button onclick="publicar(this)">Publicar</button>
+        <div class="publicado" style="display:none; color:green;">Publicado</div>
+      </div>
+    `;
+  }
+
+  function mostrarProductos() {
+    const contenedor = document.getElementById('lista-productos');
+    contenedor.innerHTML = '';
+    productos.forEach(prod => contenedor.innerHTML += crearProductoHTML(prod));
+  }
+
+  function publicar(boton) {
+    boton.style.display = "none";
+    boton.nextElementSibling.style.display = "block";
+  }
+
+  function publicarTodos() {
+    document.querySelectorAll('.producto button').forEach(b => b.click());
+  }
+
+  function mostrarBodega() {
+    document.getElementById('bodega-trivo').style.display = 'block';
+  }
+
+  function ocultarBodega() {
+    document.getElementById('bodega-trivo').style.display = 'none';
+  }
+
+  function cerrarSesion() {
+    alert("Sesión cerrada.");
+    // Aquí podrías agregar lógica para redirigir
+  }
+
+  function filtrarProductos() {
+    const filtro = document.getElementById('filtro').value.toLowerCase();
+    const productosHTML = document.querySelectorAll('.producto');
+    productosHTML.forEach(prod => {
+      const nombre = prod.getAttribute('datos-nombre');
+      prod.style.display = nombre.includes(filtro) ? 'block' : 'none';
+    });
+  }
+
+  function agregarProducto(event) {
+    event.preventDefault();
+    const nombre = document.getElementById("nombre").value;
+    const descripcion = document.getElementById("descripcion").value;
+    const precio = document.getElementById("precio").value;
+    const categoria = document.getElementById("categoria").value;
+    const imagenInput = document.getElementById("imagen");
+    const imagenURL = URL.createObjectURL(imagenInput.files[0]);
+
+    const productoHTML = `
+      <div class="producto" datos-nombre="${nombre.toLowerCase()}">
+        <img src="${imagenURL}" alt="${nombre}" style="max-width:100px;"><br>
+        <h4>${nombre}</h4>
+        <p>${descripcion}</p>
+        <strong>$${precio}</strong>
+        <button onclick="publicar(this)">Publicar</button>
+        <div class="publicado" style="display:none; color:green;">Publicado</div>
+      </div>
+    `;
+    document.getElementById("lista-productos").innerHTML += productoHTML;
+    event.target.reset();
+  }
+
+  // Carga inicial
+  document.addEventListener("DOMContentLoaded", mostrarProductos);
+</script>
