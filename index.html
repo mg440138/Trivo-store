@@ -50,6 +50,76 @@
   }
 </script>
 <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<!-- Sección visible solo en zona privada -->
+<section id="bodega" style="display: none;">
+  <h2>Panel de Bodega</h2>
+  
+  <form id="formularioProducto" onsubmit="agregarProducto(event)" style="background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px #ccc; max-width: 400px; margin: auto;">
+    <h3>Agregar producto a la bodega</h3>
+    <input type="text" id="nombreProducto" placeholder="Nombre del producto" required style="width: 100%; padding: 10px; margin: 5px 0;">
+    <textarea id="descripcionProducto" placeholder="Descripción" required style="width: 100%; padding: 10px; margin: 5px 0;"></textarea>
+    <input type="number" id="precioProducto" placeholder="Precio USD" required style="width: 100%; padding: 10px; margin: 5px 0;">
+    <input type="text" id="categoriaProducto" placeholder="Categoría" required style="width: 100%; padding: 10px; margin: 5px 0;">
+    <input type="url" id="imagenProducto" placeholder="URL de la imagen" style="width: 100%; padding: 10px; margin: 5px 0;">
+    <button type="submit" style="width: 100%; background: green;">Agregar</button>
+  </form>
 
+  <h3 style="text-align:center; margin-top:30px;">Productos por Categoría</h3>
+  <div id="contenedorCategorias" style="padding: 20px;"></div>
+</section>
+
+<script>
+  const productosBodega = {};
+
+  function agregarProducto(event) {
+    event.preventDefault();
+
+    const nombre = document.getElementById("nombreProducto").value;
+    const descripcion = document.getElementById("descripcionProducto").value;
+    const precio = parseFloat(document.getElementById("precioProducto").value).toFixed(2);
+    const categoria = document.getElementById("categoriaProducto").value;
+    const imagen = document.getElementById("imagenProducto").value || "https://via.placeholder.com/300";
+
+    if (!productosBodega[categoria]) {
+      productosBodega[categoria] = [];
+    }
+
+    productosBodega[categoria].push({ nombre, descripcion, precio, imagen });
+
+    document.getElementById("formularioProducto").reset();
+    mostrarBodega();
+  }
+
+  function mostrarBodega() {
+    const contenedor = document.getElementById("contenedorCategorias");
+    contenedor.innerHTML = "";
+
+    for (const categoria in productosBodega) {
+      const seccion = document.createElement("div");
+      seccion.innerHTML = `<h4 style="color: purple;">${categoria}</h4>`;
+      productosBodega[categoria].forEach(producto => {
+        seccion.innerHTML += `
+          <div style="border:1px solid #ccc; padding:15px; border-radius:10px; margin:10px 0;">
+            <h5>${producto.nombre}</h5>
+            <p>${producto.descripcion}</p>
+            <p><strong>Precio:</strong> $${producto.precio}</p>
+            <img src="${producto.imagen}" alt="${producto.nombre}" style="width:100%; max-width:200px;">
+          </div>
+        `;
+      });
+      contenedor.appendChild(seccion);
+    }
+  }
+
+  // Mostrar bodega cuando acceden a zona privada
+  function mostrarBodegaZonaPrivada() {
+    document.getElementById('bodega').style.display = 'block';
+    mostrarBodega();
+  }
+
+  // Llamar desde la función verificarClave()
+  // Agrega esto al final de verificarClave():
+  // mostrarBodegaZonaPrivada();
+</script>
 </body>
 </html>
