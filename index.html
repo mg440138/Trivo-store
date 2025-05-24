@@ -2,241 +2,118 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Trivo Store - Plataforma Completa</title>
+  <title>Trivo Store</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f4f4f4;
-    }
-    header {
-      background-color: #222;
-      color: #fff;
+      background: #f4f4f4;
       padding: 20px;
-      text-align: center;
     }
-    nav {
-      background-color: #444;
-      padding: 10px;
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    nav a {
-      color: white;
-      padding: 10px 20px;
-      text-decoration: none;
+    nav button {
       margin: 5px;
-      background-color: #555;
-      border-radius: 5px;
+      padding: 10px;
+      cursor: pointer;
     }
-    nav a:hover {
-      background-color: #666;
-    }
-    .contenido {
+    section {
+      display: none;
+      background: white;
       padding: 20px;
-    }
-    .seccion {
-      margin-bottom: 30px;
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
+      margin-top: 20px;
+      border-radius: 6px;
       box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    #privado {
+      display: none;
+      background: #fff7e6;
+      border: 1px solid #ffd591;
+      padding: 20px;
+      margin-top: 30px;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Trivo Store</h1>
-    <p>Panel público y privado integrado</p>
-  </header>
+
+  <h1>Trivo Store</h1>
+  <h3>Panel público y privado integrado</h3>
+
+  <!-- Navegación principal -->
   <nav>
-    <a href="#productos">Productos</a>
-    <a href="#proveedores">Proveedores</a>
-    <a href="#inventario">Inventario</a>
-    <a href="#traductor">Traductor</a>
-    <a href="#calculadora">Calculadora</a>
-    <a href="#admin">Admin (Clave)</a>
+    <button onclick="mostrar('productos')">Productos</button>
+    <button onclick="mostrar('proveedores')">Proveedores</button>
+    <button onclick="mostrar('inventario')">Inventario</button>
+    <button onclick="mostrar('calculadora')">Calculadora</button>
+    <button onclick="mostrar('carrito')">Carrito</button>
+    <button onclick="mostrar('contacto')">Contáctanos</button>
+    <button onclick="mostrar('categorias')">Categorías</button>
+    <button onclick="mostrarAdmin()">Admin (Clave)</button>
   </nav>
-  <div class="contenido">
-        <div class="seccion" id="productos">
-      <h2>Productos</h2>
-      <p>Listado de productos cargados desde Firestore:</p>
-      <div id="productosContainer"></div>
-    </div>
-    <div class="seccion" id="proveedores">
-      <h2>Proveedores</h2>
-      <ul>
-        <li><a href="https://www.aliexpress.com" target="_blank">AliExpress</a></li>
-        <li><a href="https://www.temu.com" target="_blank">Temu</a></li>
-        <li><a href="https://app.cjdropshipping.com" target="_blank">CJdropshipping</a></li>
-        <li><a href="https://www.ejdropshipping.com" target="_blank">EJDropshipping</a></li>
-        <li><a href="https://www.dsers.com" target="_blank">DSers</a></li>
-      </ul>
-    </div>
-        <section id="inventario">
-      <h2>Inventario Interno</h2>
-      <ul>
-        <li>Lámpara LED Recargable - 20 unidades</li>
-        <li>Mouse Inalámbrico AmazonBasics - 15 unidades</li>
-        <li>Auriculares Traductores - 10 unidades</li>
-      </ul>
-      <button onclick="exportarCSV()">Exportar Inventario (CSV)</button>
-    </section>
 
-    <section id="importar">
-      <h2>Importar Producto desde 1688</h2>
-      <input type="text" placeholder="URL del producto de 1688" />
-      <button>Importar</button>
-    </section>
+  <!-- Secciones públicas -->
+  <section id="productos"><h2>Productos</h2><p>Listado de productos desde Firestore</p></section>
+  <section id="proveedores"><h2>Proveedores</h2><ul><li>AliExpress</li><li>Temu</li><li>CJdropshipping</li><li>EJDropshipping</li><li>DSers</li></ul></section>
+  <section id="inventario"><h2>Inventario Interno</h2><ul><li>Lámpara LED Recargable - 20 unidades</li><li>Mouse Inalámbrico AmazonBasics - 15 unidades</li><li>Auriculares Traductores - 10 unidades</li></ul></section>
+  <section id="calculadora">
+    <h2>Calculadora Avanzada</h2>
+    <input type="number" placeholder="Costo del producto" />
+    <input type="number" placeholder="Costo de envío" />
+    <input type="number" placeholder="Porcentaje de ganancia" />
+    <button>Calcular</button>
+  </section>
+  <section id="carrito"><h2>Tu Carrito</h2><p>No hay productos en el carrito.</p><button>Vaciar carrito</button></section>
+  <section id="contacto">
+    <h2>Contáctanos</h2>
+    <input type="text" placeholder="Tu nombre" /><br />
+    <input type="email" placeholder="Tu correo" /><br />
+    <textarea placeholder="Tu mensaje"></textarea><br />
+    <button>Enviar</button>
+  </section>
+  <section id="categorias">
+    <h2>Categorías Populares</h2>
+    <ul>
+      <li>Tecnología</li>
+      <li>Accesorios</li>
+      <li>Hogar</li>
+      <li>Moda</li>
+    </ul>
+  </section>
 
-    <section id="calculadora">
-      <h2>Calculadora Avanzada</h2>
-      <input type="number" placeholder="Costo del producto" />
-      <input type="number" placeholder="Costo de envío" />
-      <input type="number" placeholder="Porcentaje de ganancia" />
-      <button>Calcular</button>
-    </section>
-
-    <section id="carrito">
-      <h2>Tu Carrito</h2>
-      <p>No hay productos en el carrito.</p>
-      <button>Vaciar carrito</button>
-    </section>
-        <section id="contacto">
-      <h2>Contáctanos</h2>
-      <input type="text" placeholder="Tu nombre" />
-      <input type="email" placeholder="Tu correo" />
-      <textarea placeholder="Tu mensaje"></textarea>
-      <button>Enviar</button>
-    </section>
-
-    <section id="categorias">
-      <h2>Categorías Populares</h2>
-      <ul>
-        <li>Tecnología</li>
-        <li>Accesorios</li>
-        <li>Hogar</li>
-        <li>Moda</li>
-      </ul>
-    </section>
-
-    <!-- Traductor de Google -->
-    <div id="google_translate_element"></div>
-    <script type="text/javascript">
-      function googleTranslateElementInit() {
-        new google.translate.TranslateElement({ pageLanguage: 'es' }, 'google_translate_element');
-      }
-    </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-    <!-- Firebase y lógica JS -->
-    <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-      import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-      const firebaseConfig = {
-        apiKey: "TU_API_KEY",
-        authDomain: "TU_DOMINIO.firebaseapp.com",
-        projectId: "trivostore",
-        storageBucket: "TU_STORAGE_BUCKET",
-        messagingSenderId: "TU_SENDER_ID",
-        appId: "TU_APP_ID"
-      };
-
-      const app = initializeApp(firebaseConfig);
-      const db = getFirestore(app);
-      const productosRef = collection(db, "productos");
-
-      onSnapshot(productosRef, (snapshot) => {
-        const contenedor = document.getElementById("productosContainer");
-        contenedor.innerHTML = "";
-        snapshot.forEach((doc) => {
-          const data = doc.data();
-          const div = document.createElement("div");
-          div.className = "producto";
-          div.innerHTML = `
-            <span><strong>Nombre:</strong> ${data.nombre}</span>
-            <span><strong>Precio:</strong> $${data.precio}</span>
-            <span><strong>Stock:</strong> ${data.stock}</span>
-            <span><strong>Valor:</strong> ${data.valor || "—"}</span>
-          `;
-          contenedor.appendChild(div);
-        });
-      });
-      <!-- BLOQUE ROBOT INTELIGENTE - TRIVO -->
-<section id="robot-inteligente" style="padding: 30px; background: #f1f1f1;">
-  <h2 style="text-align:center;">Importar Producto Inteligente (1688, Temu, AliExpress)</h2>
-  <input type="text" id="url-producto" placeholder="Pega aquí la URL del producto" style="width:100%; padding:10px; margin:10px 0;">
-  <button onclick="procesarProducto()" style="padding:10px 20px;">Importar y Clasificar</button>
-
-  <div id="preview" style="margin-top:20px;"></div>
-</section>
-
-<script>
-  const marcasReconocidas = ["xiaomi", "apple", "samsung", "lenovo", "sony"];
-  
-  function procesarProducto() {
-    const url = document.getElementById('url-producto').value;
-    if (!url) return alert("Por favor, pega una URL válida.");
-
-    // Simula obtener información del producto
-    const producto = {
-      nombre: "Producto automático desde 1688",
-      descripcion: "Descripción generada automáticamente",
-      precio: "$" + (Math.random() * 50 + 10).toFixed(2),
-      imagen: "https://via.placeholder.com/150",
-      marcaDetectada: "",
-      categoria: ""
-    };
-
-    // Detectar marca en URL o nombre
-    const urlLower = url.toLowerCase();
-    for (const marca of marcasReconocidas) {
-      if (urlLower.includes(marca)) {
-        producto.marcaDetectada = marca;
-        break;
-      }
-    }
-
-    // Clasificar categoría
-    if (producto.marcaDetectada === "xiaomi" || producto.marcaDetectada === "samsung") {
-      producto.categoria = "Tecnología";
-    } else if (url.includes("ropa") || url.includes("moda")) {
-      producto.categoria = "Moda";
-    } else {
-      producto.categoria = "Accesorios";
-    }
-
-    // Mostrar en pantalla
-    document.getElementById("preview").innerHTML = `
-      <div style="padding:15px; background:#fff; border-radius:10px;">
-        <img src="${producto.imagen}" width="150"><br><br>
-        <strong>Nombre:</strong> ${producto.nombre}<br>
-        <strong>Descripción:</strong> ${producto.descripcion}<br>
-        <strong>Precio:</strong> ${producto.precio}<br>
-        <strong>Categoría:</strong> ${producto.categoria}<br>
-        <strong>Marca:</strong> ${producto.marcaDetectada || 'Genérico'}<br><br>
-        <button onclick="guardarEnBodega()">Guardar en Bodega</button>
-      </div>
-    `;
-
-    // Guardar en memoria (simulado)
-    window.productoActual = producto;
-  }
-
-  function guardarEnBodega() {
-    const p = window.productoActual;
-    console.log("Producto guardado en bodega:", p);
-    alert("Producto guardado en la bodega interna con éxito.");
-    document.getElementById("preview").innerHTML = "";
-    document.getElementById("url-producto").value = "";
-  }
-</script>
-<!-- FIN BLOQUE ROBOT INTELIGENTE -->
-    </script>
+  <!-- Panel privado protegido por clave -->
+  <div id="privado">
+    <h2>Panel de Administración (Privado)</h2>
+    <p>Importar desde 1688, Exportar CSV, Bodega, etc.</p>
+    <ul>
+      <li><a href="https://github.com/trivoOwner/Trivo-store" target="_blank">GitHub del Proyecto</a></li>
+      <li><a href="https://vercel.com" target="_blank">Vercel Hosting</a></li>
+      <li><a href="https://translate.google.com/translate?sl=zh-CN&tl=es&u=https://m.1688.com" target="_blank">1688 Traducido</a></li>
+    </ul>
+    <h3>Bodega</h3>
+    <ul>
+      <li>Robot cargando productos automáticamente...</li>
+      <li>Clasificando por marcas, nombres y categorías...</li>
+      <li>Asistencia automatizada activada.</li>
+    </ul>
   </div>
+
+  <!-- Script funcional -->
+  <script>
+    const claveCorrecta = "trivo2025!";
+
+    function mostrar(id) {
+      const secciones = document.querySelectorAll("section");
+      secciones.forEach(sec => sec.style.display = "none");
+      document.getElementById(id).style.display = "block";
+    }
+
+    function mostrarAdmin() {
+      const entrada = prompt("Introduce la clave de administrador:");
+      if (entrada === claveCorrecta) {
+        document.getElementById("privado").style.display = "block";
+        alert("Acceso concedido al panel privado.");
+      } else {
+        alert("Clave incorrecta. Acceso denegado.");
+      }
+    }
+  </script>
+
 </body>
 </html>
