@@ -1,222 +1,55 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Trivo Store</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    body { font-family: Arial; margin: 0; padding: 0; background: #f4f4f4; }
-    header { background: #333; color: white; text-align: center; padding: 10px; }
-    section { padding: 20px; display: none; }
-    button { margin: 10px; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
-    #publico, #privado { display: none; }
-    .publico { background-color: #007BFF; color: white; }
-    .privado { background-color: #28a745; color: white; }
-    .warning { background: orange; color: white; padding: 10px; margin: 10px 0; border-radius: 5px; }
-  </style>
-</head>
-<body>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Trivo Store</title>
-  <style>
-    body { font-family: Arial, sans-serif; background: #f8f8f8; margin: 0; padding: 0; }
-    header { background: #333; color: white; padding: 20px; text-align: center; }
-    section { padding: 20px; display: none; }
-    button { margin: 10px; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
-    #publico, #privado { display: none; }
-    .publico { background-color: #007BFF; color: white; }
-    .privado { background-color: #6c757d; color: white; }
-    .warning { background: orange; color: white; padding: 10px; margin: 10px 0; }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>Trivo Store</h1>
-    <img src="https://i.postimg.cc/gX3B7WDq/IMG-7023.png" alt="Logo de Trivo" style="max-height:60px;">
-  </header>
+<section id="proveedores">
+  <h2>Proveedores</h2>
+  <div class="proveedor" onclick="alert('AliExpress seleccionado')">AliExpress</div>
+  <div class="proveedor" onclick="alert('Temu seleccionado')">Temu</div>
+</section>
 
-  <div style="text-align:center; margin-top:20px;">
-    <button class="publico" onclick="mostrarSeccion('publico')">Sección Pública</button>
-    <button class="privado" onclick="mostrarAdmin()">Sección Privada</button>
-  </div>
+<section id="categorias">
+  <h2>Categorías</h2>
+  <div class="categoria" onclick="alert('Tecnología')">Tecnología</div>
+  <div class="categoria" onclick="alert('Accesorios')">Accesorios</div>
+</section>
 
-  <section id="publico">
-    <h2>Bienvenido a Trivo Store</h2>
-    <p>Contenido público visible para todos los usuarios.</p>
-    <p>&copy; 2025 Trivo Store. Todos los derechos reservados.</p>
-  </section>
-<header>
-  <h1>Trivo Store</h1>
-  <img src="https://i.postimg.cc/gX3B7WDq/IMG-7023.png" alt="Logo Trivo" style="height:50px;">
-</header>
+<section id="contacto">
+  <h2>Contáctanos</h2>
+  <form>
+    <input type="text" placeholder="Tu nombre"><br><br>
+    <input type="email" placeholder="Tu correo"><br><br>
+    <textarea placeholder="Mensaje"></textarea><br><br>
+    <button class="boton">Enviar</button>
+  </form>
+</section>
 
-<div style="text-align:center; margin-top:20px;">
-  <button class="publico" onclick="mostrarSeccion('publico')">Ver Tienda Pública</button>
-  <button class="privado" onclick="mostrarAdmin()">Ingresar como Dueño</button>
-</div>
-
-<section id="publico">
-  <h2>Bienvenido a Trivo Store</h2>
-  <p>Contenido público visible para todos los usuarios.</p>
-
-  <h3>Productos Destacados</h3>
+<section id="privado" class="privado">
+  <h2>Panel Privado</h2>
+  <p>Este contenido es solo visible para usuarios autenticados.</p>
   <ul>
-    <li>Auriculares Traductores - $45.00</li>
-    <li>Lámpara LED Recargable - $12.50</li>
+    <li><a href="#inventario">Inventario</a></li>
+    <li><a href="#bodega">Bodega</a></li>
+    <li><a href="#depositos">Depósitos</a></li>
+    <li><a href="#herramientas">Herramientas</a></li>
+    <li><button onclick="cerrarSesion()">Cerrar Sesión</button></li>
   </ul>
 </section>
-<!-- === INICIO ZONA PRIVADA === -->
-<section id="privado" style="background: #f9f9f9; padding: 20px;">
 
-  <h2 style="text-align:center;">Zona Privada - Herramientas de Gestión</h2>
-
-  <!-- Inventario -->
-  <section id="inventario">
-    <h3>Inventario Interno</h3>
-    <ul>
-      <li>Lámpara LED Recargable - 20 unidades</li>
-      <li>Mouse Inalámbrico AmazonBasics - 15 unidades</li>
-      <li>Auriculares Traductores - 10 unidades</li>
-    </ul>
-    <button class="exportar">Exportar Inventario</button>
-  </section>
-
-  <!-- Bodega Automática -->
-  <section id="bodega-trivo">
-    <h3>Bodega de Productos</h3>
-    <input type="text" id="filtro" placeholder="Buscar producto..." onkeyup="filtrarProductos()" style="width:100%; padding:10px;">
-
-    <div id="lista-productos"></div>
-  </section>
-
-  <!-- Agregar Producto Manual -->
-  <section id="agregar-producto">
-    <h3>Agregar Producto</h3>
-    <form onsubmit="agregarProducto(event)">
-      <input type="text" id="nombre" placeholder="Nombre" required><br>
-      <input type="text" id="descripcion" placeholder="Descripción" required><br>
-      <input type="number" id="precio" placeholder="Precio USD" required><br>
-      <input type="text" id="categoria" placeholder="Categoría" required><br>
-      <input type="file" id="imagen" accept="image/*" required><br>
-      <button type="submit">Publicar producto</button>
-    </form>
-  </section>
-
-  <!-- Herramientas adicionales -->
-  <section id="herramientas">
-    <h3>Herramientas Administrativas</h3>
-    <button onclick="mostrarBodega()">Mostrar Bodega</button>
-    <button onclick="ocultarBodega()">Ocultar Bodega</button>
-    <button onclick="publicarTodos()">Publicar Todos</button>
-    <button onclick="cerrarSesion()">Cerrar sesión</button>
-  </section>
-
-</section>
-<!-- === FIN ZONA PRIVADA === -->
-
-<!-- === FUNCIONES JS === -->
 <script>
-  const productos = [
-    {
-      nombre: "Patineta eléctrica",
-      descripcion: "Velocidad máxima de 25km/h",
-      precio: "$299.99",
-      imagen: "https://m.media-amazon.com/images/I/61xNzU7+5jL._AC_SX679_.jpg",
-      categoria: "Transporte"
-    },
-    {
-      nombre: "Zapatillas deportivas",
-      descripcion: "Perfectas para correr y caminar",
-      precio: "$59.99",
-      imagen: "https://m.media-amazon.com/images/I/71R1A5yq3eL._AC_UX695_.jpg",
-      categoria: "Calzado"
-    },
-    {
-      nombre: "Casco de realidad virtual",
-      descripcion: "Alta definición e inmersión",
-      precio: "$89.99",
-      imagen: "https://m.media-amazon.com/images/I/51WUGXweZGL._AC_SX679_.jpg",
-      categoria: "Tecnología"
-    }
-  ];
-
-  function crearProductoHTML(prod) {
-    return `
-      <div class="producto" datos-nombre="${prod.nombre.toLowerCase()}">
-        <img src="${prod.imagen}" alt="${prod.nombre}" style="max-width:100px;"><br>
-        <h4>${prod.nombre}</h4>
-        <p>${prod.descripcion}</p>
-        <strong>${prod.precio}</strong>
-        <button onclick="publicar(this)">Publicar</button>
-        <div class="publicado" style="display:none; color:green;">Publicado</div>
-      </div>
-    `;
+  function togglePrivado() {
+    const seccion = document.getElementById("privado");
+    seccion.classList.toggle("privado");
   }
-
-  function mostrarProductos() {
-    const contenedor = document.getElementById('lista-productos');
-    contenedor.innerHTML = '';
-    productos.forEach(prod => contenedor.innerHTML += crearProductoHTML(prod));
-  }
-
-  function publicar(boton) {
-    boton.style.display = "none";
-    boton.nextElementSibling.style.display = "block";
-  }
-
-  function publicarTodos() {
-    document.querySelectorAll('.producto button').forEach(b => b.click());
-  }
-
-  function mostrarBodega() {
-    document.getElementById('bodega-trivo').style.display = 'block';
-  }
-
-  function ocultarBodega() {
-    document.getElementById('bodega-trivo').style.display = 'none';
-  }
-
   function cerrarSesion() {
-    alert("Sesión cerrada.");
-    // Aquí podrías agregar lógica para redirigir
+    alert("Sesión cerrada");
+    document.getElementById("privado").classList.add("privado");
   }
-
-  function filtrarProductos() {
-    const filtro = document.getElementById('filtro').value.toLowerCase();
-    const productosHTML = document.querySelectorAll('.producto');
-    productosHTML.forEach(prod => {
-      const nombre = prod.getAttribute('datos-nombre');
-      prod.style.display = nombre.includes(filtro) ? 'block' : 'none';
-    });
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'es',
+      includedLanguages: 'en,es,fr,de,it,pt,zh-CN,ja,ko,ru,ar,hi,tl,tr,pl,nl,sv,ro,cs,el,fi,th,vi,uk,bg,he,fa,hu,id,ms,no,sk,sl,sr,ta,te,ur,zh-TW',
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+    }, 'google_translate_element');
   }
-
-  function agregarProducto(event) {
-    event.preventDefault();
-    const nombre = document.getElementById("nombre").value;
-    const descripcion = document.getElementById("descripcion").value;
-    const precio = document.getElementById("precio").value;
-    const categoria = document.getElementById("categoria").value;
-    const imagenInput = document.getElementById("imagen");
-    const imagenURL = URL.createObjectURL(imagenInput.files[0]);
-
-    const productoHTML = `
-      <div class="producto" datos-nombre="${nombre.toLowerCase()}">
-        <img src="${imagenURL}" alt="${nombre}" style="max-width:100px;"><br>
-        <h4>${nombre}</h4>
-        <p>${descripcion}</p>
-        <strong>$${precio}</strong>
-        <button onclick="publicar(this)">Publicar</button>
-        <div class="publicado" style="display:none; color:green;">Publicado</div>
-      </div>
-    `;
-    document.getElementById("lista-productos").innerHTML += productoHTML;
-    event.target.reset();
-  }
-
-  // Carga inicial
-  document.addEventListener("DOMContentLoaded", mostrarProductos);
 </script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</body>
+</html>
