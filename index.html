@@ -1144,5 +1144,44 @@ function buscarProducto() {
 }
 </script>
 <!-- FIN BLOQUE DE BODEGA -->
+      <!-- LÍNEA 53 -->
+<script>
+// Herramienta automática de revisión básica
+document.addEventListener("DOMContentLoaded", () => {
+  console.log(">> Revisión Trivo iniciada...");
+
+  // 1. Verifica si hay botones sin funcionalidad
+  document.querySelectorAll("button").forEach(btn => {
+    if (!btn.getAttribute("onclick") && !btn.onclick) {
+      console.warn("Botón sin funcionalidad:", btn);
+    }
+  });
+
+  // 2. Verifica si las imágenes no cargaron
+  document.querySelectorAll("img").forEach(img => {
+    img.onerror = () => {
+      console.error("Imagen rota detectada:", img.src);
+      img.src = "https://via.placeholder.com/150?text=Imagen+no+disponible";
+    };
+  });
+
+  // 3. Verifica si hay enlaces rotos
+  document.querySelectorAll("a").forEach(link => {
+    if (!link.href || link.href === "#") {
+      console.warn("Enlace posiblemente roto o vacío:", link);
+    }
+  });
+
+  // 4. Verifica si hay formularios sin método definido
+  document.querySelectorAll("form").forEach(f => {
+    if (!f.hasAttribute("method")) {
+      console.warn("Formulario sin método especificado:", f);
+    }
+  });
+
+  // Confirmación
+  console.log(">> Revisión básica completada.");
+});
+</script>
 </body>
 </html>
