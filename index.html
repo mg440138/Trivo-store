@@ -2,258 +2,96 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Trivo Store</title>
   <style>
+    /* Estilos básicos para diseño responsivo */
     body {
       font-family: Arial, sans-serif;
-      background: #f4f4f4;
-      padding: 20px;
+      margin: 0;
+      padding: 0;
+    }
+    header, nav, main, footer {
+      padding: 1em;
     }
     nav button {
-      margin: 5px;
-      padding: 10px;
-      cursor: pointer;
+      margin-right: 1em;
     }
     section {
       display: none;
-      background: white;
-      padding: 20px;
-      margin-top: 20px;
-      border-radius: 6px;
-      box-shadow: 0 0 5px rgba(0,0,0,0.1);
     }
-    #privado {
-      display: none;
-      background: #fff7e6;
-      border: 1px solid #ffd591;
-      padding: 20px;
-      margin-top: 30px;
+    .visible {
+      display: block;
+    }
+    /* Estilos para el logo */
+    .logo {
+      max-width: 150px;
+      height: auto;
+    }
+    /* Diseño responsivo */
+    @media (max-width: 600px) {
+      nav button {
+        display: block;
+        margin-bottom: 0.5em;
+      }
     }
   </style>
 </head>
 <body>
 
-  <h1>Trivo Store</h1>
-  <h3>Panel público y privado integrado</h3>
+  <header>
+    <img src="ruta/a/tu/logo.png" alt="Logo de Trivo" class="logo" />
+  </header>
 
-  <!-- Navegación principal -->
-  <nav>f
-    <button onclick="mostrar('productos')">Productos</button>
-    <button onclick="mostrar('proveedores')">Proveedores</button>
-    <button onclick="mostrar('inventario')">Inventario</button>
-    <button onclick="mostrar('calculadora')">Calculadora</button>
-    <button onclick="mostrar('carrito')">Carrito</button>
-    <button onclick="mostrar('contacto')">Contáctanos</button>
-    <button onclick="mostrar('categorias')">Categorías</button>
-    <button onclick="mostrarAdmin()">Admin (Clave)</button>
+  <nav>
+    <button onclick="mostrarSeccion('publico')">Sección Pública</button>
+    <button onclick="mostrarAdmin()">Sección Privada</button>
   </nav>
 
-  <!-- Secciones públicas -->
-  <section id="productos"><h2>Productos</h2><p>Listado de productos desde Firestore</p></section>
-  <section id="proveedores"><h2>Proveedores</h2><ul><li>AliExpress</li><li>Temu</li><li>CJdropshipping</li><li>EJDropshipping</li><li>DSers</li></ul></section>
-  <section id="inventario"><h2>Inventario Interno</h2><ul><li>Lámpara LED Recargable - 20 unidades</li><li>Mouse Inalámbrico AmazonBasics - 15 unidades</li><li>Auriculares Traductores - 10 unidades</li></ul></section>
-  <section id="calculadora">
-    <h2>Calculadora Avanzada</h2>
-    <input type="number" placeholder="Costo del producto" />
-    <input type="number" placeholder="Costo de envío" />
-    <input type="number" placeholder="Porcentaje de ganancia" />
-    <button>Calcular</button>
-  </section>
-  <!-- Logo Trivo Store -->
-<div style="text-align: center; margin: 20px 0;">
-  <img src="https://trivo-store.vercel.app/logo-trivo.png" alt="Trivo Store" style="height: 80px;" />
-</div>
-  <section id="carrito"><h2>Tu Carrito</h2><p>No hay productos en el carrito.</p><button>Vaciar carrito</button></section>
-  <section id="contacto">
-    <h2>Contáctanos</h2>
-    <input type="text" placeholder="Tu nombre" /><br />
-    <input type="email" placeholder="Tu correo" /><br />
-    <textarea placeholder="Tu mensaje"></textarea><br />
-    <button>Enviar</button>
-  </section>
-  <section id="categorias">
-    <h2>Categorías Populares</h2>
-    <ul>
-      <li>Tecnología</li>
-      <li>Accesorios</li>
-      <li>Hogar</li>
-      <li>Moda</li>
-    </ul>
-  </section>
-  <!-- ===== BOTONES PÚBLICO / DUEÑO ===== -->
-<div style="text-align:center; margin-top: 20px;">
-  <button onclick="window.location.href='https://trivo-store-oficial.vercel.app'" style="padding: 10px 20px; margin: 5px; font-size: 16px;">Ver Tienda Pública</button>
-  <button onclick="document.getElementById('panelPrivado').style.display='block'" style="padding: 10px 20px; margin: 5px; font-size: 16px;">Ingresar como Dueño</button>
-</div>
+  <main>
+    <!-- Sección Pública -->
+    <section id="publico" class="visible">
+      <h2>Bienvenido a Trivo Store</h2>
+      <p>Contenido público visible para todos los usuarios.</p>
+      <!-- Aquí puedes incluir más contenido público -->
+    </section>
 
-<!-- ===== TRADUCTOR DESLIZABLE ===== -->
-  
-<div style="text-align:center; margin-top:20px;">
-  <h3>Seleccionar idioma</h3>
-  <div style="max-height: 150px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px; display: inline-block; width: 300px; text-align: left;">
-    <select onchange="window.open(`https://translate.google.com/translate?sl=es&tl=${this.value}&u=https://trivo-store-oficial.vercel.app`, '_blank')" style="width: 100%; font-size: 14px;">
-      <option value="en">Inglés</option>
-      <option value="fr">Francés</option>
-      <option value="de">Alemán</option>
-      <option value="pt">Portugués</option>
-      <option value="it">Italiano</option>
-      
-      <option value="zh-CN">Chino (Simplificado)</option>
-      <option value="ja">Japonés</option>
-      <option value="ko">Coreano</option>
-      <option value="ru">Ruso</option>
-      <option value="ar">Árabe</option>
-      <option value="hi">Hindi</option>
-      <option value="tr">Turco</option>
-      <option value="pl">Polaco</option>
-      <option value="nl">Holandés</option>
-      <option value="sv">Sueco</option>
-      <option value="uk">Ucraniano</option>
-      <option value="vi">Vietnamita</option>
-      <option value="th">Tailandés</option>
-      <option value="fa">Persa</option>
-      <option value="el">Griego</option>
-      <option value="he">Hebreo</option>
-      <option value="ro">Rumano</option>
-      <option value="cs">Checo</option>
-      <option value="hu">Húngaro</option>
-      <option value="id">Indonesio</option>
-      <option value="ms">Malayo</option>
-      <option value="bn">Bengalí</option>
-      <option value="ta">Tamil</option>
-      <option value="te">Telugu</option>
-      <option value="ur">Urdu</option>
-      <option value="es">Español</option>
-<option value="ja">Japonés</option>
-<option value="zh-CN">Chino (Simplificado)</option>
-<option value="zh-TW">Chino (Tradicional)</option>
-<option value="ru">Ruso</option>
-<option value="hi">Hindi</option>
-<option value="it">Italiano</option>
-<option value="de">Alemán</option>
-<option value="fr">Francés</option>
-<option value="ko">Coreano</option>
-<option value="tr">Turco</option>
-<option value="pl">Polaco</option>
-<option value="he">Hebreo</option>
-<option value="uk">Ucraniano</option>
-      <option value="ca">Catalán</option>
-<option value="gl">Gallego</option>
-<option value="eu">Euskera</option>
-<option value="zh-TW">Chino (Tradicional)</option>
-<option value="pa">Punyabí</option>
-<option value="jw">Javanés</option>
-<option value="mn">Mongol</option>
-<option value="lo">Lao</option>
-<option value="ka">Georgiano</option>
-<option value="km">Jemer</option>
-<option value="ps">Pastún</option>
-<option value="ne">Nepalí</option>
-<option value="si">Cingalés</option>
-<option value="la">Latín</option>
-<option value="af">Afrikáans</option>
-<option value="sq">Albanés</option>
-<option value="hy">Armenio</option>
-<option value="mt">Maltés</option>
-<option value="cy">Galés</option>
-<option value="xh">Xhosa</option>
-<option value="zu">Zulú</option>
-<option value="yi">Yidis</option>
-<option value="ha">Hausa</option>
-<option value="mi">Maorí</option>
-<option value="st">Sesotho</option>
-      <!-- Puedes agregar más idiomas si lo deseas -->
-    </select>
-  </div>
-</div>
+    <!-- Sección Privada -->
+    <section id="privado">
+      <h2>Panel de Administración</h2>
+      <nav>
+        <button onclick="mostrarSubseccion('proveedores')">Proveedores</button>
+        <button onclick="mostrarSubseccion('categorias')">Categorías</button>
+      </nav>
+      <div id="proveedores" class="subseccion">
+        <h3>Proveedores</h3>
+        <ul>
+          <li>AliExpress</li>
+          <li>Temu</li>
+          <li>CJdropshipping</li>
+          <li>EJDropshipping</li>
+          <li>DSers</li>
+        </ul>
+      </div>
+      <div id="categorias" class="subseccion">
+        <h3>Categorías</h3>
+        <ul>
+          <li>Tecnología</li>
+          <li>Accesorios</li>
+          <li>Hogar</li>
+          <li>Moda</li>
+        </ul>
+      </div>
+    </section>
+  </main>
 
-<!-- ===== PANEL PRIVADO (SOLO DUEÑO) ===== -->
-<div id="panelPrivado" style="display:none; text-align:center; margin-top:30px;">
-  <h3>Ingresa la clave de acceso</h3>
-  <input type="password" id="clavePrivada" placeholder="Clave de dueño" style="padding:8px; font-size:16px;" />
-  <br /><br />
-  <button onclick="validarClave()" style="padding: 10px 20px; font-size: 16px;">Acceder</button>
+  <footer>
+    <p>&copy; 2025 Trivo Store. Todos los derechos reservados.</p>
+  </footer>
 
-  <div id="contenidoPrivado" style="display:none; margin-top:30px;">
-    <!-- Aquí va el contenido privado que ya tienes integrado (inventario, bodega, proveedores, etc.) -->
-    <h3 style="color:green;">Acceso concedido. Bienvenido, dueño.</h3>
-    <!-- Tu contenido privado debe continuar debajo de esta línea -->
-  </div>
-</div>
-
-<script>
-  function validarClave() {
-    const clave = document.getElementById("clavePrivada").value;
-    if (clave === "trivo2025!") {
-      document.getElementById("contenidoPrivado").style.display = "block";
-    } else {
-      alert("Clave incorrecta");
-    }
-  }
-</script>
-<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-  <!-- Panel privado protegido por clave -->
-  <div id="privado">
-    <h2>Panel de Administración (Privado)</h2>
-    <p>Importar desde 1688, Exportar CSV, Bodega, etc.</p>
-    <ul>
-      <li><a href="https://github.com/trivoOwner/Trivo-store" target="_blank">GitHub del Proyecto</a></li>
-      <li><a href="https://vercel.com" target="_blank">Vercel Hosting</a></li>
-      <li><a href="https://translate.google.com/translate?sl=zh-CN&tl=es&u=https://m.1688.com" target="_blank">1688 Traducido</a></li>
-    </ul>
-    <h3>Bodega</h3>
-    <ul>
-      <li>Robot cargando productos automáticamente...</li>
-      <li>Clasificando por marcas, nombres y categorías...</li>
-      <li>Asistencia automatizada activada.</li>
-    </ul>
-    <!-- === Sección: Proveedores (Privado) === -->
-<!-- Sección: Proveedores (Privado) -->
-<section id="proveedores" style="display:none;">
-  <h2>Proveedores</h2>
-  <ul>
-    <li>AliExpress</li>
-    <li>Temu</li>
-    <li>CJdropshipping</li>
-    <li>DSers</li>
-  </ul>
-</section>
-
-<!-- Sección: Categorías (Privado) -->
-<section id="categorias" style="display:none;">
-  <h2>Categorías</h2>
-  <ul>
-    <li>Electrónica</li>
-    <li>Hogar</li>
-    <li>Moda</li>
-    <li>Juguetes</li>
-  </ul>
-</section>
-  </div>
-
-  <!-- Script funcional -->
   <script>
     const claveCorrecta = "trivo2025!";
 
-    function mostrar(id) {
-      const secciones = document.querySelectorAll("section");
-      secciones.forEach(sec => sec.style.display = "none");
-      document.getElementById(id).style.display = "block";
-    }
-
-    function mostrarAdmin() {
-      const entrada = prompt("Introduce la clave de administrador:");
-      if (entrada === claveCorrecta) {
-        document.getElementById("privado").style.display = "block";
-        alert("Acceso concedido al panel privado.");
-        document.getElementById("proveedores").style.display = "block";
-document.getElementById("categorias").style.display = "block";
-      } else {
-        alert("Clave incorrecta. Acceso denegado.");
-      }
-    }
-  </script>
-
-</body>
-</html>
+    function mostrarSeccion(id) {
+      document.getElementById('publico').classList.remove('visible');
+      document.getElementById('privado
