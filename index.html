@@ -1185,6 +1185,7 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
       <!-- BLOQUE VISUAL INTELIGENTE - TRIVO -->
 <style>
+  
   .alerta-trivo {
     position: fixed;
     top: 20px;
@@ -1251,5 +1252,39 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 </script>
+      </script>
+
+<!-- BLOQUE DETECTOR Y CORRECTOR DE FORMULARIOS -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const formularios = document.querySelectorAll("form");
+    let errores = 0;
+
+    formularios.forEach((form, index) => {
+      if (!form.hasAttribute("method")) {
+        form.setAttribute("method", "post"); // <-- CORRIGE automáticamente
+        let id = form.id ? `ID: ${form.id}` : `Formulario #${index + 1}`;
+        const alerta = document.createElement("div");
+        alerta.className = "alerta-trivo";
+        alerta.innerText = `¡Formulario corregido automáticamente! (${id})`;
+        document.body.appendChild(alerta);
+        errores++;
+        setTimeout(() => alerta.remove(), 7000);
+      }
+    });
+
+    if (errores === 0) {
+      const ok = document.createElement("div");
+      ok.className = "alerta-trivo";
+      ok.style.background = "green";
+      ok.innerText = "Todos los formularios ya estaban bien.";
+      document.body.appendChild(ok);
+      setTimeout(() => ok.remove(), 5000);
+    }
+  });
+</script>
+
+</body>
+</html>
 </body>
 </html>
