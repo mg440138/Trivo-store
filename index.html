@@ -1253,6 +1253,66 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 <!-- BLOQUE VISUAL INTELIGENTE - TRIVO -->
+  <!-- BLOQUE VISUAL INTELIGENTE - TRIVO -->
+<style>
+  .alerta-trivo {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #ff4444;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    font-family: sans-serif;
+    font-weight: bold;
+    z-index: 9999;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    let errores = 0;
+
+    function mostrarAlertaTrivo(mensaje, color = "#ff4444") {
+      const alerta = document.createElement("div");
+      alerta.className = "alerta-trivo";
+      alerta.style.backgroundColor = color;
+      alerta.innerText = mensaje;
+      document.body.appendChild(alerta);
+      setTimeout(() => alerta.remove(), 5000);
+    }
+
+    // 1. Detectar botones sin funcionalidad
+    document.querySelectorAll("button").forEach(btn => {
+      if (!btn.getAttribute("onclick") && !btn.onclick) {
+        mostrarAlertaTrivo("Botón sin funcionalidad detectado.");
+        errores++;
+      }
+    });
+
+    // 2. Imágenes rotas
+    document.querySelectorAll("img").forEach(img => {
+      img.onerror = () => {
+        img.src = "https://via.placeholder.com/150?text=Imagen+no+disponible";
+        mostrarAlertaTrivo("Imagen rota reemplazada automáticamente.");
+        errores++;
+      };
+    });
+
+    // 3. Enlaces vacíos o sin destino
+    document.querySelectorAll("a").forEach(link => {
+      if (!link.href || link.href === "#") {
+        mostrarAlertaTrivo("Enlace vacío o roto detectado.");
+        errores++;
+      }
+    });
+
+    if (errores === 0) {
+      mostrarAlertaTrivo("Trivo está funcionando sin errores.", "green");
+    }
+  });
+</script>
 <style>
   .alerta-trivo {
     position: fixed;
