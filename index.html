@@ -1407,7 +1407,149 @@ function importarProducto() {
     }
   }
 </script>
+
 <!-- FIN DEL BLOQUE -->
+  <!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>TrivoStore</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f6f6f6;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    .producto {
+      background: #fff;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    #formulario, #zonaPrivada { display: none; }
+    .container {
+      max-width: 500px;
+      margin: auto;
+    }
+    input, button {
+      margin: 5px 0;
+      padding: 8px;
+      width: 100%;
+    }
+    .seccion {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>TrivoStore - Productos</h1>
+  <div id="productosContainer"></div>
+
+  <!-- Zona privada (solo dueño) -->
+  <div class="container seccion" id="zonaAcceso">
+    <h2>Acceso Privado del Dueño</h2>
+    <input type="password" id="claveAcceso" placeholder="Ingresa clave privada" />
+    <button onclick="verificarClave()">Entrar</button>
+  </div>
+
+  <div class="container seccion" id="zonaPrivada">
+    <h2>Panel de Administración</h2>
+    <input type="text" id="nombre" placeholder="Nombre del producto" />
+    <input type="number" id="precio" placeholder="Precio" />
+    <input type="text" id="descripcion" placeholder="Descripción" />
+    <input type="text" id="imagen" placeholder="URL de imagen" />
+    <input type="text" id="estado" placeholder="Estado (activo/inactivo)" />
+    <button onclick="subirProducto()">Subir producto</button>
+  </div>
+
+  <!-- Firebase y lógica -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "TU_API_KEY",
+      authDomain: "TU_DOMINIO.firebaseapp.com",
+      projectId: "trivostore",
+      storageBucket: "TU_STORAGE_BUCKET",
+      messagingSenderId: "TU_SENDER_ID",
+      appId: "TU_APP_ID"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const contenedor = document.getElementById("productosContainer");
+
+    function mostrarProductos() {
+      const productosRef = collection(db, "productos");
+      const q = query(productosRef, orderBy("precio", "asc"));
+
+      onSnapshot(q, (snapshot) => {
+        contenedor.innerHTML = "";
+        snapshot.forEach((doc) => {
+          const data = doc.data();
+          const div = document.createElement("div");
+          div.className = "producto";
+          div.innerHTML = `
+            <strong>Nombre:</strong> ${data.nombre}<br>
+            <strong>Precio:</strong> $${data.precio}<br>
+            <strong>Descripción:</strong> ${data.descripcion || "—"}<br>
+            <strong>Estado:</strong> ${data.estado || "activo"}
+          `;
+          contenedor.appendChild(div);
+        });
+      });
+    }
+
+    mostrarProductos();
+
+    // Zona privada
+    function verificarClave() {
+      const clave = document.getElementById("claveAcceso").value;
+      if (clave === "trivo2025!") {
+        document.getElementById("zonaAcceso").style.display = "none";
+        document.getElementById("zonaPrivada").style.display = "block";
+      } else {
+        alert("Clave incorrecta");
+      }
+    }
+
+    async function subirProducto() {
+      const nombre = document.getElementById("nombre").value;
+      const precio = parseFloat(document.getElementById("precio").value);
+      const descripcion = document.getElementById("descripcion").value;
+      const imagen = document.getElementById("imagen").value;
+      const estado = document.getElementById("estado").value;
+
+      if (!nombre || isNaN(precio)) {
+        alert("Nombre y precio son obligatorios.");
+        return;
+      }
+
+      try {
+        await addDoc(collection(db, "productos"), {
+          nombre, precio, descripcion, imagen, estado
+        });
+        alert("Producto subido correctamente");
+      } catch (error) {
+        alert("Error al subir producto: " + error);
+      }
+    }
+  </script>
+
+</body>
+</html>
 </body>
 </html>
 <!-- FIN BLOQUE DE BODEGA -->
