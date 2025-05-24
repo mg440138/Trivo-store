@@ -16,7 +16,39 @@
   </style>
 </head>
 <body>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Trivo Store</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f8f8f8; margin: 0; padding: 0; }
+    header { background: #333; color: white; padding: 20px; text-align: center; }
+    section { padding: 20px; display: none; }
+    button { margin: 10px; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
+    #publico, #privado { display: none; }
+    .publico { background-color: #007BFF; color: white; }
+    .privado { background-color: #6c757d; color: white; }
+    .warning { background: orange; color: white; padding: 10px; margin: 10px 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Trivo Store</h1>
+    <img src="https://i.postimg.cc/gX3B7WDq/IMG-7023.png" alt="Logo de Trivo" style="max-height:60px;">
+  </header>
 
+  <div style="text-align:center; margin-top:20px;">
+    <button class="publico" onclick="mostrarSeccion('publico')">Sección Pública</button>
+    <button class="privado" onclick="mostrarAdmin()">Sección Privada</button>
+  </div>
+
+  <section id="publico">
+    <h2>Bienvenido a Trivo Store</h2>
+    <p>Contenido público visible para todos los usuarios.</p>
+    <p>&copy; 2025 Trivo Store. Todos los derechos reservados.</p>
+  </section>
 <header>
   <h1>Trivo Store</h1>
   <img src="https://i.postimg.cc/gX3B7WDq/IMG-7023.png" alt="Logo Trivo" style="height:50px;">
