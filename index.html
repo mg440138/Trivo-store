@@ -166,6 +166,76 @@
           contenedor.appendChild(div);
         });
       });
+      <!-- BLOQUE ROBOT INTELIGENTE - TRIVO -->
+<section id="robot-inteligente" style="padding: 30px; background: #f1f1f1;">
+  <h2 style="text-align:center;">Importar Producto Inteligente (1688, Temu, AliExpress)</h2>
+  <input type="text" id="url-producto" placeholder="Pega aquí la URL del producto" style="width:100%; padding:10px; margin:10px 0;">
+  <button onclick="procesarProducto()" style="padding:10px 20px;">Importar y Clasificar</button>
+
+  <div id="preview" style="margin-top:20px;"></div>
+</section>
+
+<script>
+  const marcasReconocidas = ["xiaomi", "apple", "samsung", "lenovo", "sony"];
+  
+  function procesarProducto() {
+    const url = document.getElementById('url-producto').value;
+    if (!url) return alert("Por favor, pega una URL válida.");
+
+    // Simula obtener información del producto
+    const producto = {
+      nombre: "Producto automático desde 1688",
+      descripcion: "Descripción generada automáticamente",
+      precio: "$" + (Math.random() * 50 + 10).toFixed(2),
+      imagen: "https://via.placeholder.com/150",
+      marcaDetectada: "",
+      categoria: ""
+    };
+
+    // Detectar marca en URL o nombre
+    const urlLower = url.toLowerCase();
+    for (const marca of marcasReconocidas) {
+      if (urlLower.includes(marca)) {
+        producto.marcaDetectada = marca;
+        break;
+      }
+    }
+
+    // Clasificar categoría
+    if (producto.marcaDetectada === "xiaomi" || producto.marcaDetectada === "samsung") {
+      producto.categoria = "Tecnología";
+    } else if (url.includes("ropa") || url.includes("moda")) {
+      producto.categoria = "Moda";
+    } else {
+      producto.categoria = "Accesorios";
+    }
+
+    // Mostrar en pantalla
+    document.getElementById("preview").innerHTML = `
+      <div style="padding:15px; background:#fff; border-radius:10px;">
+        <img src="${producto.imagen}" width="150"><br><br>
+        <strong>Nombre:</strong> ${producto.nombre}<br>
+        <strong>Descripción:</strong> ${producto.descripcion}<br>
+        <strong>Precio:</strong> ${producto.precio}<br>
+        <strong>Categoría:</strong> ${producto.categoria}<br>
+        <strong>Marca:</strong> ${producto.marcaDetectada || 'Genérico'}<br><br>
+        <button onclick="guardarEnBodega()">Guardar en Bodega</button>
+      </div>
+    `;
+
+    // Guardar en memoria (simulado)
+    window.productoActual = producto;
+  }
+
+  function guardarEnBodega() {
+    const p = window.productoActual;
+    console.log("Producto guardado en bodega:", p);
+    alert("Producto guardado en la bodega interna con éxito.");
+    document.getElementById("preview").innerHTML = "";
+    document.getElementById("url-producto").value = "";
+  }
+</script>
+<!-- FIN BLOQUE ROBOT INTELIGENTE -->
     </script>
   </div>
 </body>
