@@ -246,6 +246,8 @@
       if (entrada === claveCorrecta) {
         document.getElementById("privado").style.display = "block";
         alert("Acceso concedido al panel privado.");
+        mostrar('proveedores');
+mostrar('categorias');
       } else {
         alert("Clave incorrecta. Acceso denegado.");
       }
