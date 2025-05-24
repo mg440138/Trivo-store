@@ -1183,5 +1183,73 @@ document.addEventListener("DOMContentLoaded", () => {
   console.log(">> Revisión básica completada.");
 });
 </script>
+      <!-- BLOQUE VISUAL INTELIGENTE - TRIVO -->
+<style>
+  .alerta-trivo {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #ff4444;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    font-family: sans-serif;
+    font-weight: bold;
+    z-index: 9999;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    animation: aparecer 0.4s ease-out;
+  }
+
+  @keyframes aparecer {
+    from {opacity: 0; transform: translateY(-10px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+</style>
+
+<script>
+  function mostrarAlertaTrivo(mensaje) {
+    const alerta = document.createElement("div");
+    alerta.className = "alerta-trivo";
+    alerta.innerText = mensaje;
+    document.body.appendChild(alerta);
+    setTimeout(() => alerta.remove(), 6000);
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    let errores = 0;
+
+    document.querySelectorAll("button").forEach(btn => {
+      if (!btn.getAttribute("onclick") && !btn.onclick) {
+        mostrarAlertaTrivo("¡Botón sin funcionalidad detectado!");
+        errores++;
+      }
+    });
+
+    document.querySelectorAll("img").forEach(img => {
+      img.onerror = () => {
+        img.src = "https://via.placeholder.com/150?text=Imagen+no+disponible";
+        mostrarAlertaTrivo("Imagen rota reemplazada automáticamente.");
+      };
+    });
+
+    document.querySelectorAll("a").forEach(link => {
+      if (!link.href || link.href === "#") {
+        mostrarAlertaTrivo("Enlace roto o vacío detectado.");
+        errores++;
+      }
+    });
+
+    document.querySelectorAll("form").forEach(f => {
+      if (!f.hasAttribute("method")) {
+        mostrarAlertaTrivo("Formulario sin método detectado.");
+        errores++;
+      }
+    });
+
+    if (errores === 0) {
+      mostrarAlertaTrivo("Trivo está funcionando correctamente.");
+    }
+  });
+</script>
 </body>
 </html>
