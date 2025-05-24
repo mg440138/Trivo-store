@@ -39,3 +39,58 @@
     <button class="boton">Agregar al carrito</button>
   </div>
 </section>
+<section id="proveedores">
+  <h2>Proveedores</h2>
+  <div class="proveedor" onclick="alert('AliExpress seleccionado')">AliExpress</div>
+  <div class="proveedor" onclick="alert('Temu seleccionado')">Temu</div>
+</section>
+
+<section id="categorias">
+  <h2>Categorías</h2>
+  <div class="categoria" onclick="alert('Tecnología')">Tecnología</div>
+  <div class="categoria" onclick="alert('Accesorios')">Accesorios</div>
+</section>
+
+<section id="contacto">
+  <h2>Contáctanos</h2>
+  <form>
+    <input type="text" placeholder="Tu nombre"><br><br>
+    <input type="email" placeholder="Tu correo"><br><br>
+    <textarea placeholder="Mensaje"></textarea><br><br>
+    <button class="boton">Enviar</button>
+  </form>
+</section>
+
+<section id="privado" class="privado">
+  <h2>Panel Privado</h2>
+  <p>Este contenido es solo visible para usuarios autenticados.</p>
+  <ul>
+    <li><a href="#inventario">Inventario</a></li>
+    <li><a href="#bodega">Bodega</a></li>
+    <li><a href="#depositos">Depósitos</a></li>
+    <li><a href="#herramientas">Herramientas</a></li>
+    <li><button onclick="cerrarSesion()">Cerrar Sesión</button></li>
+  </ul>
+</section>
+
+<script>
+  function togglePrivado() {
+    const seccion = document.getElementById("privado");
+    seccion.classList.toggle("privado");
+  }
+  function cerrarSesion() {
+    alert("Sesión cerrada");
+    document.getElementById("privado").classList.add("privado");
+  }
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'es',
+      includedLanguages: 'en,es,fr,de,it,pt,zh-CN,ja,ko,ru,ar,hi,tl,tr,pl,nl,sv,ro,cs,el,fi,th,vi,uk,bg,he,fa,hu,id,ms,no,sk,sl,sr,ta,te,ur,zh-TW',
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+    }, 'google_translate_element');
+  }
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</body>
+</html>
