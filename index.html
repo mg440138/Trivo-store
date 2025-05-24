@@ -1251,9 +1251,51 @@ document.addEventListener("DOMContentLoaded", () => {
       mostrarAlertaTrivo("Trivo está funcionando correctamente.");
     }
   });
-</script>
-      </script>
 
+<!-- BLOQUE VISUAL INTELIGENTE - TRIVO -->
+<style>
+  .alerta-trivo {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #ff4444;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    z-index: 9999;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  }
+</style>
+
+<!-- BLOQUE DETECTOR Y CORRECTOR DE FORMULARIOS -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const formularios = document.querySelectorAll("form");
+    let contador = 0;
+
+    formularios.forEach((form, index) => {
+      if (!form.hasAttribute("method")) {
+        let id = form.id ? `ID: ${form.id}` : `Formulario #${index + 1}`;
+        const alerta = document.createElement("div");
+        alerta.className = "alerta-trivo";
+        alerta.innerText = `¡Formulario sin método detectado! (${id})`;
+        document.body.appendChild(alerta);
+        setTimeout(() => alerta.remove(), 7000);
+        contador++;
+      }
+    });
+
+    if (contador === 0) {
+      const ok = document.createElement("div");
+      ok.className = "alerta-trivo";
+      ok.style.background = "green";
+      ok.innerText = "Todos los formularios tienen método definido.";
+      document.body.appendChild(ok);
+      setTimeout(() => ok.remove(), 5000);
+    }
+  });
+</script>
 <!-- BLOQUE DETECTOR Y CORRECTOR DE FORMULARIOS -->
 <script>
   document.addEventListener("DOMContentLoaded", () => {
