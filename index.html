@@ -11,6 +11,7 @@
   <title>Trivo Store</title>
   <style>
     body {
+      
       font-family: Arial, sans-serif;
       background: #f8f8ff;
       margin: 0;
@@ -18,6 +19,7 @@
     }
     header {
       background: #1a1a1a;
+      
       padding: 10px;
       text-align: center;
     }
@@ -1251,7 +1253,33 @@ document.addEventListener("DOMContentLoaded", () => {
       mostrarAlertaTrivo("Trivo está funcionando correctamente.");
     }
   });
+<body>
 
+  <!-- BOTÓN PARA MOSTRAR SOLO LO PÚBLICO -->
+  <div style="text-align:center; margin: 20px;">
+    <button onclick="verPublico()" style="...">Ver Público</button>
+  </div>
+
+  <!-- CONTENIDO PÚBLICO -->
+  <div class="publico">
+    <!-- Todo lo que quieras que cualquier visitante vea -->
+  </div>
+
+  <!-- CONTENIDO PRIVADO (OCULTO) -->
+  <div class="privado" style="display:none;">
+    <!-- Solo tú puedes ver esto si activas acceso privado -->
+  </div>
+
+  <!-- SCRIPT DE CONTROL -->
+  <script>
+    function verPublico() {
+      document.querySelectorAll('.publico').forEach(el => el.style.display = 'block');
+      document.querySelectorAll('.privado').forEach(el => el.style.display = 'none');
+    }
+    document.addEventListener("DOMContentLoaded", verPublico);
+  </script>
+
+</body>
 <!-- BLOQUE VISUAL INTELIGENTE - TRIVO -->
   <!-- BLOQUE VISUAL INTELIGENTE - TRIVO -->
 <style>
