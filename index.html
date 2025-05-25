@@ -333,5 +333,48 @@ document.getElementById('nombreProducto').addEventListener('input', (e) => {
     setTimeout(() => cont.innerHTML = "", 3000);
   }
 </script>
+  <script>
+  // Mostrar vista previa de la imagen cargada
+  const imagenArchivo = document.getElementById('imagenArchivo');
+  const imagenURL = document.getElementById('imagenURL');
+  const vistaPrevia = document.getElementById('vistaPrevia');
+
+  imagenArchivo.addEventListener('change', function () {
+    const archivo = this.files[0];
+    if (archivo) {
+      const lector = new FileReader();
+      lector.onload = function (e) {
+        vistaPrevia.src = e.target.result;
+        vistaPrevia.style.display = 'block';
+      };
+      lector.readAsDataURL(archivo);
+    }
+  });
+
+  imagenURL.addEventListener('input', function () {
+    const url = this.value;
+    if (url && url.startsWith('http')) {
+      vistaPrevia.src = url;
+      vistaPrevia.style.display = 'block';
+    }
+  });
+
+  // Detección automática de categoría desde el nombre del producto
+  const nombreInput = document.getElementById('nombre');
+  const categoriaDetectada = document.getElementById('categoriaDetectada');
+
+  nombreInput.addEventListener('input', function () {
+    const texto = this.value.toLowerCase();
+    let categoria = 'General';
+
+    if (texto.includes('camisa') || texto.includes('blusa')) categoria = 'Ropa';
+    else if (texto.includes('tenis') || texto.includes('zapato')) categoria = 'Calzado';
+    else if (texto.includes('laptop') || texto.includes('computadora')) categoria = 'Tecnología';
+    else if (texto.includes('silla') || texto.includes('mesa')) categoria = 'Muebles';
+    else if (texto.includes('reloj')) categoria = 'Accesorios';
+
+    categoriaDetectada.textContent = categoria;
+  });
+</script>
 </body>
 </html>
