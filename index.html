@@ -145,42 +145,15 @@
   mostrarSeccion('inicio');
 </script>
 
-<!-- TRADUCTOR GOOGLE MULTILENGUAJE MEJORADO -->
-<style>
-  #google_translate_element {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 9999;
-    background-color: #fff;
-    padding: 6px 10px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px #00000050;
-    max-height: 300px;
-    overflow-y: auto;
-  }
-
-  .goog-te-banner-frame.skiptranslate,
-  .goog-logo-link,
-  .goog-te-gadget span {
-    display: none !important;
-  }
-
-  body {
-    top: 0px !important;
-  }
-</style>
-
-<div id="google_translate_element"></div>
-
+<!-- TRADUCTOR MULTILENGUAJE MEJORADO -->
+<div id="google_translate_element" style="margin: 20px auto; text-align: center;"></div>
 <script type="text/javascript">
   function googleTranslateElementInit() {
     new google.translate.TranslateElement({
       pageLanguage: 'es',
-      includedLanguages: 'es,en,fr,de,it,pt,ru,zh-CN,ja,ko,ar,hi,tr,pl,nl',
-      layout: google.translate.TranslateElement.InlineLayout.VERTICAL
+      includedLanguages: 'af,am,ar,az,be,bg,bn,bs,ca,ceb,cs,cy,da,de,el,en,eo,es,et,eu,fa,fi,fr,ga,gl,gu,ha,haw,hi,hmn,hr,ht,hu,hy,id,ig,is,it,iw,ja,jv,ka,kk,km,kn,ko,ku,ky,la,lo,lt,lv,mg,mi,mk,ml,mn,mr,ms,mt,my,ne,nl,no,ny,pa,pl,ps,pt,ro,ru,rw,sd,si,sk,sl,sm,sn,so,sq,sr,st,sv,sw,ta,te,tg,th,tk,tl,tr,ug,uk,ur,uz,vi,xh,yi,zh-CN,zh-TW,zu',
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
     }, 'google_translate_element');
   }
 </script>
-
 <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
