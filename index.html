@@ -1,147 +1,96 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trivo Store</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f4f4f4;
-    }
-    header {
-      background-color: #00f;
-      color: #fff;
-      padding: 20px 0;
-      text-align: center;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 2.5em;
-    }
-    header p {
-      margin: 5px 0 0;
-      font-size: 1.2em;
-    }
-    nav {
-      background-color: #333;
-      overflow: hidden;
-    }
-    nav a {
-      float: left;
-      display: block;
-      color: #fff;
-      text-align: center;
-      padding: 14px 16px;
-      text-decoration: none;
-    }
-    nav a:hover {
-      background-color: #575757;
-    }
-    section {
-      padding: 20px;
-    }
-    footer {
-      background-color: #333;
-      color: #fff;
-      text-align: center;
-      padding: 10px 0;
-      position: fixed;
-      width: 100%;
-      bottom: 0;
-    }
-    .hidden {
-      display: none;
-    }
-    .btn {
-      padding: 10px 20px;
-      background-color: #00f;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .btn:hover {
-      background-color: #0053ba;
-    }
-  </style>
-</head>
-<body>
+<!-- Encabezado con Logo y Subtítulo -->
+<header style="background-color: #00f; color: #fff; padding: 20px; text-align: center;">
+  <h1 style="margin: 0; font-size: 2.5em;">Trivo Store</h1>
+  <p style="margin: 5px 0 0; font-size: 1.2em;">Control Inteligente de Tienda, Proveedores y Bodega</p>
+</header>
 
-  <header>
-    <h1>Trivo Store</h1>
-    <p>Control Inteligente de Tienda, Proveedores y Bodega</p>
-  </header>
+<!-- Menú de Navegación -->
+<nav style="background-color: #333; overflow: hidden;">
+  <a href="#" onclick="mostrarSeccion('inicio')" style="float: left; display: block; color: #fff; text-align: center; padding: 14px 16px; text-decoration: none;">Inicio</a>
+  <a href="#" onclick="mostrarSeccion('productos')" style="float: left; display: block; color: #fff; text-align: center; padding: 14px 16px; text-decoration: none;">Productos</a>
+  <a href="#" onclick="mostrarSeccion('categorias')" style="float: left; display: block; color: #fff; text-align: center; padding: 14px 16px; text-decoration: none;">Categorías</a>
+  <a href="#" onclick="mostrarSeccion('proveedores')" style="float: left; display: block; color: #fff; text-align: center; padding: 14px 16px; text-decoration: none;">Proveedores</a>
+  <a href="#" onclick="mostrarSeccion('contacto')" style="float: left; display: block; color: #fff; text-align: center; padding: 14px 16px; text-decoration: none;">Contacto</a>
+  <a href="#" onclick="accederPrivado()" style="float: left; display: block; color: #fff; text-align: center; padding: 14px 16px; text-decoration: none;">Admin</a>
+</nav>
 
-  <nav>
-    <a href="#" onclick="mostrarSeccion('inicio')">Inicio</a>
-    <a href="#" onclick="mostrarSeccion('productos')">Productos</a>
-    <a href="#" onclick="mostrarSeccion('proveedores')">Proveedores</a>
-    <a href="#" onclick="mostrarSeccion('bodega')">Bodega</a>
-    <a href="#" onclick="mostrarSeccion('contacto')">Contacto</a>
-    <a href="#" onclick="accederPrivado()">Admin</a>
-  </nav>
+<!-- Secciones -->
+<section id="inicio" style="padding: 20px;">
+  <h2>Bienvenido a Trivo Store</h2>
+  <p>Esta es la página principal de tu tienda.</p>
+</section>
 
-  <section id="inicio">
-    <h2>Bienvenido a Trivo Store</h2>
-    <p>Esta es la página principal de tu tienda.</p>
-  </section>
+<section id="productos" style="padding: 20px; display: none;">
+  <h2>Productos</h2>
+  <p>Listado de productos disponibles.</p>
+</section>
 
-  <section id="productos" class="hidden">
-    <h2>Productos</h2>
-    <p>Listado de productos disponibles.</p>
-  </section>
+<section id="categorias" style="padding: 20px; display: none;">
+  <h2>Categorías</h2>
+  <p>Listado de categorías de productos.</p>
+</section>
 
-  <section id="proveedores" class="hidden">
-    <h2>Proveedores</h2>
-    <p>Información sobre los proveedores.</p>
-  </section>
+<section id="proveedores" style="padding: 20px; display: none;">
+  <h2>Proveedores</h2>
+  <button onclick="importarDesde('1688')">Importar desde 1688</button>
+  <button onclick="importarDesde('Amazon')">Importar desde Amazon</button>
+  <button onclick="importarDesde('AliExpress')">Importar desde AliExpress</button>
+  <div id="resultadoProveedores" style="margin-top:20px;"></div>
+</section>
 
-  <section id="bodega" class="hidden">
-    <h2>Bodega</h2>
-    <p>Gestión de inventario y almacenamiento.</p>
-  </section>
+<section id="contacto" style="padding: 20px; display: none;">
+  <h2>Contacto</h2>
+  <p>Información de contacto de la tienda.</p>
+</section>
 
-  <section id="contacto" class="hidden">
-    <h2>Contacto</h2>
-    <p>Información de contacto de la tienda.</p>
-  </section>
+<section id="panel-admin" style="padding: 20px; display: none;">
+  <h2>Panel de Administración</h2>
+  <p>Bienvenido al panel de administración.</p>
+  <!-- Aquí puedes agregar más funcionalidades del panel admin -->
+</section>
 
-  <section id="panel-admin" class="hidden">
-    <h2>Panel de Administración</h2>
-    <p>Bienvenido al panel de administración.</p>
-    <!-- Aquí puedes agregar más funcionalidades del panel admin -->
-  </section>
+<!-- Pie de Página -->
+<footer style="background-color: #333; color: #fff; text-align: center; padding: 10px 0;">
+  Trivo Store 2025 – Todos los derechos reservados
+</footer>
 
-  <footer>
-    Trivo Store 2025 – Todos los derechos reservados
-  </footer>
+<!-- Scripts -->
+<script>
+  function ocultarSecciones() {
+    const secciones = document.querySelectorAll('section');
+    secciones.forEach(seccion => seccion.style.display = 'none');
+  }
 
-  <script>
-    function ocultarSecciones() {
-      const secciones = document.querySelectorAll('section');
-      secciones.forEach(seccion => seccion.classList.add('hidden'));
+  function mostrarSeccion(id) {
+    ocultarSecciones();
+    document.getElementById(id).style.display = 'block';
+  }
+
+  function accederPrivado() {
+    const clave = prompt("Introduce la clave de acceso:");
+    if (clave === "trivo2025!") {
+      mostrarSeccion('panel-admin');
+    } else {
+      alert("Clave incorrecta. Acceso denegado.");
     }
+  }
 
-    function mostrarSeccion(id) {
-      ocultarSecciones();
-      document.getElementById(id).classList.remove('hidden');
-    }
+  function importarDesde(fuente) {
+    const resultado = document.getElementById("resultadoProveedores");
+    resultado.innerHTML = `<p>Cargando productos desde <b>${fuente}</b>...</p>`;
 
-    function accederPrivado() {
-      const clave = prompt("Introduce la clave de acceso:");
-      if (clave === "trivo2025!") {
-        mostrarSeccion('panel-admin');
-      } else {
-        alert("Clave incorrecta. Acceso denegado.");
-      }
-    }
+    setTimeout(() => {
+      resultado.innerHTML = `
+        <p><b>Productos importados desde ${fuente}:</b></p>
+        <ul>
+          <li>Producto A (${fuente})</li>
+          <li>Producto B (${fuente})</li>
+          <li>Producto C (${fuente})</li>
+        </ul>
+      `;
+    }, 1000);
+  }
 
-    // Mostrar la sección de inicio por defecto
-    mostrarSeccion('inicio');
-  </script>
-
-</body>
-</html>
+  // Mostrar la sección de inicio por defecto
+  mostrarSeccion('inicio');
+</script>
