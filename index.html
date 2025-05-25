@@ -1480,6 +1480,23 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 </script>
+<script>
+  function verPrivado() {
+    const clave = prompt("Introduce la clave:");
+    const contenido = document.getElementById("contenidoPrivado");
+    if (clave === "1234") {
+      alert("Acceso concedido.");
+      if (contenido) contenido.style.display = "block";
+    } else {
+      alert("Clave incorrecta. Acceso denegado.");
+    }
+  }
+
+  function verPublico() {
+    const contenido = document.getElementById("contenidoPrivado");
+    if (contenido) contenido.style.display = "none";
+  }
+</script>      
 </body>
 </html>
 
