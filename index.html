@@ -48,6 +48,17 @@
       padding: 15px;
       background: white;
     }
+    <!-- BOTONES DE ACCESO -->
+<div style="text-align:center; margin: 20px;">
+  <button onclick="verPublico()" style="background-color: #2196F3; color: white; padding: 10px 20px; border: none; border-radius: 5px;">Ver Público</button>
+  <button onclick="verPrivado()" style="background-color: #f44336; color: white; padding: 10px 20px; border: none; border-radius: 5px;">Acceso Privado</button>
+</div>
+
+<!-- CONTENIDO PRIVADO OCULTO -->
+<div id="contenidoPrivado" style="display: none; text-align:center; margin-top: 20px;">
+  <p style="color: red; font-weight: bold;">Contenido privado activado</p>
+  <!-- Aquí puedes poner lo que solo tú debes ver -->
+</div>
     <!-- BOTÓN DE ACCESO PRIVADO -->
 <div style="text-align:center; margin: 20px;">
   <button onclick="verPrivado()" style="background:#000; color:white; padding:10px 20px; border:none; border-radius:5px;">
