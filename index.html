@@ -201,3 +201,56 @@
     alert("Función para editar producto activada.");
   }
 </script>
+
+  <!-- ====================== CAPÍTULO 4: TIENDA ACTIVA (FRONTEND CLIENTE) ====================== -->
+<section id="tienda-activa" style="padding: 20px;">
+  <h2 style="text-align: center;">Trivo Store</h2>
+
+  <!-- Menú Público -->
+  <nav style="text-align: center; margin-bottom: 20px;">
+    <button onclick="verProductos()">Productos</button>
+    <button onclick="verCategorias()">Categorías</button>
+    <button onclick="verCarrito()">Carrito</button>
+    <button onclick="verInventario()">Inventario</button>
+    <button onclick="verContacto()">Contacto</button>
+  </nav>
+
+  <!-- Buscador -->
+  <div style="text-align: center; margin-bottom: 20px;">
+    <input type="text" id="buscador" placeholder="Buscar productos..." onkeyup="buscarProducto()" />
+  </div>
+
+  <!-- Lista de Productos -->
+  <div id="listaProductos" style="display: flex; flex-wrap: wrap; justify-content: center;">
+    <!-- Aquí se generarán los productos dinámicamente -->
+  </div>
+</section>
+
+<script>
+  // Funciones simuladas
+  function verProductos() {
+    alert("Mostrando productos disponibles...");
+  }
+
+  function verCategorias() {
+    alert("Mostrando categorías...");
+  }
+
+  function verCarrito() {
+    alert("Abriendo carrito...");
+  }
+
+  function verInventario() {
+    alert("Inventario disponible públicamente...");
+  }
+
+  function verContacto() {
+    alert("Formulario de contacto.");
+  }
+
+  function buscarProducto() {
+    const texto = document.getElementById("buscador").value.toLowerCase();
+    alert("Buscando: " + texto);
+  }
+</script>
+<!-- =========================================================================================== -->
