@@ -254,3 +254,31 @@
   }
 </script>
 <!-- =========================================================================================== -->
+
+  <!-- ====================== CAPÍTULO 5: SISTEMA DE PROVEEDORES ====================== -->
+<section id="sistema-proveedores" style="padding: 20px;">
+  <h2 style="text-align: center;">Proveedores (Manual y Automatizado)</h2>
+
+  <!-- Botones de conexión a proveedores -->
+  <div style="text-align: center; margin-bottom: 20px;">
+    <button onclick="conectarProveedor('1688')">Importar desde 1688</button>
+    <button onclick="conectarProveedor('Amazon')">Importar desde Amazon</button>
+    <button onclick="conectarProveedor('AliExpress')">Importar desde AliExpress</button>
+  </div>
+
+  <!-- Vista previa de productos de proveedor -->
+  <div id="productosProveedor" style="text-align: center;">
+    <!-- Aquí se mostrarán los productos obtenidos vía API o simulación -->
+    <p>Visualización de productos importados aparecerá aquí.</p>
+  </div>
+</section>
+
+<script>
+  function conectarProveedor(nombre) {
+    alert("Conectando con proveedor: " + nombre + "...");
+    // Simulación de importación
+    document.getElementById("productosProveedor").innerHTML =
+      "<p>Productos importados desde " + nombre + " mostrados aquí.</p>";
+  }
+</script>
+<!-- ================================================================================== -->
