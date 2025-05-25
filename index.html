@@ -402,3 +402,48 @@
   }
 </script>
 <!-- ============================================================================== -->
+
+  <!-- CAPÍTULO 9: Automatización de subida de productos desde proveedores -->
+<section id="autoUploadProveedores" style="display:none;">
+  <h2>Subida Automática de Productos</h2>
+  <p>Conecta con proveedores autorizados para recibir productos nuevos directamente.</p>
+
+  <form id="formAutoUpload">
+    <label for="proveedor">Selecciona proveedor:</label>
+    <select id="proveedor" name="proveedor">
+      <option value="proveedorA">Proveedor A</option>
+      <option value="proveedorB">Proveedor B</option>
+      <option value="proveedorC">Proveedor C</option>
+    </select><br><br>
+
+    <label for="categoria">Categoría del producto:</label>
+    <input type="text" id="categoria" name="categoria" required><br><br>
+
+    <label for="autokey">Clave de autorización:</label>
+    <input type="password" id="autokey" name="autokey" required><br><br>
+
+    <button type="submit">Subir productos automáticamente</button>
+  </form>
+
+  <div id="statusAutoUpload" style="margin-top:15px; font-weight:bold;"></div>
+</section>
+
+<script>
+  document.getElementById("formAutoUpload").addEventListener("submit", function(e){
+    e.preventDefault();
+    const proveedor = document.getElementById("proveedor").value;
+    const categoria = document.getElementById("categoria").value;
+    const clave = document.getElementById("autokey").value;
+    const status = document.getElementById("statusAutoUpload");
+
+    if(clave === "clave-secreta-123"){ // Puedes cambiar la clave
+      status.innerText = "Cargando productos desde " + proveedor + "...";
+      setTimeout(() => {
+        status.innerText = "Productos de la categoría '" + categoria + "' cargados exitosamente desde " + proveedor + ".";
+      }, 2000);
+    } else {
+      status.innerText = "Clave incorrecta. Acceso denegado.";
+      status.style.color = "red";
+    }
+  });
+</script>
