@@ -148,3 +148,56 @@
   </p>
 
 </div>
+
+  <!-- CAPÍTULO 3: PANEL DE ADMINISTRACIÓN – ACCESO CON CLAVE -->
+<div style="margin: 30px 0;">
+  <button onclick="mostrarPanelAdmin()">Ingresar al Panel de Administración</button>
+</div>
+
+<div id="panelAdmin" style="display:none; border: 1px solid #ccc; padding: 20px; margin-top: 10px;">
+  <h3>Panel de Administración</h3>
+  <p>Solo usuarios con clave pueden gestionar productos.</p>
+
+  <div style="margin-bottom: 10px;">
+    <label>Clave de acceso: </label>
+    <input type="password" id="claveAdmin" placeholder="Ingresa tu clave" />
+    <button onclick="validarClave()">Acceder</button>
+  </div>
+
+  <div id="zonaAdmin" style="display:none;">
+    <p><strong>Gestión de productos:</strong></p>
+    <button onclick="agregarProducto()">Añadir Producto</button>
+    <button onclick="eliminarProducto()">Eliminar Producto</button>
+    <button onclick="editarProducto()">Editar Producto</button>
+  </div>
+</div>
+
+<script>
+  const claveCorrecta = "1234"; // Puedes cambiar la clave aquí
+
+  function mostrarPanelAdmin() {
+    document.getElementById("panelAdmin").style.display = "block";
+  }
+
+  function validarClave() {
+    const claveIngresada = document.getElementById("claveAdmin").value;
+    if (claveIngresada === claveCorrecta) {
+      document.getElementById("zonaAdmin").style.display = "block";
+      alert("Acceso concedido.");
+    } else {
+      alert("Clave incorrecta. Intenta de nuevo.");
+    }
+  }
+
+  function agregarProducto() {
+    alert("Función para añadir producto activada.");
+  }
+
+  function eliminarProducto() {
+    alert("Función para eliminar producto activada.");
+  }
+
+  function editarProducto() {
+    alert("Función para editar producto activada.");
+  }
+</script>
