@@ -433,6 +433,18 @@ async function guardarProducto(nombre, descripcion, precio, categoria, imagenURL
     console.error("Error al guardar producto:", e);
   }
 }
+  // Evento que detecta clic en el botón y guarda el producto
+document.getElementById("botonAgregar").addEventListener("click", async function (e) {
+  e.preventDefault();
+
+  const nombre = document.getElementById("nombre").value;
+  const descripcion = document.getElementById("descripcion").value;
+  const precio = document.getElementById("precio").value;
+  const categoria = document.getElementById("categoria").value;
+  const imagen = imagenURL.value || "sin_imagen";
+
+  await guardarProducto(nombre, descripcion, precio, categoria, imagen);
+});
 </script>
 </body>
 </html>
