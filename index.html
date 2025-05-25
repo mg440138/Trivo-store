@@ -11,18 +11,29 @@
       padding: 0 15px;
     }
     .seccion { display: none; margin-top: 30px; }
-    .menu { margin-top: 20px; }
+    .menu { margin-top: 20px; text-align: center; }
     .menu button {
       padding: 10px;
-      margin-right: 10px;
+      margin: 5px;
       font-weight: bold;
       background: #007bff;
       color: white;
       border: none;
       border-radius: 5px;
+      cursor: pointer;
     }
     #google_translate_element {
       font-size: 14px;
+    }
+    header img {
+      width: 200px;
+      display: block;
+      margin: 20px auto 10px auto;
+    }
+    header h1 {
+      text-align: center;
+      color: #007bff;
+      margin-bottom: 0;
     }
   </style>
 </head>
@@ -33,8 +44,11 @@
   <div id="google_translate_element" style="border: 2px solid #007bff; padding: 5px 10px; background: white; border-radius: 6px; font-weight: bold;"></div>
 </div>
 
-<!-- CABECERA -->
-<h1 style="text-align: center; color: #007bff;">TRIVO Store</h1>
+<!-- LOGO Y CABECERA -->
+<header>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Shopping_cart_icon.svg/512px-Shopping_cart_icon.svg.png" alt="Logo TRIVO" />
+  <h1>TRIVO Store</h1>
+</header>
 
 <!-- MENÚ -->
 <div class="menu">
@@ -71,7 +85,6 @@
 <!-- BODEGA -->
 <div id="bodega" class="seccion">
   <h3>Bodega / Inventario</h3>
-  <p>Aquí puedes subir y gestionar productos.</p>
   <form>
     <label>Nombre del producto: <input type="text" required></label><br><br>
     <label>Precio: <input type="number" required></label><br><br>
@@ -127,69 +140,6 @@
     const clave = document.getElementById('claveInput').value;
     const mensaje = document.getElementById('claveMensaje');
     if (clave === "Trivo2025!") {
-      verSeccion('adminPanel');
-      mensaje.innerText = "";
-    } else {
-      mensaje.innerText = "Clave incorrecta";
-    }
-  }
-
-  function importarDesde(fuente) {
-    const resultado = document.getElementById("resultadoProveedores");
-    resultado.innerHTML = `<p>Cargando productos desde <b>${fuente}</b>...</p>`;
-    setTimeout(() => {
-      resultado.innerHTML = `
-  function ocultarTodo() {
-  document.querySelectorAll('.seccion').forEach(sec => sec.style.display = 'none');
-}
-
-function verSeccion(id) {
-  ocultarTodo();
-  document.getElementById(id).style.display = 'block';
-}
-
-function verLogin() {
-  ocultarTodo();
-  document.getElementById('clavePanel').style.display = 'block';
-}
-
-function verificarClave() {
-  const clave = document.getElementById('claveInput').value;
-  const mensaje = document.getElementById('claveMensaje');
-  if (clave === "Trivo2025!") {
-    ocultarTodo();
-    document.getElementById('adminPanel').style.display = 'block';
-    document.getElementById('bodega').style.display = 'block';
-    document.getElementById('proveedores').style.display = 'block';
-    document.getElementById('herramientas').style.display = 'block';
-    mensaje.innerText = "";
-  } else {
-    mensaje.innerText = "Clave incorrecta";
-  }
-}      
-</script>
-</script> <!-- línea 170 -->
-
-<script> <!-- Aquí inicia el nuevo bloque -->
-  function ocultarTodo() {
-    document.querySelectorAll('.seccion').forEach(sec => sec.style.display = 'none');
-  }
-
-  function verSeccion(id) {
-    ocultarTodo();
-    document.getElementById(id).style.display = 'block';
-  }
-
-  function verLogin() {
-    ocultarTodo();
-    document.getElementById('clavePanel').style.display = 'block';
-  }
-
-  function verificarClave() {
-    const clave = document.getElementById('claveInput').value;
-    const mensaje = document.getElementById('claveMensaje');
-    if (clave === "Trivo2025!") {
-      ocultarTodo();
       document.getElementById('adminPanel').style.display = 'block';
       document.getElementById('bodega').style.display = 'block';
       document.getElementById('proveedores').style.display = 'block';
@@ -216,8 +166,7 @@ function verificarClave() {
   }
 </script>
 
-<!-- TRADUCTOR GOOGLE SCRIPT --> <!-- línea 172 -->
-<!-- TRADUCTOR GOOGLE SCRIPT -->
+<!-- TRADUCTOR GOOGLE -->
 <script type="text/javascript">
   function googleTranslateElementInit() {
     new google.translate.TranslateElement({
