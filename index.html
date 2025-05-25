@@ -85,13 +85,48 @@
 <!-- BODEGA -->
 <div id="bodega" class="seccion">
   <h3>Bodega / Inventario</h3>
+  <p>Aquí puedes subir y gestionar productos.</p>
   <form>
-    <label>Nombre del producto: <input type="text" required></label><br><br>
+    <label>Nombre del producto: <input type="text" id="nombreProducto" required></label><br><br>
     <label>Precio: <input type="number" required></label><br><br>
     <label>Imagen: <input type="file"></label><br><br>
     <button type="submit">Subir producto</button>
   </form>
+
+  <!-- DETECCIÓN AUTOMÁTICA DE CATEGORÍA POR NOMBRE -->
+  <h4>Categoría Detectada:</h4>
+  <p id="categoriaDetectada" style="font-weight:bold; color:#007bff;">(Esperando entrada...)</p>
 </div>
+
+<script>
+// Lista básica de palabras clave por categoría
+const categorias = {
+  'Electrónica': ['tv', 'televisor', 'smartphone', 'laptop', 'audífono', 'tablet'],
+  'Ropa': ['camisa', 'pantalón', 'zapatilla', 'abrigo', 'blusa', 'vestido'],
+  'Hogar': ['sofá', 'silla', 'mesa', 'almohada', 'cocina'],
+  'Salud': ['vitamina', 'termómetro', 'mascarilla', 'suplemento'],
+  'Automotriz': ['llanta', 'motor', 'faro', 'aceite', 'batería']
+};
+
+// Función para detectar categoría
+function detectarCategoriaPorNombre(nombre) {
+  let nombreLimpio = nombre.toLowerCase();
+  for (let cat in categorias) {
+    for (let palabra of categorias[cat]) {
+      if (nombreLimpio.includes(palabra)) {
+        return cat;
+      }
+    }
+  }
+  return 'No detectada';
+}
+
+// Detectar en tiempo real
+document.getElementById('nombreProducto').addEventListener('input', (e) => {
+  const categoria = detectarCategoriaPorNombre(e.target.value);
+  document.getElementById('categoriaDetectada').innerText = categoria;
+});
+</script>
 
 <!-- PROVEEDORES -->
 <div id="proveedores" class="seccion">
