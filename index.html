@@ -396,6 +396,27 @@ document.getElementById('nombreProducto').addEventListener('input', (e) => {
   // Inicializar Firebase
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
+  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+// Inicializar Firestore
+const db = getFirestore(app);
+
+// Función para guardar producto
+async function guardarProducto(nombre, descripcion, precio, categoria, imagenURL) {
+  try {
+    const docRef = await addDoc(collection(db, "productos"), {
+      nombre,
+      descripcion,
+      precio,
+      categoria,
+      imagenURL,
+      fecha: new Date()
+    });
+    console.log("Producto guardado con ID:", docRef.id);
+  } catch (e) {
+    console.error("Error al guardar producto:", e);
+  }
+}
 </script>
 </body>
 </html>
