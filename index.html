@@ -4,594 +4,144 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Trivo Store</title>
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
-  <!-- Enlace a hoja de estilos externa -->
-  <link rel="stylesheet" href="styles.css">
-  <!-- Enlace a fuentes de Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-  <!-- Enlace a iconos de Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
-<body>
-  <!-- Encabezado de la tienda -->
-  <header>
-    <div class="logo">
-      <img src="logo.png" alt="Logo de Trivo Store">
-    </div>
-    <!-- Menú de navegación -->
-    <nav>
-      <ul class="nav-menu">
-        <li><a href="#inicio">Inicio</a></li>
-        <li><a href="#productos">Productos</a></li>
-        <li><a href="#categorias">Categorías</a></li>
-        <li><a href="#proveedores">Proveedores</a></li>
-        <li><a href="#carrito">Carrito</a></li>
-        <li><a href="#contacto">Contacto</a></li>
-      </ul>
-    </nav>
-  </header>
-  <!-- CAPÍTULO 1: PORTADA Y ACCESO AL SISTEMA -->
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trivo Store - Portada</title>
   <style>
     body {
+      font-family: Arial, sans-serif;
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: #111;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    header {
+      background-color: #00f;
       color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
+      padding: 20px 0;
       text-align: center;
     }
-
-    header {
-      margin-bottom: 40px;
+    header h1 {
+      margin: 0;
+      font-size: 2.5em;
     }
-
-    h1 {
-      font-size: 3em;
-      color: #00eaff;
-    }
-
-    p {
+    header p {
+      margin: 5px 0 0;
       font-size: 1.2em;
-      color: #ccc;
     }
-
-    .btn-acceso {
-      margin-top: 30px;
-      padding: 15px 40px;
-      background-color: #00eaff;
-      color: #111;
-      border: none;
-      border-radius: 6px;
-      font-size: 1em;
-      cursor: pointer;
-      transition: all 0.3s ease;
+    nav {
+      background-color: #333;
+      overflow: hidden;
     }
-
-    .btn-acceso:hover {
-      background-color: #008c9e;
-      color: white;
+    nav a {
+      float: left;
+      display: block;
+      color: #fff;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
     }
-
+    nav a:hover {
+      background-color: #575757;
+    }
+    section {
+      padding: 20px;
+    }
     footer {
-      position: absolute;
-      bottom: 20px;
-      font-size: 0.9em;
-      color: #777;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 10px 0;
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+    }
+    .hidden {
+      display: none;
+    }
+    .btn {
+      padding: 10px 20px;
+      background-color: #00f;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background-color: #0053ba;
     }
   </style>
 </head>
 <body>
 
-  <!-- PORTADA DEL SISTEMA -->
   <header>
     <h1>Trivo Store</h1>
     <p>Control Inteligente de Tienda, Proveedores y Bodega</p>
   </header>
 
-  <!-- BOTÓN DE ACCESO PÚBLICO -->
-  <button class="btn-acceso" onclick="entrarSistema()">Entrar al Sistema</button>
-<!-- ACCESO PRIVADO -->
-<section id="acceso-privado" style="text-align: center; margin-top: 30px;">
-  <button class="btn-acceso" onclick="accederPrivado()">Ingresar al Panel de Administración</button>
-</section>
+  <nav>
+    <a href="#" onclick="mostrarSeccion('inicio')">Inicio</a>
+    <a href="#" onclick="mostrarSeccion('productos')">Productos</a>
+    <a href="#" onclick="mostrarSeccion('proveedores')">Proveedores</a>
+    <a href="#" onclick="mostrarSeccion('bodega')">Bodega</a>
+    <a href="#" onclick="mostrarSeccion('contacto')">Contacto</a>
+    <a href="#" onclick="accederPrivado()">Admin</a>
+  </nav>
 
-<!-- PANEL DE ADMIN PRIVADO (OCULTO HASTA ACCESO CORRECTO) -->
-<section id="panel-admin" style="display: none; margin-top: 30px; text-align: center;">
-  <h3>Bienvenido al Panel de Administración</h3>
-  <!-- Aquí va el contenido exclusivo del admin -->
-</section>
+  <section id="inicio">
+    <h2>Bienvenido a Trivo Store</h2>
+    <p>Esta es la página principal de tu tienda.</p>
+  </section>
 
-<script>
-function accederPrivado() {
-  const clave = prompt("¿Cuál es la clave de acceso?");
-  if (clave === "trivo2025!") {
-    ocultarTodo();
-    document.getElementById("panel-admin").style.display = "block";
-  } else {
-    alert("Clave incorrecta. Intenta de nuevo.");
-  }
-}
-</script>
-  <!-- PIE DE PÁGINA -->
+  <section id="productos" class="hidden">
+    <h2>Productos</h2>
+    <p>Listado de productos disponibles.</p>
+  </section>
+
+  <section id="proveedores" class="hidden">
+    <h2>Proveedores</h2>
+    <p>Información sobre los proveedores.</p>
+  </section>
+
+  <section id="bodega" class="hidden">
+    <h2>Bodega</h2>
+    <p>Gestión de inventario y almacenamiento.</p>
+  </section>
+
+  <section id="contacto" class="hidden">
+    <h2>Contacto</h2>
+    <p>Información de contacto de la tienda.</p>
+  </section>
+
+  <section id="panel-admin" class="hidden">
+    <h2>Panel de Administración</h2>
+    <p>Bienvenido al panel de administración.</p>
+    <!-- Aquí puedes agregar más funcionalidades del panel admin -->
+  </section>
+
   <footer>
-    Trivo Store 2025 - Todos los derechos reservados
+    Trivo Store 2025 – Todos los derechos reservados
   </footer>
 
-  <!-- SCRIPT DE ENLACE AL SIGUIENTE CAPÍTULO -->
   <script>
-    function entrarSistema() {
-      // Cuando se integre el Capítulo 2, irá al sistema real
-      window.location.href = "#capitulo2"; // TEMPORAL
-      alert("Cargando sistema...");
+    function ocultarSecciones() {
+      const secciones = document.querySelectorAll('section');
+      secciones.forEach(seccion => seccion.classList.add('hidden'));
     }
+
+    function mostrarSeccion(id) {
+      ocultarSecciones();
+      document.getElementById(id).classList.remove('hidden');
+    }
+
+    function accederPrivado() {
+      const clave = prompt("Introduce la clave de acceso:");
+      if (clave === "trivo2025!") {
+        mostrarSeccion('panel-admin');
+      } else {
+        alert("Clave incorrecta. Acceso denegado.");
+      }
+    }
+
+    // Mostrar la sección de inicio por defecto
+    mostrarSeccion('inicio');
   </script>
 
 </body>
 </html>
-
-  <!-- CAPÍTULO 2: CONTENIDO PÚBLICO – SECCIÓN PRINCIPAL -->
-<div id="zonaPublica" style="display: none; padding: 20px;">
-
-  <!-- Título principal -->
-  <h2>Catálogo Público</h2>
-  <p>Explora nuestros productos disponibles públicamente.</p>
-
-  <!-- Lista de productos públicos (puedes enlazar dinámicamente) -->
-  <div class="productos-publicos">
-    <div class="producto">
-      <img src="https://via.placeholder.com/150" alt="Producto público">
-      <h3>Producto 1</h3>
-      <p>Descripción del producto accesible públicamente.</p>
-      <button onclick="agregarAlCarrito('Producto 1')">Agregar al carrito</button>
-    </div>
-
-    <div class="producto">
-      <img src="https://via.placeholder.com/150" alt="Producto público">
-      <h3>Producto 2</h3>
-      <p>Otro producto público sin restricciones.</p>
-      <button onclick="agregarAlCarrito('Producto 2')">Agregar al carrito</button>
-    </div>
-  </div>
-
-  <!-- Mensaje de información adicional -->
-  <p style="margin-top: 30px; font-style: italic; color: gray;">
-    Para acceder a más productos, inicia sesión con tu clave de acceso privado.
-  </p>
-
-</div>
-
-  <!-- CAPÍTULO 3: PANEL DE ADMINISTRACIÓN – ACCESO CON CLAVE -->
-<div style="margin: 30px 0;">
-  <button onclick="mostrarPanelAdmin()">Ingresar al Panel de Administración</button>
-</div>
-
-<div id="panelAdmin" style="display:none; border: 1px solid #ccc; padding: 20px; margin-top: 10px;">
-  <h3>Panel de Administración</h3>
-  <p>Solo usuarios con clave pueden gestionar productos.</p>
-
-  <div style="margin-bottom: 10px;">
-    <label>Clave de acceso: </label>
-    <input type="password" id="claveAdmin" placeholder="Ingresa tu clave" />
-    <button onclick="validarClave()">Acceder</button>
-  </div>
-
-  <div id="zonaAdmin" style="display:none;">
-    <p><strong>Gestión de productos:</strong></p>
-    <button onclick="agregarProducto()">Añadir Producto</button>
-    <button onclick="eliminarProducto()">Eliminar Producto</button>
-    <button onclick="editarProducto()">Editar Producto</button>
-  </div>
-</div>
-
-<script>
-  const claveCorrecta = "1234"; // Puedes cambiar la clave aquí
-
-  function mostrarPanelAdmin() {
-    document.getElementById("panelAdmin").style.display = "block";
-  }
-
-  function validarClave() {
-    const claveIngresada = document.getElementById("claveAdmin").value;
-    if (claveIngresada === claveCorrecta) {
-      document.getElementById("zonaAdmin").style.display = "block";
-      alert("Acceso concedido.");
-    } else {
-      alert("Clave incorrecta. Intenta de nuevo.");
-    }
-  }
-
-  function agregarProducto() {
-    alert("Función para añadir producto activada.");
-  }
-
-  function eliminarProducto() {
-    alert("Función para eliminar producto activada.");
-  }
-
-  function editarProducto() {
-    alert("Función para editar producto activada.");
-  }
-</script>
-
-  <!-- ====================== CAPÍTULO 4: TIENDA ACTIVA (FRONTEND CLIENTE) ====================== -->
-<section id="tienda-activa" style="padding: 20px;">
-  <h2 style="text-align: center;">Trivo Store</h2>
-
-  <!-- Menú Público -->
-  <nav style="text-align: center; margin-bottom: 20px;">
-    <button onclick="verProductos()">Productos</button>
-    <button onclick="verCategorias()">Categorías</button>
-    <button onclick="verCarrito()">Carrito</button>
-    <button onclick="verInventario()">Inventario</button>
-    <button onclick="verContacto()">Contacto</button>
-  </nav>
-
-  <!-- Buscador -->
-  <div style="text-align: center; margin-bottom: 20px;">
-    <input type="text" id="buscador" placeholder="Buscar productos..." onkeyup="buscarProducto()" />
-  </div>
-
-  <!-- Lista de Productos -->
-  <div id="listaProductos" style="display: flex; flex-wrap: wrap; justify-content: center;">
-    <!-- Aquí se generarán los productos dinámicamente -->
-  </div>
-</section>
-
-<script>
-  // Funciones simuladas
-  function verProductos() {
-    alert("Mostrando productos disponibles...");
-  }
-
-  function verCategorias() {
-    alert("Mostrando categorías...");
-  }
-
-  function verCarrito() {
-    alert("Abriendo carrito...");
-  }
-
-  function verInventario() {
-    alert("Inventario disponible públicamente...");
-  }
-
-  function verContacto() {
-    alert("Formulario de contacto.");
-  }
-
-  function buscarProducto() {
-    const texto = document.getElementById("buscador").value.toLowerCase();
-    alert("Buscando: " + texto);
-  }
-</script>
-<!-- =========================================================================================== -->
-
-  <!-- ====================== CAPÍTULO 5: SISTEMA DE PROVEEDORES ====================== -->
-<section id="sistema-proveedores" style="padding: 20px;">
-  <h2 style="text-align: center;">Proveedores (Manual y Automatizado)</h2>
-
-  <!-- Botones de conexión a proveedores -->
-  <div style="text-align: center; margin-bottom: 20px;">
-    <button onclick="conectarProveedor('1688')">Importar desde 1688</button>
-    <button onclick="conectarProveedor('Amazon')">Importar desde Amazon</button>
-    <button onclick="conectarProveedor('AliExpress')">Importar desde AliExpress</button>
-  </div>
-
-  <!-- Vista previa de productos de proveedor -->
-  <div id="productosProveedor" style="text-align: center;">
-    <!-- Aquí se mostrarán los productos obtenidos vía API o simulación -->
-    <p>Visualización de productos importados aparecerá aquí.</p>
-  </div>
-</section>
-
-<script>
-  function conectarProveedor(nombre) {
-    alert("Conectando con proveedor: " + nombre + "...");
-    // Simulación de importación
-    document.getElementById("productosProveedor").innerHTML =
-      "<p>Productos importados desde " + nombre + " mostrados aquí.</p>";
-  }
-</script>
-<!-- ================================================================================== -->
-
-  <!-- ====================== CAPÍTULO 6: BODEGA E INVENTARIO ====================== -->
-<section id="bodega-inventario" style="display: none; padding: 20px;">
-  <h2 style="text-align: center;">Panel de Bodega e Inventario</h2>
-
-  <div style="margin: 20px auto; max-width: 600px;">
-    <table border="1" width="100%" style="border-collapse: collapse;">
-      <thead>
-        <tr>
-          <th>Producto</th>
-          <th>Cantidad</th>
-          <th>Acción</th>
-        </tr>
-      </thead>
-      <tbody id="tablaInventario">
-        <!-- Datos simulados -->
-        <tr>
-          <td>Lámpara LED</td>
-          <td>20</td>
-          <td><button onclick="editarInventario(this)">Editar</button></td>
-        </tr>
-        <tr>
-          <td>Mouse Inalámbrico</td>
-          <td>15</td>
-          <td><button onclick="editarInventario(this)">Editar</button></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-
-<script>
-  function editarInventario(btn) {
-    const fila = btn.closest("tr");
-    const producto = fila.children[0].innerText;
-    const cantidad = fila.children[1].innerText;
-    const nuevoValor = prompt(`Editar cantidad de "${producto}"`, cantidad);
-    if (nuevoValor !== null) {
-      fila.children[1].innerText = nuevoValor;
-      alert(`Cantidad actualizada: ${producto} = ${nuevoValor}`);
-    }
-  }
-</script>
-<!-- ============================================================================== -->
-
-  <!-- ====================== CAPÍTULO 7: COMPRA AUTOMATIZADA ====================== -->
-<section id="compra-automatizada" style="display: none; padding: 20px;">
-  <h2 style="text-align: center;">Sistema de Compra Automatizada</h2>
-
-  <div style="max-width: 600px; margin: auto;">
-    <p>
-      Este módulo permite al sistema identificar automáticamente los productos con baja existencia en inventario y generar una orden de compra.
-    </p>
-    <button onclick="detectarYOrdenar()" style="padding: 10px 20px; background: green; color: white; border: none; border-radius: 5px;">
-      Activar Compra Automatizada
-    </button>
-    <div id="resultadoCompra" style="margin-top: 20px;"></div>
-  </div>
-</section>
-
-<script>
-  function detectarYOrdenar() {
-    const inventario = [
-      { nombre: "Lámpara LED", cantidad: 4 },
-      { nombre: "Mouse Inalámbrico", cantidad: 2 },
-      { nombre: "Audífonos", cantidad: 10 }
-    ];
-
-    const umbral = 5;
-    let ordenes = [];
-
-    for (const item of inventario) {
-      if (item.cantidad < umbral) {
-        ordenes.push(`Orden generada: Comprar más de ${item.nombre}`);
-      }
-    }
-
-    const resultado = ordenes.length > 0 
-      ? ordenes.join("<br>") 
-      : "Inventario suficiente. No se requiere compra.";
-
-    document.getElementById("resultadoCompra").innerHTML = resultado;
-  }
-</script>
-<!-- ============================================================================== -->
-
-  <!-- ====================== CAPÍTULO 8: REABASTECIMIENTO INTELIGENTE ====================== -->
-<section id="reabastecimiento" style="display: none; padding: 20px;">
-  <h2 style="text-align: center;">Reabastecimiento Inteligente</h2>
-
-  <div style="max-width: 600px; margin: auto;">
-    <p>
-      Este sistema identifica productos vendidos recientemente y verifica si necesitan ser reabastecidos para evitar quiebres de stock.
-    </p>
-    <button onclick="verificarReabastecimiento()" style="padding: 10px 20px; background: orange; color: white; border: none; border-radius: 5px;">
-      Verificar Reabastecimiento
-    </button>
-    <div id="resultadoReabastecimiento" style="margin-top: 20px;"></div>
-  </div>
-</section>
-
-<script>
-  function verificarReabastecimiento() {
-    const historialVentas = [
-      { producto: "Cable HDMI", vendidos: 25, inventario: 3 },
-      { producto: "Teclado Mecánico", vendidos: 15, inventario: 7 },
-      { producto: "Cargador USB", vendidos: 30, inventario: 1 }
-    ];
-
-    const recomendaciones = historialVentas
-      .filter(p => p.vendidos > 10 && p.inventario < 5)
-      .map(p => `Reabastecer: ${p.producto} (vendidos: ${p.vendidos}, inventario: ${p.inventario})`);
-
-    document.getElementById("resultadoReabastecimiento").innerHTML = 
-      recomendaciones.length > 0 
-        ? recomendaciones.join("<br>")
-        : "No se requiere reabastecimiento en este momento.";
-  }
-</script>
-<!-- ============================================================================== -->
-
-  <!-- CAPÍTULO 9: Automatización de subida de productos desde proveedores -->
-<section id="autoUploadProveedores" style="display:none;">
-  <h2>Subida Automática de Productos</h2>
-  <p>Conecta con proveedores autorizados para recibir productos nuevos directamente.</p>
-
-  <form id="formAutoUpload">
-    <label for="proveedor">Selecciona proveedor:</label>
-    <select id="proveedor" name="proveedor">
-      <option value="proveedorA">Proveedor A</option>
-      <option value="proveedorB">Proveedor B</option>
-      <option value="proveedorC">Proveedor C</option>
-    </select><br><br>
-
-    <label for="categoria">Categoría del producto:</label>
-    <input type="text" id="categoria" name="categoria" required><br><br>
-
-    <label for="autokey">Clave de autorización:</label>
-    <input type="password" id="autokey" name="autokey" required><br><br>
-
-    <button type="submit">Subir productos automáticamente</button>
-  </form>
-
-  <div id="statusAutoUpload" style="margin-top:15px; font-weight:bold;"></div>
-</section>
-
-<script>
-  document.getElementById("formAutoUpload").addEventListener("submit", function(e){
-    e.preventDefault();
-    const proveedor = document.getElementById("proveedor").value;
-    const categoria = document.getElementById("categoria").value;
-    const clave = document.getElementById("autokey").value;
-    const status = document.getElementById("statusAutoUpload");
-
-    if(clave === "clave-secreta-123"){ // Puedes cambiar la clave
-      status.innerText = "Cargando productos desde " + proveedor + "...";
-      setTimeout(() => {
-        status.innerText = "Productos de la categoría '" + categoria + "' cargados exitosamente desde " + proveedor + ".";
-      }, 2000);
-    } else {
-      status.innerText = "Clave incorrecta. Acceso denegado.";
-      status.style.color = "red";
-    }
-  });
-</script>
-
-  <!-- CAPÍTULO 9: VISUALIZACIÓN INTELIGENTE -->
-
-<!-- ESTILO VISUAL DE ALERTAS -->
-<style>
-  .visual-alert {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: #222;
-    color: #00ffcc;
-    padding: 14px 18px;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: bold;
-    z-index: 9999;
-    box-shadow: 0 0 12px rgba(0, 255, 200, 0.5);
-    animation: fadeInOut 5s ease-in-out;
-  }
-
-  @keyframes fadeInOut {
-    0% { opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { opacity: 0; }
-  }
-</style>
-
-<!-- SCRIPT DE MENSAJES DINÁMICOS -->
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    // Mensaje de bienvenida visual
-    const alerta = document.createElement("div");
-    alerta.className = "visual-alert";
-    alerta.innerText = "¡Sistema de Trivo cargado correctamente!";
-    document.body.appendChild(alerta);
-
-    // Remover después de 6 segundos
-    setTimeout(() => alerta.remove(), 6000);
-
-    // Mostrar alertas si falta alguna sección importante (solo ejemplo)
-    const tiendaActiva = document.querySelector("#tienda");
-    if (!tiendaActiva) {
-      const warning = document.createElement("div");
-      warning.className = "visual-alert";
-      warning.style.background = "#ff4444";
-      warning.innerText = "¡Atención! No se encontró la sección 'tienda'.";
-      document.body.appendChild(warning);
-      setTimeout(() => warning.remove(), 8000);
-    }
-  });
-</script>
-
-  <!-- CAPÍTULO 10: CORRECCIÓN DE ERRORES Y PROTECCIÓN AUTOMÁTICA -->
-<style>
-  .trivo-alerta {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #e53935;
-    color: white;
-    padding: 12px 18px;
-    border-radius: 6px;
-    font-weight: bold;
-    z-index: 9999;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    font-family: Arial, sans-serif;
-  }
-</style>
-
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    console.log(">> Revisión automática Trivo iniciada...");
-
-    let errores = 0;
-
-    // 1. FORMULARIOS SIN MÉTODO
-    document.querySelectorAll("form").forEach((form, i) => {
-      if (!form.hasAttribute("method")) {
-        errores++;
-        console.warn(`Formulario sin método detectado (índice ${i})`);
-        const alerta = document.createElement("div");
-        alerta.className = "trivo-alerta";
-        alerta.innerText = `¡Formulario sin método detectado (#${i + 1})!`;
-        document.body.appendChild(alerta);
-        setTimeout(() => alerta.remove(), 6000);
-      }
-    });
-
-    // 2. IMÁGENES ROTAS
-    document.querySelectorAll("img").forEach((img) => {
-      img.onerror = () => {
-        console.error("Imagen rota detectada:", img.src);
-        img.src = "https://via.placeholder.com/150?text=Imagen+no+disponible";
-        errores++;
-      };
-    });
-
-    // 3. ENLACES SIN HREF
-    document.querySelectorAll("a").forEach((a, i) => {
-      if (!a.getAttribute("href") || a.getAttribute("href") === "#") {
-        console.warn(`Enlace posiblemente roto o vacío (índice ${i})`);
-        errores++;
-      }
-    });
-
-    // 4. BOTONES SIN FUNCIÓN
-    document.querySelectorAll("button").forEach((btn, i) => {
-      if (!btn.getAttribute("onclick") && !btn.onclick) {
-        console.warn(`Botón sin funcionalidad (índice ${i})`);
-        errores++;
-      }
-    });
-
-    // CONFIRMACIÓN FINAL
-    if (errores === 0) {
-      const ok = document.createElement("div");
-      ok.className = "trivo-alerta";
-      ok.style.backgroundColor = "#4CAF50";
-      ok.innerText = "Revisión completada. Sin errores visuales detectados.";
-      document.body.appendChild(ok);
-      setTimeout(() => ok.remove(), 5000);
-    }
-
-    console.log(">> Revisión automática finalizada.");
-  });
-</script>
