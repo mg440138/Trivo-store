@@ -145,15 +145,40 @@
   mostrarSeccion('inicio');
 </script>
 
-<!-- TRADUCTOR MULTILENGUAJE -->
-<div id="google_translate_element" style="position: fixed; bottom: 20px; right: 20px; z-index: 999;"></div>
+<!-- TRADUCTOR GOOGLE MULTILENGUAJE MEJORADO -->
+<style>
+  #google_translate_element {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    background-color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px #00000050;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+
+  .goog-te-banner-frame.skiptranslate,
+  .goog-logo-link,
+  .goog-te-gadget span {
+    display: none !important;
+  }
+
+  body {
+    top: 0px !important;
+  }
+</style>
+
+<div id="google_translate_element"></div>
 
 <script type="text/javascript">
   function googleTranslateElementInit() {
     new google.translate.TranslateElement({
       pageLanguage: 'es',
       includedLanguages: 'es,en,fr,de,it,pt,ru,zh-CN,ja,ko,ar,hi,tr,pl,nl',
-      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      layout: google.translate.TranslateElement.InlineLayout.VERTICAL
     }, 'google_translate_element');
   }
 </script>
