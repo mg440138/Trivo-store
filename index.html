@@ -46,7 +46,28 @@
 <section id="panel-admin" style="padding: 20px; display: none;">
   <h2>Panel de Administración</h2>
   <p>Bienvenido al panel de administración.</p>
-  <!-- Aquí puedes agregar más funcionalidades del panel admin -->
+  <!-- Formulario de Subida de Productos -->
+  <form id="formularioProducto">
+    <label for="nombreProducto">Nombre del Producto:</label><br>
+    <input type="text" id="nombreProducto" name="nombreProducto" required><br><br>
+
+    <label for="descripcionProducto">Descripción:</label><br>
+    <textarea id="descripcionProducto" name="descripcionProducto" required></textarea><br><br>
+
+    <label for="precioProducto">Precio:</label><br>
+    <input type="number" id="precioProducto" name="precioProducto" required><br><br>
+
+    <label for="categoriaProducto">Categoría:</label><br>
+    <input type="text" id="categoriaProducto" name="categoriaProducto" required><br><br>
+
+    <label for="imagenProducto">Imagen:</label><br>
+    <input type="file" id="imagenProducto" name="imagenProducto" accept="image/*" onchange="mostrarVistaPrevia(event)" required><br><br>
+
+    <img id="vistaPrevia" width="200" style="margin-top:10px; display:none;"/><br><br>
+
+    <button type="submit">Subir Producto</button>
+  </form>
+  <div id="resultadoSubida" style="margin-top:20px;"></div>
 </section>
 
 <!-- Pie de Página -->
@@ -90,6 +111,35 @@
       `;
     }, 1000);
   }
+
+  function mostrarVistaPrevia(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = function(){
+      const vistaPrevia = document.getElementById("vistaPrevia");
+      vistaPrevia.src = reader.result;
+      vistaPrevia.style.display = "block";
+    };
+    reader.readAsDataURL(file);
+  }
+
+  document.getElementById("formularioProducto").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const nombre = document.getElementById("nombreProducto").value;
+    const descripcion = document.getElementById("descripcionProducto").value;
+    const precio = document.getElementById("precioProducto").value;
+    const categoria = document.getElementById("categoriaProducto").value;
+    const imagen = document.getElementById("imagenProducto").files[0];
+
+    if (nombre && descripcion && precio && categoria && imagen) {
+      // Aquí puedes agregar la lógica para subir el producto al servidor
+      document.getElementById("resultadoSubida").innerHTML = `<p>Producto <b>${nombre}</b> subido exitosamente.</p>`;
+      document.getElementById("formularioProducto").reset();
+      document.getElementById("vistaPrevia").style.display = "none";
+    } else {
+      alert("Por favor, completa todos los campos y selecciona una imagen.");
+    }
+  });
 
   // Mostrar la sección de inicio por defecto
   mostrarSeccion('inicio');
