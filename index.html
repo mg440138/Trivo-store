@@ -100,7 +100,28 @@
 
   <!-- BOTÓN DE ACCESO PÚBLICO -->
   <button class="btn-acceso" onclick="entrarSistema()">Entrar al Sistema</button>
+<!-- ACCESO PRIVADO -->
+<section id="acceso-privado" style="text-align: center; margin-top: 30px;">
+  <button class="btn-acceso" onclick="accederPrivado()">Ingresar al Panel de Administración</button>
+</section>
 
+<!-- PANEL DE ADMIN PRIVADO (OCULTO HASTA ACCESO CORRECTO) -->
+<section id="panel-admin" style="display: none; margin-top: 30px; text-align: center;">
+  <h3>Bienvenido al Panel de Administración</h3>
+  <!-- Aquí va el contenido exclusivo del admin -->
+</section>
+
+<script>
+function accederPrivado() {
+  const clave = prompt("¿Cuál es la clave de acceso?");
+  if (clave === "trivo2025!") {
+    ocultarTodo();
+    document.getElementById("panel-admin").style.display = "block";
+  } else {
+    alert("Clave incorrecta. Intenta de nuevo.");
+  }
+}
+</script>
   <!-- PIE DE PÁGINA -->
   <footer>
     Trivo Store 2025 - Todos los derechos reservados
