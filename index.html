@@ -177,6 +177,44 @@
   }
 </script>
 <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<!-- BLOQUE NUEVO: ZONA PRIVADA COMPLETA -->
+<div id="zonaPrivada" class="seccion">
+  <h2 style="color: #007bff;">Zona Privada - Herramientas del Dueño</h2>
 
+  <!-- Accesos rápidos a herramientas -->
+  <h3>Plataformas de Trabajo</h3>
+  <ul>
+    <li><a href="https://github.com/trivoOwner/Trivo-store" target="_blank">GitHub - Código de la Tienda</a></li>
+    <li><a href="https://trivo-store-admin.vercel.app" target="_blank">Panel Admin en Vercel</a></li>
+    <li><a href="https://stackblitz.com" target="_blank">StackBlitz - Editar Código</a></li>
+    <li><a href="https://firebase.google.com" target="_blank">Firebase - Base de Datos</a></li>
+    <li><a href="https://imgur.com/upload" target="_blank">Imgur - Subir Imágenes</a></li>
+  </ul>
+
+  <!-- Simulación de automatización -->
+  <h3>Robot de Subida (Simulado)</h3>
+  <button onclick="simularSubida()">Subir producto desde 1688</button>
+  <button onclick="simularSubida()">Subir producto desde Amazon</button>
+  <button onclick="simularSubida()">Subir producto desde AliExpress</button>
+  <div id="resultadoRobot" style="margin-top: 20px;"></div>
+
+  <!-- Categorías automáticas -->
+  <h3>Categorías Detectadas</h3>
+  <ul id="categoriasAuto">
+    <li>Electrónica</li>
+    <li>Ropa</li>
+    <li>Hogar</li>
+    <li>Salud</li>
+    <li>Automotriz</li>
+  </ul>
+</div>
+
+<script>
+  function simularSubida() {
+    const cont = document.getElementById("resultadoRobot");
+    cont.innerHTML = `<p style="color: green;">Producto subido correctamente (modo simulado).</p>`;
+    setTimeout(() => cont.innerHTML = "", 3000);
+  }
+</script>
 </body>
 </html>
