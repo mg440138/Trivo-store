@@ -58,15 +58,7 @@
 <div id="contenidoPrivado" style="display: none; text-align:center; margin-top: 20px;">
   <p style="color: red; font-weight: bold;">Contenido privado activado</p>
   <!-- Aquí puedes poner lo que solo tú debes ver -->
-</div>
-    <!-- BOTÓN DE ACCESO PRIVADO -->
-<div style="text-align:center; margin: 20px;">
-  <button onclick="verPrivado()" style="background:#000; color:white; padding:10px 20px; border:none; border-radius:5px;">
-    Acceso Privado
-  </button>
-</div>
-    <!-- BOTÓN DE ACCESO PÚBLICO -->
-    <!-- BOTONES DE ACCESO -->
+
 <div style="text-align:center; margin: 20px;">
   <button onclick="verPublico()" style="margin-right: 10px;">Ver Público</button>
   <button onclick="verPrivado()">Acceso Privado</button>
@@ -1459,8 +1451,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 </script>
+<script>
+  function verPrivado() {
+    const contenido = document.getElementById("contenidoPrivado");
+    if (contenido) {
+      contenido.style.display = "block";
+    }
+  }
 
+  function verPublico() {
+    const contenido = document.getElementById("contenidoPrivado");
+    if (contenido) {
+      contenido.style.display = "none";
+    }
+  }
+</script>
 </body>
 </html>
-</body>
-</html>
+
