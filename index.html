@@ -282,3 +282,47 @@
   }
 </script>
 <!-- ================================================================================== -->
+
+  <!-- ====================== CAPÍTULO 6: BODEGA E INVENTARIO ====================== -->
+<section id="bodega-inventario" style="display: none; padding: 20px;">
+  <h2 style="text-align: center;">Panel de Bodega e Inventario</h2>
+
+  <div style="margin: 20px auto; max-width: 600px;">
+    <table border="1" width="100%" style="border-collapse: collapse;">
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Cantidad</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody id="tablaInventario">
+        <!-- Datos simulados -->
+        <tr>
+          <td>Lámpara LED</td>
+          <td>20</td>
+          <td><button onclick="editarInventario(this)">Editar</button></td>
+        </tr>
+        <tr>
+          <td>Mouse Inalámbrico</td>
+          <td>15</td>
+          <td><button onclick="editarInventario(this)">Editar</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<script>
+  function editarInventario(btn) {
+    const fila = btn.closest("tr");
+    const producto = fila.children[0].innerText;
+    const cantidad = fila.children[1].innerText;
+    const nuevoValor = prompt(`Editar cantidad de "${producto}"`, cantidad);
+    if (nuevoValor !== null) {
+      fila.children[1].innerText = nuevoValor;
+      alert(`Cantidad actualizada: ${producto} = ${nuevoValor}`);
+    }
+  }
+</script>
+<!-- ============================================================================== -->
