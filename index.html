@@ -367,3 +367,38 @@
   }
 </script>
 <!-- ============================================================================== -->
+
+  <!-- ====================== CAPÍTULO 8: REABASTECIMIENTO INTELIGENTE ====================== -->
+<section id="reabastecimiento" style="display: none; padding: 20px;">
+  <h2 style="text-align: center;">Reabastecimiento Inteligente</h2>
+
+  <div style="max-width: 600px; margin: auto;">
+    <p>
+      Este sistema identifica productos vendidos recientemente y verifica si necesitan ser reabastecidos para evitar quiebres de stock.
+    </p>
+    <button onclick="verificarReabastecimiento()" style="padding: 10px 20px; background: orange; color: white; border: none; border-radius: 5px;">
+      Verificar Reabastecimiento
+    </button>
+    <div id="resultadoReabastecimiento" style="margin-top: 20px;"></div>
+  </div>
+</section>
+
+<script>
+  function verificarReabastecimiento() {
+    const historialVentas = [
+      { producto: "Cable HDMI", vendidos: 25, inventario: 3 },
+      { producto: "Teclado Mecánico", vendidos: 15, inventario: 7 },
+      { producto: "Cargador USB", vendidos: 30, inventario: 1 }
+    ];
+
+    const recomendaciones = historialVentas
+      .filter(p => p.vendidos > 10 && p.inventario < 5)
+      .map(p => `Reabastecer: ${p.producto} (vendidos: ${p.vendidos}, inventario: ${p.inventario})`);
+
+    document.getElementById("resultadoReabastecimiento").innerHTML = 
+      recomendaciones.length > 0 
+        ? recomendaciones.join("<br>")
+        : "No se requiere reabastecimiento en este momento.";
+  }
+</script>
+<!-- ============================================================================== -->
