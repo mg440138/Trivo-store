@@ -499,3 +499,78 @@
     }
   });
 </script>
+
+  <!-- CAPÍTULO 10: CORRECCIÓN DE ERRORES Y PROTECCIÓN AUTOMÁTICA -->
+<style>
+  .trivo-alerta {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #e53935;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 6px;
+    font-weight: bold;
+    z-index: 9999;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    font-family: Arial, sans-serif;
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    console.log(">> Revisión automática Trivo iniciada...");
+
+    let errores = 0;
+
+    // 1. FORMULARIOS SIN MÉTODO
+    document.querySelectorAll("form").forEach((form, i) => {
+      if (!form.hasAttribute("method")) {
+        errores++;
+        console.warn(`Formulario sin método detectado (índice ${i})`);
+        const alerta = document.createElement("div");
+        alerta.className = "trivo-alerta";
+        alerta.innerText = `¡Formulario sin método detectado (#${i + 1})!`;
+        document.body.appendChild(alerta);
+        setTimeout(() => alerta.remove(), 6000);
+      }
+    });
+
+    // 2. IMÁGENES ROTAS
+    document.querySelectorAll("img").forEach((img) => {
+      img.onerror = () => {
+        console.error("Imagen rota detectada:", img.src);
+        img.src = "https://via.placeholder.com/150?text=Imagen+no+disponible";
+        errores++;
+      };
+    });
+
+    // 3. ENLACES SIN HREF
+    document.querySelectorAll("a").forEach((a, i) => {
+      if (!a.getAttribute("href") || a.getAttribute("href") === "#") {
+        console.warn(`Enlace posiblemente roto o vacío (índice ${i})`);
+        errores++;
+      }
+    });
+
+    // 4. BOTONES SIN FUNCIÓN
+    document.querySelectorAll("button").forEach((btn, i) => {
+      if (!btn.getAttribute("onclick") && !btn.onclick) {
+        console.warn(`Botón sin funcionalidad (índice ${i})`);
+        errores++;
+      }
+    });
+
+    // CONFIRMACIÓN FINAL
+    if (errores === 0) {
+      const ok = document.createElement("div");
+      ok.className = "trivo-alerta";
+      ok.style.backgroundColor = "#4CAF50";
+      ok.innerText = "Revisión completada. Sin errores visuales detectados.";
+      document.body.appendChild(ok);
+      setTimeout(() => ok.remove(), 5000);
+    }
+
+    console.log(">> Revisión automática finalizada.");
+  });
+</script>
