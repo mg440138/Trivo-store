@@ -1507,7 +1507,29 @@ document.addEventListener("DOMContentLoaded", () => {
     const contenido = document.getElementById("contenidoPrivado");
     if (contenido) contenido.style.display = "none";
   }
-</script>      
+</script>  
+      <script>
+  function verPrivado() {
+    const clave = prompt("Introduce la clave de acceso:");
+    if (clave === "1234") {
+      const contenido = document.getElementById("contenidoPrivado");
+      if (contenido) {
+        contenido.style.display = "block";
+        alert("Acceso concedido. Mostrando contenido privado.");
+      }
+    } else {
+      alert("Clave incorrecta. Acceso denegado.");
+    }
+  }
+
+  function verPublico() {
+    const contenido = document.getElementById("contenidoPrivado");
+    if (contenido) {
+      contenido.style.display = "none";
+      alert("Contenido privado oculto.");
+    }
+  }
+</script>
 </body>
 </html>
 
