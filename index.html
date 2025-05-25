@@ -447,3 +447,55 @@
     }
   });
 </script>
+
+  <!-- CAPÍTULO 9: VISUALIZACIÓN INTELIGENTE -->
+
+<!-- ESTILO VISUAL DE ALERTAS -->
+<style>
+  .visual-alert {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #222;
+    color: #00ffcc;
+    padding: 14px 18px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    z-index: 9999;
+    box-shadow: 0 0 12px rgba(0, 255, 200, 0.5);
+    animation: fadeInOut 5s ease-in-out;
+  }
+
+  @keyframes fadeInOut {
+    0% { opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+</style>
+
+<!-- SCRIPT DE MENSAJES DINÁMICOS -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // Mensaje de bienvenida visual
+    const alerta = document.createElement("div");
+    alerta.className = "visual-alert";
+    alerta.innerText = "¡Sistema de Trivo cargado correctamente!";
+    document.body.appendChild(alerta);
+
+    // Remover después de 6 segundos
+    setTimeout(() => alerta.remove(), 6000);
+
+    // Mostrar alertas si falta alguna sección importante (solo ejemplo)
+    const tiendaActiva = document.querySelector("#tienda");
+    if (!tiendaActiva) {
+      const warning = document.createElement("div");
+      warning.className = "visual-alert";
+      warning.style.background = "#ff4444";
+      warning.innerText = "¡Atención! No se encontró la sección 'tienda'.";
+      document.body.appendChild(warning);
+      setTimeout(() => warning.remove(), 8000);
+    }
+  });
+</script>
