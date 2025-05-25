@@ -59,6 +59,24 @@
     Ver Público
   </button>
 </div>
+    <!-- BOTÓN DE ACCESO PRIVADO -->
+<div style="text-align:center; margin: 20px;">
+  <button onclick="verPrivado()" style="background-color: purple; color: white; padding: 10px 20px; border: none; border-radius: 5px; font-size: 16px;">
+    Acceso Privado
+  </button>
+</div>
+
+<script>
+  function verPrivado() {
+    const clave = prompt("Introduce la clave para acceder:");
+    if (clave === "1234") {
+      alert("Acceso concedido. Mostrando contenido privado.");
+      // Aquí puedes mostrar o redirigir al contenido privado
+    } else {
+      alert("Clave incorrecta. Acceso denegado.");
+    }
+  }
+</script>
     .producto img {
       width: 150px;
       height: auto;
