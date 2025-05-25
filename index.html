@@ -114,7 +114,64 @@
 
   <button type="submit" style="width: 100%; padding: 10px; background: green; color: white; border: none; border-radius: 4px;">Agregar Producto</button>
 </form>
+<script>
+  const formulario = document.getElementById("formulario-producto");
+  const vistaPrevia = document.getElementById("vistaPrevia");
+  const imagenArchivo = document.getElementById("imagenArchivo");
+  const imagenURL = document.getElementById("imagenURL");
 
+  imagenArchivo.addEventListener("change", function () {
+    const archivo = imagenArchivo.files[0];
+    if (archivo) {
+      const lector = new FileReader();
+      lector.onload = function (e) {
+        vistaPrevia.src = e.target.result;
+        vistaPrevia.style.display = "block";
+      };
+      lector.readAsDataURL(archivo);
+    }
+  });
+
+  imagenURL.addEventListener("input", () => {
+    const url = imagenURL.value.trim();
+    if (url) {
+      vistaPrevia.src = url;
+      vistaPrevia.style.display = "block";
+    } else {
+      vistaPrevia.style.display = "none";
+    }
+  });
+
+  formulario.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const nombre = document.getElementById("nombre").value;
+    const descripcion = document.getElementById("descripcion").value;
+    const precio = document.getElementById("precio").value;
+    const categoria = document.getElementById("categoria").value || "Otros";
+
+    let imagenSrc = "";
+    if (imagenURL.value.trim() !== "") {
+      imagenSrc = imagenURL.value.trim();
+    } else if (imagenArchivo.files.length > 0) {
+      imagenSrc = vistaPrevia.src;
+    }
+
+    const productoHTML = `
+      <div class="producto" style="border:1px solid #ccc;padding:15px;margin:10px;border-radius:10px;">
+        <img src="${imagenSrc}" alt="${nombre}" style="width:100px;display:block;margin-bottom:10px;">
+        <h3>${nombre}</h3>
+        <p>${descripcion}</p>
+        <p><strong>Precio:</strong> $${parseFloat(precio).toFixed(2)} USD</p>
+        <p style="font-style:italic;color:green;">Categoría: ${categoria}</p>
+      </div>
+    `;
+
+    document.getElementById("bodega").insertAdjacentHTML("beforeend", productoHTML);
+    formulario.reset();
+    vistaPrevia.style.display = "none";
+  });
+</script>
   <!-- DETECCIÓN AUTOMÁTICA DE CATEGORÍA POR NOMBRE -->
   <h4>Categoría Detectada:</h4>
   <p id="categoriaDetectada" style="font-weight:bold; color:#007bff;">(Esperando entrada...)</p>
