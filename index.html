@@ -1,116 +1,142 @@
-<!-- Encabezado con Logo y Subtítulo -->
-<header style="background-color: #00f; color: #fff; padding: 20px; text-align: center;">
-  <h1 style="margin: 0; font-size: 2.5em;">Trivo Store</h1>
-  <p style="margin: 5px 0 0; font-size: 1.2em;">Control Inteligente de Tienda, Proveedores y Bodega</p>
-</header>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TRIVO Store</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0 15px;
+    }
+    .seccion { display: none; margin-top: 30px; }
+    .menu { margin-top: 20px; }
+    .menu button {
+      padding: 10px;
+      margin-right: 10px;
+      font-weight: bold;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    #google_translate_element {
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
 
-<!-- Menú de Navegación -->
-<nav style="background-color: #333; overflow: hidden;">
-  <a href="#" onclick="mostrarSeccion('inicio')" style="float: left; display: block; color: #fff; text-align: center; padding: 14px 16px; text-decoration: none;">Inicio</a>
-  <a href="#" onclick="mostrarSeccion('productos')" style="float: left; display: block; color: #fff; text-align: center; padding: 14px 16px; text-decoration: none;">Productos</a>
-  <a href="#" onclick="mostrarSeccion('categorias')" style="float: left; display: block; color: #fff; text-align: center; padding: 14px 16px; text-decoration: none;">Categorías</a>
-  <a href="#" onclick="mostrarSeccion('proveedores')" style="float: left; display: block; color: #fff; text-align: center; padding: 14px 16px; text-decoration: none;">Proveedores</a>
-  <a href="#" onclick="mostrarSeccion('contacto')" style="float: left; display: block; color: #fff; text-align: center; padding: 14px 16px; text-decoration: none;">Contacto</a>
-  <a href="#" onclick="accederPrivado()" style="float: left; display: block; color: #fff; text-align: center; padding: 14px 16px; text-decoration: none;">Admin</a>
-</nav>
-<!-- TRADUCTOR MULTILENGUAJE MEJORADO -->
-<div id="google_translate_element" style="margin: 20px auto; text-align: center;"></div>
-<script type="text/javascript">
-  function googleTranslateElementInit() {
-    new google.translate.TranslateElement({
-      pageLanguage: 'es',
-      includedLanguages: 'af,am,ar,az,be,bg,bn,bs,ca,ceb,cs,cy,da,de,el,en,eo,es,et,eu,fa,fi,fr,ga,gl,gu,ha,haw,hi,hmn,hr,ht,hu,hy,id,ig,is,it,iw,ja,jv,ka,kk,km,kn,ko,ku,ky,la,lo,lt,lv,mg,mi,mk,ml,mn,mr,ms,mt,my,ne,nl,no,ny,pa,pl,ps,pt,ro,ru,rw,sd,si,sk,sl,sm,sn,so,sq,sr,st,sv,sw,ta,te,tg,th,tk,tl,tr,ug,uk,ur,uz,vi,xh,yi,zh-CN,zh-TW,zu',
-      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-    }, 'google_translate_element');
-  }
-</script>
-<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-<!-- Secciones -->
-<section id="inicio" style="padding: 20px;">
-  <h2>Bienvenido a Trivo Store</h2>
-  <p>Esta es la página principal de tu tienda.</p>
-</section>
+<!-- TRADUCTOR GOOGLE -->
+<div id="traductorTrivo" style="position: fixed; top: 15px; left: 15px; z-index: 9999;">
+  <div id="google_translate_element" style="border: 2px solid #007bff; padding: 5px 10px; background: white; border-radius: 6px; font-weight: bold;"></div>
+</div>
 
-<section id="productos" style="padding: 20px; display: none;">
-  <h2>Productos</h2>
-  <p>Listado de productos disponibles.</p>
-</section>
+<!-- CABECERA -->
+<h1 style="text-align: center; color: #007bff;">TRIVO Store</h1>
 
-<section id="categorias" style="padding: 20px; display: none;">
-  <h2>Categorías</h2>
-  <p>Listado de categorías de productos.</p>
-</section>
+<!-- MENÚ -->
+<div class="menu">
+  <button onclick="verSeccion('tienda')">Tienda</button>
+  <button onclick="verSeccion('contacto')">Contacto</button>
+  <button onclick="verLogin()">Admin</button>
+</div>
 
-<section id="proveedores" style="padding: 20px; display: none;">
-  <h2>Proveedores</h2>
-  <button onclick="importarDesde('1688')">Importar desde 1688</button>
-  <button onclick="importarDesde('Amazon')">Importar desde Amazon</button>
-  <button onclick="importarDesde('AliExpress')">Importar desde AliExpress</button>
-  <div id="resultadoProveedores" style="margin-top:20px;"></div>
-</section>
+<!-- TIENDA (PÚBLICA) -->
+<div id="tienda" class="seccion">
+  <h2>Productos disponibles</h2>
+  <p>Listado de productos al público...</p>
+</div>
 
-<section id="contacto" style="padding: 20px; display: none;">
-  <h2>Contacto</h2>
-  <p>Información de contacto de la tienda.</p>
-</section>
-
-<section id="panel-admin" style="padding: 20px; display: none;">
-  <h2>Panel de Administración</h2>
-  <p>Bienvenido al panel de administración.</p>
-  <!-- Formulario de Subida de Productos -->
-  <form id="formularioProducto">
-    <label for="nombreProducto">Nombre del Producto:</label><br>
-    <input type="text" id="nombreProducto" name="nombreProducto" required><br><br>
-
-    <label for="descripcionProducto">Descripción:</label><br>
-    <textarea id="descripcionProducto" name="descripcionProducto" required></textarea><br><br>
-
-    <label for="precioProducto">Precio:</label><br>
-    <input type="number" id="precioProducto" name="precioProducto" required><br><br>
-
-    <label for="categoriaProducto">Categoría:</label><br>
-    <input type="text" id="categoriaProducto" name="categoriaProducto" required><br><br>
-
-    <label for="imagenProducto">Imagen:</label><br>
-    <input type="file" id="imagenProducto" name="imagenProducto" accept="image/*" onchange="mostrarVistaPrevia(event)" required><br><br>
-
-    <img id="vistaPrevia" width="200" style="margin-top:10px; display:none;"/><br><br>
-
-    <button type="submit">Subir Producto</button>
+<!-- CONTACTO -->
+<div id="contacto" class="seccion">
+  <h2>Formulario de contacto</h2>
+  <form>
+    <label>Nombre: <input type="text" required></label><br><br>
+    <label>Email: <input type="email" required></label><br><br>
+    <label>Mensaje:<br><textarea rows="4" required></textarea></label><br><br>
+    <button type="submit">Enviar</button>
   </form>
-  <div id="resultadoSubida" style="margin-top:20px;"></div>
-</section>
+</div>
 
-<!-- Pie de Página -->
-<footer style="background-color: #333; color: #fff; text-align: center; padding: 10px 0;">
-  Trivo Store 2025 – Todos los derechos reservados
-</footer>
+<!-- PANEL ADMIN (PRIVADO) -->
+<div id="adminPanel" class="seccion">
+  <h2>Panel Privado del Dueño</h2>
+  <button onclick="verSeccion('bodega')">Bodega</button>
+  <button onclick="verSeccion('proveedores')">Proveedores</button>
+  <button onclick="verSeccion('herramientas')">Herramientas</button>
+</div>
 
-<!-- Scripts -->
+<!-- BODEGA -->
+<div id="bodega" class="seccion">
+  <h3>Bodega / Inventario</h3>
+  <p>Aquí puedes subir y gestionar productos.</p>
+  <form>
+    <label>Nombre del producto: <input type="text" required></label><br><br>
+    <label>Precio: <input type="number" required></label><br><br>
+    <label>Imagen: <input type="file"></label><br><br>
+    <button type="submit">Subir producto</button>
+  </form>
+</div>
+
+<!-- PROVEEDORES -->
+<div id="proveedores" class="seccion">
+  <h3>Importar desde proveedores</h3>
+  <button onclick="importarDesde('1688')">1688</button>
+  <button onclick="importarDesde('Amazon')">Amazon</button>
+  <button onclick="importarDesde('AliExpress')">AliExpress</button>
+  <div id="resultadoProveedores" style="margin-top: 15px;"></div>
+</div>
+
+<!-- HERRAMIENTAS -->
+<div id="herramientas" class="seccion">
+  <h3>Herramientas del Dueño</h3>
+  <ul>
+    <li>Control de productos</li>
+    <li>Gestión automática</li>
+    <li>Sincronización</li>
+  </ul>
+</div>
+
+<!-- BLOQUE DE CLAVE -->
+<div id="clavePanel" class="seccion" style="margin-top: 30px;">
+  <h3>Acceso Privado</h3>
+  <input type="password" id="claveInput" placeholder="Ingresa la clave" />
+  <button onclick="verificarClave()">Entrar</button>
+  <p id="claveMensaje" style="color: red;"></p>
+</div>
+
+<!-- SCRIPTS -->
 <script>
-  function ocultarSecciones() {
-    const secciones = document.querySelectorAll('section');
-    secciones.forEach(seccion => seccion.style.display = 'none');
+  function ocultarTodo() {
+    document.querySelectorAll('.seccion').forEach(sec => sec.style.display = 'none');
   }
 
-  function mostrarSeccion(id) {
-    ocultarSecciones();
+  function verSeccion(id) {
+    ocultarTodo();
     document.getElementById(id).style.display = 'block';
   }
 
-  function accederPrivado() {
-    const clave = prompt("Introduce la clave de acceso:");
-    if (clave === "trivo2025!") {
-      mostrarSeccion('panel-admin');
+  function verLogin() {
+    ocultarTodo();
+    document.getElementById('clavePanel').style.display = 'block';
+  }
+
+  function verificarClave() {
+    const clave = document.getElementById('claveInput').value;
+    const mensaje = document.getElementById('claveMensaje');
+    if (clave === "Trivo2025!") {
+      verSeccion('adminPanel');
+      mensaje.innerText = "";
     } else {
-      alert("Clave incorrecta. Acceso denegado.");
+      mensaje.innerText = "Clave incorrecta";
     }
   }
 
   function importarDesde(fuente) {
     const resultado = document.getElementById("resultadoProveedores");
     resultado.innerHTML = `<p>Cargando productos desde <b>${fuente}</b>...</p>`;
-
     setTimeout(() => {
       resultado.innerHTML = `
         <p><b>Productos importados desde ${fuente}:</b></p>
@@ -122,49 +148,19 @@
       `;
     }, 1000);
   }
-
-  function mostrarVistaPrevia(event) {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onload = function(){
-      const vistaPrevia = document.getElementById("vistaPrevia");
-      vistaPrevia.src = reader.result;
-      vistaPrevia.style.display = "block";
-    };
-    reader.readAsDataURL(file);
-  }
-
-  document.getElementById("formularioProducto").addEventListener("submit", function(e) {
-    e.preventDefault();
-    const nombre = document.getElementById("nombreProducto").value;
-    const descripcion = document.getElementById("descripcionProducto").value;
-    const precio = document.getElementById("precioProducto").value;
-    const categoria = document.getElementById("categoriaProducto").value;
-    const imagen = document.getElementById("imagenProducto").files[0];
-
-    if (nombre && descripcion && precio && categoria && imagen) {
-      // Aquí puedes agregar la lógica para subir el producto al servidor
-      document.getElementById("resultadoSubida").innerHTML = `<p>Producto <b>${nombre}</b> subido exitosamente.</p>`;
-      document.getElementById("formularioProducto").reset();
-      document.getElementById("vistaPrevia").style.display = "none";
-    } else {
-      alert("Por favor, completa todos los campos y selecciona una imagen.");
-    }
-  });
-
-  // Mostrar la sección de inicio por defecto
-  mostrarSeccion('inicio');
 </script>
 
-<!-- TRADUCTOR MULTILENGUAJE MEJORADO -->
-<div id="google_translate_element" style="margin: 20px auto; text-align: center;"></div>
+<!-- TRADUCTOR GOOGLE SCRIPT -->
 <script type="text/javascript">
   function googleTranslateElementInit() {
     new google.translate.TranslateElement({
       pageLanguage: 'es',
-      includedLanguages: 'af,am,ar,az,be,bg,bn,bs,ca,ceb,cs,cy,da,de,el,en,eo,es,et,eu,fa,fi,fr,ga,gl,gu,ha,haw,hi,hmn,hr,ht,hu,hy,id,ig,is,it,iw,ja,jv,ka,kk,km,kn,ko,ku,ky,la,lo,lt,lv,mg,mi,mk,ml,mn,mr,ms,mt,my,ne,nl,no,ny,pa,pl,ps,pt,ro,ru,rw,sd,si,sk,sl,sm,sn,so,sq,sr,st,sv,sw,ta,te,tg,th,tk,tl,tr,ug,uk,ur,uz,vi,xh,yi,zh-CN,zh-TW,zu',
-      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      includedLanguages: 'es,en,fr,de,it,pt,zh-CN,ja,ko,ru,ar,tr,hi,id,vi,th,pl,nl,sv,no,da,fi,cs,el,he,ro,hu,uk,bg,hr,sk,sl,lt,lv,et,ms,tl',
+      layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL
     }, 'google_translate_element');
   }
 </script>
 <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</body>
+</html>
