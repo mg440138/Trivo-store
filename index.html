@@ -139,15 +139,34 @@
     resultado.innerHTML = `<p>Cargando productos desde <b>${fuente}</b>...</p>`;
     setTimeout(() => {
       resultado.innerHTML = `
-        <p><b>Productos importados desde ${fuente}:</b></p>
-        <ul>
-          <li>Producto A (${fuente})</li>
-          <li>Producto B (${fuente})</li>
-          <li>Producto C (${fuente})</li>
-        </ul>
-      `;
-    }, 1000);
+  function ocultarTodo() {
+  document.querySelectorAll('.seccion').forEach(sec => sec.style.display = 'none');
+}
+
+function verSeccion(id) {
+  ocultarTodo();
+  document.getElementById(id).style.display = 'block';
+}
+
+function verLogin() {
+  ocultarTodo();
+  document.getElementById('clavePanel').style.display = 'block';
+}
+
+function verificarClave() {
+  const clave = document.getElementById('claveInput').value;
+  const mensaje = document.getElementById('claveMensaje');
+  if (clave === "Trivo2025!") {
+    ocultarTodo();
+    document.getElementById('adminPanel').style.display = 'block';
+    document.getElementById('bodega').style.display = 'block';
+    document.getElementById('proveedores').style.display = 'block';
+    document.getElementById('herramientas').style.display = 'block';
+    mensaje.innerText = "";
+  } else {
+    mensaje.innerText = "Clave incorrecta";
   }
+}      
 </script>
 
 <!-- TRADUCTOR GOOGLE SCRIPT -->
