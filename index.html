@@ -326,3 +326,44 @@
   }
 </script>
 <!-- ============================================================================== -->
+
+  <!-- ====================== CAPÍTULO 7: COMPRA AUTOMATIZADA ====================== -->
+<section id="compra-automatizada" style="display: none; padding: 20px;">
+  <h2 style="text-align: center;">Sistema de Compra Automatizada</h2>
+
+  <div style="max-width: 600px; margin: auto;">
+    <p>
+      Este módulo permite al sistema identificar automáticamente los productos con baja existencia en inventario y generar una orden de compra.
+    </p>
+    <button onclick="detectarYOrdenar()" style="padding: 10px 20px; background: green; color: white; border: none; border-radius: 5px;">
+      Activar Compra Automatizada
+    </button>
+    <div id="resultadoCompra" style="margin-top: 20px;"></div>
+  </div>
+</section>
+
+<script>
+  function detectarYOrdenar() {
+    const inventario = [
+      { nombre: "Lámpara LED", cantidad: 4 },
+      { nombre: "Mouse Inalámbrico", cantidad: 2 },
+      { nombre: "Audífonos", cantidad: 10 }
+    ];
+
+    const umbral = 5;
+    let ordenes = [];
+
+    for (const item of inventario) {
+      if (item.cantidad < umbral) {
+        ordenes.push(`Orden generada: Comprar más de ${item.nombre}`);
+      }
+    }
+
+    const resultado = ordenes.length > 0 
+      ? ordenes.join("<br>") 
+      : "Inventario suficiente. No se requiere compra.";
+
+    document.getElementById("resultadoCompra").innerHTML = resultado;
+  }
+</script>
+<!-- ============================================================================== -->
