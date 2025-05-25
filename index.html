@@ -99,12 +99,21 @@
 <div id="bodega" class="seccion">
   <h3>Bodega / Inventario</h3>
   <p>Aquí puedes subir y gestionar productos.</p>
-  <form>
-    <label>Nombre del producto: <input type="text" id="nombreProducto" required></label><br><br>
-    <label>Precio: <input type="number" required></label><br><br>
-    <label>Imagen: <input type="file"></label><br><br>
-    <button type="submit">Subir producto</button>
-  </form>
+  <!-- FORMULARIO INTELIGENTE -->
+<form id="formulario-producto" onsubmit="agregarProducto(event)" style="margin: 30px auto; max-width: 400px; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px #ccc;">
+  <input type="text" id="nombre" placeholder="Nombre del producto" required style="margin-bottom: 10px; width: 100%; padding: 10px;">
+  <input type="text" id="descripcion" placeholder="Descripción" required style="margin-bottom: 10px; width: 100%; padding: 10px;">
+  <input type="number" id="precio" placeholder="Precio USD" required style="margin-bottom: 10px; width: 100%; padding: 10px;">
+  <input type="text" id="categoria" placeholder="Categoría del producto (opcional)" style="margin-bottom: 10px; width: 100%; padding: 10px;">
+  
+  <label>Sube una imagen o pega un enlace:</label><br>
+  <input type="file" id="imagenArchivo" accept="image/*" style="margin-bottom: 10px;"><br>
+  <input type="url" id="imagenURL" placeholder="URL de la imagen (opcional)" style="margin-bottom: 10px; width: 100%; padding: 10px;"><br>
+
+  <img id="vistaPrevia" src="" alt="Vista previa" style="max-width:150px; display:none; margin-bottom:10px;"><br>
+
+  <button type="submit" style="width: 100%; padding: 10px; background: green; color: white; border: none; border-radius: 4px;">Agregar Producto</button>
+</form>
 
   <!-- DETECCIÓN AUTOMÁTICA DE CATEGORÍA POR NOMBRE -->
   <h4>Categoría Detectada:</h4>
