@@ -459,6 +459,9 @@ document.getElementById("botonAgregar").addEventListener("click", async function
   const descripcion = document.getElementById("descripcion").value;
   const precio = document.getElementById("precio").value;
   const categoria = document.getElementById("categoria").value;
+  // Activar robot TRIVO para analizar el producto
+const aprobado = robotTrivoAnalizar(nombre, precio);
+if (!aprobado) return; // Si no aprueba, se cancela el guardado
   const imagen = imagenURL.value || "sin_imagen";
 
   await guardarProducto(nombre, descripcion, precio, categoria, imagen);
