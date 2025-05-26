@@ -115,9 +115,50 @@
 
   <button id="botonAgregar" style="width: 100%; padding: 10px; background: green; color: white; border: none; border-radius: 5px;">Agregar Producto</button>
 </form>
-  <h4>Productos en inventario:</h4>
-  
-<div id="listaProductos"></div>
+  <!-- MOSTRAR PRODUCTOS EN BODEGA -->
+<h4 style="margin-top: 30px;">Productos cargados desde Firestore:</h4>
+<div id="listaProductos" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;"></div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "TU_API_KEY",
+    authDomain: "TU_AUTH_DOMAIN",
+    projectId: "TU_PROJECT_ID",
+    storageBucket: "TU_BUCKET",
+    messagingSenderId: "TU_MESSAGING_ID",
+    appId: "TU_APP_ID"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  async function cargarProductos() {
+    const lista = document.getElementById("listaProductos");
+    const productosRef = collection(db, "productos");
+    const querySnapshot = await getDocs(productosRef);
+
+    querySnapshot.forEach(doc => {
+      const producto = doc.data();
+      const div = document.createElement("div");
+      div.className = "producto";
+      div.style = "border:1px solid #ccc; border-radius:8px; padding:15px; width:200px; text-align:center; background:white;";
+      div.innerHTML = `
+        <img src="${producto.imagenURL}" alt="${producto.nombre}" style="width:150px; height:auto; border-radius:10px;">
+        <h3>${producto.nombre}</h3>
+        <p>${producto.descripcion}</p>
+        <strong style="color:green;">$${producto.precio}</strong>
+        <p><em>${producto.categoria}</em></p>
+        <button class="boton-carrito">Agregar al carrito</button>
+      `;
+      lista.appendChild(div);
+    });
+  }
+
+  cargarProductos();
+</script>
 
 <!-- MOSTRAR PRODUCTOS EN BODEGA -->
 <div id="bodega-lista" style="margin-top: 20px;"></div>
