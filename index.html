@@ -692,3 +692,30 @@ if (!aprobado) return; // Si no aprueba, se cancela el guardado
 
   mostrarProductos();
 </script>
+  </script>
+
+<!-- Aquí va el bloque para conectar con Firebase -->
+<script type="module">
+  // CONFIGURACIÓN FIREBASE (usa tus datos reales)
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "TU_API_KEY",
+    authDomain: "TU_DOMINIO.firebaseapp.com",
+    projectId: "TU_PROJECT_ID",
+    storageBucket: "TU_BUCKET.appspot.com",
+    messagingSenderId: "TU_SENDER_ID",
+    appId: "TU_APP_ID"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // Puedes añadir lógica para leer o mostrar datos aquí también si necesitas
+</script>
+
+</body>
+</html>
+</body>
+</html>
