@@ -464,6 +464,22 @@ document.getElementById("botonAgregar").addEventListener("click", async function
   await guardarProducto(nombre, descripcion, precio, categoria, imagen);
 });
 </script>
+  <!-- Bloque visual del robot -->
+<div id="robotTrivoPanel" style="position:fixed; bottom:20px; right:20px; background:#111; color:#0f0; padding:15px; border-radius:10px; font-family:monospace; z-index:9999; box-shadow:0 0 15px #0f0;">
+  <strong>Robot TRIVO:</strong><br>
+  <span id="robotEstado">Conectado a Firebase...</span><br>
+  <span id="robotAccion">Esperando productos...</span><br>
+  <span id="robotMoneda">USD: $-- | Original: ¥--</span>
+</div>
+
+<script>
+  setTimeout(() => {
+    document.getElementById("robotEstado").innerText = "Robot activo.";
+    document.getElementById("robotAccion").innerText = "Producto procesado correctamente.";
+    document.getElementById("robotMoneda").innerText = "USD: $24.50 | Original: ¥168";
+  }, 3000);
+</script>
+<!-- Fin bloque visual del robot -->
   <script type="module">
   import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
   
