@@ -729,7 +729,33 @@ if (!aprobado) return; // Si no aprueba, se cancela el guardado
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
+// Obtener la referencia al contenedor de productos
+const lista = document.getElementById("listaProductos");
 
+// Función para mostrar los productos desde Firestore
+async function mostrarProductos() {
+  const querySnapshot = await getDocs(collection(db, "productos"));
+  let html = "";
+
+  querySnapshot.forEach((doc) => {
+    const data = doc.data();
+    html += `
+      <div style="border:1px solid #ccc; padding:10px; margin:10px; max-width:300px;">
+        <strong>${data.nombre}</strong><br>
+        Descripción: ${data.descripcion}<br>
+        Categoría: <em>${data.categoria}</em><br>
+        Precio: <span style="color:green;">$${data.precio}</span><br>
+        <img src="${data.imagenURL}" alt="${data.nombre}" style="max-width:100px;"><br>
+        Fecha: ${new Date(data.fecha).toLocaleString()}
+      </div>
+    `;
+  });
+
+  lista.innerHTML = html;
+}
+
+// Llamar a la función cuando se cargue el módulo
+mostrarProductos();
   // Puedes añadir lógica para leer o mostrar datos aquí también si necesitas
 </script>
 <!-- Conexión con Firebase -->
