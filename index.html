@@ -621,7 +621,8 @@ function detectarCategoriaInteligente(nombreProducto) {
     const nombre = document.getElementById("nombre").value.trim();
     const descripcion = document.getElementById("descripcion").value.trim();
     const precio = parseFloat(document.getElementById("precio").value);
-    const categoria = document.getElementById("categoria").value.trim() || "Otros";
+    const nombreProducto = document.getElementById("nombre").value;
+const categoria = detectarCategoriaInteligente(nombreProducto);
     const imagenURL = document.getElementById("imagenURL")?.value || "";
 
     if (!nombre || !descripcion || isNaN(precio)) {
