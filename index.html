@@ -571,3 +571,39 @@ if (!aprobado) return; // Si no aprueba, se cancela el guardado
     }
   }, 2500);
 </script>
+<!-- Mostrar productos sin formulario -->
+<div id="listaProductos" style="padding: 20px;"></div>
+
+<script type="module">
+  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+  const db = getFirestore();
+
+  async function mostrarProductos() {
+    const lista = document.getElementById("listaProductos");
+    const querySnapshot = await getDocs(collection(db, "productos"));
+
+    if (querySnapshot.empty) {
+      lista.innerHTML = "<p>No hay productos para mostrar.</p>";
+      return;
+    }
+
+    let html = "<h2>Inventario</h2>";
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      html += `
+        <div style="border:1px solid #ccc; padding:10px; margin:10px;">
+          <strong>${data.nombre}</strong><br>
+          Descripción: ${data.descripcion}<br>
+          Categoría: ${data.categoria}<br>
+          Precio: ${data.precio} USD<br>
+          <img src="${data.imagenURL}" alt="${data.nombre}" style="max-width:100px;"><br>
+          Fecha: ${new Date(data.fecha).toLocaleString()}
+        </div>
+      `;
+    });
+
+    lista.innerHTML = html;
+  }
+
+  mostrarProductos();
+</script>
