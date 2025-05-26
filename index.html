@@ -469,6 +469,44 @@ if (!aprobado) return; // Si no aprueba, se cancela el guardado
   await guardarProducto(nombre, descripcion, precio, categoria, imagen);
 });
 </script>
+  </script>
+
+<script type="module">
+import { getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+async function mostrarProductos() {
+  const lista = document.getElementById("listaProductos");
+  lista.innerHTML = "<em>Cargando productos...</em>";
+
+  try {
+    const querySnapshot = await getDocs(collection(db, "productos"));
+    if (querySnapshot.empty) {
+      lista.innerHTML = "<p>No hay productos aún.</p>";
+      return;
+    }
+
+    lista.innerHTML = "";
+    querySnapshot.forEach((doc) => {
+      const prod = doc.data();
+      const item = document.createElement("div");
+      item.style = "border: 1px solid #ccc; padding: 10px; margin: 10px 0;";
+      item.innerHTML = `
+        <strong>${prod.nombre}</strong><br>
+        ${prod.descripcion}<br>
+        Precio: $${prod.precio} USD<br>
+        Categoría: ${prod.categoria || "N/A"}<br>
+        <img src="${prod.imagen}" alt="img" style="max-width:100px; margin-top:5px;">
+      `;
+      lista.appendChild(item);
+    });
+  } catch (e) {
+    lista.innerHTML = "<p>Error al cargar productos.</p>";
+    console.error("Error mostrando productos:", e);
+  }
+}
+
+mostrarProductos();
+</script>
   <!-- Bloque visual del robot -->
 <div id="robotTrivoPanel" style="position:fixed; bottom:20px; right:20px; background:#111; color:#0f0; padding:15px; border-radius:10px; font-family:monospace; z-index:9999; box-shadow:0 0 15px #0f0;">
   <strong>Robot TRIVO:</strong><br>
