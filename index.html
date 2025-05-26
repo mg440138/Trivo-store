@@ -777,6 +777,20 @@ mostrarProductos();
 
   // Aquí puedes usar la variable `db` para leer o escribir datos
 </script>
+  <script>
+// IA LOCAL: Clasificador de categoría por palabra clave
+function detectarCategoriaInteligente(nombreProducto) {
+  const nombre = nombreProducto.toLowerCase();
+
+  if (nombre.includes("zapato") || nombre.includes("tenis") || nombre.includes("sandalia")) return "Calzado";
+  if (nombre.includes("camisa") || nombre.includes("pantalón") || nombre.includes("blusa") || nombre.includes("ropa")) return "Ropa";
+  if (nombre.includes("celular") || nombre.includes("tablet") || nombre.includes("computadora") || nombre.includes("tecnología")) return "Tecnología";
+  if (nombre.includes("reloj") || nombre.includes("collar") || nombre.includes("accesorio")) return "Accesorios";
+  if (nombre.includes("silla") || nombre.includes("mesa") || nombre.includes("hogar")) return "Hogar";
+  
+  return "Otros"; // Categoría por defecto
+}
+</script>
 </body>
 </html>
 
