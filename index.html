@@ -36,6 +36,24 @@
       margin-bottom: 0;
     }
   </style>
+  <!-- Firebase App (modular) -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-analytics.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCFEDVeXYdjQMLKbMoqH8t46umL05mMy2Y",
+    authDomain: "trivostore-48031.firebaseapp.com",
+    projectId: "trivostore-48031",
+    storageBucket: "trivostore-48031.appspot.com",
+    messagingSenderId: "470494266050",
+    appId: "1:470494266050:web:a5c00ecb3d202b2848715b",
+    measurementId: "G-PYP3ZR9742"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
 </head>
 <body>
 
