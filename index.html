@@ -732,8 +732,25 @@ if (!aprobado) return; // Si no aprueba, se cancela el guardado
 
   // Puedes añadir lógica para leer o mostrar datos aquí también si necesitas
 </script>
+<!-- Conexión con Firebase -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+  const firebaseConfig = {
+    apiKey: "TU_API_KEY",
+    authDomain: "TU_AUTH_DOMAIN",
+    projectId: "TU_PROJECT_ID",
+    storageBucket: "TU_BUCKET",
+    messagingSenderId: "TU_MESSAGING_ID",
+    appId: "TU_APP_ID"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // Aquí puedes usar la variable `db` para leer o escribir datos
+</script>
 </body>
 </html>
-</body>
-</html>
+
