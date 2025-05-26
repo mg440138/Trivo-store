@@ -557,3 +557,17 @@ if (!aprobado) return; // Si no aprueba, se cancela el guardado
   });
 </script>
 <!-- FIN DEL BLOQUE -->
+<script>
+  // Espera 2.5 segundos y muestra estado conectado con valores simulados
+  setTimeout(() => {
+    const estado = document.getElementById("robotEstado");
+    const accion = document.getElementById("robotAccion");
+    const moneda = document.getElementById("robotMoneda");
+
+    if (estado && accion && moneda) {
+      estado.innerText = "Robot activo y conectado.";
+      accion.innerText = "Producto procesado correctamente.";
+      moneda.innerText = "USD: $24.50 | Original: ¥168";
+    }
+  }, 2500);
+</script>
