@@ -803,7 +803,14 @@ function detectarCategoriaInteligente(nombreProducto) {
   return "Otros"; // Categoría por defecto
 }
 </script>
-  
+  <script type="module">
+// Inicialización de Supabase (reemplaza con tus credenciales reales)
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+const supabaseUrl = 'https://TU_PROYECTO.supabase.co';
+const supabaseKey = 'TU_CLAVE_PUBLICA';
+const supabase = createClient(supabaseUrl, supabaseKey);
+</script>
     actualizarEstado();
   });
 
@@ -831,18 +838,23 @@ function detectarCategoriaInteligente(nombreProducto) {
 
 <script>
 // Estado actual (por defecto Firebase)
-let plataformaActiva = "firebase";
+productForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
 
-// Función para activar Firebase
-function activarFirebase() {
-  plataformaActiva = "firebase";
-  document.getElementById("estadoPlataforma").innerText = "Plataforma activa: Firebase";
-  console.log("Firebase activado");
-  // Aquí llamas tu función de subida Firebase si deseas automatizar
-}
+  const producto = {
+    nombre: nombreInput.value,
+    precio: parseFloat(precioInput.value),
+    descripcion: descripcionInput.value
+  };
 
-// Función para activar Supabase
-function activarSupabase() {
+  if (plataformaActiva === 'supabase') {
+    await subirASupabase(producto);
+  } else {
+    await subirAFirebase(producto);
+  }
+
+  productForm.reset();
+});
   plataformaActiva = "supabase";
   document.getElementById("estadoPlataforma").innerText = "Plataforma activa: Supabase";
   console.log("Supabase activado");
