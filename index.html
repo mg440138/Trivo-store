@@ -803,6 +803,36 @@ function detectarCategoriaInteligente(nombreProducto) {
   return "Otros"; // Categoría por defecto
 }
 </script>
+  <script>
+  let plataformaActiva = 'firebase'; // Valor inicial
+
+  const firebaseBtn = document.getElementById('firebaseBtn');
+  const supabaseBtn = document.getElementById('supabaseBtn');
+  const statusPlataforma = document.createElement('div');
+
+  statusPlataforma.id = "plataformaStatus";
+  statusPlataforma.style.fontWeight = "bold";
+  statusPlataforma.style.marginTop = "10px";
+  document.querySelector('.platform-toggle').after(statusPlataforma);
+
+  function actualizarEstado() {
+    firebaseBtn.disabled = plataformaActiva === 'firebase';
+    supabaseBtn.disabled = plataformaActiva === 'supabase';
+    statusPlataforma.innerText = `Plataforma activa: ${plataformaActiva.charAt(0).toUpperCase() + plataformaActiva.slice(1)}`;
+  }
+
+  firebaseBtn.addEventListener('click', () => {
+    plataformaActiva = 'firebase';
+    actualizarEstado();
+  });
+
+  supabaseBtn.addEventListener('click', () => {
+    plataformaActiva = 'supabase';
+    actualizarEstado();
+  });
+
+  actualizarEstado();
+</script>
   <!-- BOTONES DE CONTROL DE PLATAFORMA -->
 <div style="margin: 20px 0; text-align: center;">
   <button onclick="activarFirebase()" style="padding:10px 20px; margin-right:10px;">Usar Firebase</button>
