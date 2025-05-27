@@ -823,24 +823,7 @@ function detectarCategoriaInteligente(nombreProducto) {
   statusPlataforma.style.marginTop = "10px";
   document.querySelector('.platform-toggle').after(statusPlataforma);
 
-  function actualizarEstado() {
-    firebaseBtn.disabled = plataformaActiva === 'firebase';
-    supabaseBtn.disabled = plataformaActiva === 'supabase';
-    statusPlataforma.innerText = `Plataforma activa: ${plataformaActiva.charAt(0).toUpperCase() + plataformaActiva.slice(1)}`;
-  }
-
-  firebaseBtn.addEventListener('click', () => {
-    plataformaActiva = 'firebase';
-    actualizarEstado();
-  });
-
-  supabaseBtn.addEventListener('click', () => {
-    plataformaActiva = 'supabase';
-    actualizarEstado();
-  });
-
-  actualizarEstado();
-</script>
+  
   <!-- BOTONES DE CONTROL DE PLATAFORMA -->
 <div style="margin: 20px 0; text-align: center;">
   <button onclick="activarFirebase()" style="padding:10px 20px; margin-right:10px;">Usar Firebase</button>
