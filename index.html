@@ -885,10 +885,27 @@ async function subirASupabase(producto) {
 
   const data = await response.json();
 
-  if (response.ok) {
-    console.log("Producto subido a Supabase:", data);
-    alert("Producto subido correctamente a Supabase");
-  } else {
+if (response.ok) {
+  console.log("Producto subido correctamente");
+
+  const statusBox = document.createElement('div');
+  statusBox.style.backgroundColor = '#000';
+  statusBox.style.color = 'lime';
+  statusBox.style.padding = '10px';
+  statusBox.style.borderRadius = '10px';
+  statusBox.style.fontFamily = 'monospace';
+  statusBox.style.position = 'fixed';
+  statusBox.style.bottom = '20px';
+  statusBox.style.right = '20px';
+  statusBox.style.zIndex = '9999';
+  statusBox.innerHTML = `
+    <span style="color: lime;">Robot TRIVO:</span><br>
+    Robot activo y conectado.<br>
+    Producto procesado correctamente.<br>
+    USD: $${producto.precio.toFixed(2)} | Original: ¥${producto.precioOriginal ?? 'N/A'}
+  `;
+  document.body.appendChild(statusBox);
+}
     console.error("Error al subir a Supabase:", data);
     alert("Error al subir producto a Supabase");
   }
