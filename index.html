@@ -1054,6 +1054,31 @@ function subirASupabase(producto) {
   // Inicializar el estado de los botones
   updateButtons();
 </script>
+  <script>
+  let plataformaActiva = 'firebase';
+
+  const firebaseBtn = document.getElementById('firebaseBtn');
+  const supabaseBtn = document.getElementById('supabaseBtn');
+  const statusPlataforma = document.getElementById('estadoPlataforma');
+
+  function actualizarEstado() {
+    firebaseBtn.disabled = (plataformaActiva === 'firebase');
+    supabaseBtn.disabled = (plataformaActiva === 'supabase');
+    statusPlataforma.innerText = 'Plataforma activa: ' + plataformaActiva.charAt(0).toUpperCase() + plataformaActiva.slice(1);
+  }
+
+  firebaseBtn.addEventListener('click', () => {
+    plataformaActiva = 'firebase';
+    actualizarEstado();
+  });
+
+  supabaseBtn.addEventListener('click', () => {
+    plataformaActiva = 'supabase';
+    actualizarEstado();
+  });
+
+  actualizarEstado();
+</script>
 </body>
 </html>
 
