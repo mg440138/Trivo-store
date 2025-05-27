@@ -803,35 +803,7 @@ function detectarCategoriaInteligente(nombreProducto) {
   return "Otros"; // Categoría por defecto
 }
 </script>
-  <!-- BOTONES DE CONTROL DE PLATAFORMA -->
-<div style="margin: 20px 0; text-align: center;">
-  <button id="firebaseBtn">Usar Firebase</button>
-  <button id="supabaseBtn">Usar Supabase</button>
-  <p id="estadoPlataforma" style="font-weight: bold; margin-top: 10px;">
-    (Esperando selección...)
-  </p>
-</div>
-
-<script>
-  let plataformaActiva = 'firebase';
-
-  const firebaseBtn = document.getElementById('firebaseBtn');
-  const supabaseBtn = document.getElementById('supabaseBtn');
-  const statusPlataforma = document.getElementById('estadoPlataforma');
-
-  function actualizarEstado() {
-    firebaseBtn.disabled = plataformaActiva === 'firebase';
-    supabaseBtn.disabled = plataformaActiva === 'supabase';
-    statusPlataforma.innerText = "Plataforma activa: " + (plataformaActiva.charAt(0).toUpperCase() + plataformaActiva.slice(1));
-  }
-
-  firebaseBtn.addEventListener('click', () => {
-    plataformaActiva = 'firebase';
-    actualizarEstado();
-  });
-
-  supabaseBtn.addEventListener('click', () => {
-    plataformaActiva = 'supabase';
+  
     actualizarEstado();
   });
 
