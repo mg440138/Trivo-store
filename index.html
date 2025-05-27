@@ -803,6 +803,51 @@ function detectarCategoriaInteligente(nombreProducto) {
   return "Otros"; // Categoría por defecto
 }
 </script>
+  <!-- BOTONES DE CONTROL DE PLATAFORMA -->
+<div style="margin: 20px 0; text-align: center;">
+  <button onclick="activarFirebase()" style="padding:10px 20px; margin-right:10px;">Usar Firebase</button>
+  <button onclick="activarSupabase()" style="padding:10px 20px;">Usar Supabase</button>
+  <p id="estadoPlataforma" style="margin-top:10px; font-weight:bold;"></p>
+</div>
+
+<script>
+// Estado actual (por defecto Firebase)
+let plataformaActiva = "firebase";
+
+// Función para activar Firebase
+function activarFirebase() {
+  plataformaActiva = "firebase";
+  document.getElementById("estadoPlataforma").innerText = "Plataforma activa: Firebase";
+  console.log("Firebase activado");
+  // Aquí llamas tu función de subida Firebase si deseas automatizar
+}
+
+// Función para activar Supabase
+function activarSupabase() {
+  plataformaActiva = "supabase";
+  document.getElementById("estadoPlataforma").innerText = "Plataforma activa: Supabase";
+  console.log("Supabase activado");
+  // Aquí llamas tu función de subida Supabase si deseas automatizar
+}
+
+// Ejemplo de cómo usar la plataforma seleccionada en una función común
+function subirProducto(producto) {
+  if (plataformaActiva === "firebase") {
+    subirAFirebase(producto);
+  } else if (plataformaActiva === "supabase") {
+    subirASupabase(producto);
+  }
+}
+
+// Lógica simulada de envío a cada plataforma
+function subirAFirebase(producto) {
+  console.log("Producto enviado a Firebase:", producto);
+}
+
+function subirASupabase(producto) {
+  console.log("Producto enviado a Supabase:", producto);
+}
+</script>
   <!-- Botones para seleccionar la plataforma -->
 <div class="platform-toggle">
   <button id="firebaseBtn">Activar Firebase</button>
