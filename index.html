@@ -830,11 +830,41 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
   
   <!-- BOTONES DE CONTROL DE PLATAFORMA -->
-<div style="margin: 20px 0; text-align: center;">
-  <button onclick="activarFirebase()" style="padding:10px 20px; margin-right:10px;">Usar Firebase</button>
-  <button onclick="activarSupabase()" style="padding:10px 20px;">Usar Supabase</button>
-  <p id="estadoPlataforma" style="margin-top:10px; font-weight:bold;"></p>
+<div class="platform-toggle">
+  <button id="firebaseBtn">Usar Firebase</button>
+  <button id="supabaseBtn">Usar Supabase</button>
 </div>
+
+<script>
+  let plataformaActiva = 'firebase';
+
+  const firebaseBtn = document.getElementById('firebaseBtn');
+  const supabaseBtn = document.getElementById('supabaseBtn');
+
+  const statusPlataforma = document.createElement('div');
+  statusPlataforma.id = 'plataformaStatus';
+  statusPlataforma.style.fontWeight = 'bold';
+  statusPlataforma.style.marginTop = '10px';
+  document.querySelector('.platform-toggle').after(statusPlataforma);
+
+  function actualizarEstado() {
+    firebaseBtn.disabled = plataformaActiva === 'firebase';
+    supabaseBtn.disabled = plataformaActiva === 'supabase';
+    statusPlataforma.textContent = `Plataforma activa: ${plataformaActiva.charAt(0).toUpperCase() + plataformaActiva.slice(1)}`;
+  }
+
+  firebaseBtn.addEventListener('click', () => {
+    plataformaActiva = 'firebase';
+    actualizarEstado();
+  });
+
+  supabaseBtn.addEventListener('click', () => {
+    plataformaActiva = 'supabase';
+    actualizarEstado();
+  });
+
+  actualizarEstado();
+</script>
 
 <script>
 // Estado actual (por defecto Firebase)
