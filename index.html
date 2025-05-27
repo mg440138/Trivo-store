@@ -901,7 +901,7 @@ if (response.ok) {
   statusBox.innerHTML = `
     <span style="color: lime;">Robot TRIVO:</span><br>
     Robot activo y conectado.<br>
-    Producto procesado correctamente.<br>
+    precio: Math.round(parseFloat(precioInput.value)),
     USD: $${producto.precio.toFixed(2)} | Original: ¥${producto.precioOriginal ?? 'N/A'}
   `;
   document.body.appendChild(statusBox);
