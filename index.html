@@ -803,6 +803,134 @@ function detectarCategoriaInteligente(nombreProducto) {
   return "Otros"; // Categoría por defecto
 }
 </script>
+  <!-- Botones para seleccionar la plataforma -->
+<div class="platform-toggle">
+  <button id="firebaseBtn">Activar Firebase</button>
+  <button id="supabaseBtn">Activar Supabase</button>
+</div>
+
+<!-- Formulario de productos -->
+<form id="productForm">
+  <div>
+    <label for="nombre">Nombre del Producto:</label>
+    <input type="text" id="nombre" required>
+  </div>
+  <div>
+    <label for="descripcion">Descripción:</label>
+    <input type="text" id="descripcion" required>
+  </div>
+  <div>
+    <label for="precio">Precio:</label>
+    <input type="number" id="precio" required>
+  </div>
+  <div>
+    <label for="categoria">Categoría:</label>
+    <input type="text" id="categoria" required>
+  </div>
+  <div>
+    <label for="imagenURL">URL de la Imagen:</label>
+    <input type="url" id="imagenURL" required>
+  </div>
+  <button type="submit">Subir Producto</button>
+</form>
+
+<div id="status"></div>
+
+<script>
+  // Configuración de Firebase
+  const firebaseConfig = {
+    apiKey: "TU_API_KEY",
+    authDomain: "TU_AUTH_DOMAIN",
+    projectId: "TU_PROJECT_ID",
+    storageBucket: "TU_STORAGE_BUCKET",
+    messagingSenderId: "TU_MESSAGING_SENDER_ID",
+    appId: "TU_APP_ID"
+  };
+
+  // Inicializar Firebase
+  const app = firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
+  // Configuración de Supabase
+  const supabaseUrl = 'https://TU_SUPABASE_URL.supabase.co';
+  const supabaseKey = 'TU_SUPABASE_ANON_KEY';
+  const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+  // Estado de la plataforma activa
+  let activePlatform = null;
+
+  // Referencias a los botones
+  const firebaseBtn = document.getElementById('firebaseBtn');
+  const supabaseBtn = document.getElementById('supabaseBtn');
+  const statusDiv = document.getElementById('status');
+
+  // Función para actualizar el estado de los botones
+  function updateButtons() {
+    firebaseBtn.classList.remove('active');
+    supabaseBtn.classList.remove('active');
+    if (activePlatform === 'firebase') {
+      firebaseBtn.classList.add('active');
+      statusDiv.textContent = 'Firebase está activo.';
+    } else if (activePlatform === 'supabase') {
+      supabaseBtn.classList.add('active');
+      statusDiv.textContent = 'Supabase está activo.';
+    } else {
+      statusDiv.textContent = 'Ninguna plataforma está activa.';
+    }
+  }
+
+  // Event listeners para los botones
+  firebaseBtn.addEventListener('click', () => {
+    activePlatform = activePlatform === 'firebase' ? null : 'firebase';
+    updateButtons();
+  });
+
+  supabaseBtn.addEventListener('click', () => {
+    activePlatform = activePlatform === 'supabase' ? null : 'supabase';
+    updateButtons();
+  });
+
+  // Manejo del formulario
+  const productForm = document.getElementById('productForm');
+  productForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const nombre = document.getElementById('nombre').value.trim();
+    const descripcion = document.getElementById('descripcion').value.trim();
+    const precio = parseFloat(document.getElementById('precio').value);
+    const categoria = document.getElementById('categoria').value.trim();
+    const imagenURL = document.getElementById('imagenURL').value.trim();
+    const creado_en = new Date().toISOString();
+
+    if (!nombre || !descripcion || isNaN(precio) || !categoria || !imagenURL) {
+      statusDiv.textContent = 'Por favor, completa todos los campos correctamente.';
+      return;
+    }
+
+    const producto = { nombre, descripcion, precio, categoria, imagenURL, creado_en };
+
+    try {
+      if (activePlatform === 'firebase') {
+        await db.collection('productos').add(producto);
+        statusDiv.textContent = 'Producto subido a Firebase exitosamente.';
+      } else if (activePlatform === 'supabase') {
+        const { error } = await supabase.from('productos').insert([producto]);
+        if (error) throw error;
+        statusDiv.textContent = 'Producto subido a Supabase exitosamente.';
+      } else {
+        statusDiv.textContent = 'Por favor, selecciona una plataforma antes de subir el producto.';
+      }
+    } catch (error) {
+      console.error(error);
+      statusDiv.textContent = 'Ocurrió un error al subir el producto.';
+    }
+
+    productForm.reset();
+  });
+
+  // Inicializar el estado de los botones
+  updateButtons();
+</script>
 </body>
 </html>
 
