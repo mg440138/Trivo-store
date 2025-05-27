@@ -865,7 +865,35 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
   actualizarEstado();
 </script>
+<script>
+// Función para subir producto a Supabase
+async function subirASupabase(producto) {
+  const SUPABASE_URL = "https://<TU_URL>.supabase.co"; // Reemplaza con tu URL real
+  const SUPABASE_KEY = "<TU_CLAVE_API>"; // Reemplaza con tu API KEY
+  const tabla = "productos"; // Nombre de tu tabla en Supabase
 
+  const response = await fetch(`${SUPABASE_URL}/rest/v1/${tabla}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "apikey": SUPABASE_KEY,
+      "Authorization": `Bearer ${SUPABASE_KEY}`,
+      "Prefer": "return=representation"
+    },
+    body: JSON.stringify(producto)
+  });
+
+  const data = await response.json();
+
+  if (response.ok) {
+    console.log("Producto subido a Supabase:", data);
+    alert("Producto subido correctamente a Supabase");
+  } else {
+    console.error("Error al subir a Supabase:", data);
+    alert("Error al subir producto a Supabase");
+  }
+}
+</script>
 <script>
 // Estado actual (por defecto Firebase)
 productForm.addEventListener('submit', async (e) => {
