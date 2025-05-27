@@ -803,6 +803,12 @@ function detectarCategoriaInteligente(nombreProducto) {
   return "Otros"; // Categoría por defecto
 }
 </script>
+  <!-- BOTONES DE CONTROL DE PLATAFORMA -->
+<div style="margin: 20px 0; text-align: center;">
+  <button id="firebaseBtn">Usar Firebase</button>
+  <button id="supabaseBtn">Usar Supabase</button>
+  <p id="estadoPlataforma" style="font-weight: bold; margin-top: 10px;">(Esperando selección...)</p>
+</div>
   <script>
   let plataformaActiva = 'firebase'; // Valor inicial
 
