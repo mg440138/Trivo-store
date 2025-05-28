@@ -1138,39 +1138,50 @@ async function subirASupabase(producto) {
 
   // Inicializar el estado de los botones
   updateButtons();
+<!-- ✅ Botón real para subir mercancilla -->
+<div style="text-align:center; margin: 30px;">
+  <button onclick="subirMercancilla('Reloj clásico', 'Reloj con correa de cuero', 'accesorios', 25.99, 'https://ejemplo.com/reloj.jpg')">
+    🛒 Subir mercancilla de ejemplo
+  </button>
+</div>
+
 <script>
-// ✅ Lista de palabras prohibidas para bloquear mercancilla peligrosa o ilegal
-const palabrasProhibidas = ["arma", "pistola", "rifle", "bala", "droga", "imitación", "réplica", "explosivo", "granada", "fuego", "falsificado", "marca registrada"];
+// ✅ Lista de palabras prohibidas
+const palabrasProhibidas = [
+  "arma", "pistola", "rifle", "bala", "droga", "imitación", "réplica",
+  "explosivo", "granada", "fuego", "falsificado", "marca registrada"
+];
 
-// ✅ Función que detecta si la mercancilla es peligrosa
+// ✅ Verifica si está prohibida
 function esMercancillaProhibida(nombre, descripcion, categoria) {
-    const texto = (nombre + " " + descripcion + " " + categoria).toLowerCase();
-    return palabrasProhibidas.some(palabra => texto.includes(palabra));
+  const texto = (nombre + " " + descripcion + " " + categoria).toLowerCase();
+  return palabrasProhibidas.some(palabra => texto.includes(palabra));
 }
 
-// 🌐 Define si la mercancilla será pública o privada (TRUE = pública, FALSE = privada)
-let esPublica = true;
+// 🔐 Configura Supabase
+const SUPABASE_URL = "https://TUSUPABASE.supabase.co";
+const SUPABASE_KEY = "eyTU_CLAVE_PUBLICA";
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// ✅ Función principal para subir mercancilla
-function subirMercancilla(nombre, descripcion, categoria, otrosDatos) {
-    // 🔒 Verifica si contiene palabras prohibidas
-    if (esMercancillaProhibida(nombre, descripcion, categoria)) {
-        console.warn("⛔ Mercancilla bloqueada por contener palabras prohibidas.");
-        alert("⚠️ Esta mercancilla no puede ser subida. Contiene contenido restringido.");
-        return;
-    }
+// ✅ Función real de subida
+async function subirMercancilla(nombre, descripcion, categoria, precio, imagenURL) {
+  if (esMercancillaProhibida(nombre, descripcion, categoria)) {
+    alert("⚠️ Esta mercancilla no puede ser subida. Contiene contenido restringido.");
+    return;
+  }
 
-    // 🌐 Determina si se sube como pública o privada
-    const visibilidad = esPublica ? "pública" : "privada";
+  const { data, error } = await supabase
+    .from("mercancilla")
+    .insert([{ nombre, descripcion, categoria, precio, imagenURL }]);
 
-    // 📤 Simula la subida de la mercancilla con visibilidad definida
-    console.log(`Subiendo mercancilla: ${nombre} [Visibilidad: ${visibilidad}]`);
-    // Aquí iría tu llamada al API real, por ejemplo:
-    // subirMercancillaAPI(nombre, descripcion, categoria, otrosDatos, visibilidad);
+  if (error) {
+    console.error("⛔ Error al subir:", error);
+    alert("⛔ Error al subir la mercancilla.");
+  } else {
+    console.log("✅ Mercancilla subida:", data);
+    alert("✅ Mercancilla subida correctamente.");
+  }
 }
-
-// 🧪 Ejemplo de uso (puedes borrar esta línea si no la necesitas)
-subirMercancilla("Reloj elegante", "Réplica de marca famosa", "accesorios", {});
 </script>
 <script>
 // ✅ Lista de palabras prohibidas
