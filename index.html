@@ -1135,6 +1135,47 @@ async function subirASupabase(producto) {
 
     productForm.reset();
   });
+  <!-- 🔁 Sistema de selección de plataforma -->
+<div style="text-align:center; margin: 20px;">
+  <button onclick="cambiarPlataforma('firebase')">Usar Firebase</button>
+  <button onclick="cambiarPlataforma('supabase')">Usar Supabase</button>
+</div>
+<div style="text-align:center; font-weight: bold; margin-bottom: 20px;">
+  Plataforma activa: <span id="plataformaActiva">Supabase</span>
+</div>
+
+<script>
+  let plataformaActiva = 'supabase'; // plataforma por defecto
+
+  function cambiarPlataforma(nueva) {
+    plataformaActiva = nueva;
+    document.getElementById('plataformaActiva').textContent =
+      nueva.charAt(0).toUpperCase() + nueva.slice(1);
+    localStorage.setItem('plataformaActiva', nueva);
+    actualizarBotonesPlataforma();
+  }
+
+  function actualizarBotonesPlataforma() {
+    document.querySelectorAll('button').forEach(btn => {
+      if (btn.textContent.includes('Firebase')) {
+        btn.style.backgroundColor = plataformaActiva === 'firebase' ? 'green' : '';
+      }
+      if (btn.textContent.includes('Supabase')) {
+        btn.style.backgroundColor = plataformaActiva === 'supabase' ? 'green' : '';
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const almacenada = localStorage.getItem('plataformaActiva');
+    if (almacenada) {
+      plataformaActiva = almacenada;
+      document.getElementById('plataformaActiva').textContent =
+        almacenada.charAt(0).toUpperCase() + almacenada.slice(1);
+    }
+    actualizarBotonesPlataforma();
+  });
+</script>
 <!-- ✅ Botón para subir producto real a Supabase -->
 <div style="text-align:center; margin: 30px;">
   <button onclick="subirMercancillaReal()">
