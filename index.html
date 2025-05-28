@@ -1135,7 +1135,57 @@ async function subirASupabase(producto) {
 
     productForm.reset();
   });
+<!-- ✅ Botón para subir producto real a Supabase -->
+<div style="text-align:center; margin: 30px;">
+  <button onclick="subirMercancillaReal()">
+    🛒 Subir patineta eléctrica (real)
+  </button>
+</div>
 
+<script>
+// ✅ Configuración de tu Supabase
+const supabaseUrl = 'https://tu-url.supabase.co'; // ← Reemplaza por tu URL real
+const supabaseKey = 'tu-anon-key'; // ← Reemplaza por tu API key real
+
+// ✅ Datos del producto real
+function subirMercancillaReal() {
+  const nombre = 'Patineta eléctrica X9';
+  const descripcion = 'Patineta eléctrica con motor doble, batería de litio y suspensión.';
+  const categoria = 'transporte';
+  const precio = 219.99;
+  const imagenURL = 'https://cbu01.alicdn.com/img/ibank/O1CN01XmQnM01ZJqeDMRgHp_!!2207880343785-0-cib.jpg';
+
+  subirMercanciaASupabase(nombre, descripcion, categoria, precio, imagenURL);
+}
+
+// ✅ Función para subir a Supabase
+async function subirMercanciaASupabase(nombre, descripcion, categoria, precio, imagenURL) {
+  const { data, error } = await fetch(`${supabaseUrl}/rest/v1/mercancilla`, {
+    method: 'POST',
+    headers: {
+      apikey: supabaseKey,
+      Authorization: `Bearer ${supabaseKey}`,
+      'Content-Type': 'application/json',
+      Prefer: 'return=minimal'
+    },
+    body: JSON.stringify({
+      nombre,
+      descripcion,
+      categoria,
+      precio,
+      imagen: imagenURL,
+      publica: true
+    })
+  });
+
+  if (error) {
+    alert("❌ Error al subir el producto.");
+    console.error(error);
+  } else {
+    alert("✅ Producto subido correctamente a Supabase.");
+  }
+}
+</script>
   // Inicializar el estado de los botones
   updateButtons();
 <!-- ✅ Botón real para subir mercancilla -->
