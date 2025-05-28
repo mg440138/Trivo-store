@@ -1233,6 +1233,12 @@ async function subirMercancilla(nombre, descripcion, categoria, precio, imagenUR
   }
 }
 </script>
+  <!-- ✅ Botón de simulación para pruebas -->
+<div style="text-align:center; margin: 30px;">
+  <button onclick="subirMercancilla('Reloj clásico', 'Reloj con correa de cuero', 'accesorios', 25.99, 'https://ejemplo.com/reloj.jpg')">
+    🛒 Subir mercancilla de ejemplo
+  </button>
+</div>
 <script>
 // ✅ Lista de palabras prohibidas
 const palabrasProhibidas = ["arma", "pistola", "rifle", "bala", "droga", "imitación", "réplica", "explosivo", "granada", "fuego", "falsificado", "marca registrada"];
@@ -1267,7 +1273,8 @@ async function subirMercancilla(nombre, descripcion, categoria, precio, imagenUR
     alert("✅ Mercancilla subida correctamente.");
   }
 }
-</script>  
+</script> 
+  
 </body>
 </html>
 
