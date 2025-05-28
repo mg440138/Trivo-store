@@ -377,70 +377,15 @@ if (!aprobado) return; // Si no aprueba, se cancela el guardado
 });
 </script>
   </script>
-<script type="module">
-  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-  import { app } from "./firebaseConfig.js"; // Asegúrate que esta ruta sea correcta
 
-  const db = getFirestore(app);
-  const lista = document.getElementById("listaProductos");
-
-  async function mostrarProductos() {
-    lista.innerHTML = "<em>Cargando productos...</em>";
-
-    try {
-      const querySnapshot = await getDocs(collection(db, "productos"));
-      lista.innerHTML = "";
-
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
-        lista.innerHTML += `
-          <div style="border:1px solid #ccc; padding:10px; margin:10px;">
-            <h4>${data.nombre}</h4>
-            <p>${data.descripcion}</p>
-            <p><strong>Precio:</strong> $${data.precio}</p>
-            <p><strong>Categoría:</strong> ${data.categoria}</p>
-            <img src="${data.imagenURL}" alt="imagen" style="max-width:100px;">
-          </div>
-        `;
-      });
-
-    } catch (error) {
-      lista.innerHTML = "<p style='color:red;'>Error al cargar productos.</p>";
-      console.error("Error al obtener productos:", error);
-    }
-  }
-
-  mostrarProductos();
+      
 </script>
 
 </script>
   
-<!-- BLOQUE LIMPIO - Robot TRIVO + Guardado en Firebase -->
-<div id="robotTrivoPanel" style="position:fixed; bottom:20px; right:20px; background:#111; color:#0f0; padding:15px; border-radius:10px; font-family:monospace; z-index:9999; box-shadow:0 0 15px #0f0;">
-  <strong>Robot TRIVO:</strong><br>
-  <span id="robotEstado">Conectando...</span><br>
-  <span id="robotAccion">Esperando producto...</span><br>
-  <span id="robotMoneda">USD: --</span>
-</div>
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyCFEDVeXYdjQMLKbMoqH8t46umL05mMy2Y",
-    authDomain: "trivostore-48031.firebaseapp.com",
-    projectId: "trivostore-48031",
-    storageBucket: "trivostore-48031.appspot.com",
-    messagingSenderId: "470494266050",
-    appId: "1:470494266050:web:a5c00ecb3d202b2848715b",
-    measurementId: "G-PYP3ZR9742"
-  };
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  document.getElementById("robotEstado").innerText = "Conectado a Firebase";
 // IA LOCAL: Clasificador de categoría por palabra clave
 function detectarCategoriaInteligente(nombreProducto) {
   const nombre = nombreProducto.toLowerCase();
