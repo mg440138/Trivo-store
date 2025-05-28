@@ -1135,6 +1135,31 @@ async function subirASupabase(producto) {
 
     productForm.reset();
   });
+  <!-- ✅ Selector fijo de plataforma con Supabase como predeterminado -->
+<div style="margin: 20px 0;">
+  <label for="plataforma" style="font-weight:bold;">🌐 Plataforma activa:</label>
+  <select id="plataforma" onchange="guardarPlataformaActiva()" style="padding: 5px;">
+    <option value="supabase" selected>Supabase</option>
+    <option value="firebase">Firebase (desactivado)</option>
+  </select>
+</div>
+
+<script>
+// ✅ Guardar y mantener la plataforma seleccionada
+function guardarPlataformaActiva() {
+  const plataforma = document.getElementById('plataforma').value;
+  localStorage.setItem('plataformaActiva', plataforma);
+  console.log("✅ Plataforma seleccionada:", plataforma);
+}
+
+// ✅ Cargar plataforma activa al iniciar (mantiene Supabase fija)
+window.addEventListener('load', () => {
+  const plataformaGuardada = localStorage.getItem('plataformaActiva') || 'supabase';
+  const selector = document.getElementById('plataforma');
+  selector.value = plataformaGuardada;
+  console.log("🔁 Plataforma activa restaurada:", plataformaGuardada);
+});
+</script>
   <!-- 🔁 Sistema de selección de plataforma -->
 <div style="text-align:center; margin: 20px;">
   <button onclick="cambiarPlataforma('firebase')">Usar Firebase</button>
