@@ -1138,7 +1138,40 @@ async function subirASupabase(producto) {
 
   // Inicializar el estado de los botones
   updateButtons();
+<script>
+// ✅ Lista de palabras prohibidas para bloquear mercancilla peligrosa o ilegal
+const palabrasProhibidas = ["arma", "pistola", "rifle", "bala", "droga", "imitación", "réplica", "explosivo", "granada", "fuego", "falsificado", "marca registrada"];
 
+// ✅ Función que detecta si la mercancilla es peligrosa
+function esMercancillaProhibida(nombre, descripcion, categoria) {
+    const texto = (nombre + " " + descripcion + " " + categoria).toLowerCase();
+    return palabrasProhibidas.some(palabra => texto.includes(palabra));
+}
+
+// 🌐 Define si la mercancilla será pública o privada (TRUE = pública, FALSE = privada)
+let esPublica = true;
+
+// ✅ Función principal para subir mercancilla
+function subirMercancilla(nombre, descripcion, categoria, otrosDatos) {
+    // 🔒 Verifica si contiene palabras prohibidas
+    if (esMercancillaProhibida(nombre, descripcion, categoria)) {
+        console.warn("⛔ Mercancilla bloqueada por contener palabras prohibidas.");
+        alert("⚠️ Esta mercancilla no puede ser subida. Contiene contenido restringido.");
+        return;
+    }
+
+    // 🌐 Determina si se sube como pública o privada
+    const visibilidad = esPublica ? "pública" : "privada";
+
+    // 📤 Simula la subida de la mercancilla con visibilidad definida
+    console.log(`Subiendo mercancilla: ${nombre} [Visibilidad: ${visibilidad}]`);
+    // Aquí iría tu llamada al API real, por ejemplo:
+    // subirMercancillaAPI(nombre, descripcion, categoria, otrosDatos, visibilidad);
+}
+
+// 🧪 Ejemplo de uso (puedes borrar esta línea si no la necesitas)
+subirMercancilla("Reloj elegante", "Réplica de marca famosa", "accesorios", {});
+</script>
 </body>
 </html>
 
