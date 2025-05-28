@@ -1262,6 +1262,49 @@ async function subirMercancilla(nombre, descripcion, categoria, precio, imagenUR
   document.getElementById("btn-patineta").addEventListener("click", () => subirMercancilla("patineta eléctrica"));
   document.getElementById("btn-audifonos").addEventListener("click", () => subirMercancilla("audífonos bluetooth"));
 </script>
+  <!-- ✅ BOTONES Y ROBOT REAL PARA SUBIR MERCANCILLA -->
+<div style="text-align:center; margin: 30px;">
+  <h3>🤖 Subir Mercancilla desde MercadoLibre</h3>
+  <button onclick="subirMercancillaReal('drone 4k')">🚁 Subir Drone 4K</button>
+  <button onclick="subirMercancillaReal('patineta eléctrica')">🛴 Subir Patineta Eléctrica</button>
+  <button onclick="subirMercancillaReal('audífonos bluetooth')">🎧 Subir Audífonos Bluetooth</button>
+</div>
+
+<script type="module">
+  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+  // 🔒 REEMPLAZA ESTO CON TUS CREDENCIALES REALES
+  const supabaseUrl = "https://TU_SUPABASE_URL.supabase.co";
+  const supabaseKey = "TU_SUPABASE_ANON_KEY";
+
+  const supabase = createClient(supabaseUrl, supabaseKey);
+
+  async function subirMercancillaReal(busqueda) {
+    const res = await fetch(`https://api.mercadolibre.com/sites/MLA/search?q=${encodeURIComponent(busqueda)}&limit=1`);
+    const data = await res.json();
+    const producto = data.results[0];
+
+    if (!producto) {
+      alert("❌ No se encontró el producto.");
+      return;
+    }
+
+    const nuevoItem = {
+      nombre: producto.title,
+      descripcion: "Importado automáticamente desde MercadoLibre",
+      precio: producto.price.toString(),
+      categoria: producto.category_id || "desconocida",
+      imagen_url: producto.thumbnail
+    };
+
+    const { error } = await supabase.from("mercancilla").insert(nuevoItem);
+    if (error) {
+      alert("❌ Error al subir: " + error.message);
+    } else {
+      alert("✅ Subido: " + producto.title);
+    }
+  }
+</script>
 </body>
 </html>
 
