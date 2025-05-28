@@ -359,63 +359,7 @@ document.getElementById('nombreProducto').addEventListener('input', (e) => {
   });
 </script>
   <div id="lista-productos" style="margin-top: 20px;"></div>
-  <!-- Firebase App (base) -->
-<script type="module">
-  // Importar funciones desde el SDK
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
-
-  // Tu configuración de Firebase
-  const firebaseConfig = {
-    apiKey: "AIzaSyCFEDVeXYdjQMLKbMoqH8t46umL05mMy2Y",
-    authDomain: "trivostore-48031.firebaseapp.com",
-    projectId: "trivostore-48031",
-    storageBucket: "trivostore-48031.appspot.com",
-    messagingSenderId: "470494266050",
-    appId: "1:470494266050:web:a5c00ecb3d202b2848715b",
-    measurementId: "G-PYP3ZR9742"
-  };
-
-  // Inicializar Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-  const botonAgregar = document.getElementById('botonAgregar');
-botonAgregar.addEventListener('click', async () => {
-  const nombre = document.getElementById('nombre').value;
-  const descripcion = document.getElementById('descripcion').value;
-  const precio = parseFloat(document.getElementById('precio').value);
-  const categoria = document.getElementById('categoria').value || 'General';
-  const imagenURL = document.getElementById('imagenURL').value;
-
-  if (!nombre || !descripcion || !precio) {
-    alert("Por favor completa todos los campos requeridos.");
-    return;
-  }
-
-  await guardarProducto(nombre, descripcion, precio, categoria, imagenURL);
-  alert("Producto guardado exitosamente en Firebase!");
-});
-  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-// Inicializar Firestore
-const db = getFirestore(app);
-
-// Función para guardar producto
-async function guardarProducto(nombre, descripcion, precio, categoria, imagenURL) {
-  try {
-    const docRef = await addDoc(collection(db, "productos"), {
-      nombre,
-      descripcion,
-      precio,
-      categoria,
-      imagenURL,
-      fecha: new Date()
-    });
-    console.log("Producto guardado con ID:", docRef.id);
-  } catch (e) {
-    console.error("Error al guardar producto:", e);
-  }
-}
+  
   // Evento que detecta clic en el botón y guarda el producto
 document.getElementById("botonAgregar").addEventListener("click", async function (e) {
   e.preventDefault();
