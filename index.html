@@ -115,28 +115,7 @@
   <button onclick="verSeccion('herramientas')">Herramientas</button>
 </div>
 
-<!-- BODEGA -->
-<div id="bodega" class="seccion">
-  <h3>Bodega / Inventario</h3>
-  <p>Aquí puedes subir y gestionar productos.</p>
-  <!-- FORMULARIO INTELIGENTE -->
-<form id="formulario-producto" onsubmit="agregarProducto(event)" style="margin: 30px auto; max-width: 400px; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px #ccc;">
-  <input type="text" id="nombre" placeholder="Nombre del producto" required style="margin-bottom: 10px; width: 100%; padding: 10px;">
-  <input type="text" id="descripcion" placeholder="Descripción" required style="margin-bottom: 10px; width: 100%; padding: 10px;">
-  <input type="number" id="precio" placeholder="Precio USD" required style="margin-bottom: 10px; width: 100%; padding: 10px;">
-  <input type="text" id="categoria" placeholder="Categoría del producto (opcional)" style="margin-bottom: 10px; width: 100%; padding: 10px;">
-  
-  <label>Sube una imagen o pega un enlace:</label><br>
-  <input type="file" id="imagenArchivo" accept="image/*" style="margin-bottom: 10px;"><br>
-  <input type="url" id="imagenURL" placeholder="URL de la imagen (opcional)" style="margin-bottom: 10px; width: 100%; padding: 10px;"><br>
 
-  <img id="vistaPrevia" src="" alt="Vista previa" style="max-width:150px; display:none; margin-bottom:10px;"><br>
-
-  <button id="botonAgregar" style="width: 100%; padding: 10px; background: green; color: white; border: none; border-radius: 5px;">Agregar Producto</button>
-</form>
-  <!-- MOSTRAR PRODUCTOS EN BODEGA -->
-<h4 style="margin-top: 30px;">Productos cargados desde Firestore:</h4>
-<div id="listaProductos" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;"></div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
