@@ -117,88 +117,11 @@
 
 
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "TU_API_KEY",
-    authDomain: "TU_AUTH_DOMAIN",
-    projectId: "TU_PROJECT_ID",
-    storageBucket: "TU_BUCKET",
-    messagingSenderId: "TU_MESSAGING_ID",
-    appId: "TU_APP_ID"
-  };
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
 
-  async function cargarProductos() {
-    const lista = document.getElementById("listaProductos");
-    const productosRef = collection(db, "productos");
-    const querySnapshot = await getDocs(productosRef);
-
-    querySnapshot.forEach(doc => {
-      const producto = doc.data();
-      const div = document.createElement("div");
-      div.className = "producto";
-      div.style = "border:1px solid #ccc; border-radius:8px; padding:15px; width:200px; text-align:center; background:white;";
-      div.innerHTML = `
-        <img src="${producto.imagenURL}" alt="${producto.nombre}" style="width:150px; height:auto; border-radius:10px;">
-        <h3>${producto.nombre}</h3>
-        <p>${producto.descripcion}</p>
-        <strong style="color:green;">$${producto.precio}</strong>
-        <p><em>${producto.categoria}</em></p>
-        <button class="boton-carrito">Agregar al carrito</button>
-      `;
-      lista.appendChild(div);
-    });
-  }
-
-  cargarProductos();
 </script>
 
-<!-- MOSTRAR PRODUCTOS EN BODEGA -->
-<div id="bodega-lista" style="margin-top: 20px;"></div>
-
-<script>
-  const productosEjemplo = [
-    {
-      nombre: "Zapatillas deportivas",
-      descripcion: "Perfectas para correr y caminar",
-      precio: "$59.99",
-      imagen: "https://m.media-amazon.com/images/I/71fw5ZLuCXL._AC_UL1500_.jpg",
-      categoria: "Calzado"
-    },
-    {
-      nombre: "Casco de realidad virtual",
-      descripcion: "Alta definición e inmersión",
-      precio: "$89.99",
-      imagen: "https://m.media-amazon.com/images/I/51E3fzqvOLL._AC_SL1000_.jpg",
-      categoria: "Tecnología"
-    }
-  ];
-
-  function mostrarProductosEnBodega() {
-    const contenedor = document.getElementById("bodega-lista");
-    contenedor.innerHTML = "";
-
-    productosEjemplo.forEach(prod => {
-      contenedor.innerHTML += `
-        <div style="border:1px solid #ccc; border-radius:10px; padding:15px; margin:10px 0; background:white;">
-          <img src="${prod.imagen}" alt="${prod.nombre}" style="width:100px; border-radius:8px;"><br>
-          <strong>${prod.nombre}</strong><br>
-          ${prod.descripcion}<br>
-          <em>${prod.categoria}</em><br>
-          <span style="color:green; font-weight:bold;">${prod.precio}</span>
-        </div>
-      `;
-    });
-  }
-
-  mostrarProductosEnBodega();
-</script>
-<div id="listaProductos"></div>
 <script>
   const formulario = document.getElementById("formulario-producto");
   const vistaPrevia = document.getElementById("vistaPrevia");
@@ -227,34 +150,8 @@
     }
   });
 
-  formulario.addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    const nombre = document.getElementById("nombre").value;
-    const descripcion = document.getElementById("descripcion").value;
-    const precio = document.getElementById("precio").value;
-    const categoria = document.getElementById("categoria").value || "Otros";
-
-    let imagenSrc = "";
-    if (imagenURL.value.trim() !== "") {
-      imagenSrc = imagenURL.value.trim();
-    } else if (imagenArchivo.files.length > 0) {
-      imagenSrc = vistaPrevia.src;
-    }
-
-    const productoHTML = `
-      <div class="producto" style="border:1px solid #ccc;padding:15px;margin:10px;border-radius:10px;">
-        <img src="${imagenSrc}" alt="${nombre}" style="width:100px;display:block;margin-bottom:10px;">
-        <h3>${nombre}</h3>
-        <p>${descripcion}</p>
-        <p><strong>Precio:</strong> $${parseFloat(precio).toFixed(2)} USD</p>
-        <p style="font-style:italic;color:green;">Categoría: ${categoria}</p>
-      </div>
-    `;
-
-    document.getElementById("bodega").insertAdjacentHTML("beforeend", productoHTML);
-    formulario.reset();
-    vistaPrevia.style.display = "none";
+  
+    
   });
 </script>
   <!-- DETECCIÓN AUTOMÁTICA DE CATEGORÍA POR NOMBRE -->
