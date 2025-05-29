@@ -461,7 +461,19 @@ if (errorProductos) {
   verificarSupabase();
 
 </script>
-
+<!-- Mini Refuerzo Diagnóstico Global -->
+<script type="module">
+  setTimeout(() => {
+    const diagnostico = document.getElementById('diagnostico-supabase');
+    if (!diagnostico || diagnostico.textContent.includes("Verificando")) {
+      const div = document.createElement("div");
+      div.id = "diagnostico-supabase";
+      div.className = "error";
+      div.textContent = "❌ Sin respuesta del sistema. Revisa conexión o robot.";
+      document.body.appendChild(div);
+    }
+  }, 6000); // Espera 6 segundos para detectar si no hubo respuesta
+</script>
 
 </body>
 </html>
