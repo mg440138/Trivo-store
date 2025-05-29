@@ -474,7 +474,80 @@ if (errorProductos) {
     }
   }, 6000); // Espera 6 segundos para detectar si no hubo respuesta
 </script>
+<!-- Diagnóstico visual del robot automático -->
+<div id="diagnostico-supabase" class="verificando">🔄 Verificando conexión...</div>
 
+<style>
+  #diagnostico-supabase {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    z-index: 9999;
+    max-width: 95%;
+    white-space: pre-line;
+  }
+
+  #diagnostico-supabase.ok {
+    background-color: #d4edda;
+    color: #155724;
+    border-left: 5px solid #00ff99;
+  }
+
+  #diagnostico-supabase.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-left: 5px solid #ff4444;
+  }
+
+  #diagnostico-supabase.verificando {
+    background-color: #fff3cd;
+    color: #856404;
+    border-left: 5px solid #ffeeba;
+  }
+</style>
+
+<script>
+  async function subirMercancilla(palabraClave) {
+    const diagnostico = document.getElementById('diagnostico-supabase');
+    diagnostico.textContent = "🤖 Buscando producto: " + palabraClave;
+    diagnostico.className = "verificando";
+
+    const url = `https://api.mercadolibre.com/sites/MLM/search?q=${encodeURIComponent(palabraClave)}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    const p = data.results[0];
+
+    if (!p) {
+      diagnostico.textContent = "❌ No se encontró el producto.";
+      diagnostico.className = "error";
+      return;
+    }
+
+    const nuevo = {
+      nombre: p.title,
+      descripcion: "Importado desde MercadoLibre",
+      precio: p.price.toString(),
+      categoria: p.category_id || "sin_categoria",
+      imagen_url: p.thumbnail
+    };
+
+    const { error } = await supabase.from("mercancilla").insert(nuevo);
+
+    if (error) {
+      diagnostico.textContent = "❌ Error al subir: " + error.message;
+      diagnostico.className = "error";
+    } else {
+      diagnostico.textContent = "✅ Producto subido correctamente: " + p.title;
+      diagnostico.className = "ok";
+    }
+  }
+</script>
 </body>
 </html>
   
