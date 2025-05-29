@@ -1347,13 +1347,12 @@ async function subirMercancilla(nombre, descripcion, categoria, precio, imagenUR
 <script type="module">
   import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-  const supabaseUrl = "https://uzqmsbkjontizhoxvajx.supabase.co";
-  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmtqb250aXpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODk2NjYxNzIsImV4cCI6MjAwNTI0MjE3Mn0.6ZrVn3Ue4XJ0YwF4g9uZ5YwZ1fQ6xYz8K9fXxYz8K9f";
-
+  const supabaseUrl = "https://uzqmsbkjonitzhoxvajx.supabase.co";
+  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmprb25pdHpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTg3NDU2MTgsImV4cCI6MjAxNDAyMTYxOH0.UbWJDbM7mY9MNyzW_XFJ5CNPyUKKVeGgx3vlz1q9mnE";
   const supabase = createClient(supabaseUrl, supabaseKey);
 
   async function subirMercancilla(palabraClave) {
-    const url = `https://api.mercadolibre.com/sites/MLM/search?q=${encodeURIComponent(palabraClave)}&limit=1`;
+    const url = `https://api.mercadolibre.com/sites/MLM/search?q=${encodeURIComponent(palabraClave)}`;
     const res = await fetch(url);
     const data = await res.json();
     const p = data.results[0];
@@ -1372,15 +1371,11 @@ async function subirMercancilla(nombre, descripcion, categoria, precio, imagenUR
     };
 
     const { error } = await supabase.from("mercancilla").insert(nuevo);
-
-    if (error) {
-      alert("❌ Error: " + error.message);
-    } else {
-      alert("✅ Subido: " + p.title);
-    }
+    if (error) alert("❌ Error: " + error.message);
+    else alert("✅ Subido: " + p.title);
   }
 
-  document.getElementById("btn-drone-real").addEventListener("click", () => subirMercancilla("drone 4k"));
+  document.getElementById("btn-drone-real").addEventListener("click", () => subirMercancilla("drone 4K"));
   document.getElementById("btn-patineta-real").addEventListener("click", () => subirMercancilla("patineta eléctrica"));
   document.getElementById("btn-audifonos-real").addEventListener("click", () => subirMercancilla("audífonos bluetooth"));
 </script>
