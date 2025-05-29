@@ -1336,6 +1336,38 @@ async function subirMercancilla(nombre, descripcion, categoria, precio, imagenUR
   document.getElementById("btn-patineta-real").addEventListener("click", () => subirMercancilla("patineta eléctrica"));
   document.getElementById("btn-audifonos-real").addEventListener("click", () => subirMercancilla("audífonos bluetooth"));
 </script>
+ <script type="module">
+  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm"
+
+  const supabaseUrl = "https://uzqmsbkjontizhoxvajx.supabase.co";
+  const supabaseKey = "TU_API_KEY_COMPLETA_AQUÍ";
+  const supabase = createClient(supabaseUrl, supabaseKey);
+
+  async function subirMercancilla(palabraClave) {
+    const url = `https://api.mercadolibre.com/sites/MLM/search?q=${encodeURIComponent(palabraClave)}&limit=1`;
+    const res = await fetch(url);
+    const data = await res.json();
+    const p = data.results[0];
+
+    const nuevo = {
+      nombre: p.title,
+      descripcion: "Importado desde MercadoLibre",
+      precio: p.price.toString(),
+      categoria: p.category_id || "sin_categoria",
+      imagen_url: p.thumbnail
+    };
+
+    const { error } = await supabase.from("mercancilla").insert(nuevo);
+
+    if (error) alert("❌ Error: " + error.message);
+    else alert("✅ Subido: " + p.title);
+  }
+
+  // CONEXIÓN DE BOTONES REALES
+  document.getElementById("btn-drone-real").addEventListener("click", () => subirMercancilla("drone 4k"));
+  document.getElementById("btn-patineta-real").addEventListener("click", () => subirMercancilla("patineta eléctrica"));
+  document.getElementById("btn-audifonos-real").addEventListener("click", () => subirMercancilla("audífonos bluetooth"));
+</script> 
 </body>
 </html>
 
