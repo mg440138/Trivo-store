@@ -610,7 +610,85 @@ if (errorProductos) {
   }
 
   setTimeout(diagnosticoTienda, 4000); // Espera 4s tras cargar la página
+  <!-- ...tu contenido anterior... -->
+
+<!-- Aquí pega el bloque de diagnóstico justo antes del cierre -->
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+  const supabaseUrl = 'https://uzqmsbkjontizhoxvajx.supabase.co';
+  const supabaseKey = 'TU_API_KEY_AQUÍ';
+  const supabase = createClient(supabaseUrl, supabaseKey);
+
+  const diagnostico = document.getElementById('diagnostico-supabase');
+
+  async function verificarSupabase() {
+    diagnostico.textContent = '🔄 Verificando conexión...';
+    diagnostico.className = 'verificando';
+
+    try {
+      const { data, error } = await supabase.from('mercancilla').select('*');
+
+      if (error) {
+        diagnostico.textContent = '❌ Error al conectar con Supabase.';
+        diagnostico.className = 'error';
+        return;
+      }
+
+      diagnostico.textContent = '✅ Supabase conectado correctamente';
+      diagnostico.className = 'ok';
+
+      if (data.length === 0) {
+        diagnostico.textContent += '\n🟡 Conectado, pero sin productos cargados';
+      } else {
+        diagnostico.textContent += '\n✅ Todo listo para mostrar productos';
+      }
+    } catch (err) {
+      diagnostico.textContent = '❌ Error: ' + err.message;
+      diagnostico.className = 'error';
+    }
+  }
+
+  verificarSupabase();
 </script>
+
+<!-- Bloque visual -->
+<div id="diagnostico-supabase" class="verificando">🔄 Verificando conexión...</div>
+<style>
+  #diagnostico-supabase {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px 15px;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    z-index: 1000;
+  }
+  #diagnostico-supabase.ok {
+    background-color: #d4edda;
+    color: #155724;
+    border-color: #c3e6cb;
+  }
+  #diagnostico-supabase.verificando {
+    background-color: #fff3cd;
+    color: #856404;
+    border-color: #ffeeba;
+  }
+  #diagnostico-supabase.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-color: #f5c6cb;
+  }
+</style>
+
+</body>
+</html>
+</script>
+    
 </body>
 </html>
   
