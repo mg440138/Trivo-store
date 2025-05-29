@@ -365,7 +365,57 @@
 </script>
 
 <!-- FIN DE SISTEMA -->
+   <style>
+  #diagnostico-supabase {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: white;
+    font-size: 14px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    z-index: 9999;
+    font-family: Arial, sans-serif;
+  }
+  #diagnostico-supabase.ok {
+    border-left: 5px solid #00ff99;
+  }
+  #diagnostico-supabase.error {
+    border-left: 5px solid #ff4444;
+  }
+</style>
+
+<div id="diagnostico-supabase" class="ok">
+  🔄 Verificando conexión...
+</div>
+
+<script type="module">
+  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+  const diagnostico = document.getElementById("diagnostico-supabase");
+
+  const supabaseUrl = "https://uzqmsbkjonitzhoxvajx.supabase.co";
+  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmprb25pdHpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTg3NDU2MTgsImV4cCI6MjAxNDAyMTYxOH0.UbWJDbM7mY9MNyzW_XFJ5CNPyUKKVeGgx3vlz1q9mnE";
+  const supabase = createClient(supabaseUrl, supabaseKey);
+
+  async function verificarSupabase() {
+    try {
+      const { error } = await supabase.from("mercancilla").select("*").limit(1);
+      if (error) throw error;
+
+      diagnostico.innerHTML = "✅ Supabase conectado<br>🤖 Robot listo";
+      diagnostico.classList.remove("error");
+      diagnostico.classList.add("ok");
+    } catch (err) {
+      diagnostico.innerHTML = "❌ Error de conexión<br>🔧 Verifica tu API Key";
+      diagnostico.classList.remove("ok");
+      diagnostico.classList.add("error");
+    }
+  }
+
+  verificarSupabase();
+</script> 
 </body>
 </html>
-  </body>
-</html>
+  
