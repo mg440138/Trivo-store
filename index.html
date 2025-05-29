@@ -269,5 +269,56 @@
     document.getElementById("imagen_url").value = "";
   }
 </script> 
+    <!-- TIENDA PÚBLICA (LISTADO DE PRODUCTOS) -->
+<section id="tienda-publica" style="margin-top: 40px;">
+  <h2>🛍️ Productos en tienda</h2>
+  <div id="productos"></div>
+</section>
+
+<style>
+  #productos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .producto {
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 220px;
+    background-color: #f9f9f9;
+  }
+  .producto img {
+    max-width: 100%;
+    height: auto;
+  }
+</style>
+
+<script>
+  async function cargarProductos() {
+    const { data, error } = await supabase.from("mercancilla").select("*").order("id", { ascending: false });
+    const contenedor = document.getElementById("productos");
+    contenedor.innerHTML = "";
+
+    if (error) {
+      contenedor.innerHTML = "❌ Error cargando productos.";
+      return;
+    }
+
+    for (const p of data) {
+      const div = document.createElement("div");
+      div.className = "producto";
+      div.innerHTML = `
+        <img src="${p.imagen_url}" alt="${p.nombre}" />
+        <h3>${p.nombre}</h3>
+        <p>${p.descripcion}</p>
+        <p><strong>$${p.precio}</strong></p>
+        <small>Categoría: ${p.categoria}</small>
+      `;
+      contenedor.appendChild(div);
+    }
+  }
+
+  window.addEventListener("load", cargarProductos);
+</script>
   </body>
 </html>
