@@ -1,1 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trivo Store</title>
+    <link rel="stylesheet" href="style.css" />
+    <script type="module">
+      import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
+      const supabaseUrl = "https://uzqmsbkjonitzhoxvajx.supabase.co";
+      const supabaseKey =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmprb25pdHpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTg3NDU2MTgsImV4cCI6MjAxNDAyMTYxOH0.UbWJDbM7mY9MNyzW_XFJ5CNPyUKKVeGgx3vlz1q9mnE";
+      const supabase = createClient(supabaseUrl, supabaseKey);
+
+      // Función para cargar productos desde Supabase
+      async function cargarProductos() {
+        const { data, error } = await supabase.from("mercancilla").select("*");
+        if (error) {
+          console.error("Error al cargar productos:", error.message);
+          return;
+        }
+
+        const contenedor = document.getElementById("productos");
+        contenedor.innerHTML = ""; // limpiar contenido
+
+        data.forEach((producto) => {
+          const card = document.createElement("div");
+          card.className = "producto";
+
+          card.innerHTML = `
+            <img src="${producto.imagen_url}" alt="${producto.nombre}" />
+            <h3>${producto.nombre}</h3>
+            <p>${producto.descripcion}</p>
+            <span>$${producto.precio}</span>
+          `;
+
+          contenedor.appendChild(card);
+        });
+      }
+
+      // Ejecutar carga de productos al iniciar
+      document.addEventListener("DOMContentLoaded", () => {
+        cargarProductos();
+      });
+    </script>
+  </head>
+  <body>
+    <header>
+      <h1>Trivo Store</h1>
+      <nav>
+        <button onclick="document.getElementById('seccion-publica').style.display='block'; document.getElementById('seccion-privada').style.display='none';">Tienda Pública</button>
+        <button onclick="document.getElementById('seccion-privada').style.display='block'; document.getElementById('seccion-publica').style.display='none';">Panel Privado</button>
+      </nav>
+    </header>
+
+    <main>
+      <!-- SECCIÓN TIENDA PÚBLICA -->
+      <section id="seccion-publica" style="display:block;">
+        <h2>Productos disponibles</h2>
+        <div id="productos" class="grid-productos">
+          <!-- Aquí se cargarán los productos -->
+        </div>
+      </section>
+
+      <!-- SECCIÓN PRIVADA -->
+      <section id="seccion-privada" style="display:none;">
+        <h2>Subir nuevo producto</h2>
+                <form id="form-subida">
+          <label>
+            Nombre del producto:
+            <input type="text" id="nombre" required />
+          </label>
+          <label>
+            Descripción:
+            <textarea id="descripcion" required></textarea>
+          </label>
+          <label>
+            Precio:
+            <input type="number" id="precio" required />
+          </label>
+          <label>
+            Categoría:
+            <input type="text" id="categoria" required />
+          </label>
+          <label>
+            URL de imagen:
+            <input type="url" id="imagen_url" required />
+          </label>
+          <button type="submit">Subir producto</button>
+        </form>
+        <hr />
+        <h3>Subir con palabras clave (Automático)</h3>
+        <button id="btn-drone-real">Subir Drone 4K</button>
+        <button id="btn-patineta-real">Subir Patineta Eléctrica</button>
+        <button id="btn-audifonos-real">Subir Audífonos Bluetooth</button>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Trivo Store - Todos los derechos reservados</p>
+    </footer>
+
+    <script type="module">
+      import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+      const supabaseUrl = "https://uzqmsbkjonitzhoxvajx.supabase.co";
+      const supabaseKey =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmprb25pdHpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTg3NDU2MTgsImV4cCI6MjAxNDAyMTYxOH0.UbWJDbM7mY9MNyzW_XFJ5CNPyUKKVeGgx3vlz1q9mnE";
+      const supabase = createClient(supabaseUrl, supabaseKey);
+
+      // Subida manual
+      const formulario = document.getElementById("form-subida");
+      formulario.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const nuevo = {
+          nombre: document.getElementById("nombre").value,
+          descripcion: document.getElementById("descripcion").value,
+          precio: document.getElementById("precio").value,
+          categoria: document.getElementById("categoria").value,
+          imagen_url: document.getElementById("imagen_url").value,
+        };
+
+        const { error } = await supabase.from("mercancilla").insert(nuevo);
+        if (error) {
+          alert("❌ Error al subir: " + error.message);
+        } else {
+          alert("✅ Producto subido correctamente.");
+          formulario.reset();
+        }
+      });
+
+      // Subida automática con palabras clave
+      async function subirMercancilla(palabraClave) {
+        const url = `https://api.mercadolibre.com/sites/MLM/search?q=${encodeURIComponent(palabraClave)}`;
+        const res = await fetch(url);
+        const data = await res.json();
+        const p = data.results[0];
+
+        if (!p) {
+          alert("❌ No se encontró el producto.");
+          return;
+        }
+
+        const nuevo = {
+          nombre: p.title,
+          descripcion: "Importado desde MercadoLibre",
+          precio: p.price.toString(),
+          categoria: p.category_id || "sin_categoria",
+          imagen_url: p.thumbnail
+        };
+
+        const { error } = await supabase.from("mercancilla").insert(nuevo);
+        if (error) alert("❌ Error: " + error.message);
+        else alert("✅ Subido: " + p.title);
+      }
+
+      document.getElementById("btn-drone-real").addEventListener("click", () => subirMercancilla("drone 4K"));
+      document.getElementById("btn-patineta-real").addEventListener("click", () => subirMercancilla("patineta eléctrica"));
+      document.getElementById("btn-audifonos-real").addEventListener("click", () => subirMercancilla("audífonos bluetooth"));
+    </script>
+    <!-- PANEL PRIVADO (Protegido por contraseña) -->
+<section id="panel-privado" style="display:none">
+  <h2>Panel Privado 🔒</h2>
+  <button onclick="mostrarFormulario()">📤 Subir producto manual</button>
+  <button onclick="mostrarTienda()">🛍️ Ver tienda</button>
+  <div id="contenido-privado"></div>
+</section>
+
+<!-- PANEL DE AUTENTICACIÓN -->
+<section id="login-panel">
+  <h2>Iniciar sesión</h2>
+  <input type="password" id="clave" placeholder="Ingresa la contraseña" />
+  <button onclick="verificarAcceso()">Ingresar</button>
+</section>
+
+<!-- TIENDA PÚBLICA -->
+<section id="tienda-publica" style="display:none">
+  <h2>Tienda Pública 🛒</h2>
+  <div id="productos-publicos" class="grid-productos"></div>
+</section>
+
+<script>
+  // Mostrar formulario
+  function mostrarFormulario() {
+    document.getElementById("form-subida").scrollIntoView({ behavior: "smooth" });
+  }
+
+  // Mostrar tienda pública desde privado
+  function mostrarTienda() {
+    document.getElementById("tienda-publica").style.display = "block";
+    document.getElementById("tienda-publica").scrollIntoView({ behavior: "smooth" });
+  }
+
+  // Login por contraseña (clave: Trivo2025)
+  function verificarAcceso() {
+    const clave = document.getElementById("clave").value;
+    if (clave === "Trivo2025") {
+      document.getElementById("panel-privado").style.display = "block";
+      document.getElementById("login-panel").style.display = "none";
+      cargarProductos(); // Cargar productos desde Supabase
+    } else {
+      alert("❌ Contraseña incorrecta.");
+    }
+  }
+
+  // Mostrar productos públicos
+  async function cargarProductos() {
+    const { data, error } = await supabase.from("mercancilla").select("*").limit(20).order("id", { ascending: false });
+    if (error) {
+      alert("❌ Error al cargar productos: " + error.message);
+      return;
+    }
+
+    const contenedor = document.getElementById("productos-publicos");
+    contenedor.innerHTML = ""; // Limpiar
+
+    data.forEach((p) => {
+      const card = document.createElement("div");
+      card.className = "producto-card";
+      card.innerHTML = `
+        <img src="${p.imagen_url}" alt="${p.nombre}" />
+        <h4>${p.nombre}</h4>
+        <p>${p.descripcion}</p>
+        <strong>$${p.precio}</strong>
+        <p><em>${p.categoria}</em></p>
+      `;
+      contenedor.appendChild(card);
+    });
+  }
+</script>
+  </body>
+</html>
