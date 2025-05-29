@@ -409,6 +409,18 @@
       diagnostico.innerHTML = "✅ Supabase conectado correctamente";
       diagnostico.classList.remove("error");
       diagnostico.classList.add("ok");
+      // Refuerzo para verificar si hay productos y si el robot responde
+const { data: productos, error: errorProductos } = await supabase
+  .from('mercancilla')
+  .select('*');
+
+if (errorProductos) {
+  diagnostico.innerHTML += "<br>⚠️ Problema con el robot";
+} else if (productos.length === 0) {
+  diagnostico.innerHTML += "<br>🟡 Conectado, pero sin productos cargados";
+} else {
+  diagnostico.innerHTML += "<br>✅ Todo listo para subir productos";
+}
     } catch (err) {
       diagnostico.innerHTML = "❌ Error de conexión<br>🔧 Verifica tu API Key";
       diagnostico.classList.remove("ok");
