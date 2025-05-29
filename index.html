@@ -320,5 +320,52 @@
 
   window.addEventListener("load", cargarProductos);
 </script>
+    <!-- ZONA PRIVADA CON CONTRASEÑA -->
+<section id="zona-privada" style="margin-top: 40px;">
+  <h2>🔒 Zona Privada</h2>
+  <input type="password" id="clave" placeholder="Introduce la contraseña" />
+  <button onclick="verificarClave()">Ingresar</button>
+  <div id="privado" style="display: none; margin-top: 20px;">
+    <h3>📦 Subir producto manual</h3>
+    <input type="text" id="nombreManual" placeholder="Nombre del producto" />
+    <input type="text" id="descripcionManual" placeholder="Descripción" />
+    <input type="text" id="precioManual" placeholder="Precio" />
+    <input type="text" id="categoriaManual" placeholder="Categoría" />
+    <input type="text" id="imagenManual" placeholder="URL de imagen" />
+    <button onclick="subirManual()">Subir producto manual</button>
+  </div>
+</section>
+
+<script>
+  const contraseñaCorrecta = "Trivo2025";
+
+  function verificarClave() {
+    const clave = document.getElementById("clave").value;
+    if (clave === contraseñaCorrecta) {
+      document.getElementById("privado").style.display = "block";
+      alert("✅ Acceso concedido.");
+    } else {
+      alert("❌ Contraseña incorrecta.");
+    }
+  }
+
+  async function subirManual() {
+    const nuevo = {
+      nombre: document.getElementById("nombreManual").value,
+      descripcion: document.getElementById("descripcionManual").value,
+      precio: document.getElementById("precioManual").value,
+      categoria: document.getElementById("categoriaManual").value,
+      imagen_url: document.getElementById("imagenManual").value,
+    };
+
+    const { error } = await supabase.from("mercancilla").insert(nuevo);
+    if (error) alert("❌ Error: " + error.message);
+    else alert("✅ Producto manual subido.");
+  }
+</script>
+
+<!-- FIN DE SISTEMA -->
+</body>
+</html>
   </body>
 </html>
