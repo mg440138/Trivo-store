@@ -416,6 +416,49 @@
 
   verificarSupabase();
 </script> 
+    <script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+  // Datos de tu proyecto Supabase
+  const supabaseUrl = 'https://uzqmsbkjontizhoxvajx.supabase.co'
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmtqb250aXpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzMDY1NjYsImV4cCI6MjA2Mzg4MjU2Nn0.RtiBzB0k0qzFzsfgUZcIvW1eyu2VmVbEolCWQDkDwbU'
+  const supabase = createClient(supabaseUrl, supabaseKey)
+
+  // Función para subir productos desde MercadoLibre a Supabase
+  async function subirMercancilla(producto) {
+    try {
+      const respuesta = await fetch(`https://api.mercadolibre.com/sites/MLA/search?q=${producto}`)
+      const data = await respuesta.json()
+
+      if (data.results && data.results.length > 0) {
+        for (const productoData of data.results.slice(0, 5)) {
+          const { title, price, thumbnail, permalink } = productoData
+
+          const { error } = await supabase
+            .from('mercancia')
+            .insert([{ titulo: title, precio: price, imagen: thumbnail, enlace: permalink }])
+
+          if (error) {
+            console.error('❌ Error al subir producto:', error)
+            alert(`Error al subir producto: ${error.message}`)
+            return
+          }
+        }
+        alert(`✅ Productos de "${producto}" subidos con éxito`)
+      } else {
+        alert('⚠️ No se encontraron productos.')
+      }
+    } catch (error) {
+      console.error('❌ Error general:', error)
+      alert('❌ Error al subir los productos')
+    }
+  }
+
+  // Botones visibles en el HTML
+  document.getElementById('btn-drone-real')?.addEventListener('click', () => subirMercancilla('drone'))
+  document.getElementById('btn-patineta-real')?.addEventListener('click', () => subirMercancilla('patineta electrica'))
+  document.getElementById('btn-audifonos-real')?.addEventListener('click', () => subirMercancilla('audifonos gamer'))
+</script>
 </body>
 </html>
   
