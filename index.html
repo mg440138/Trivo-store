@@ -462,17 +462,7 @@ if (errorProductos) {
 
 </script>
 <!-- Mini Refuerzo Diagnóstico Global -->
-<script type="module">
-  setTimeout(() => {
-    const diagnostico = document.getElementById('diagnostico-supabase');
-    if (!diagnostico || diagnostico.textContent.includes("Verificando")) {
-      const div = document.createElement("div");
-      div.id = "diagnostico-supabase";
-      div.className = "error";
-      div.textContent = "❌ Sin respuesta del sistema. Revisa conexión o robot.";
-      document.body.appendChild(div);
-    }
-  }, 6000); // Espera 6 segundos para detectar si no hubo respuesta
+
 </script>
 <!-- Diagnóstico visual del robot automático -->
 <div id="diagnostico-supabase" class="verificando">🔄 Verificando conexión...</div>
@@ -547,6 +537,80 @@ if (errorProductos) {
       diagnostico.className = "ok";
     }
   }
+</script>
+    <!-- 🔍 Diagnóstico Total de la Tienda -->
+<div id="diagnostico-avanzado" class="verificando">🔄 Iniciando diagnóstico...</div>
+
+<style>
+  #diagnostico-avanzado {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #222;
+    color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    z-index: 9999;
+    max-width: 90%;
+    white-space: pre-line;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  }
+  #diagnostico-avanzado.ok { background-color: #d4edda; color: #155724; }
+  #diagnostico-avanzado.error { background-color: #f8d7da; color: #721c24; }
+  #diagnostico-avanzado.verificando { background-color: #fff3cd; color: #856404; }
+</style>
+
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+  const diagnostico = document.getElementById("diagnostico-avanzado");
+  const supabaseUrl = "https://uzqmsbkjontizhoxvajx.supabase.co";
+  const supabaseKey = "TU_API_KEY"; // ← Reemplaza si es necesario
+  const supabase = createClient(supabaseUrl, supabaseKey);
+
+  async function diagnosticoTienda() {
+    diagnostico.textContent = "🔄 Iniciando diagnóstico...";
+    diagnostico.className = "verificando";
+    let errores = [];
+
+    // 🔌 Supabase
+    try {
+      const { data, error } = await supabase.from("mercancilla").select("*");
+      if (error) errores.push("❌ Supabase: sin respuesta o error de conexión.");
+      else {
+        if (data.length === 0) errores.push("🟡 Supabase conectado, pero sin productos.");
+        else diagnostico.textContent += "\n✅ Supabase conectado con productos.";
+      }
+    } catch {
+      errores.push("❌ Error general al conectar con Supabase.");
+    }
+
+    // 🤖 Robot automático
+    if (!document.getElementById("btn-drone-real") ||
+        !document.getElementById("btn-patineta-real") ||
+        !document.getElementById("btn-audifonos-real")) {
+      errores.push("⚠️ Botones del robot no encontrados.");
+    }
+
+    // 🧪 Formularios
+    const campos = ["nombre", "descripcion", "precio", "categoria", "imagen_url"];
+    campos.forEach(id => {
+      if (!document.getElementById(id)) errores.push(`⚠️ Campo faltante: ${id}`);
+    });
+
+    // Resultado
+    if (errores.length === 0) {
+      diagnostico.textContent = "✅ Todo correcto. Sistema operativo y listo.";
+      diagnostico.className = "ok";
+    } else {
+      diagnostico.textContent = errores.join("\n");
+      diagnostico.className = "error";
+    }
+  }
+
+  setTimeout(diagnosticoTienda, 4000); // Espera 4s tras cargar la página
 </script>
 </body>
 </html>
