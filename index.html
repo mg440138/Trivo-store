@@ -230,5 +230,44 @@
     });
   }
 </script>
+   <!-- FORMULARIO PARA SUBIR PRODUCTO MANUALMENTE -->
+<section id="form-subida" style="display:none; margin-top: 40px;">
+  <h2>📝 Subir nuevo producto</h2>
+  <input id="nombre" placeholder="Nombre del producto" /><br />
+  <textarea id="descripcion" placeholder="Descripción del producto"></textarea><br />
+  <input id="precio" placeholder="Precio ($)" /><br />
+  <input id="categoria" placeholder="Categoría" /><br />
+  <input id="imagen_url" placeholder="URL de la imagen" /><br />
+  <button onclick="subirProductoManual()">Subir producto</button>
+</section>
+
+<script>
+  async function subirProductoManual() {
+    const nuevo = {
+      nombre: document.getElementById("nombre").value,
+      descripcion: document.getElementById("descripcion").value,
+      precio: document.getElementById("precio").value,
+      categoria: document.getElementById("categoria").value,
+      imagen_url: document.getElementById("imagen_url").value
+    };
+
+    const { error } = await supabase.from("mercancilla").insert(nuevo);
+    if (error) {
+      alert("❌ Error al subir: " + error.message);
+    } else {
+      alert("✅ Producto subido correctamente.");
+      limpiarFormulario();
+      cargarProductos(); // Recarga productos actualizados
+    }
+  }
+
+  function limpiarFormulario() {
+    document.getElementById("nombre").value = "";
+    document.getElementById("descripcion").value = "";
+    document.getElementById("precio").value = "";
+    document.getElementById("categoria").value = "";
+    document.getElementById("imagen_url").value = "";
+  }
+</script> 
   </body>
 </html>
