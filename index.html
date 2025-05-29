@@ -698,19 +698,21 @@ if (errorProductos) {
     }
 
     const contenedor = document.getElementById("mercancilla");
-    contenedor.innerHTML = "";
+contenedor.innerHTML = "";
 
-    data.forEach((producto) => {
-      const card = document.createElement("div");
-      card.className = "producto";
-      card.innerHTML = `
-        <img src="${producto.imagen_url}" alt="${producto.nombre}" />
-        <h3>${producto.nombre}</h3>
-        <p>${producto.descripcion}</p>
-        <span>$${producto.precio}</span>
-      `;
-      contenedor.appendChild(card);
-    });
+data.forEach((producto) => {
+  if (producto.estado === "publicado") {
+    const card = document.createElement("div");
+    card.className = "producto";
+    card.innerHTML = `
+      <img src="${producto.imagen_url}" alt="${producto.nombre}" />
+      <h3>${producto.nombre}</h3>
+      <p>${producto.descripcion}</p>
+      <span>$${producto.precio}</span>
+    `;
+    contenedor.appendChild(card);
+  }
+});
   }
 
   document.addEventListener("DOMContentLoaded", () => {
