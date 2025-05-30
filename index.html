@@ -116,7 +116,25 @@ console.log("🔑 Key (truncada):", supabaseKey?.slice(0, 10) + "...");
           contenedor.appendChild(card);
         });
       }
+// Función para insertar un nuevo producto en la tabla 'mercancilla'
+async function insertarProducto() {
+  const nombre = document.getElementById("nombre").value;
+  const descripcion = document.getElementById("descripcion").value;
+  const precio = parseFloat(document.getElementById("precio").value);
+  const categoria = document.getElementById("categoria").value;
 
+  const { error } = await supabase
+    .from("mercancilla")
+    .insert([{ nombre, descripcion, precio, categoria }]);
+
+  if (error) {
+    console.error("❌ Error al insertar producto:", error.message);
+    alert("❌ Error al subir: " + error.message);
+  } else {
+    alert("✅ Producto subido correctamente");
+    cargarProductos(); // Recarga los productos para ver el nuevo
+  }
+}
       // Ejecutar carga de productos al iniciar
       document.addEventListener("DOMContentLoaded", () => {
         cargarProductos();
