@@ -7,93 +7,11 @@
     <link rel="stylesheet" href="style.css" />
     <!-- BLOQUE 1: CSS para tarjetas de fabricantes -->
 <style>
-  .fabricante-card {
-    border: 1px solid #ddd;
-    padding: 16px;
-    margin: 10px;
-    border-radius: 8px;
-    box-shadow: 0 0 8px rgba(0,0,0,0.05);
-    max-width: 300px;
-    background-color: #fff;
-  }
-  .fabricante-card h3 {
-    margin: 0 0 8px;
-  }
-  .fabricante-card p {
-    margin: 4px 0;
-  }
-  .fabricante-card button {
-    margin-top: 8px;
-    padding: 6px 12px;
-    background: #0070f3;
-    border: none;
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  #cards-container {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  #btn-todos {
-    margin: 20px;
-    padding: 10px 20px;
-    background: green;
-    color: white;
-    font-weight: bold;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-</style>
-    <!-- BLOQUE 3: Formulario para insertar fabricante -->
-<h2>Agregar nuevo fabricante</h2>
-<form onsubmit="event.preventDefault(); insertarFabricante();">
-  <input type="text" id="nombre-fabricante" placeholder="Nombre del fabricante" required />
-  <input type="text" id="descripcion-fabricante" placeholder="Descripción" required />
-  <button type="submit">Agregar fabricante</button>
-</form>
+  
 
-<!-- Contenedor de tarjetas de fabricantes -->
-<h2>Fabricantes disponibles</h2>
-<div id="cards-container"></div>
+
     <script type="module">
-      // BLOQUE 2 – Insertar fabricantes reales
-async function insertarFabricantesEjemplo() {
-  const fabricantes = [
-    {
-      nombre: "Guangzhou Yiwu Electronics",
-      pais: "China",
-      contacto: "ventas@yiwuelec.cn",
-      categoria: "Electrónica",
-      sitio_web: "https://yiwuelec.cn"
-    },
-    {
-      nombre: "Shenzhen XTech Industrial",
-      pais: "China",
-      contacto: "info@xtechsz.cn",
-      categoria: "Accesorios para celulares",
-      sitio_web: "https://xtechsz.cn"
-    },
-    {
-      nombre: "1688 Fashion Factory",
-      pais: "China",
-      contacto: "support@1688fashion.cn",
-      categoria: "Moda femenina",
-      sitio_web: "https://1688fashion.cn"
-    }
-  ];
-
-  const { data, error } = await supabase
-    .from('fabricantes')
-    .insert(fabricantes);
-
-  if (error) {
-    console.error('❌ Error al insertar fabricantes:', error);
-  } else {
-    console.log('✅ Fabricantes insertados correctamente:', data);
-  }
-}
+      
       import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
       const supabaseUrl = 'https://uzqmsbkjontizhoxvajx.supabase.co';
