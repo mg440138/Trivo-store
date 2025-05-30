@@ -116,6 +116,16 @@ console.log("🔑 Key (truncada):", supabaseKey?.slice(0, 10) + "...");
           contenedor.appendChild(card);
         });
       }
+      // Crear botón manual de carga
+const btnCargar = document.createElement("button");
+btnCargar.textContent = "🔄 Cargar Productos";
+btnCargar.id = "btnCargarProductos";
+document.body.appendChild(btnCargar);
+
+// Evento para cargar productos manualmente
+btnCargar.addEventListener("click", () => {
+  cargarProductos();
+});
 // Función para insertar un nuevo producto en la tabla 'mercancilla'
 async function insertarProducto() {
   const nombre = document.getElementById("nombre").value;
