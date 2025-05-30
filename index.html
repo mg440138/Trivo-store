@@ -865,29 +865,7 @@ data.forEach((producto) => {
   document.addEventListener("DOMContentLoaded", () => {
     cargarMercancillaPublicada();
   });
-</script>
- <!-- ZONA PRIVADA -->
-<section id="zona-privada" style="margin-top: 40px;">
-  <h2>🔒 Zona Privada</h2>
-  <input type="password" id="clave" placeholder="Introduce la contraseña" />
-  <button onclick="verificarClave()">Ingresar</button>
 
-  <div id="privado" style="display: none; margin-top: 20px;">
-    <h3>📦 Subir producto manual</h3>
-    <input type="text" id="nombreManual" placeholder="Nombre del producto" />
-    <input type="text" id="descripcionManual" placeholder="Descripción" />
-    <input type="text" id="precioManual" placeholder="Precio" />
-    <input type="text" id="categoriaManual" placeholder="Categoría" />
-    <input type="text" id="imagenManual" placeholder="URL de imagen" />
-    <button onclick="subirManual()">Subir producto manual</button>
-
-    <hr />
-    <h3>🤖 Subida automática</h3>
-    <button onclick="subirAuto('drone 4K')">Subir Drone 4K</button>
-    <button onclick="subirAuto('patineta eléctrica')">Subir Patineta Eléctrica</button>
-    <button onclick="subirAuto('audífonos bluetooth')">Subir Audífonos Bluetooth</button>
-  </div>
-</section>
 
 <script type="module">
   import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
