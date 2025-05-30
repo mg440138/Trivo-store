@@ -866,6 +866,86 @@ data.forEach((producto) => {
     cargarMercancillaPublicada();
   });
 </script>
+ <!-- ZONA PRIVADA -->
+<section id="zona-privada" style="margin-top: 40px;">
+  <h2>🔒 Zona Privada</h2>
+  <input type="password" id="clave" placeholder="Introduce la contraseña" />
+  <button onclick="verificarClave()">Ingresar</button>
+
+  <div id="privado" style="display: none; margin-top: 20px;">
+    <h3>📦 Subir producto manual</h3>
+    <input type="text" id="nombreManual" placeholder="Nombre del producto" />
+    <input type="text" id="descripcionManual" placeholder="Descripción" />
+    <input type="text" id="precioManual" placeholder="Precio" />
+    <input type="text" id="categoriaManual" placeholder="Categoría" />
+    <input type="text" id="imagenManual" placeholder="URL de imagen" />
+    <button onclick="subirManual()">Subir producto manual</button>
+
+    <hr />
+    <h3>🤖 Subida automática</h3>
+    <button onclick="subirAuto('drone 4K')">Subir Drone 4K</button>
+    <button onclick="subirAuto('patineta eléctrica')">Subir Patineta Eléctrica</button>
+    <button onclick="subirAuto('audífonos bluetooth')">Subir Audífonos Bluetooth</button>
+  </div>
+</section>
+
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+  const supabase = createClient(
+    'https://uzqmsbkjontizhoxvajx.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmtqb250aXpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzMDY1NjYsImV4cCI6MjA2Mzg4MjU2Nn0.RtiBzB0k0qzFzsfgUZcIvW1eyu2VmVbEolCWQDkDwbU'
+  );
+
+  const contraseñaCorrecta = "Trivo2025";
+
+  function verificarClave() {
+    const clave = document.getElementById("clave").value;
+    if (clave === contraseñaCorrecta) {
+      document.getElementById("privado").style.display = "block";
+      alert("✅ Acceso concedido.");
+    } else {
+      alert("❌ Contraseña incorrecta.");
+    }
+  }
+
+  async function subirManual() {
+    const nuevo = {
+      nombre: document.getElementById("nombreManual").value,
+      descripcion: document.getElementById("descripcionManual").value,
+      precio: document.getElementById("precioManual").value,
+      categoria: document.getElementById("categoriaManual").value,
+      imagen_url: document.getElementById("imagenManual").value,
+    };
+
+    const { error } = await supabase.from("mercancilla").insert(nuevo);
+    if (error) alert("❌ Error al subir: " + error.message);
+    else alert("✅ Producto subido correctamente.");
+  }
+
+  async function subirAuto(palabraClave) {
+    const url = `https://api.mercadolibre.com/sites/MLM/search?q=${encodeURIComponent(palabraClave)}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    const p = data.results[0];
+
+    if (!p) {
+      alert("❌ Producto no encontrado.");
+      return;
+    }
+
+    const nuevo = {
+      nombre: p.title,
+      descripcion: "Importado desde MercadoLibre",
+      precio: p.price.toString(),
+      categoria: p.category_id || "sin_categoria",
+      imagen_url: p.thumbnail
+    };
+
+    const { error } = await supabase.from("mercancilla").insert(nuevo);
+    if (error) alert("❌ Error al subir: " + error.message);
+    else alert("✅ Subido: " + p.title);
+  }
+</script>   
 </body>
 </html>
 
