@@ -15,7 +15,7 @@ console.log("Conectando a Supabase con URL:", supabaseUrl);
       // Diagnóstico Inteligente de conexión y permisos
 (async () => {
   try {
-    const { data, error } = await supabase.from("productos").select("*").limit(1);
+    const { data, error } = await supabase.from("mercancilla").select("*");
     
     if (error) {
       let mensaje = "❌ Error al consultar Supabase:\n\n";
