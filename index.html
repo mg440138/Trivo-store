@@ -12,7 +12,30 @@
       const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmtqb250aXpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzMDY1NjYsImV4cCI6MjA2Mzg4MjU2Nn0.RtiBzB0k0qzFzsfgUZcIvW1eyu2VmVbEolCWQDkDwbU";
       const supabase = createClient(supabaseUrl, supabaseKey);
 console.log("Conectando a Supabase con URL:", supabaseUrl);
-      
+// 🔍 BLOQUE DE DIAGNÓSTICO AUTOMÁTICO
+console.log("🛠️ Conectando a Supabase...");
+console.log("🔗 URL:", supabaseUrl);
+console.log("🔑 Key (truncada):", supabaseKey?.slice(0, 10) + "...");
+
+(async () => {
+  try {
+    const { error } = await supabase.from("productos").select("*").limit(1);
+    if (error) {
+      console.error("❌ Error al probar conexión con productos:", error.message);
+      if (error.message.includes("Failed to fetch")) {
+        console.warn("🔌 No se pudo conectar a Supabase. Verifica tu conexión o la URL del proyecto.");
+      } else if (error.message.includes("Unauthorized") || error.code === "42501") {
+        console.warn("🔒 No tienes permisos. Revisa si estás autenticado o ajusta las políticas RLS.");
+      } else {
+        console.warn("📄 Detalles del error:", error.message);
+      }
+    } else {
+      console.log("✅ Conexión exitosa con la tabla 'productos'. Todo está funcionando correctamente.");
+    }
+  } catch (err) {
+    console.error("⚠️ Error inesperado al probar conexión:", err);
+  }
+})();      
       // Función para cargar productos desde Supabase
       async function cargarProductos() {
         const { data, error } = await supabase.from("mercancilla").select("*");
