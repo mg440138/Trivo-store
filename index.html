@@ -12,6 +12,31 @@
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmtqb250aXpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzMDY1NjYsImV4cCI6MjA2Mzg4MjU2Nn0.RtiBzB0k0qzFzsfgUZcIvW1eyu2VmVbEolCWQDkDwbU';
 const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 console.log("Conectando a Supabase con URL:", supabaseUrl);
+      const insertarProducto = async () => {
+  const nombre = document.getElementById('nombre').value;
+  const descripcion = document.getElementById('descripcion').value;
+  const precio = parseFloat(document.getElementById('precio').value);
+  const categoria = document.getElementById('categoria').value;
+
+  const { data, error } = await supabase
+    .from('mercancilla')
+    .insert([
+      {
+        nombre: nombre,
+        descripcion: descripcion,
+        precio: precio,
+        categoria: categoria
+      }
+    ]);
+
+  if (error) {
+    console.error('❌ Error al subir:', error.message);
+    alert("❌ Error al subir producto: " + error.message);
+  } else {
+    console.log("✅ Producto subido:", data);
+    alert("✅ Producto subido correctamente");
+  }
+};
       // Diagnóstico Inteligente de conexión y permisos
 (async () => {
   try {
