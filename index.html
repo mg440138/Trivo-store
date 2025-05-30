@@ -47,6 +47,42 @@
   }
 </style>
     <script type="module">
+      // BLOQUE 2 – Insertar fabricantes reales
+async function insertarFabricantesEjemplo() {
+  const fabricantes = [
+    {
+      nombre: "Guangzhou Yiwu Electronics",
+      pais: "China",
+      contacto: "ventas@yiwuelec.cn",
+      categoria: "Electrónica",
+      sitio_web: "https://yiwuelec.cn"
+    },
+    {
+      nombre: "Shenzhen XTech Industrial",
+      pais: "China",
+      contacto: "info@xtechsz.cn",
+      categoria: "Accesorios para celulares",
+      sitio_web: "https://xtechsz.cn"
+    },
+    {
+      nombre: "1688 Fashion Factory",
+      pais: "China",
+      contacto: "support@1688fashion.cn",
+      categoria: "Moda femenina",
+      sitio_web: "https://1688fashion.cn"
+    }
+  ];
+
+  const { data, error } = await supabase
+    .from('fabricantes')
+    .insert(fabricantes);
+
+  if (error) {
+    console.error('❌ Error al insertar fabricantes:', error);
+  } else {
+    console.log('✅ Fabricantes insertados correctamente:', data);
+  }
+}
       import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
       const supabaseUrl = 'https://uzqmsbkjontizhoxvajx.supabase.co';
