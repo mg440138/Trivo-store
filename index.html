@@ -284,7 +284,18 @@ async function insertarProducto() {
   <h2>Panel Privado 🔒</h2>
   <button onclick="mostrarFormulario()">📤 Subir producto manual</button>
   <button onclick="mostrarTienda()">🛍️ Ver tienda</button>
-  <div id="contenido-privado"></div>
+  <div id="contenido-privado">
+  <!-- 🔧 BLOQUE DE FABRICANTES PRIVADO -->
+  <section id="form-fabricantes" style="margin-top: 40px;">
+    <h2>🏭 Insertar Fabricante</h2>
+    <input type="text" id="fab-nombre" placeholder="Nombre del fabricante" /><br />
+    <input type="text" id="fab-pais" placeholder="País" /><br />
+    <input type="email" id="fab-contacto" placeholder="Correo de contacto" /><br />
+    <input type="text" id="fab-categoria" placeholder="Categoría" /><br />
+    <input type="url" id="fab-sitio" placeholder="Sitio web (https://...)" /><br />
+    <button onclick="insertarFabricante()">➕ Guardar Fabricante</button>
+  </section>
+</div>
 </section>
 
 <!-- PANEL DE AUTENTICACIÓN -->
@@ -482,16 +493,7 @@ async function insertarProducto() {
     else alert("✅ Producto manual subido.");
   }
   
-<!-- 🔧 BLOQUE DE FABRICANTES PRIVADO -->
-<section id="form-fabricantes" style="margin-top: 40px;">
-  <h2>🏭 Insertar Fabricante</h2>
-  <input type="text" id="fab-nombre" placeholder="Nombre del fabricante" /><br />
-  <input type="text" id="fab-pais" placeholder="País" /><br />
-  <input type="email" id="fab-contacto" placeholder="Correo de contacto" /><br />
-  <input type="text" id="fab-categoria" placeholder="Categoría" /><br />
-  <input type="url" id="fab-sitio" placeholder="Sitio web (https://...)" /><br />
-  <button onclick="insertarFabricante()">➕ Guardar Fabricante</button>
-</section>
+
 
 <script>
   async function insertarFabricante() {
