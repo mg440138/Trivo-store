@@ -1,3 +1,7 @@
+
+
+
+
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -7,11 +11,93 @@
     <link rel="stylesheet" href="style.css" />
     <!-- BLOQUE 1: CSS para tarjetas de fabricantes -->
 <style>
-  
+  .fabricante-card {
+    border: 1px solid #ddd;
+    padding: 16px;
+    margin: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.05);
+    max-width: 300px;
+    background-color: #fff;
+  }
+  .fabricante-card h3 {
+    margin: 0 0 8px;
+  }
+  .fabricante-card p {
+    margin: 4px 0;
+  }
+  .fabricante-card button {
+    margin-top: 8px;
+    padding: 6px 12px;
+    background: #0070f3;
+    border: none;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  #cards-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  #btn-todos {
+    margin: 20px;
+    padding: 10px 20px;
+    background: green;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+</style>
+    <!-- BLOQUE 3: Formulario para insertar fabricante -->
+<h2>Agregar nuevo fabricante</h2>
+<form onsubmit="event.preventDefault(); insertarFabricante();">
+  <input type="text" id="nombre-fabricante" placeholder="Nombre del fabricante" required />
+  <input type="text" id="descripcion-fabricante" placeholder="Descripción" required />
+  <button type="submit">Agregar fabricante</button>
+</form>
 
-
+<!-- Contenedor de tarjetas de fabricantes -->
+<h2>Fabricantes disponibles</h2>
+<div id="cards-container"></div>
     <script type="module">
-      
+      // BLOQUE 2 – Insertar fabricantes reales
+async function insertarFabricantesEjemplo() {
+  const fabricantes = [
+    {
+      nombre: "Guangzhou Yiwu Electronics",
+      pais: "China",
+      contacto: "ventas@yiwuelec.cn",
+      categoria: "Electrónica",
+      sitio_web: "https://yiwuelec.cn"
+    },
+    {
+      nombre: "Shenzhen XTech Industrial",
+      pais: "China",
+      contacto: "info@xtechsz.cn",
+      categoria: "Accesorios para celulares",
+      sitio_web: "https://xtechsz.cn"
+    },
+    {
+      nombre: "1688 Fashion Factory",
+      pais: "China",
+      contacto: "support@1688fashion.cn",
+      categoria: "Moda femenina",
+      sitio_web: "https://1688fashion.cn"
+    }
+  ];
+
+  const { data, error } = await supabase
+    .from('fabricantes')
+    .insert(fabricantes);
+
+  if (error) {
+    console.error('❌ Error al insertar fabricantes:', error);
+  } else {
+    console.log('✅ Fabricantes insertados correctamente:', data);
+  }
+}
       import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
       const supabaseUrl = 'https://uzqmsbkjontizhoxvajx.supabase.co';
@@ -865,65 +951,7 @@ data.forEach((producto) => {
   document.addEventListener("DOMContentLoaded", () => {
     cargarMercancillaPublicada();
   });
-
-
-<script type="module">
-  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-  const supabase = createClient(
-    'https://uzqmsbkjontizhoxvajx.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmtqb250aXpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzMDY1NjYsImV4cCI6MjA2Mzg4MjU2Nn0.RtiBzB0k0qzFzsfgUZcIvW1eyu2VmVbEolCWQDkDwbU'
-  );
-
-  const contraseñaCorrecta = "Trivo2025";
-
-  function verificarClave() {
-    const clave = document.getElementById("clave").value;
-    if (clave === contraseñaCorrecta) {
-      document.getElementById("privado").style.display = "block";
-      alert("✅ Acceso concedido.");
-    } else {
-      alert("❌ Contraseña incorrecta.");
-    }
-  }
-
-  async function subirManual() {
-    const nuevo = {
-      nombre: document.getElementById("nombreManual").value,
-      descripcion: document.getElementById("descripcionManual").value,
-      precio: document.getElementById("precioManual").value,
-      categoria: document.getElementById("categoriaManual").value,
-      imagen_url: document.getElementById("imagenManual").value,
-    };
-
-    const { error } = await supabase.from("mercancilla").insert(nuevo);
-    if (error) alert("❌ Error al subir: " + error.message);
-    else alert("✅ Producto subido correctamente.");
-  }
-
-  async function subirAuto(palabraClave) {
-    const url = `https://api.mercadolibre.com/sites/MLM/search?q=${encodeURIComponent(palabraClave)}`;
-    const res = await fetch(url);
-    const data = await res.json();
-    const p = data.results[0];
-
-    if (!p) {
-      alert("❌ Producto no encontrado.");
-      return;
-    }
-
-    const nuevo = {
-      nombre: p.title,
-      descripcion: "Importado desde MercadoLibre",
-      precio: p.price.toString(),
-      categoria: p.category_id || "sin_categoria",
-      imagen_url: p.thumbnail
-    };
-
-    const { error } = await supabase.from("mercancilla").insert(nuevo);
-    if (error) alert("❌ Error al subir: " + error.message);
-    else alert("✅ Subido: " + p.title);
-  }
-</script>   
+</script>
 </body>
 </html>
 
