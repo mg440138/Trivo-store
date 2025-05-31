@@ -482,7 +482,41 @@ async function insertarProducto() {
     else alert("✅ Producto manual subido.");
   }
   
+<!-- 🔧 BLOQUE DE FABRICANTES PRIVADO -->
+<section id="form-fabricantes" style="margin-top: 40px;">
+  <h2>🏭 Insertar Fabricante</h2>
+  <input type="text" id="fab-nombre" placeholder="Nombre del fabricante" /><br />
+  <input type="text" id="fab-pais" placeholder="País" /><br />
+  <input type="email" id="fab-contacto" placeholder="Correo de contacto" /><br />
+  <input type="text" id="fab-categoria" placeholder="Categoría" /><br />
+  <input type="url" id="fab-sitio" placeholder="Sitio web (https://...)" /><br />
+  <button onclick="insertarFabricante()">➕ Guardar Fabricante</button>
+</section>
 
+<script>
+  async function insertarFabricante() {
+    const nombre = document.getElementById("fab-nombre").value;
+    const pais = document.getElementById("fab-pais").value;
+    const contacto = document.getElementById("fab-contacto").value;
+    const categoria = document.getElementById("fab-categoria").value;
+    const sitio_web = document.getElementById("fab-sitio").value;
+
+    const nuevo = { nombre, pais, contacto, categoria, sitio_web };
+
+    const { error } = await supabase.from("fabricantes").insert(nuevo);
+    if (error) {
+      alert("❌ Error al insertar fabricante: " + error.message);
+      console.error("Error al insertar:", error);
+    } else {
+      alert("✅ Fabricante guardado correctamente.");
+      document.getElementById("fab-nombre").value = "";
+      document.getElementById("fab-pais").value = "";
+      document.getElementById("fab-contacto").value = "";
+      document.getElementById("fab-categoria").value = "";
+      document.getElementById("fab-sitio").value = "";
+    }
+  }
+</script>
 <!-- FIN DE SISTEMA -->
    <style>
   #diagnostico-supabase {
