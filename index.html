@@ -220,31 +220,6 @@ async function insertarProducto() {
       <p>&copy; 2025 Trivo Store - Todos los derechos reservados</p>
     </footer>
 
-    <script type="module">
-      import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
-
-      const supabaseUrl = "https://uzqmsbkjonitzhoxvajx.supabase.co";
-      const supabaseKey =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmprb25pdHpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTg3NDU2MTgsImV4cCI6MjAxNDAyMTYxOH0.UbWJDbM7mY9MNyzW_XFJ5CNPyUKKVeGgx3vlz1q9mnE";
-      const supabase = createClient(supabaseUrl, supabaseKey);
-
-      // Subida manual
-      const formulario = document.getElementById("form-subida");
-      formulario.addEventListener("submit", async (e) => {
-        e.preventDefault();
-
-        const nuevo = {
-          nombre: document.getElementById("nombre").value,
-          descripcion: document.getElementById("descripcion").value,
-          precio: document.getElementById("precio").value,
-          categoria: document.getElementById("categoria").value,
-          imagen_url: document.getElementById("imagen_url").value,
-        };
-
-        const { error } = await supabase.from("mercancilla").insert(nuevo);
-        if (error) {
-          alert("❌ Error al subir: " + error.message);
-        } else {
           alert("✅ Producto subido correctamente.");
           formulario.reset();
         }
