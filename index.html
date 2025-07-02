@@ -250,34 +250,8 @@ async function insertarProducto() {
         }
       });
 
-      // Subida automática con palabras clave
-      async function subirMercancilla(palabraClave) {
-        const url = `https://api.mercadolibre.com/sites/MLM/search?q=${encodeURIComponent(palabraClave)}`;
-        const res = await fetch(url);
-        const data = await res.json();
-        const p = data.results[0];
+      
 
-        if (!p) {
-          alert("❌ No se encontró el producto.");
-          return;
-        }
-
-        const nuevo = {
-          nombre: p.title,
-          descripcion: "Importado desde MercadoLibre",
-          precio: p.price.toString(),
-          categoria: p.category_id || "sin_categoria",
-          imagen_url: p.thumbnail
-        };
-
-        const { error } = await supabase.from("mercancilla").insert(nuevo);
-        if (error) alert("❌ Error: " + error.message);
-        else alert("✅ Subido: " + p.title);
-      }
-
-      document.getElementById("btn-drone-real").addEventListener("click", () => subirMercancilla("drone 4K"));
-      document.getElementById("btn-patineta-real").addEventListener("click", () => subirMercancilla("patineta eléctrica"));
-      document.getElementById("btn-audifonos-real").addEventListener("click", () => subirMercancilla("audífonos bluetooth"));
     </script>
     <!-- PANEL PRIVADO (Protegido por contraseña) -->
 <section id="panel-privado" style="display:none">
