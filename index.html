@@ -603,42 +603,6 @@ if (errorProductos) {
   }
 </style>
 
-<script>
-  async function subirMercancilla(palabraClave) {
-    const diagnostico = document.getElementById('diagnostico-supabase');
-    diagnostico.textContent = "🤖 Buscando producto: " + palabraClave;
-    diagnostico.className = "verificando";
-
-    const url = `https://api.mercadolibre.com/sites/MLM/search?q=${encodeURIComponent(palabraClave)}`;
-    const res = await fetch(url);
-    const data = await res.json();
-    const p = data.results[0];
-
-    if (!p) {
-      diagnostico.textContent = "❌ No se encontró el producto.";
-      diagnostico.className = "error";
-      return;
-    }
-
-    const nuevo = {
-      nombre: p.title,
-      descripcion: "Importado desde MercadoLibre",
-      precio: p.price.toString(),
-      categoria: p.category_id || "sin_categoria",
-      imagen_url: p.thumbnail
-    };
-
-    const { error } = await supabase.from("mercancilla").insert(nuevo);
-
-    if (error) {
-      diagnostico.textContent = "❌ Error al subir: " + error.message;
-      diagnostico.className = "error";
-    } else {
-      diagnostico.textContent = "✅ Producto subido correctamente: " + p.title;
-      diagnostico.className = "ok";
-    }
-  }
-</script>
     <!-- 🔍 Diagnóstico Total de la Tienda -->
 <div id="diagnostico-avanzado" class="verificando">🔄 Iniciando diagnóstico...</div>
 
