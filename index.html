@@ -593,40 +593,7 @@ async function insertarProducto() {
     border-color: #f5c6cb;
   }
 </style>
-<script>
-  const supabase = createClient(supabaseUrl, supabaseKey);
 
-  async function cargarMercancilla() {
-    const { data, error } = await supabase
-      .from("mercancilla")
-      .select("*");
-
-    if (error) {
-      console.error("Error al cargar la mercancilla:", error.message);
-      return;
-    }
-
-    const contenedor = document.getElementById("mercancilla");
-contenedor.innerHTML = "";
-
-data.forEach((producto) => {
-  if (producto.estado === "publicado") {
-    const card = document.createElement("div");
-    card.className = "producto";
-    card.innerHTML = `
-      <img src="${producto.imagen_url}" alt="${producto.nombre}" />
-      <h3>${producto.nombre}</h3>
-      <p>${producto.descripcion}</p>
-      <span>$${producto.precio}</span>
-    `;
-    contenedor.appendChild(card);
-  }
-});
-  }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    cargarMercancilla();
-  });
 </script>
     
 </body>
