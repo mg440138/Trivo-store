@@ -500,7 +500,15 @@ async function insertarProducto() {
   #diagnostico-avanzado.error { background-color: #f8d7da; color: #721c24; }
   #diagnostico-avanzado.verificando { background-color: #fff3cd; color: #856404; }
 </style>
-
+// Diagnóstico de conexión Supabase
+(async () => {
+  const { data, error } = await supabase.from("mercancilla").select("*").limit(1);
+  if (error) {
+    console.error("⚠️ Error inesperado al probar conexión:", error);
+  } else {
+    console.log("✅ Conexión exitosa con la tabla 'mercancilla'. Todo está funcionando correctamente.");
+  }
+})();
 </script>
 </body>
 </html>
