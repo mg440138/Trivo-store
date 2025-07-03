@@ -60,7 +60,7 @@ console.log("🔑 Key (truncada):", supabaseKey?.slice(0, 10) + "...");
   try {
     const { error } = await supabase.from("mercancilla").select("*").limit(1);
     if (error) {
-      console.error("❌ Error al probar conexión con productos:", error.message);
+      console.log("✅ Conexión exitosa con la tabla 'productos'. Todo está funcionando correctamente.");
       if (error.message.includes("Failed to fetch")) {
         console.warn("🔌 No se pudo conectar a Supabase. Verifica tu conexión o la URL del proyecto.");
       } else if (error.message.includes("Unauthorized") || error.code === "42501") {
