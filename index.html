@@ -555,6 +555,39 @@ async function insertarProducto() {
     }
   });
 </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script>
+  const supabaseUrl = 'https://uqzmsbkjontizhova...supabase.co';
+  const supabaseKey = 'eyJh...clave_real_completa';
+  const supabase = supabaseUrl && supabaseKey
+    ? supabase || createClient(supabaseUrl, supabaseKey)
+    : null;
+
+  document.addEventListener("DOMContentLoaded", async () => {
+    const diagnostico = document.getElementById("diagnostico-avanzado");
+    if (!diagnostico) return console.warn("No se encontró el div de diagnóstico");
+
+    diagnostico.textContent = "🔄 Verificando conexión con Supabase...";
+    diagnostico.className = "verificando";
+
+    try {
+      const { data, error } = await supabase.from("mercancilla").select("*").limit(1);
+      if (error) {
+        console.error("⚠️ Error inesperado al probar conexión:", error);
+        diagnostico.textContent = "❌ Error al conectar con Supabase";
+        diagnostico.className = "error";
+      } else {
+        console.log("✅ Conexión exitosa con la tabla 'mercancilla'");
+        diagnostico.textContent = "✅ Conexión exitosa con Supabase";
+        diagnostico.className = "ok";
+      }
+    } catch (err) {
+      console.error("❌ Error crítico:", err);
+      diagnostico.textContent = "❌ Falló diagnóstico crítico con Supabase";
+      diagnostico.className = "error";
+    }
+  });
+</script>
 </body>
 </html>
 
