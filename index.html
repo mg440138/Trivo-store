@@ -525,7 +525,36 @@ async function insertarProducto() {
   #diagnostico-avanzado.ok { background-color: #d4edda; color: #155724; }
   #diagnostico-avanzado.error { background-color: #f8d7da; color: #721c24; }
   #diagnostico-avanzado.verificando { background-color: #fff3cd; color: #856404; }
+<script type="module">
+  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
+  const supabaseUrl = 'https://uzqmsbkjontizhovxajx.supabase.co';
+  const supabaseKey = 'TU_CLAVE_COMPLETA_AQUI';
+  const supabase = createClient(supabaseUrl, supabaseKey);
+
+  document.addEventListener("DOMContentLoaded", async () => {
+    const diagnostico = document.getElementById("diagnostico-avanzado");
+    diagnostico.textContent = "🔄 Verificando conexión con Supabase...";
+    diagnostico.className = "verificando";
+
+    try {
+      const { data, error } = await supabase.from("mercancilla").select("*").limit(1);
+      if (error) {
+        console.error("⚠️ Error inesperado al probar conexión:", error);
+        diagnostico.textContent = "❌ Error al conectar con Supabase";
+        diagnostico.className = "error";
+      } else {
+        console.log("✅ Conexión exitosa con la tabla 'mercancilla'");
+        diagnostico.textContent = "✅ Conexión exitosa con Supabase";
+        diagnostico.className = "ok";
+      }
+    } catch (err) {
+      console.error("❌ Error crítico:", err);
+      diagnostico.textContent = "❌ Falló diagnóstico crítico con Supabase";
+      diagnostico.className = "error";
+    }
+  });
+</script>
 </body>
 </html>
 
