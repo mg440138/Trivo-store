@@ -525,28 +525,7 @@ async function insertarProducto() {
   #diagnostico-avanzado.ok { background-color: #d4edda; color: #155724; }
   #diagnostico-avanzado.error { background-color: #f8d7da; color: #721c24; }
   #diagnostico-avanzado.verificando { background-color: #fff3cd; color: #856404; }
-</style>
-  document.addEventListener("DOMContentLoaded", async () => {
-    const diagnostico = document.getElementById("diagnostico-avanzado");
-    diagnostico.textContent = "🔄 Verificando conexión con Supabase...";
-    diagnostico.className = "verificando";
 
-    const { data, error } = await supabase.from("mercancilla").select("*").limit(1);
-    
-    if (error) {
-      console.error("⚠️ Error inesperado al probar conexión:", error);
-      diagnostico.textContent = "❌ Error al conectar con Supabase";
-      diagnostico.className = "error";
-    } else {
-      console.log("✅ Conexión exitosa con la tabla 'mercancilla'");
-      diagnostico.textContent = "✅ Conexión exitosa con Supabase";
-      diagnostico.className = "ok";
-    }
-  });
-</script>
-    <div id="diagnostico-avanzado" class="verificando">
-  Iniciando diagnóstico de conexión con Supabase...
-</div>
 </body>
 </html>
 
