@@ -58,7 +58,7 @@ console.log("🔑 Key (truncada):", supabaseKey?.slice(0, 10) + "...");
 
 (async () => {
   try {
-    const { error } = await supabase.from("productos").select("*").limit(1);
+    const { error } = await supabase.from("mercancilla").select("*").limit(1);
     if (error) {
       console.error("❌ Error al probar conexión con productos:", error.message);
       if (error.message.includes("Failed to fetch")) {
