@@ -61,10 +61,6 @@ const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 console.log("Conectando a Supabase con URL:", supabaseUrl);
       console.log("Conectando a Supabase con URL:", supabaseUrl);
 
-// 🔽 Pega este bloque en la línea 27
-const diagnostico = document.getElementById("diagnostico-avanzado");
-diagnostico.textContent = "⏳ Verificando conexión con Supabase...";
-diagnostico.className = "verificando";
 
 try {
   const { data, error } = await supabase.from("mercancilla").select("*").limit(1);
