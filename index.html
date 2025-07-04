@@ -541,59 +541,44 @@ async function insertarProducto() {
   const supabase = createClient(supabaseUrl, supabaseKey);
 
   async function mostrarProductos() {
-    const contenedor = document.getElementById("productos-lista");
-    if (!contenedor) return;
+  const contenedor = document.getElementById("productos-lista");
+  if (!contenedor) return;
 
-    const { data, error } = await supabase.from("mercancilla").select("*");
+  const { data, error } = await supabase.from("mercancilla").select("*");
 
-    if (error) {
-      console.error("❌ Error al obtener productos:", error.message);
-      contenedor.innerHTML = "<p style='color: red;'>No se pudieron cargar los productos.</p>";
-      return;
-    }
-
-    if (data.length === 0) {
-      contenedor.innerHTML = "<p>No hay productos disponibles.</p>";
-      return;
-    }
-
-    <script type="module">
-  async function mostrarProductos() {
-    const contenedor = document.getElementById("productos");
-    if (!contenedor) return;
-
-    const { data, error } = await supabase.from("mercancilla").select("*");
-
-    if (error) {
-      console.error("❌ Error al obtener productos:", error.message);
-      contenedor.innerHTML = "<p style='color: red;'>❌ No se pudieron cargar los productos.</p>";
-      return;
-    }
-
-    if (data.length === 0) {
-      contenedor.innerHTML = "<p>No hay productos disponibles.</p>";
-      return;
-    }
-
-    // Mostrar productos
-    data.forEach((producto) => {
-      const card = document.createElement("div");
-      card.style.border = "1px solid #ccc";
-      card.style.padding = "10px";
-      card.style.marginBottom = "10px";
-      card.style.borderRadius = "8px";
-      card.style.background = "#f9f9f9";
-
-      card.innerHTML = `
-        <h3>${producto.nombre}</h3>
-        <p><strong>Descripción:</strong> ${producto.descripcion}</p>
-        <p><strong>Categoría:</strong> ${producto.categoria}</p>
-        <p><strong>Precio:</strong> $${producto.precio ?? "N/D"}</p>
-      `;
-
-      contenedor.appendChild(card);
-    });
+  if (error) {
+    console.error("❌ Error al obtener productos:", error.message);
+    contenedor.innerHTML = `<p style="color: red;">No se pudieron cargar los productos.</p>`;
+    return;
   }
+
+  if (data.length === 0) {
+    contenedor.innerHTML = "<p>No hay productos disponibles.</p>";
+    return;
+  }
+
+  // Limpiar el contenedor
+  contenedor.innerHTML = "";
+
+  // Mostrar cada producto
+  data.forEach((producto) => {
+    const card = document.createElement("div");
+    card.style.border = "1px solid #ccc";
+    card.style.padding = "10px";
+    card.style.marginBottom = "10px";
+    card.style.borderRadius = "8px";
+    card.style.background = "#f9f9f9";
+
+    card.innerHTML = `
+      <h3>${producto.nombre}</h3>
+      <p><strong>Descripción:</strong> ${producto.descripcion}</p>
+      <p><strong>Categoría:</strong> ${producto.categoria}</p>
+      <p><strong>Precio:</strong> $${producto.precio ?? "N/D"}</p>
+    `;
+
+    contenedor.appendChild(card);
+  });
+}
 
   // Ejecutar función al cargar
   mostrarProductos();
