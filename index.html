@@ -46,32 +46,7 @@ try {
 }
 // 🔼 Hasta aquí
 
-const insertarProducto = async () => {
-      const insertarProducto = async () => {
-  const nombre = document.getElementById('nombre').value;
-  const descripcion = document.getElementById('descripcion').value;
-  const precio = parseFloat(document.getElementById('precio').value);
-  const categoria = document.getElementById('categoria').value;
 
-  const { data, error } = await supabase
-    .from('mercancilla')
-    .insert([
-      {
-        nombre: nombre,
-        descripcion: descripcion,
-        precio: precio,
-        categoria: categoria
-      }
-    ]);
-
-  if (error) {
-    console.error('❌ Error al subir:', error.message);
-    alert("❌ Error al subir producto: " + error.message);
-  } else {
-    console.log("✅ Producto subido:", data);
-    alert("✅ Producto subido correctamente");
-  }
-};
       // Diagnóstico Inteligente de conexión y permisos
 // 🔍 BLOQUE DE DIAGNÓSTICO AUTOMÁTICO
 console.log("🛠️ Conectando a Supabase...");
