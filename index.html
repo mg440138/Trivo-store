@@ -23,29 +23,7 @@
       const supabaseUrl = 'https://uzqmsbkjontizhoxvajx.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmtqb250aXpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzMDY1NjYsImV4cCI6MjA2Mzg4MjU2Nn0.RtiBzB0k0qzFzsfgUZcIvW1eyu2VmVbEolCWQDkDwbU';
 const supabase = supabase.createClient(supabaseUrl, supabaseKey);
-document.addEventListener("DOMContentLoaded", async () => {
-  const diagnostico = document.getElementById("diagnostico-avanzado");
-  diagnostico.textContent = "🟦 Verificando conexión con Supabase...";
-  diagnostico.className = "verificando";
-
-  try {
-    const { data, error } = await supabase.from("mercancilla").select("*").limit(1);
-
-    if (error) {
-      console.error("⚠️ Error inesperado al probar conexión:", error);
-      diagnostico.textContent = "❌ Error al conectar con Supabase";
-      diagnostico.className = "error";
-    } else {
-      console.log("✅ Conexión exitosa con la tabla 'mercancilla'");
-      diagnostico.textContent = "✅ Conexión exitosa con Supabase";
-      diagnostico.className = "ok";
-    }
-  } catch (err) {
-    console.error("❌ Error crítico en diagnóstico:", err);
-    diagnostico.textContent = "❌ Falló diagnóstico crítico con Supabase";
-    diagnostico.className = "error";
-  }
-});      
+   
 console.log("Conectando a Supabase con URL:", supabaseUrl);
       console.log("Conectando a Supabase con URL:", supabaseUrl);
 
