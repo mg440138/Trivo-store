@@ -27,7 +27,7 @@ const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 console.log("Conectando a Supabase con URL:", supabaseUrl);
       console.log("Conectando a Supabase con URL:", supabaseUrl);
 
-const diagnostico = document.getElementById("diagnostico");
+const diagnostico = document.getElementById("diagnostico-avanzado");
 try {
   const { data, error } = await supabase.from("mercancilla").select("*").limit(1);
   if (error) {
