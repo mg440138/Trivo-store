@@ -27,24 +27,36 @@ const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 console.log("Conectando a Supabase con URL:", supabaseUrl);
       console.log("Conectando a Supabase con URL:", supabaseUrl);
 
-const diagnostico = document.getElementById("diagnostico-avanzado");
-try {
-  const { data, error } = await supabase.from("mercancilla").select("*").limit(1);
-  if (error) {
-    console.error("⚠️ Error inesperado al probar conexión:", error);
-    diagnostico.textContent = "❌ Error al conectar con Supabase";
-    diagnostico.className = "error";
-  } else {
-    console.log("✅ Conexión exitosa con la tabla 'mercancilla'");
-    diagnostico.textContent = "✅ Conexión exitosa con Supabase";
-    diagnostico.className = "ok";
-  }
-} catch (e) {
-  console.error("💥 Excepción en diagnóstico Supabase:", e);
-  diagnostico.textContent = "❌ Error inesperado al conectar con Supabase";
-  diagnostico.className = "error";
-}
-// 🔼 Hasta aquí
+<script type="module">
+  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+  const supabaseUrl = 'https://uzqmsbkjontizhovxajx.supabase.co';
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsImlhdCI6MTY...'; // tu clave completa aquí
+  const supabase = createClient(supabaseUrl, supabaseKey);
+
+  // Ejecutar solo cuando el DOM esté cargado
+  document.addEventListener("DOMContentLoaded", async () => {
+    const diagnostico = document.getElementById("diagnostico-avanzado");
+
+    try {
+      const { data, error } = await supabase.from("mercancilla").select("*").limit(1);
+
+      if (error) {
+        console.error("⚠️ Error inesperado al probar conexión:", error);
+        diagnostico.textContent = "❌ Error al conectar con Supabase";
+        diagnostico.className = "error";
+      } else {
+        console.log("✅ Conexión exitosa con la tabla 'mercancilla'");
+        diagnostico.textContent = "✅ Conexión exitosa con Supabase";
+        diagnostico.className = "ok";
+      }
+    } catch (e) {
+      console.error("❌ Excepción en diagnóstico Supabase:", e);
+      diagnostico.textContent = "❌ Falló diagnóstico crítico con Supabase";
+      diagnostico.className = "error";
+    }
+  });
+</script>
 
 
       // Diagnóstico Inteligente de conexión y permisos
