@@ -10,8 +10,19 @@
     <title>Trivo Store</title>
     <link rel="stylesheet" href="style.css" />
     <!-- BLOQUE 1: CSS para tarjetas de fabricantes -->
-
+<style>
+  #productos-lista {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+    min-height: 100px; /* ← Esto asegura que el espacio sea visible */
+  }
+  .grid-productos > div {
+    flex: 1 1 200px;
+  }
 </style>
+
     
 <!-- Contenedor de tarjetas de fabricantes -->
 
