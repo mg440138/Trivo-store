@@ -483,7 +483,59 @@ async function insertarProducto() {
     }
   });
 </script>
-  <div id="diagnostico" class="verificando">
+  <!-- Diagnóstico Avanzado de conexión con Supabase -->
+<style>
+  #diagnostico-avanzado {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #222;
+    color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    z-index: 9999;
+    max-width: 90%;
+    white-space: pre-line;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  }
+
+  #diagnostico-avanzado.ok { background-color: #4dedda; color: #155724; }
+  #diagnostico-avanzado.error { background-color: #f8d7da; color: #721c24; }
+  #diagnostico-avanzado.verificando { background-color: #fff3cd; color: #856404; }
+</style>
+
+<script type="module">
+  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+  const supabaseUrl = 'https://uzqmsbkjontizhovxajx.supabase.co';
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJ...';
+  const supabase = createClient(supabaseUrl, supabaseKey);
+
+  const diagnostico = document.getElementById("diagnostico-avanzado");
+
+  try {
+    const { data, error } = await supabase.from("mercancilla").select("*").limit(1);
+
+    if (error) {
+      console.error("⚠️ Error inesperado al probar conexión:", error);
+      diagnostico.textContent = "❌ Error al conectar con Supabase";
+      diagnostico.className = "error";
+    } else {
+      console.log("✅ Conexión exitosa con la tabla 'mercancilla'");
+      diagnostico.textContent = "✅ Conexión exitosa con Supabase";
+      diagnostico.className = "ok";
+    }
+  } catch (err) {
+    console.error("❌ Excepción crítica:", err);
+    diagnostico.textContent = "❌ Falló diagnóstico crítico con Supabase";
+    diagnostico.className = "error";
+  }
+</script>
+
+<!-- Este es el cuadro que aparece en pantalla -->
+<div id="diagnostico-avanzado" class="verificando">📘 Iniciando diagnóstico...</div>
 </body>
 </html>
 
