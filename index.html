@@ -39,6 +39,7 @@ console.log("Conectando a Supabase con URL:", supabaseUrl);
     const diagnostico = document.getElementById("diagnostico-avanzado");
 
     try {
+      console.log("🔍 Ejecutando diagnóstico desde Supabase...");
       const { data, error } = await supabase.from("mercancilla").select("*").limit(1);
 
       if (error) {
