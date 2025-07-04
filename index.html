@@ -546,6 +546,24 @@ async function insertarProducto() {
       return;
     }
 
+    <script type="module">
+  async function mostrarProductos() {
+    const contenedor = document.getElementById("productos");
+    if (!contenedor) return;
+
+    const { data, error } = await supabase.from("mercancilla").select("*");
+
+    if (error) {
+      console.error("❌ Error al obtener productos:", error.message);
+      contenedor.innerHTML = "<p style='color: red;'>❌ No se pudieron cargar los productos.</p>";
+      return;
+    }
+
+    if (data.length === 0) {
+      contenedor.innerHTML = "<p>No hay productos disponibles.</p>";
+      return;
+    }
+
     // Mostrar productos
     data.forEach((producto) => {
       const card = document.createElement("div");
@@ -566,6 +584,7 @@ async function insertarProducto() {
     });
   }
 
+  // Ejecutar función al cargar
   mostrarProductos();
 </script>
 </body>
