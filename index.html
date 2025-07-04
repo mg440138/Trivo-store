@@ -32,6 +32,7 @@
         console.log("✅ Conexión exitosa con la tabla 'mercancilla'");
         diagnostico.textContent = "✅ Conexión exitosa con Supabase";
         diagnostico.className = "ok";
+    mostrarProductos(data);
       }
     } catch (e) {
       console.error("❌ Excepción en diagnóstico Supabase:", e);
