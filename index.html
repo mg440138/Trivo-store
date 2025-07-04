@@ -521,6 +521,52 @@ async function insertarProducto() {
 
 <!-- Este es el cuadro que aparece en pantalla -->
 <div id="diagnostico-avanzado" class="verificando">📘 Iniciando diagnóstico...</div>
+    <script type="module">
+  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+  const supabaseUrl = "https://uzqmsbkjontizhovxajx.supabase.co";
+  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmtqb250aXpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzMDY1NjYsImV4cCI6MjA2Mzg4MjU2Nn0.RtiBzB0k0qzFzsfgUZcIvW1eyu2VmVbEolCWQDkDwbU";
+  const supabase = createClient(supabaseUrl, supabaseKey);
+
+  async function mostrarProductos() {
+    const contenedor = document.getElementById("productos-lista");
+    if (!contenedor) return;
+
+    const { data, error } = await supabase.from("mercancilla").select("*");
+
+    if (error) {
+      console.error("❌ Error al obtener productos:", error.message);
+      contenedor.innerHTML = "<p style='color: red;'>No se pudieron cargar los productos.</p>";
+      return;
+    }
+
+    if (data.length === 0) {
+      contenedor.innerHTML = "<p>No hay productos disponibles.</p>";
+      return;
+    }
+
+    // Mostrar productos
+    data.forEach((producto) => {
+      const card = document.createElement("div");
+      card.style.border = "1px solid #ccc";
+      card.style.padding = "10px";
+      card.style.marginBottom = "10px";
+      card.style.borderRadius = "8px";
+      card.style.background = "#f9f9f9";
+
+      card.innerHTML = `
+        <h3>${producto.nombre}</h3>
+        <p><strong>Descripción:</strong> ${producto.descripcion}</p>
+        <p><strong>Categoría:</strong> ${producto.categoria}</p>
+        <p><strong>Precio:</strong> $${producto.precio ?? "N/D"}</p>
+      `;
+
+      contenedor.appendChild(card);
+    });
+  }
+
+  mostrarProductos();
+</script>
 </body>
 </html>
 
