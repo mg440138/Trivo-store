@@ -508,31 +508,35 @@ async function insertarProducto() {
 </style>
 
 <script type="module">
-  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
   const supabaseUrl = 'https://uzqmsbkjontizhovxajx.supabase.co';
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJ...';
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5c...'; // (usa tu key real)
   const supabase = createClient(supabaseUrl, supabaseKey);
 
-  const diagnostico = document.getElementById("diagnostico-avanzado");
+  // Esperar a que el DOM cargue completamente
+  document.addEventListener("DOMContentLoaded", async () => {
+    const diagnostico = document.getElementById("diagnostico-avanzado");
 
-  try {
-    const { data, error } = await supabase.from("mercancilla").select("*").limit(1);
+    try {
+      console.log("🧠 Ejecutando diagnóstico desde Supabase...");
+      const { data, error } = await supabase.from("mercancilla").select("*").limit(1);
 
-    if (error) {
-      console.error("⚠️ Error inesperado al probar conexión:", error);
-      diagnostico.textContent = "❌ Error al conectar con Supabase";
+      if (error) {
+        console.error("⚠️ Error inesperado al probar conexión:", error);
+        diagnostico.textContent = "❌ Error al conectar con Supabase";
+        diagnostico.className = "error";
+      } else {
+        console.log("✅ Conexión exitosa con la tabla 'mercancilla'");
+        diagnostico.textContent = "✅ Conexión exitosa con Supabase";
+        diagnostico.className = "ok";
+      }
+    } catch (err) {
+      console.error("❌ Excepción crítica:", err);
+      diagnostico.textContent = "❌ Falló diagnóstico crítico con Supabase";
       diagnostico.className = "error";
-    } else {
-      console.log("✅ Conexión exitosa con la tabla 'mercancilla'");
-      diagnostico.textContent = "✅ Conexión exitosa con Supabase";
-      diagnostico.className = "ok";
     }
-  } catch (err) {
-    console.error("❌ Excepción crítica:", err);
-    diagnostico.textContent = "❌ Falló diagnóstico crítico con Supabase";
-    diagnostico.className = "error";
-  }
+  });
 </script>
 
 <!-- Este es el cuadro que aparece en pantalla -->
