@@ -48,54 +48,9 @@ try {
 
 
       // Diagnóstico Inteligente de conexión y permisos
-// 🔍 BLOQUE DE DIAGNÓSTICO AUTOMÁTICO
-console.log("🛠️ Conectando a Supabase...");
-console.log("🔗 URL:", supabaseUrl);
-console.log("🔑 Key (truncada):", supabaseKey?.slice(0, 10) + "...");
-
-(async () => {
-  try {
-    const { error } = await supabase.from("mercancilla").select("*").limit(1);
-    if (error) {
-      console.log("✅ Conexión exitosa con la tabla 'productos'. Todo está funcionando correctamente.");
-      if (error.message.includes("Failed to fetch")) {
-        console.warn("🔌 No se pudo conectar a Supabase. Verifica tu conexión o la URL del proyecto.");
-      } else if (error.message.includes("Unauthorized") || error.code === "42501") {
-        console.warn("🔒 No tienes permisos. Revisa si estás autenticado o ajusta las políticas RLS.");
-      } else {
-        console.warn("📄 Detalles del error:", error.message);
-      }
-    } else {
-      console.log("✅ Conexión exitosa con la tabla 'productos'. Todo está funcionando correctamente.");
-    }
-  } catch (err) {
-    console.error("⚠️ Error inesperado al probar conexión:", err);
-  }
-})();      
+    
       // Función para cargar productos desde Supabase
-      async function cargarProductos() {
-        const { data, error } = await supabase.from("mercancilla").select("*");
-        if (error) {
-          console.error("Error al cargar productos:", error.message);
-          return;
-        }
-
-        const contenedor = document.getElementById("productos");
-        contenedor.innerHTML = ""; // limpiar contenido
-
-        data.forEach((producto) => {
-          const card = document.createElement("div");
-          card.className = "producto";
-
-          card.innerHTML = `
-            <img src="${producto.imagen_url}" alt="${producto.nombre}" />
-            <h3>${producto.nombre}</h3>
-            <p>${producto.descripcion}</p>
-            <span>$${producto.precio}</span>
-          `;
-
-          contenedor.appendChild(card);
-        });
+      
       }
       // Crear botón manual de carga
 const btnCargar = document.createElement("button");
