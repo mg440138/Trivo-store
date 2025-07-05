@@ -1,36 +1,32 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trivo Store</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trivo Store – Diagnóstico Avanzado</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #fff;
-      color: #000;
       padding: 20px;
+      background: #fff;
     }
+    h1 { color: #b02deb; }
+    .error { color: red; font-weight: bold; }
+    .ok { color: green; font-weight: bold; }
     .producto {
       border: 1px solid #ccc;
       padding: 10px;
       margin-bottom: 10px;
     }
-    .error {
-      color: red;
-      font-weight: bold;
-    }
-    .exito {
-      color: green;
-      font-weight: bold;
-    }
   </style>
 </head>
 <body>
-  <h1>🛍️ Trivo Store</h1>
-  <div id="estado-conexion">⏳ Verificando conexión con Supabase...</div>
+  <h1>📦 Trivo Store</h1>
+  <div id="estado-conexion">⌛ Verificando conexión con Supabase...</div>
+
   <h2>📦 Productos Disponibles</h2>
-  <div id="lista-productos"></div>
+  <div id="lista-productos">Cargando productos...</div>
 
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
@@ -41,49 +37,35 @@
 
     async function verificarConexion() {
       try {
-        const { data: testData, error: testError } = await supabase.from('mercancilla').select('*').limit(1);
-        const estadoDiv = document.getElementById('estado-conexion');
-        if (testError) {
-          estadoDiv.innerHTML = '<span class="error">❌ Error de conexión a Supabase</span>';
+        const { data, error } = await supabase.from('mercancilla').select('*');
+        if (error) {
+          document.getElementById('estado-conexion').innerHTML = '<span class="error">❌ Error de conexión a Supabase: ' + error.message + '</span>';
+          console.error("Error Supabase:", error);
         } else {
-          estadoDiv.innerHTML = '<span class="exito">✅ Conectado correctamente a Supabase</span>';
-          cargarProductos();  // 👈 LLAMAR AQUÍ LA FUNCIÓN PARA MOSTRAR LOS PRODUCTOS
+          document.getElementById('estado-conexion').innerHTML = '<span class="ok">✅ Conexión exitosa a Supabase</span>';
+          mostrarProductos(data);
         }
       } catch (e) {
         document.getElementById('estado-conexion').innerHTML = '<span class="error">❌ Error inesperado: ' + e.message + '</span>';
+        console.error("Excepción:", e);
       }
     }
 
-    async function cargarProductos() {
-      try {
-        const contenedor = document.getElementById('lista-productos');
-        const { data, error } = await supabase.from('mercancilla').select('*');
-
-        if (error) {
-          contenedor.innerHTML = '<div class="error">❌ Error al obtener productos: ' + error.message + '</div>';
-          return;
-        }
-
-        if (!data || data.length === 0) {
-          contenedor.innerHTML = '<div class="error">❌ No hay productos disponibles.</div>';
-          return;
-        }
-
-        data.forEach(producto => {
-          const div = document.createElement('div');
-          div.className = 'producto';
-          div.innerHTML = `
-            <strong>${producto.nombre || 'Sin nombre'}</strong><br>
-            Descripción: ${producto.descripcion || 'N/A'}<br>
-            Precio: $${producto.precio || '0.00'}<br>
-            Categoría: ${producto.categoria || 'General'}<br>
-            Imagen: <img src="${producto.imagen_url}" width="100" alt="${producto.nombre}">
-          `;
-          contenedor.appendChild(div);
-        });
-      } catch (e) {
-        document.getElementById('lista-productos').innerHTML = '<div class="error">❌ Error inesperado: ' + e.message + '</div>';
-      }
+    function mostrarProductos(productos) {
+      const lista = document.getElementById('lista-productos');
+      lista.innerHTML = '';
+      productos.forEach(p => {
+        const div = document.createElement('div');
+        div.className = 'producto';
+        div.innerHTML = `
+          <strong>${p.nombre || 'Sin nombre'}</strong><br>
+          Descripción: ${p.descripcion || 'N/A'}<br>
+          Precio: ${p.precio || '0.00'}<br>
+          Categoría: ${p.categoria || 'General'}<br>
+          Estado: ${p.estado || 'pendiente'}<br>
+        `;
+        lista.appendChild(div);
+      });
     }
 
     verificarConexion();
