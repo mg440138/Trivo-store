@@ -2,12 +2,11 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Trivo Store</title>
   <style>
     body { font-family: Arial, sans-serif; background: #fff; color: #111; margin: 20px; }
-    h1 { font-size: 24px; }
     input, button { padding: 6px; margin: 5px 0; }
     .section { border: 1px solid #ccc; padding: 10px; margin-bottom: 20px; border-radius: 8px; background: #f9f9f9; }
     .diagnostico { font-weight: bold; color: green; }
@@ -55,18 +54,64 @@
 <div class="section zona" id="zona-privada" style="display:none;">
   <h3>🔐 Zona Privada</h3>
   <div id="contenido-privado"></div>
-</div>
 
-<div class="section diagnostico" id="diagnostico-avanzado">
+  </div>
+
+  <div class="section">
+    <h3>📊 Estadísticas de tienda</h3>
+    <p>Total de productos: <span id="totalProductos">0</span></p>
+    <p>Valor total del inventario: $<span id="valorInventario">0.00</span></p>
+    <button onclick="exportarCSV()">⬇️ Exportar productos (.csv)</button>
+  </div>
+
+  <div class="section diagnostico" id="diagnostico-avanzado">
   <p>🔍 Diagnóstico de conexión: <span id="estadoConexion">Iniciando diagnóstico...</span></p>
 </div>
 
-<script type="module">
-  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js">
 
+  async function actualizarEstadisticas() {
+    const { data, error } = await supabase.from('mercancilla').select('*');
+    if (error || !data) return;
+
+    let total = data.length;
+    let valorTotal = data.reduce((sum, prod) => sum + (parseFloat(prod.precio) || 0), 0);
+
+    document.getElementById("totalProductos").textContent = total;
+    document.getElementById("valorInventario").textContent = valorTotal.toFixed(2);
+  }
+
+  async function exportarCSV() {
+    const { data, error } = await supabase.from('mercancilla').select('*');
+    if (error || !data) {
+      alert("❌ Error al exportar");
+      return;
+    }
+
+    let csv = "Nombre,Descripción,Precio,Categoría,Imagen URL\n";
+    data.forEach(prod => {
+      csv += `"${prod.nombre}","${prod.descripcion}",${prod.precio},"${prod.categoria}","${prod.imagen_url}"\n`;
+    });
+
+    const blob = new Blob([csv], { type: "text/csv" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "productos_trivo.csv";
+    link.click();
+  }
+
+  // Llamar estadísticas después de cargar productos
+  function mostrarProductosYEstadisticas() {
+    mostrarProductos();
+    actualizarEstadisticas();
+  }
+
+
+</script>
+<script>
   const supabaseUrl = 'https://uzqmsbkjontizhovxajx.supabase.co';
   const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmtqb250aXpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzMDY1NjYsImV4cCI6MjA2Mzg4MjU2Nn0.RtiBzB0k0qzFzsfgUZcIvW1eyu2VmVbEolCWQDkDwbU';
-  const supabase = createClient(supabaseUrl, supabaseKey);
+  const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
   const diagnostico = document.getElementById("estadoConexion");
 
@@ -79,13 +124,13 @@
       } else {
         diagnostico.innerHTML = '✅ Conexión establecida correctamente';
         diagnostico.classList.add("success");
-        console.log("Conexión exitosa a Supabase. Datos ejemplo:", data);
-        mostrarProductos();
+        console.log("✔️ Conexión a Supabase confirmada:", data);
+        mostrarProductosYEstadisticas();
       }
     } catch (err) {
       diagnostico.innerHTML = '❌ Fallo crítico: ' + err.message;
       diagnostico.classList.add("error");
-      console.error("Error crítico de conexión:", err);
+      console.error("❌ Error de conexión crítica:", err);
     }
   }
 
@@ -108,14 +153,14 @@
       alert("❌ Error al subir: " + error.message);
     } else {
       alert("✅ Producto subido con éxito");
-      mostrarProductos();
+      mostrarProductosYEstadisticas();
     }
   }
 
   async function subirAuto(nombre) {
     await supabase.from('mercancilla').insert([{ nombre, descripcion: 'Automático', precio: 99, categoria: 'Automático', imagen_url: 'https://via.placeholder.com/100' }]);
     alert("✅ Producto automático subido");
-    mostrarProductos();
+    mostrarProductosYEstadisticas();
   }
 
   async function mostrarProductos() {
@@ -152,6 +197,45 @@
       document.getElementById("zona-privada").scrollIntoView({ behavior: 'smooth' });
     }
   }
+
+
+  async function actualizarEstadisticas() {
+    const { data, error } = await supabase.from('mercancilla').select('*');
+    if (error || !data) return;
+
+    let total = data.length;
+    let valorTotal = data.reduce((sum, prod) => sum + (parseFloat(prod.precio) || 0), 0);
+
+    document.getElementById("totalProductos").textContent = total;
+    document.getElementById("valorInventario").textContent = valorTotal.toFixed(2);
+  }
+
+  async function exportarCSV() {
+    const { data, error } = await supabase.from('mercancilla').select('*');
+    if (error || !data) {
+      alert("❌ Error al exportar");
+      return;
+    }
+
+    let csv = "Nombre,Descripción,Precio,Categoría,Imagen URL\n";
+    data.forEach(prod => {
+      csv += `"${prod.nombre}","${prod.descripcion}",${prod.precio},"${prod.categoria}","${prod.imagen_url}"\n`;
+    });
+
+    const blob = new Blob([csv], { type: "text/csv" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "productos_trivo.csv";
+    link.click();
+  }
+
+  // Llamar estadísticas después de cargar productos
+  function mostrarProductosYEstadisticas() {
+    mostrarProductos();
+    actualizarEstadisticas();
+  }
+
+
 </script>
 
 </body>
