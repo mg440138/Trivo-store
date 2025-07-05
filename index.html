@@ -3,240 +3,78 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trivo Store</title>
+  <title>Trivo Store Pro</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #fff; color: #111; margin: 20px; }
-    input, button { padding: 6px; margin: 5px 0; }
-    .section { border: 1px solid #ccc; padding: 10px; margin-bottom: 20px; border-radius: 8px; background: #f9f9f9; }
-    .diagnostico { font-weight: bold; color: green; }
-    .error { color: red; }
-    .success { color: green; }
-    .zona { font-weight: bold; color: purple; }
+    body { font-family: Arial; background: #f4f4f4; margin: 20px; }
+    h1 { color: #333; }
+    .producto { background: #fff; padding: 10px; margin-bottom: 10px; border-left: 4px solid #33c; }
+    .error { background: #ffe0e0; padding: 10px; color: #900; border: 1px solid #900; margin-bottom: 10px; }
+    .ok { background: #e0ffe0; padding: 10px; color: #060; border: 1px solid #060; margin-bottom: 10px; }
+    #estadoConexion { font-weight: bold; }
   </style>
 </head>
 <body>
+  <h1>🛒 Trivo Store — Diagnóstico Avanzado</h1>
+  <div id="estadoConexion">⏳ Verificando conexión a Supabase...</div>
+  <div id="lista-productos">Cargando productos...</div>
 
-<h1>Trivo Store</h1>
-<div class="section">
-  <button onclick="mostrarSeccion('publica')">🛍️ Tienda Pública</button>
-  <button onclick="mostrarSeccion('privada')">🔒 Panel Privado</button>
-</div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script>
+    const supabaseUrl = "https://uzqmsbkjontizhovxajx.supabase.co";
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmtqb250aXpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzMDY1NjYsImV4cCI6MjA2Mzg4MjU2Nn0.RtiBzB0k0qzFzsfgUZcIvW1eyu2VmVbEolCWQDkDwbU";
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-<div class="section" id="formulario-subida">
-  <h2>Subir nuevo producto</h2>
-  <input type="text" id="nombre" placeholder="Nombre del producto" />
-  <input type="text" id="descripcion" placeholder="Descripción" />
-  <input type="number" id="precio" placeholder="Precio" />
-  <input type="text" id="categoria" placeholder="Categoría" />
-  <input type="url" id="imagen" placeholder="URL de imagen" />
-  <button onclick="subirProducto()">Subir producto</button>
-</div>
+    async function mostrarProductos() {
+      const lista = document.getElementById("lista-productos");
+      lista.innerHTML = "<em>⏳ Buscando productos...</em>";
+      document.getElementById("estadoConexion").textContent = "⏳ Consultando base de datos...";
 
-<div class="section">
-  <h3>Subir con palabras clave (Automático)</h3>
-  <button onclick="subirAuto('Drone 4K')">Subir Drone 4K</button>
-  <button onclick="subirAuto('Patineta Eléctrica')">Subir Patineta Eléctrica</button>
-  <button onclick="subirAuto('Audífonos Bluetooth')">Subir Audífonos Bluetooth</button>
-</div>
+      try {
+        const { data, error } = await supabase.from('mercancilla').select('*');
 
-<div class="section">
-  <h3>Iniciar sesión</h3>
-  <input type="password" id="clave" placeholder="Contraseña" />
-  <button onclick="verZonaPrivada()">Ingresar</button>
-</div>
+        if (error) {
+          console.error("❌ Error Supabase:", error.message);
+          lista.innerHTML = "<div class='error'>❌ Error al cargar productos: " + error.message + "</div>";
+          document.getElementById("estadoConexion").textContent = "❌ Error de conexión con Supabase.";
+          return;
+        }
 
-<div class="section zona" id="productos-publicos">
-  <h3>📦 Productos en tienda</h3>
-  <div id="lista-productos"></div>
-</div>
+        if (!data || data.length === 0) {
+          lista.innerHTML = "<div class='error'>⚠️ Supabase conectado pero sin productos.</div>";
+          document.getElementById("estadoConexion").textContent = "⚠️ Conexión OK pero sin datos.";
+          return;
+        }
 
-<div class="section zona" id="zona-privada" style="display:none;">
-  <h3>🔐 Zona Privada</h3>
-  <div id="contenido-privado"></div>
+        lista.innerHTML = "";
+        data.forEach(p => {
+          const div = document.createElement("div");
+          div.className = "producto";
+          div.innerHTML = `<strong>${p.nombre}</strong><br>${p.descripcion}<br>💲 ${p.precio}<br><img src="${p.imagen_url}" width="100"><hr>`;
+          lista.appendChild(div);
+        });
 
-  </div>
+        document.getElementById("estadoConexion").textContent = "✅ Conexión y carga exitosa de productos.";
 
-  <div class="section">
-    <h3>📊 Estadísticas de tienda</h3>
-    <p>Total de productos: <span id="totalProductos">0</span></p>
-    <p>Valor total del inventario: $<span id="valorInventario">0.00</span></p>
-    <button onclick="exportarCSV()">⬇️ Exportar productos (.csv)</button>
-  </div>
-
-  <div class="section diagnostico" id="diagnostico-avanzado">
-  <p>🔍 Diagnóstico de conexión: <span id="estadoConexion">Iniciando diagnóstico...</span></p>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js">
-
-  async function actualizarEstadisticas() {
-    const { data, error } = await supabase.from('mercancilla').select('*');
-    if (error || !data) return;
-
-    let total = data.length;
-    let valorTotal = data.reduce((sum, prod) => sum + (parseFloat(prod.precio) || 0), 0);
-
-    document.getElementById("totalProductos").textContent = total;
-    document.getElementById("valorInventario").textContent = valorTotal.toFixed(2);
-  }
-
-  async function exportarCSV() {
-    const { data, error } = await supabase.from('mercancilla').select('*');
-    if (error || !data) {
-      alert("❌ Error al exportar");
-      return;
-    }
-
-    let csv = "Nombre,Descripción,Precio,Categoría,Imagen URL\n";
-    data.forEach(prod => {
-      csv += `"${prod.nombre}","${prod.descripcion}",${prod.precio},"${prod.categoria}","${prod.imagen_url}"\n`;
-    });
-
-    const blob = new Blob([csv], { type: "text/csv" });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = "productos_trivo.csv";
-    link.click();
-  }
-
-  // Llamar estadísticas después de cargar productos
-  function mostrarProductosYEstadisticas() {
-    mostrarProductos();
-    actualizarEstadisticas();
-  }
-
-
-</script>
-<script>
-  const supabaseUrl = 'https://uzqmsbkjontizhovxajx.supabase.co';
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmtqb250aXpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzMDY1NjYsImV4cCI6MjA2Mzg4MjU2Nn0.RtiBzB0k0qzFzsfgUZcIvW1eyu2VmVbEolCWQDkDwbU';
-  const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-  const diagnostico = document.getElementById("estadoConexion");
-
-  async function diagnosticarConexion() {
-    try {
-      const { data, error } = await supabase.from('mercancilla').select('*').limit(1);
-      if (error) {
-        diagnostico.innerHTML = '❌ Error de conexión: ' + error.message;
-        diagnostico.classList.add("error");
-      } else {
-        diagnostico.innerHTML = '✅ Conexión establecida correctamente';
-        diagnostico.classList.add("success");
-        console.log("✔️ Conexión a Supabase confirmada:", data);
-        mostrarProductosYEstadisticas();
+      } catch (err) {
+        console.error("❌ Error general:", err);
+        lista.innerHTML = "<div class='error'>❌ Fallo general al mostrar productos: " + err.message + "</div>";
+        document.getElementById("estadoConexion").textContent = "❌ Error inesperado: " + err.message;
       }
-    } catch (err) {
-      diagnostico.innerHTML = '❌ Fallo crítico: ' + err.message;
-      diagnostico.classList.add("error");
-      console.error("❌ Error de conexión crítica:", err);
-    }
-  }
-
-  diagnosticarConexion();
-
-  async function subirProducto() {
-    const nombre = document.getElementById('nombre').value.trim();
-    const descripcion = document.getElementById('descripcion').value.trim();
-    const precio = parseFloat(document.getElementById('precio').value);
-    const categoria = document.getElementById('categoria').value.trim();
-    const imagen = document.getElementById('imagen').value.trim();
-
-    if (!nombre || isNaN(precio)) {
-      alert("Completa nombre y precio válidos.");
-      return;
     }
 
-    const { error } = await supabase.from('mercancilla').insert([{ nombre, descripcion, precio, categoria, imagen_url: imagen }]);
-    if (error) {
-      alert("❌ Error al subir: " + error.message);
-    } else {
-      alert("✅ Producto subido con éxito");
+    function actualizarEstadisticas() {
+      console.log("📊 Estadísticas activadas");
+      // Aquí podrías mostrar gráficas, porcentajes o totales
+    }
+
+    function mostrarProductosYEstadisticas() {
+      mostrarProductos();
+      actualizarEstadisticas();
+    }
+
+    window.onload = function () {
       mostrarProductosYEstadisticas();
-    }
-  }
-
-  async function subirAuto(nombre) {
-    await supabase.from('mercancilla').insert([{ nombre, descripcion: 'Automático', precio: 99, categoria: 'Automático', imagen_url: 'https://via.placeholder.com/100' }]);
-    alert("✅ Producto automático subido");
-    mostrarProductosYEstadisticas();
-  }
-
-  async function mostrarProductos() {
-    const { data, error } = await supabase.from('mercancilla').select('*');
-    const contenedor = document.getElementById('lista-productos');
-    contenedor.innerHTML = "";
-
-    if (error) {
-      contenedor.innerHTML = "❌ Error al cargar productos";
-      return;
-    }
-
-    data.forEach(prod => {
-      const item = document.createElement('div');
-      item.innerHTML = `<b>${prod.nombre}</b> - $${prod.precio} <br/><img src="${prod.imagen_url}" width="100"/> <hr/>`;
-      contenedor.appendChild(item);
-    });
-  }
-
-  function verZonaPrivada() {
-    const clave = document.getElementById("clave").value.trim();
-    if (clave === "trivo123") {
-      document.getElementById("zona-privada").style.display = "block";
-      document.getElementById("contenido-privado").innerHTML = "🎯 Bienvenido a la zona privada segura.";
-    } else {
-      alert("❌ Clave incorrecta");
-    }
-  }
-
-  function mostrarSeccion(seccion) {
-    if (seccion === 'publica') {
-      document.getElementById("productos-publicos").scrollIntoView({ behavior: 'smooth' });
-    } else if (seccion === 'privada') {
-      document.getElementById("zona-privada").scrollIntoView({ behavior: 'smooth' });
-    }
-  }
-
-
-  async function actualizarEstadisticas() {
-    const { data, error } = await supabase.from('mercancilla').select('*');
-    if (error || !data) return;
-
-    let total = data.length;
-    let valorTotal = data.reduce((sum, prod) => sum + (parseFloat(prod.precio) || 0), 0);
-
-    document.getElementById("totalProductos").textContent = total;
-    document.getElementById("valorInventario").textContent = valorTotal.toFixed(2);
-  }
-
-  async function exportarCSV() {
-    const { data, error } = await supabase.from('mercancilla').select('*');
-    if (error || !data) {
-      alert("❌ Error al exportar");
-      return;
-    }
-
-    let csv = "Nombre,Descripción,Precio,Categoría,Imagen URL\n";
-    data.forEach(prod => {
-      csv += `"${prod.nombre}","${prod.descripcion}",${prod.precio},"${prod.categoria}","${prod.imagen_url}"\n`;
-    });
-
-    const blob = new Blob([csv], { type: "text/csv" });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = "productos_trivo.csv";
-    link.click();
-  }
-
-  // Llamar estadísticas después de cargar productos
-  function mostrarProductosYEstadisticas() {
-    mostrarProductos();
-    actualizarEstadisticas();
-  }
-
-
-</script>
-
+    };
+  </script>
 </body>
 </html>
