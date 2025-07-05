@@ -1,146 +1,158 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Trivo Store</title>
   <style>
-    body { font-family: sans-serif; margin: 20px; }
-    .producto {
-      border: 1px solid #ccc;
-      padding: 10px;
-      width: 200px;
-      background-color: #f9f9f9;
-      margin: 10px;
-    }
-    .producto img {
-      max-width: 100%;
-      height: auto;
-    }
-    #productos-publicos, #productos-privados {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      margin-top: 20px;
-    }
-    #diagnostico-avanzado {
-      margin-top: 20px;
-      font-weight: bold;
-    }
-    .ok { color: green; }
+    body { font-family: Arial, sans-serif; background: #fff; color: #111; margin: 20px; }
+    h1 { font-size: 24px; }
+    input, button { padding: 6px; margin: 5px 0; }
+    .section { border: 1px solid #ccc; padding: 10px; margin-bottom: 20px; border-radius: 8px; background: #f9f9f9; }
+    .diagnostico { font-weight: bold; color: green; }
     .error { color: red; }
-    .verificando { color: orange; }
+    .success { color: green; }
+    .zona { font-weight: bold; color: purple; }
   </style>
 </head>
 <body>
-  <h1>Trivo Store</h1>
-  <button onclick="location.reload()">🔄 Recargar Página</button>
 
-  <div id="diagnostico-avanzado" class="verificando">🔍 Iniciando diagnóstico...</div>
+<h1>Trivo Store</h1>
+<div class="section">
+  <button onclick="mostrarSeccion('publica')">🛍️ Tienda Pública</button>
+  <button onclick="mostrarSeccion('privada')">🔒 Panel Privado</button>
+</div>
 
-  <section style="margin-top: 30px;">
-    <h2>🛍️ Productos en tienda</h2>
-    <div id="productos-publicos"></div>
-  </section>
+<div class="section" id="formulario-subida">
+  <h2>Subir nuevo producto</h2>
+  <input type="text" id="nombre" placeholder="Nombre del producto" />
+  <input type="text" id="descripcion" placeholder="Descripción" />
+  <input type="number" id="precio" placeholder="Precio" />
+  <input type="text" id="categoria" placeholder="Categoría" />
+  <input type="url" id="imagen" placeholder="URL de imagen" />
+  <button onclick="subirProducto()">Subir producto</button>
+</div>
 
-  <section style="margin-top: 30px;">
-    <h2>🔐 Zona Privada</h2>
-    <input type="password" id="clave" placeholder="Introduce la contraseña" />
-    <button onclick="verificarPrivado()">Ingresar</button>
-    <div id="zona-privada" style="display:none;">
-      <h3>🗂 Productos privados</h3>
-      <div id="productos-privados"></div>
-    </div>
-  </section>
+<div class="section">
+  <h3>Subir con palabras clave (Automático)</h3>
+  <button onclick="subirAuto('Drone 4K')">Subir Drone 4K</button>
+  <button onclick="subirAuto('Patineta Eléctrica')">Subir Patineta Eléctrica</button>
+  <button onclick="subirAuto('Audífonos Bluetooth')">Subir Audífonos Bluetooth</button>
+</div>
 
-  <script type="module">
-    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+<div class="section">
+  <h3>Iniciar sesión</h3>
+  <input type="password" id="clave" placeholder="Contraseña" />
+  <button onclick="verZonaPrivada()">Ingresar</button>
+</div>
 
-    const supabaseUrl = "https://uzqmsbkjontizhovxajx.supabase.co";
-    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmtqb250aXpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzMDY1NjYsImV4cCI6MjA2Mzg4MjU2Nn0.RtiBzB0k0qzFzsfgUZcIvW1eyu2VmVbEolCWQDkDwbU";
-    const supabase = createClient(supabaseUrl, supabaseKey);
+<div class="section zona" id="productos-publicos">
+  <h3>📦 Productos en tienda</h3>
+  <div id="lista-productos"></div>
+</div>
 
-    const diagnostico = document.getElementById("diagnostico-avanzado");
-    const contenedor = document.getElementById("productos-publicos");
-    const contenedorPrivado = document.getElementById("productos-privados");
+<div class="section zona" id="zona-privada" style="display:none;">
+  <h3>🔐 Zona Privada</h3>
+  <div id="contenido-privado"></div>
+</div>
 
-    async function cargarPublicos() {
-      if (!contenedor) return;
-      contenedor.innerHTML = "";
-      const { data, error } = await supabase.from("mercancilla").select("*").eq("categoria", "publico");
+<div class="section diagnostico" id="diagnostico-avanzado">
+  <p>🔍 Diagnóstico de conexión: <span id="estadoConexion">Iniciando diagnóstico...</span></p>
+</div>
 
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+  const supabaseUrl = 'https://uzqmsbkjontizhovxajx.supabase.co';
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmtqb250aXpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzMDY1NjYsImV4cCI6MjA2Mzg4MjU2Nn0.RtiBzB0k0qzFzsfgUZcIvW1eyu2VmVbEolCWQDkDwbU';
+  const supabase = createClient(supabaseUrl, supabaseKey);
+
+  const diagnostico = document.getElementById("estadoConexion");
+
+  async function diagnosticarConexion() {
+    try {
+      const { data, error } = await supabase.from('mercancilla').select('*').limit(1);
       if (error) {
-        diagnostico.textContent = "❌ Error al obtener productos: " + error.message;
-        diagnostico.className = "error";
-        return;
-      }
-
-      if (!data || data.length === 0) {
-        diagnostico.textContent = "⚠️ No hay productos públicos disponibles.";
-        diagnostico.className = "ok";
-        return;
-      }
-
-      diagnostico.textContent = `✅ ${data.length} producto(s) públicos cargados correctamente`;
-      diagnostico.className = "ok";
-
-      data.forEach((producto) => {
-        const card = document.createElement("div");
-        card.className = "producto";
-        card.innerHTML = `
-          <h3>${producto.nombre}</h3>
-          <img src="${producto.imagen_url || 'https://via.placeholder.com/200'}" alt="${producto.nombre}" />
-          <p><strong>Descripción:</strong> ${producto.descripcion}</p>
-          <p><strong>Categoría:</strong> ${producto.categoria}</p>
-          <p><strong>Precio:</strong> $${producto.precio ?? "N/D"}</p>
-        `;
-        contenedor.appendChild(card);
-      });
-    }
-
-    async function cargarPrivados() {
-      contenedorPrivado.innerHTML = "";
-      const { data, error } = await supabase.from("mercancilla").select("*").eq("categoria", "privado");
-
-      if (error) {
-        alert("❌ Error al cargar privados: " + error.message);
-        return;
-      }
-
-      if (!data || data.length === 0) {
-        contenedorPrivado.innerHTML = "<p>No hay productos privados.</p>";
-        return;
-      }
-
-      data.forEach((producto) => {
-        const card = document.createElement("div");
-        card.className = "producto";
-        card.innerHTML = `
-          <h3>${producto.nombre}</h3>
-          <img src="${producto.imagen_url || 'https://via.placeholder.com/200'}" alt="${producto.nombre}" />
-          <p><strong>Descripción:</strong> ${producto.descripcion}</p>
-          <p><strong>Categoría:</strong> ${producto.categoria}</p>
-          <p><strong>Precio:</strong> $${producto.precio ?? "N/D"}</p>
-        `;
-        contenedorPrivado.appendChild(card);
-      });
-    }
-
-    function verificarPrivado() {
-      const clave = document.getElementById("clave").value;
-      if (clave === "trivopriv") {
-        document.getElementById("zona-privada").style.display = "block";
-        cargarPrivados();
+        diagnostico.innerHTML = '❌ Error de conexión: ' + error.message;
+        diagnostico.classList.add("error");
       } else {
-        alert("❌ Contraseña incorrecta");
+        diagnostico.innerHTML = '✅ Conexión establecida correctamente';
+        diagnostico.classList.add("success");
+        console.log("Conexión exitosa a Supabase. Datos ejemplo:", data);
+        mostrarProductos();
       }
+    } catch (err) {
+      diagnostico.innerHTML = '❌ Fallo crítico: ' + err.message;
+      diagnostico.classList.add("error");
+      console.error("Error crítico de conexión:", err);
+    }
+  }
+
+  diagnosticarConexion();
+
+  async function subirProducto() {
+    const nombre = document.getElementById('nombre').value.trim();
+    const descripcion = document.getElementById('descripcion').value.trim();
+    const precio = parseFloat(document.getElementById('precio').value);
+    const categoria = document.getElementById('categoria').value.trim();
+    const imagen = document.getElementById('imagen').value.trim();
+
+    if (!nombre || isNaN(precio)) {
+      alert("Completa nombre y precio válidos.");
+      return;
     }
 
-    window.addEventListener("DOMContentLoaded", () => {
-      diagnostico.textContent = "⏳ Verificando conexión con Supabase...";
-      diagnostico.className = "verificando";
-      cargarPublicos();
+    const { error } = await supabase.from('mercancilla').insert([{ nombre, descripcion, precio, categoria, imagen_url: imagen }]);
+    if (error) {
+      alert("❌ Error al subir: " + error.message);
+    } else {
+      alert("✅ Producto subido con éxito");
+      mostrarProductos();
+    }
+  }
+
+  async function subirAuto(nombre) {
+    await supabase.from('mercancilla').insert([{ nombre, descripcion: 'Automático', precio: 99, categoria: 'Automático', imagen_url: 'https://via.placeholder.com/100' }]);
+    alert("✅ Producto automático subido");
+    mostrarProductos();
+  }
+
+  async function mostrarProductos() {
+    const { data, error } = await supabase.from('mercancilla').select('*');
+    const contenedor = document.getElementById('lista-productos');
+    contenedor.innerHTML = "";
+
+    if (error) {
+      contenedor.innerHTML = "❌ Error al cargar productos";
+      return;
+    }
+
+    data.forEach(prod => {
+      const item = document.createElement('div');
+      item.innerHTML = `<b>${prod.nombre}</b> - $${prod.precio} <br/><img src="${prod.imagen_url}" width="100"/> <hr/>`;
+      contenedor.appendChild(item);
     });
-  </script>
+  }
+
+  function verZonaPrivada() {
+    const clave = document.getElementById("clave").value.trim();
+    if (clave === "trivo123") {
+      document.getElementById("zona-privada").style.display = "block";
+      document.getElementById("contenido-privado").innerHTML = "🎯 Bienvenido a la zona privada segura.";
+    } else {
+      alert("❌ Clave incorrecta");
+    }
+  }
+
+  function mostrarSeccion(seccion) {
+    if (seccion === 'publica') {
+      document.getElementById("productos-publicos").scrollIntoView({ behavior: 'smooth' });
+    } else if (seccion === 'privada') {
+      document.getElementById("zona-privada").scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+</script>
+
 </body>
 </html>
