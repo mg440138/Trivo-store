@@ -2,22 +2,23 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Trivo Store Avanzado Diagnóstico Total</title>
+  <meta charset="UTF-8" />
+  <title>Trivo Store Diagnóstico Total Final</title>
   <style>
     body { font-family: Arial; background: #f4f4f4; margin: 20px; }
     h1 { color: #333; }
-    .producto { background: #fff; padding: 10px; margin-bottom: 10px; border-left: 4px solid #33c; }
-    .error { background: #fee; color: #900; padding: 10px; border: 1px solid #900; margin-bottom: 10px; }
-    .ok { background: #e0ffe0; padding: 10px; color: #060; border: 1px solid #060; margin-bottom: 10px; }
-    #estadoConexion, #estadoDatos { font-weight: bold; margin-top: 10px; }
+    .estado { font-weight: bold; margin: 10px 0; }
+    .ok { color: green; }
+    .error { color: red; }
+    .warn { color: orange; }
   </style>
 </head>
 <body>
-  <h1>🛠️ Trivo Store – Diagnóstico Total</h1>
-  <div id="estadoConexion">⏳ Verificando conexión a Supabase...</div>
-  <div id="estadoDatos">⏳ Esperando respuesta de datos...</div>
-  <div id="lista-productos">Cargando productos...</div>
+  <h1>🔎 Trivo Store – Diagnóstico Total Final</h1>
+  <div id="estadoConexion" class="estado">⏳ Verificando conexión a Supabase...</div>
+  <div id="estadoTabla" class="estado">⏳ Verificando tabla 'mercancilla'...</div>
+  <div id="estadoDatos" class="estado">⏳ Cargando productos...</div>
+  <div id="lista-productos"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script>
@@ -25,60 +26,67 @@
     const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmtqb250aXpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzMDY1NjYsImV4cCI6MjA2Mzg4MjU2Nn0.RtiBzB0k0qzFzsfgUZcIvW1eyu2VmVbEolCWQDkDwbU";
     const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-    async function mostrarProductos() {
-      const estado = document.getElementById("estadoConexion");
+    async function diagnosticoTotal() {
+      const estadoConexion = document.getElementById("estadoConexion");
+      const estadoTabla = document.getElementById("estadoTabla");
       const estadoDatos = document.getElementById("estadoDatos");
       const lista = document.getElementById("lista-productos");
 
-      estado.textContent = "🔄 Consultando Supabase...";
-      lista.innerHTML = "<em>🕵️ Buscando productos en base de datos...</em>";
-
       try {
+        estadoConexion.textContent = "🔌 Conectando a Supabase...";
+        const prueba = await supabase.from("mercancilla").select("*").limit(1);
+
+        if (prueba.error) {
+          estadoConexion.textContent = "❌ Error al conectar a Supabase.";
+          estadoConexion.className = "estado error";
+          console.error("Error conexión Supabase:", prueba.error.message);
+          return;
+        }
+
+        estadoConexion.textContent = "✅ Conexión a Supabase exitosa.";
+        estadoConexion.className = "estado ok";
+
+        if (!Array.isArray(prueba.data)) {
+          estadoTabla.textContent = "❌ La tabla 'mercancilla' no es válida.";
+          estadoTabla.className = "estado error";
+          return;
+        }
+
+        estadoTabla.textContent = "✅ Tabla 'mercancilla' detectada.";
+        estadoTabla.className = "estado ok";
+
+        if (prueba.data.length === 0) {
+          estadoDatos.textContent = "⚠️ Conexión OK pero no hay productos.";
+          estadoDatos.className = "estado warn";
+          return;
+        }
+
         const { data, error } = await supabase.from("mercancilla").select("*");
-
         if (error) {
-          console.error("❌ Error Supabase:", error.message);
-          estado.textContent = "❌ Error Supabase";
-          estadoDatos.innerHTML = "<div class='error'>❌ Supabase dice: " + error.message + "</div>";
+          estadoDatos.textContent = "❌ Error al cargar productos.";
+          estadoDatos.className = "estado error";
+          console.error("Error carga productos:", error.message);
           return;
         }
 
-        if (!data || data.length === 0) {
-          estado.textContent = "⚠️ Conectado pero sin datos";
-          estadoDatos.innerHTML = "<div class='error'>⚠️ No se encontraron productos</div>";
-          return;
-        }
+        estadoDatos.textContent = "✅ Productos cargados correctamente.";
+        estadoDatos.className = "estado ok";
 
         lista.innerHTML = "";
         data.forEach(p => {
           const div = document.createElement("div");
-          div.className = "producto";
-          div.innerHTML = `<strong>${p.nombre}</strong><br>${p.descripcion}<br>${p.precio} USD<br><img src="${p.imagen_url}" width="100">`;
+          div.innerHTML = `<strong>${p.nombre}</strong> - ${p.descripcion} - $${p.precio}`;
           lista.appendChild(div);
         });
 
-        estado.textContent = "✅ Conectado a Supabase";
-        estadoDatos.innerHTML = "<div class='ok'>✅ Productos cargados correctamente</div>";
       } catch (err) {
-        console.error("❌ Error general:", err.message);
-        estado.textContent = "❌ Error general";
-        estadoDatos.innerHTML = "<div class='error'>❌ Fallo inesperado: " + err.message + "</div>";
+        estadoConexion.textContent = "❌ Fallo inesperado en diagnóstico.";
+        estadoConexion.className = "estado error";
+        console.error("Fallo general:", err);
       }
     }
 
-    function actualizarEstadisticas() {
-      console.log("📊 Estadísticas cargadas");
-      // Aquí podrías agregar más estadísticas o gráficos si lo deseas
-    }
-
-    function mostrarProductosYEstadisticas() {
-      mostrarProductos();
-      actualizarEstadisticas();
-    }
-
-    window.onload = function () {
-      mostrarProductosYEstadisticas();
-    };
+    window.onload = diagnosticoTotal;
   </script>
 </body>
 </html>
