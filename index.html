@@ -3,210 +3,123 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Trivo Store</title>
+  <title>Trivo Store</title>
   <style>
-    /* Estilos básicos para layout */
-    #productos, #productos-publicos {
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    #diagnostico-avanzado {
+      padding: 8px;
+      font-size: 14px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      max-width: 90%;
+      white-space: pre-line;
+    }
+
+    #diagnostico-avanzado.verificando { background-color: #fff3cd; color: #856404; }
+    #diagnostico-avanzado.ok          { background-color: #d4edda; color: #155724; }
+    #diagnostico-avanzado.error       { background-color: #f8d7da; color: #721c24; }
+
+    .producto {
+      border: 1px solid #ccc;
+      padding: 10px;
+      width: 200px;
+      margin: 10px;
+      background-color: #f9f9f9;
+    }
+
+    .producto img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    #productos-publicos {
       display: flex;
       flex-wrap: wrap;
       gap: 20px;
     }
-    .producto, .producto-card {
-      border: 1px solid #ccc;
-      padding: 10px;
-      width: 220px;
-      background: #f9f9f9;
-    }
-    .producto img, .producto-card img {
-      max-width: 100%;
-      height: auto;
-    }
-    #diagnostico, #diagnostico-avanzado {
-      position: fixed; top: 10px; right: 10px;
-      background: rgba(0,0,0,0.75); color: #fff;
-      padding: 10px; border-radius: 8px;
-      font-size: 14px; z-index: 9999;
-      max-width: 90%; white-space: pre-line;
-    }
-    #diagnostico.ok { border-left: 5px solid #00ff99; background: #d4edda; color: #155724; }
-    #diagnostico.error { border-left: 5px solid #ff4444; background: #f8d7da; color: #721c24; }
-    #diagnostico.verificando { border-left: 5px solid #ffeeba; background: #fff3cd; color: #856404; }
-
   </style>
 </head>
 <body>
 
-  <div id="diagnostico" class="verificando">🔄 Iniciando...</div>
+  <h1>Trivo Store</h1>
 
-  <header>
-    <h1>Trivo Store</h1>
-    <nav>
-      <button onclick="show('seccion-publica')">Tienda Pública</button>
-      <button onclick="show('seccion-privada')">Panel Privado</button>
-    </nav>
-  </header>
+  <div id="diagnostico-avanzado" class="verificando">🛠️ Iniciando diagnóstico...</div>
 
-  <main>
-    <!-- Sección pública -->
-    <section id="seccion-publica">
-      <h2>Productos disponibles</h2>
-      <div id="productos-publicos" class="grid-productos"></div>
-    </section>
-
-    <!-- Sección privada -->
-    <section id="seccion-privada" style="display:none">
-      <h2>Zona Privada 🔒</h2>
-      <input type="password" id="clave" placeholder="Contraseña" />
-      <button onclick="login()">Ingresar</button>
-
-      <div id="privado" style="display:none; margin-top:20px;">
-        <h3>📝 Subir producto manual</h3>
-        <form id="form-subida">
-          <input id="nombre" required placeholder="Nombre" /><br/>
-          <textarea id="descripcion" required placeholder="Descripción"></textarea><br/>
-          <input id="precio" required type="number" placeholder="Precio" /><br/>
-          <input id="categoria" required placeholder="Categoría" /><br/>
-          <input id="imagen_url" required type="url" placeholder="URL imagen" /><br/>
-          <button type="submit">Subir</button>
-        </form>
-
-        <h3>Subida automática</h3>
-        <button data-key="drone 4K">Drone 4K</button>
-        <button data-key="patineta eléctrica">Patineta</button>
-        <button data-key="audífonos bluetooth">Audífonos</button>
-      </div>
-    </section>
-
-  </main>
-
-  <footer>
-    <p>&copy; 2025 Trivo Store</p>
-  </footer>
+  <h2>🛍️ Productos en tienda</h2>
+  <section style="margin-top: 30px;">
+    <h2>📦 Productos cargados públicamente</h2>
+    <div id="productos-publicos"></div>
+  </section>
 
   <script type="module">
     import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
-    const URL = "https://uzqmsbkjontizhoxvajx.supabase.co";
-    const KEY = "eyJhbGciO..."; // tu clave completa
-    const sb = createClient(URL, KEY);
 
-    // Diagnóstico base
-    async function diagnostico() {
-      const diag = document.getElementById("diagnostico");
-      diag.textContent = "🔄 Verificando conexión...";
-      diag.className = "verificando";
+    const supabaseUrl = 'https://uzqmsbkjontizhovxajx.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmtqb250aXpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzMDY1NjYsImV4cCI6MjA2Mzg4MjU2Nn0.RtiBzB0k0qzFzsfgUZcIvW1eyu2VmVbEolCWQDkDwbU';
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    const diagnostico = document.getElementById("diagnostico-avanzado");
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      diagnostico.textContent = "⏳ Verificando conexión con Supabase...";
+      diagnostico.className = "verificando";
 
       try {
-        let { data, error } = await sb.from("mercancilla").select("*").limit(1);
-        if (error) throw error;
-        diag.textContent = "✅ Conectado a Supabase";
-        diag.className = "ok";
-      } catch (e) {
-        diag.textContent = "❌ Error Supabase:\n" + e.message;
-        diag.className = "error";
+        const { data, error } = await supabase.from("mercancilla").select("*").limit(1);
+
+        if (error) {
+          console.error("❌ Error:", error.message);
+          diagnostico.textContent = "❌ Error al conectar con Supabase.";
+          diagnostico.className = "error";
+        } else {
+          console.log("✅ Conexión exitosa con Supabase");
+          diagnostico.textContent = "✅ Conexión exitosa con Supabase.";
+          diagnostico.className = "ok";
+          cargarPublicos();
+        }
+      } catch (err) {
+        console.error("❌ Error inesperado:", err.message);
+        diagnostico.textContent = "❌ Error inesperado al verificar conexión.";
+        diagnostico.className = "error";
       }
-    }
+    });
 
-    diagnostico();  // Lanzar diagnóstico al inicio
-
-    // Mostrar secciones
-    window.show = id => {
-      ["seccion-publica","seccion-privada"].forEach(s => {
-        document.getElementById(s).style.display = (s===id ? "block" : "none");
-      });
-    };
-
-    // Login por contraseña
-    window.login = () => {
-      if (document.getElementById("clave").value === "Trivo2025") {
-        document.getElementById("privado").style.display = "block";
-        cargarPublicos();
-      } else alert("🔒 Contraseña incorrecta.");
-    };
-
-    // Carga productos visibles
     async function cargarPublicos() {
-      const { data, error } = await sb.from("mercancilla").select("*").order("id", {ascending:false});
-      const cont = document.getElementById("productos-publicos");
-      cont.innerHTML = "";
+      const contenedor = document.getElementById("productos-publicos");
+      if (!contenedor) return;
+
+      contenedor.innerHTML = "";
+
+      const { data, error } = await supabase.from("mercancilla").select("*");
 
       if (error) {
-        cont.textContent = "❌ Error: " + error.message;
+        contenedor.innerHTML = "<p style='color:red;'>❌ No se pudieron cargar los productos.</p>";
+        console.error("❌ Error al obtener productos:", error.message);
         return;
       }
-      if (!data.length) {
-        cont.textContent = "⚠️ No hay productos aún.";
+
+      if (data.length === 0) {
+        contenedor.innerHTML = "<p>No hay productos disponibles.</p>";
         return;
       }
-      data.forEach(p => {
-        const div = document.createElement("div");
-        div.className = "producto-card";
-        div.innerHTML = `
-          <img src="${p.imagen_url}" alt="${p.nombre}" />
-          <h4>${p.nombre}</h4>
-          <p>${p.descripcion}</p>
-          <strong>$${p.precio}</strong>
-          <em>${p.categoria}</em>
+
+      data.forEach((producto) => {
+        const card = document.createElement("div");
+        card.className = "producto";
+        card.innerHTML = `
+          <h3>${producto.nombre}</h3>
+          <img src="${producto.imagen_url || 'https://via.placeholder.com/200'}" alt="${producto.nombre}" />
+          <p><strong>Descripción:</strong> ${producto.descripcion}</p>
+          <p><strong>Categoría:</strong> ${producto.categoria}</p>
+          <p><strong>Precio:</strong> $${producto.precio ?? "N/D"}</p>
         `;
-        cont.appendChild(div);
+        contenedor.appendChild(card);
       });
     }
-
-    // Evento de formulario manual
-    document.getElementById("form-subida").addEventListener("submit", async e => {
-      e.preventDefault();
-      const nuevo = {
-        nombre: document.getElementById("nombre").value,
-        descripcion: document.getElementById("descripcion").value,
-        precio: parseFloat(document.getElementById("precio").value),
-        categoria: document.getElementById("categoria").value,
-        imagen_url: document.getElementById("imagen_url").value
-      };
-      const { error } = await sb.from("mercancilla").insert(nuevo);
-      if (error) alert("❌ " + error.message);
-      else { alert("✅ Subido manual"); cargarPublicos(); e.target.reset(); }
-    });
-
-    // Evento de botones automáticos
-    document.querySelectorAll("[data-key]").forEach(btn => {
-      btn.addEventListener("click", async () => {
-        const key = btn.dataset.key;
-        const res = await fetch(`https://api.mercadolibre.com/sites/MLM/search?q=${encodeURIComponent(key)}`);
-        const json = await res.json();
-        const p = json.results[0];
-        if (!p) return alert("❌ No encontrado");
-        const nuevo = {
-          nombre: p.title,
-          descripcion: "Importado ML",
-          precio: p.price,
-          categoria: p.category_id,
-          imagen_url: p.thumbnail
-        };
-        const { error } = await sb.from("mercancilla").insert(nuevo);
-        if (error) alert("❌ " + error.message);
-        else { alert("✅ Subido: " + p.title); cargarPublicos(); }
-      });
-    });
-
-    // Al cargar la página, muestra productos públicos
-    window.addEventListener("DOMContentLoaded", cargarPublicos);
   </script>
-  <section style="margin-top: 30px;">
-  <h2>🛒 Productos cargados públicamente</h2>
-  <div id="productos-publicos" style="display: flex; flex-wrap: wrap; gap: 20px;"></div>
-</section>
-
-<style>
-  .producto {
-    border: 1px solid #ccc;
-    padding: 10px;
-    width: 200px;
-    background-color: #f9f9f9;
-  }
-  .producto img {
-    max-width: 100%;
-    height: auto;
-  }
-</style>
 </body>
 </html>
-
