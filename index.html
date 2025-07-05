@@ -3,19 +3,20 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Trivo Store Pro</title>
+  <title>Trivo Store Avanzado Diagnóstico Total</title>
   <style>
     body { font-family: Arial; background: #f4f4f4; margin: 20px; }
     h1 { color: #333; }
     .producto { background: #fff; padding: 10px; margin-bottom: 10px; border-left: 4px solid #33c; }
-    .error { background: #ffe0e0; padding: 10px; color: #900; border: 1px solid #900; margin-bottom: 10px; }
+    .error { background: #fee; color: #900; padding: 10px; border: 1px solid #900; margin-bottom: 10px; }
     .ok { background: #e0ffe0; padding: 10px; color: #060; border: 1px solid #060; margin-bottom: 10px; }
-    #estadoConexion { font-weight: bold; }
+    #estadoConexion, #estadoDatos { font-weight: bold; margin-top: 10px; }
   </style>
 </head>
 <body>
-  <h1>🛒 Trivo Store — Diagnóstico Avanzado</h1>
+  <h1>🛠️ Trivo Store – Diagnóstico Total</h1>
   <div id="estadoConexion">⏳ Verificando conexión a Supabase...</div>
+  <div id="estadoDatos">⏳ Esperando respuesta de datos...</div>
   <div id="lista-productos">Cargando productos...</div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
@@ -25,23 +26,26 @@
     const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
     async function mostrarProductos() {
+      const estado = document.getElementById("estadoConexion");
+      const estadoDatos = document.getElementById("estadoDatos");
       const lista = document.getElementById("lista-productos");
-      lista.innerHTML = "<em>⏳ Buscando productos...</em>";
-      document.getElementById("estadoConexion").textContent = "⏳ Consultando base de datos...";
+
+      estado.textContent = "🔄 Consultando Supabase...";
+      lista.innerHTML = "<em>🕵️ Buscando productos en base de datos...</em>";
 
       try {
-        const { data, error } = await supabase.from('mercancilla').select('*');
+        const { data, error } = await supabase.from("mercancilla").select("*");
 
         if (error) {
           console.error("❌ Error Supabase:", error.message);
-          lista.innerHTML = "<div class='error'>❌ Error al cargar productos: " + error.message + "</div>";
-          document.getElementById("estadoConexion").textContent = "❌ Error de conexión con Supabase.";
+          estado.textContent = "❌ Error Supabase";
+          estadoDatos.innerHTML = "<div class='error'>❌ Supabase dice: " + error.message + "</div>";
           return;
         }
 
         if (!data || data.length === 0) {
-          lista.innerHTML = "<div class='error'>⚠️ Supabase conectado pero sin productos.</div>";
-          document.getElementById("estadoConexion").textContent = "⚠️ Conexión OK pero sin datos.";
+          estado.textContent = "⚠️ Conectado pero sin datos";
+          estadoDatos.innerHTML = "<div class='error'>⚠️ No se encontraron productos</div>";
           return;
         }
 
@@ -49,22 +53,22 @@
         data.forEach(p => {
           const div = document.createElement("div");
           div.className = "producto";
-          div.innerHTML = `<strong>${p.nombre}</strong><br>${p.descripcion}<br>💲 ${p.precio}<br><img src="${p.imagen_url}" width="100"><hr>`;
+          div.innerHTML = `<strong>${p.nombre}</strong><br>${p.descripcion}<br>${p.precio} USD<br><img src="${p.imagen_url}" width="100">`;
           lista.appendChild(div);
         });
 
-        document.getElementById("estadoConexion").textContent = "✅ Conexión y carga exitosa de productos.";
-
+        estado.textContent = "✅ Conectado a Supabase";
+        estadoDatos.innerHTML = "<div class='ok'>✅ Productos cargados correctamente</div>";
       } catch (err) {
-        console.error("❌ Error general:", err);
-        lista.innerHTML = "<div class='error'>❌ Fallo general al mostrar productos: " + err.message + "</div>";
-        document.getElementById("estadoConexion").textContent = "❌ Error inesperado: " + err.message;
+        console.error("❌ Error general:", err.message);
+        estado.textContent = "❌ Error general";
+        estadoDatos.innerHTML = "<div class='error'>❌ Fallo inesperado: " + err.message + "</div>";
       }
     }
 
     function actualizarEstadisticas() {
-      console.log("📊 Estadísticas activadas");
-      // Aquí podrías mostrar gráficas, porcentajes o totales
+      console.log("📊 Estadísticas cargadas");
+      // Aquí podrías agregar más estadísticas o gráficos si lo deseas
     }
 
     function mostrarProductosYEstadisticas() {
