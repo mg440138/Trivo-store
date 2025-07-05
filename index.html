@@ -5,10 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Trivo Store</title>
   <style>
-    body {
-      font-family: sans-serif;
-      margin: 20px;
-    }
+    body { font-family: sans-serif; margin: 20px; }
     .producto {
       border: 1px solid #ccc;
       padding: 10px;
@@ -20,7 +17,7 @@
       max-width: 100%;
       height: auto;
     }
-    #productos-publicos {
+    #productos-publicos, #productos-privados {
       display: flex;
       flex-wrap: wrap;
       gap: 20px;
@@ -30,82 +27,120 @@
       margin-top: 20px;
       font-weight: bold;
     }
-    .ok {
-      color: green;
-    }
-    .error {
-      color: red;
-    }
-    .verificando {
-      color: orange;
-    }
+    .ok { color: green; }
+    .error { color: red; }
+    .verificando { color: orange; }
   </style>
 </head>
 <body>
+  <h1>Trivo Store</h1>
+  <button onclick="location.reload()">🔄 Recargar Página</button>
 
-<h1>Trivo Store</h1>
+  <div id="diagnostico-avanzado" class="verificando">🔍 Iniciando diagnóstico...</div>
 
-<button onclick="location.reload()">Recargar Página</button>
+  <section style="margin-top: 30px;">
+    <h2>🛍️ Productos en tienda</h2>
+    <div id="productos-publicos"></div>
+  </section>
 
-<div id="diagnostico-avanzado" class="verificando">🛠️ Iniciando diagnóstico...</div>
+  <section style="margin-top: 30px;">
+    <h2>🔐 Zona Privada</h2>
+    <input type="password" id="clave" placeholder="Introduce la contraseña" />
+    <button onclick="verificarPrivado()">Ingresar</button>
+    <div id="zona-privada" style="display:none;">
+      <h3>🗂 Productos privados</h3>
+      <div id="productos-privados"></div>
+    </div>
+  </section>
 
-<section style="margin-top: 30px;">
-  <h2>📦 Productos cargados públicamente</h2>
-  <div id="productos-publicos"></div>
-</section>
+  <script type="module">
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-<script type="module">
-  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+    const supabaseUrl = "https://uzqmsbkjontizhovxajx.supabase.co";
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmtqb250aXpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzMDY1NjYsImV4cCI6MjA2Mzg4MjU2Nn0.RtiBzB0k0qzFzsfgUZcIvW1eyu2VmVbEolCWQDkDwbU";
+    const supabase = createClient(supabaseUrl, supabaseKey);
 
-  const supabaseUrl = 'https://uzqmsbkjontizhovxajx.supabase.co';
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'; // Reemplaza con tu key completa
-  const supabase = createClient(supabaseUrl, supabaseKey);
-
-  const diagnostico = document.getElementById("diagnostico-avanzado");
-
-  async function cargarPublicos() {
+    const diagnostico = document.getElementById("diagnostico-avanzado");
     const contenedor = document.getElementById("productos-publicos");
-    if (!contenedor) return;
+    const contenedorPrivado = document.getElementById("productos-privados");
 
-    contenedor.innerHTML = "";
+    async function cargarPublicos() {
+      if (!contenedor) return;
+      contenedor.innerHTML = "";
+      const { data, error } = await supabase.from("mercancilla").select("*").eq("categoria", "publico");
 
-    const { data, error } = await supabase.from("mercancilla").select("*");
+      if (error) {
+        diagnostico.textContent = "❌ Error al obtener productos: " + error.message;
+        diagnostico.className = "error";
+        return;
+      }
 
-    if (error) {
-      diagnostico.textContent = "❌ Error al obtener productos: " + error.message;
-      diagnostico.className = "error";
-      return;
-    }
+      if (!data || data.length === 0) {
+        diagnostico.textContent = "⚠️ No hay productos públicos disponibles.";
+        diagnostico.className = "ok";
+        return;
+      }
 
-    if (!data || data.length === 0) {
-      diagnostico.textContent = "⚠️ No hay productos disponibles.";
+      diagnostico.textContent = `✅ ${data.length} producto(s) públicos cargados correctamente`;
       diagnostico.className = "ok";
-      return;
+
+      data.forEach((producto) => {
+        const card = document.createElement("div");
+        card.className = "producto";
+        card.innerHTML = `
+          <h3>${producto.nombre}</h3>
+          <img src="${producto.imagen_url || 'https://via.placeholder.com/200'}" alt="${producto.nombre}" />
+          <p><strong>Descripción:</strong> ${producto.descripcion}</p>
+          <p><strong>Categoría:</strong> ${producto.categoria}</p>
+          <p><strong>Precio:</strong> $${producto.precio ?? "N/D"}</p>
+        `;
+        contenedor.appendChild(card);
+      });
     }
 
-    diagnostico.textContent = `✅ ${data.length} producto(s) cargado(s) correctamente`;
-    diagnostico.className = "ok";
+    async function cargarPrivados() {
+      contenedorPrivado.innerHTML = "";
+      const { data, error } = await supabase.from("mercancilla").select("*").eq("categoria", "privado");
 
-    data.forEach((producto) => {
-      const card = document.createElement("div");
-      card.className = "producto";
-      card.innerHTML = `
-        <h3>${producto.nombre}</h3>
-        <img src="${producto.imagen_url || 'https://via.placeholder.com/200'}" alt="${producto.nombre}" />
-        <p><strong>Descripción:</strong> ${producto.descripcion}</p>
-        <p><strong>Categoría:</strong> ${producto.categoria}</p>
-        <p><strong>Precio:</strong> $${producto.precio ?? "N/D"}</p>
-      `;
-      contenedor.appendChild(card);
+      if (error) {
+        alert("❌ Error al cargar privados: " + error.message);
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        contenedorPrivado.innerHTML = "<p>No hay productos privados.</p>";
+        return;
+      }
+
+      data.forEach((producto) => {
+        const card = document.createElement("div");
+        card.className = "producto";
+        card.innerHTML = `
+          <h3>${producto.nombre}</h3>
+          <img src="${producto.imagen_url || 'https://via.placeholder.com/200'}" alt="${producto.nombre}" />
+          <p><strong>Descripción:</strong> ${producto.descripcion}</p>
+          <p><strong>Categoría:</strong> ${producto.categoria}</p>
+          <p><strong>Precio:</strong> $${producto.precio ?? "N/D"}</p>
+        `;
+        contenedorPrivado.appendChild(card);
+      });
+    }
+
+    function verificarPrivado() {
+      const clave = document.getElementById("clave").value;
+      if (clave === "trivopriv") {
+        document.getElementById("zona-privada").style.display = "block";
+        cargarPrivados();
+      } else {
+        alert("❌ Contraseña incorrecta");
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      diagnostico.textContent = "⏳ Verificando conexión con Supabase...";
+      diagnostico.className = "verificando";
+      cargarPublicos();
     });
-  }
-
-  window.addEventListener("DOMContentLoaded", () => {
-    diagnostico.textContent = "⏳ Verificando conexión con Supabase...";
-    diagnostico.className = "verificando";
-    cargarPublicos();
-  });
-</script>
-
+  </script>
 </body>
 </html>
