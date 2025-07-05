@@ -5,104 +5,60 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Trivo Store</title>
-  <link rel="icon" type="image/png" href="https://fav.farm/🛒">
 </head>
-<body style="font-family: sans-serif; margin: 2rem;">
-
+<body>
   <h1>🛍️ Trivo Store</h1>
-  <div id="diagnostico-avanzado" style="margin-bottom: 1rem; padding: 1rem; border: 1px solid #ccc;">
-    <p>🔍 <strong>Iniciando diagnóstico...</strong></p>
-    <div id="estado-supabase">🟡 Verificando conexión con Supabase...</div>
-    <div id="estado-productos">🟡 Verificando productos...</div>
+  <p id="diagnostico">⏳ Iniciando diagnóstico...</p>
+  <h2>🧾 Productos Disponibles</h2>
+  <div id="productos"></div>
+  <h2>🔐 Panel Privado (Contraseña: trivo2025)</h2>
+  <input type="password" id="clave" placeholder="Introduce la contraseña" />
+  <button onclick="entrar()">Entrar</button>
+  <div id="privado" style="display:none;">
+    <p>Bienvenido al panel privado.</p>
   </div>
 
-  <section id="productos-publicos">
-    <h2>🛒 Productos Disponibles</h2>
-    <ul id="lista-productos"></ul>
-  </section>
-
-  <section id="panel-privado" style="margin-top: 2rem;">
-    <h2>🔐 Panel Privado (Contraseña: trivo2025)</h2>
-    <input type="password" id="clave" placeholder="Introduce la contraseña"/>
-    <button onclick="mostrarFormulario()">Entrar</button>
-
-    <div id="formulario" style="display:none; margin-top: 1rem;">
-      <input type="text" id="nombre" placeholder="Nombre del producto" required/><br>
-      <input type="number" id="precio" placeholder="Precio ($)" required/><br>
-      <input type="text" id="categoria" placeholder="Categoría" required/><br>
-      <input type="url" id="imagen_url" placeholder="URL de la imagen" required/><br>
-      <button onclick="subirProducto()">Subir Producto</button>
-    </div>
-  </section>
-
   <script type="module">
+    const diagnostico = document.getElementById("diagnostico");
+    const productosDiv = document.getElementById("productos");
+
+    diagnostico.innerText = "✅ Conectando con Supabase...";
+    const SUPABASE_URL = "https://uzqmsbkjontizhovxajx.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmtqb250aXpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzMDY1NjYsImV4cCI6MjA2Mzg4MjU2Nn0.RtiBzB0k0qzFzsfgUZcIvW1eyu2VmVbEolCWQDkDwbU";
+
     import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    const supabaseUrl = "https://uzqmsbkjontizhovxajx.supabase.co";
-    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmtqb250aXpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzMDY1NjYsImV4cCI6MjA2Mzg4MjU2Nn0.RtiBzB0k0qzFzsfgUZcIvW1eyu2VmVbEolCWQDkDwbU";
-    const supabase = createClient(supabaseUrl, supabaseKey);
-
-    const diagnostico = document.getElementById("diagnostico-avanzado");
-    const estadoSupabase = document.getElementById("estado-supabase");
-    const estadoProductos = document.getElementById("estado-productos");
-
-    async function cargarProductos() {
+    async function mostrarProductos() {
       try {
         const { data, error } = await supabase.from("mercancilla").select("*");
-        if (error) throw error;
-        if (!data || data.length === 0) {
-          estadoProductos.innerText = "⚠️ No se encontraron productos.";
-        } else {
-          estadoProductos.innerText = "✅ Productos cargados correctamente.";
-          const lista = document.getElementById("lista-productos");
-          lista.innerHTML = "";
-          data.forEach(prod => {
-            const li = document.createElement("li");
-            li.innerHTML = `<strong>${prod.nombre}</strong> - $${prod.precio} - ${prod.categoria}<br><img src="${prod.imagen_url}" alt="imagen" width="100"/>`;
-            lista.appendChild(li);
-          });
+        if (error) {
+          diagnostico.innerText = "❌ Error al obtener productos: " + error.message;
+          return;
         }
-      } catch (e) {
-        estadoProductos.innerText = "❌ Error cargando productos: " + e.message;
+        diagnostico.innerText = "✅ Productos cargados correctamente";
+        if (data.length === 0) {
+          productosDiv.innerHTML = "<p>No hay productos aún.</p>";
+        } else {
+          productosDiv.innerHTML = data.map(p =>
+            `<div><strong>${p.nombre}</strong> - ${p.precio}<br>${p.descripcion}</div><hr>`
+          ).join("");
+        }
+      } catch (err) {
+        diagnostico.innerText = "❌ Error general: " + err.message;
       }
     }
 
-    async function probarConexion() {
-      try {
-        const { error } = await supabase.from("mercancilla").select("*").limit(1);
-        if (error) throw error;
-        estadoSupabase.innerText = "✅ Conexión exitosa con Supabase.";
-        cargarProductos();
-      } catch (e) {
-        estadoSupabase.innerText = "❌ Error de conexión con Supabase: " + e.message;
-      }
-    }
+    mostrarProductos();
 
-    function mostrarFormulario() {
+    function entrar() {
       const clave = document.getElementById("clave").value;
       if (clave === "trivo2025") {
-        document.getElementById("formulario").style.display = "block";
+        document.getElementById("privado").style.display = "block";
       } else {
         alert("Contraseña incorrecta");
       }
     }
-
-    async function subirProducto() {
-      const nombre = document.getElementById("nombre").value;
-      const precio = document.getElementById("precio").value;
-      const categoria = document.getElementById("categoria").value;
-      const imagen_url = document.getElementById("imagen_url").value;
-
-      const { error } = await supabase.from("mercancilla").insert([{ nombre, precio, categoria, imagen_url }]);
-      if (error) {
-        alert("❌ Error al subir producto: " + error.message);
-      } else {
-        alert("✅ Producto subido correctamente.");
-        cargarProductos();
-      }
-    }
-
-    probarConexion();
   </script>
 </body>
 </html>
