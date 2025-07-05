@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Trivo Store</title>
   <style>
     body {
@@ -11,88 +11,78 @@
       color: #000;
       padding: 20px;
     }
-    h1 { color: #8A2BE2; }
-    .producto { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; }
-    .error { color: red; font-weight: bold; }
-    .exito { color: green; font-weight: bold; }
-    #panel-privado { margin-top: 30px; display: none; }
+    .producto {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    .error {
+      color: red;
+      font-weight: bold;
+    }
+    .exito {
+      color: green;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
   <h1>🛍️ Trivo Store</h1>
   <div id="estado-conexion">⏳ Verificando conexión con Supabase...</div>
-
   <h2>📦 Productos Disponibles</h2>
   <div id="lista-productos"></div>
-
-  <h3>🔐 Panel Privado (Contraseña: trivo2025)</h3>
-  <input type="password" id="clave-privada" placeholder="Introduce la contraseña" />
-  <button onclick="mostrarPanel()">🟨 Entrar</button>
-
-  <div id="panel-privado">
-    <h3>✅ Acceso autorizado 🔓</h3>
-    <p>Aquí puedes agregar productos o mostrar funciones administrativas.</p>
-  </div>
 
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-    const supabase = createClient(
-      'https://uzqmsbkjontizhovxajx.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmtqb250aXpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzMDY1NjYsImV4cCI6MjA2Mzg4MjU2Nn0.RtiBzB0k0qzFzsfgUZcIvW1eyu2VmVbEolCWQDkDwbU'
-    );
+    const supabaseUrl = 'https://uzqmsbkjontizhovxajx.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmtqb250aXpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzMDY1NjYsImV4cCI6MjA2Mzg4MjU2Nn0.RtiBzB0k0qzFzsfgUZcIvW1eyu2VmVbEolCWQDkDwbU';
+    const supabase = createClient(supabaseUrl, supabaseKey);
 
     async function verificarConexion() {
-      const { error } = await supabase.from('mercancilla').select('*').limit(1);
-      const estado = document.getElementById('estado-conexion');
-      if (error) {
-        console.error('❌ Error de conexión con Supabase:', error.message);
-        estado.innerHTML = '❌ Error de conexión a Supabase';
-        estado.className = 'error';
-      } else {
-        estado.innerHTML = '✅ Conexión exitosa a Supabase';
-        estado.className = 'exito';
-        cargarProductos();
+      try {
+        const { data: testData, error: testError } = await supabase.from('mercancilla').select('*').limit(1);
+        const estadoDiv = document.getElementById('estado-conexion');
+        if (testError) {
+          estadoDiv.innerHTML = '<span class="error">❌ Error de conexión a Supabase</span>';
+        } else {
+          estadoDiv.innerHTML = '<span class="exito">✅ Conectado correctamente a Supabase</span>';
+          cargarProductos();  // 👈 LLAMAR AQUÍ LA FUNCIÓN PARA MOSTRAR LOS PRODUCTOS
+        }
+      } catch (e) {
+        document.getElementById('estado-conexion').innerHTML = '<span class="error">❌ Error inesperado: ' + e.message + '</span>';
       }
     }
 
     async function cargarProductos() {
       try {
-        const { data: productos, error } = await supabase.from('mercancilla').select('*');
         const contenedor = document.getElementById('lista-productos');
+        const { data, error } = await supabase.from('mercancilla').select('*');
 
-        if (error) throw error;
-
-        if (!productos || productos.length === 0) {
-          contenedor.innerHTML = '<div class="error">⚠️ No hay productos disponibles.</div>';
+        if (error) {
+          contenedor.innerHTML = '<div class="error">❌ Error al obtener productos: ' + error.message + '</div>';
           return;
         }
 
-        productos.forEach(producto => {
+        if (!data || data.length === 0) {
+          contenedor.innerHTML = '<div class="error">❌ No hay productos disponibles.</div>';
+          return;
+        }
+
+        data.forEach(producto => {
           const div = document.createElement('div');
           div.className = 'producto';
-          div.innerHTML = \`
-            <strong>🛒 \${producto.nombre || 'Sin nombre'}</strong><br>
-            Descripción: \${producto.descripcion || 'N/A'}<br>
-            Precio: $\${producto.precio || '0.00'}<br>
-            Categoría: \${producto.categoria || 'General'}<br>
-            Imagen: <br><img src="\${producto.imagen_url}" alt="\${producto.nombre}" width="100" />
-          \`;
+          div.innerHTML = `
+            <strong>${producto.nombre || 'Sin nombre'}</strong><br>
+            Descripción: ${producto.descripcion || 'N/A'}<br>
+            Precio: $${producto.precio || '0.00'}<br>
+            Categoría: ${producto.categoria || 'General'}<br>
+            Imagen: <img src="${producto.imagen_url}" width="100" alt="${producto.nombre}">
+          `;
           contenedor.appendChild(div);
         });
       } catch (e) {
-        document.getElementById('lista-productos').innerHTML =
-          \`<div class="error">❌ Error al obtener productos: \${e.message}</div>\`;
-        console.error('⛔ Error cargando productos:', e);
-      }
-    }
-
-    function mostrarPanel() {
-      const clave = document.getElementById('clave-privada').value;
-      if (clave === 'trivo2025') {
-        document.getElementById('panel-privado').style.display = 'block';
-      } else {
-        alert('❌ Contraseña incorrecta');
+        document.getElementById('lista-productos').innerHTML = '<div class="error">❌ Error inesperado: ' + e.message + '</div>';
       }
     }
 
