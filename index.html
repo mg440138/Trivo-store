@@ -100,5 +100,16 @@
     verificarConexion();
     mostrarProductos();
   </script>
+  <script>
+console.log("Iniciando diagnóstico...");
+
+verificarConexion()
+  .then(() => console.log("✓ Función verificarConexion() ejecutada."))
+  .catch(e => console.error("⚠️ Error al ejecutar verificarConexion():", e));
+
+mostrarProductos()
+  .then(() => console.log("✓ Función mostrarProductos() ejecutada."))
+  .catch(e => console.error("⚠️ Error al ejecutar mostrarProductos():", e));
+</script>
 </body>
 </html>
