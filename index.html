@@ -63,7 +63,7 @@
 
     async function verificarConexion() {
       try {
-        const { error } = await supabase.rpc('version');
+        const { data, error } = await supabase.from('mercancilla').select('id').limit(1);
         if (error) throw error;
         document.getElementById('estado-conexion').innerHTML = '✅ Conexión establecida con Supabase.';
         diagnosticoDiv.innerHTML = '✅ Supabase responde correctamente.';
