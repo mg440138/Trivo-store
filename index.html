@@ -98,5 +98,14 @@
     verificarConexion().then(() => console.log("✅ Verificación completada"));
     mostrarProductos().then(() => console.log("✅ Productos mostrados"));
   </script>
+
+<!-- Autoactualización del sistema cada 60 segundos -->
+<script>
+  setInterval(() => {
+    verificarConexion().then(() => console.log("🔁 Diagnóstico autoejecutado"));
+    mostrarProductos().then(() => console.log("🔁 Productos autoactualizados"));
+  }, 60000); // 60 segundos
+</script>
+
 </body>
 </html>
