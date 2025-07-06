@@ -3,7 +3,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>🧃 Trivo Store</title>
+  <title>🧱 Trivo Store</title>
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; }
     .error { color: red; }
@@ -14,80 +14,86 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 </head>
 <body>
-  <h1><span style="color: purple;">📦 Trivo Store</span></h1>
 
-  <div id="estado-conexion">🔄 Verificando conexión...</div>
+<h1><span style="color: purple;">🧱 Trivo Store</span></h1>
 
-  <h2>🛍️ Productos Disponibles</h2>
-  <div id="productos">📦 Cargando productos...</div>
+<div id="estado-conexion">🌐 Verificando conexión...</div>
 
-  <h3>🔐 Panel Privado (Contraseña: trivo2025)</h3>
-  <input type="password" id="clave" placeholder="Introduce la contraseña">
-  <button onclick="entrarPrivado()">➡️ Entrar</button>
+<h2>🎁 Productos Disponibles</h2>
+<div id="productos">📦 Cargando productos...</div>
 
-  <div id="panel-privado" style="display:none; margin-top: 20px;">
-    <h3>👑 Bienvenido al Panel Privado</h3>
-    <p>🛠️ Aquí irá tu panel de administración.</p>
-  </div>
+<h3>🔐 Panel Privado (Contraseña: trivo2025)</h3>
+<input type="password" id="clave" placeholder="Introduce la contraseña">
+<button onclick="entrarPrivado()">⏎ Entrar</button>
 
-  <h3>🧠 Diagnóstico Técnico:</h3>
-  <div class="diagnostico" id="diagnosticoDiv">🔎 Iniciando diagnóstico...</div>
+<div id="panel-privado" style="display:none; margin-top: 20px;">
+  <h3>👑 Bienvenido al Panel Privado</h3>
+  <p>📋 Aquí irá tu panel de administración.</p>
+</div>
 
-  <script>
-    const supabaseUrl = "https://uzqmsbkjontizhovxajx.supabase.co";
-    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmtqb250aXpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzMDY1NjYsImV4cCI6MjA2Mzg4MjU2Nn0.RtiBzB0k0qzFzsfgUZcIvW1eyu2VmVbEolCWQDkDwbU";
-    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+<h3>📊 Diagnóstico Técnico:</h3>
+<div class="diagnostico" id="diagnostico">🧪 Iniciando diagnóstico...</div>
 
-    const diagnosticoDiv = document.getElementById("diagnosticoDiv");
-    const productosDiv = document.getElementById("productos");
-    const estadoConexionDiv = document.getElementById("estado-conexion");
+<script>
+  // 🔌 Conexión Supabase
+  const supabaseUrl = 'https://uzqmsbkjontizhovxajx.supabase.co';
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmtqb250aXpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzMDY1NjYsImV4cCI6MjA2Mzg4MjU2Nn0.RtiBzB0k0qzFzsfgUZcIvW1eyu2VmVbEolCWQDkDwbU';
+  const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-    async function verificarConexion() {
-      try {
-        const { data, error } = await supabase.from("mercancilla").select("*").limit(1);
-        if (error) throw error;
-        estadoConexionDiv.innerHTML = "✅ Conexión exitosa con Supabase.";
-      } catch (e) {
-        estadoConexionDiv.innerHTML = "❌ Error de conexión: " + e.message;
-      }
+  const productosDiv = document.getElementById("productos");
+  const diagnosticoDiv = document.getElementById("diagnostico");
+
+  async function verificarConexion() {
+    try {
+      const { data, error } = await supabase.from('mercancilla').select('*').limit(1);
+      if (error) throw error;
+      document.getElementById("estado-conexion").innerHTML = "✅ Conectado correctamente a Supabase.";
+      diagnosticoDiv.innerHTML += "<br>✅ Conexión verificada correctamente.";
+    } catch (e) {
+      document.getElementById("estado-conexion").innerHTML = "❌ Error al conectar.";
+      diagnosticoDiv.innerHTML += "<br>❌ Error de conexión: " + e.message;
     }
+  }
 
-    async function mostrarProductos() {
-      try {
-        const { data, error } = await supabase.from("mercancilla").select("*");
-        if (error) throw error;
+  async function mostrarProductos() {
+    try {
+      const { data, error } = await supabase.from('mercancilla').select('*');
+      if (error) throw error;
 
-        if (!data || data.length === 0) {
-          productosDiv.innerHTML = "⚠️ No hay productos disponibles. La tabla está vacía.";
-          diagnosticoDiv.innerHTML += "<br>⚠️ No hay registros en la tabla 'mercancilla'";
-        } else {
-          productosDiv.innerHTML = "";
-          data.forEach(prod => {
-            const div = document.createElement("div");
-            div.className = "producto";
-            div.innerHTML = `<strong>${prod.nombre}</strong><br>${prod.descripcion}<br><b>$${prod.precio}</b>`;
-            productosDiv.appendChild(div);
-          });
-          diagnosticoDiv.innerHTML += `<br>✅ Se cargaron ${data.length} productos correctamente.`;
-        }
-      } catch (e) {
-        productosDiv.innerHTML = "❌ Error al cargar productos.";
-        diagnosticoDiv.innerHTML += "<br>❌ Error inesperado: " + e.message;
-      }
+      productosDiv.innerHTML = "";
+      data.forEach(prod => {
+        const div = document.createElement("div");
+        div.className = "producto";
+        div.innerHTML = `
+          <strong>${prod.nombre}</strong><br>
+          📝 ${prod.descripcion}<br>
+          💵 Precio: $${prod.precio}<br>
+          🏷️ Categoría: ${prod.categoria}<br>
+          🖼️ <img src="${prod.imagen_url}" alt="${prod.nombre}" width="150">
+        `;
+        productosDiv.appendChild(div);
+      });
+
+      diagnosticoDiv.innerHTML += `<br>✅ Se cargaron ${data.length} productos correctamente.`;
+    } catch (e) {
+      productosDiv.innerHTML = "❌ Error al cargar productos.";
+      diagnosticoDiv.innerHTML += "<br>❌ Error inesperado: " + e.message;
     }
+  }
 
-    function entrarPrivado() {
-      const clave = document.getElementById("clave").value;
-      if (clave === "trivo2025") {
-        document.getElementById("panel-privado").style.display = "block";
-      } else {
-        alert("❌ Contraseña incorrecta");
-      }
+  function entrarPrivado() {
+    const clave = document.getElementById("clave").value;
+    if (clave === "trivo2025") {
+      document.getElementById("panel-privado").style.display = "block";
+    } else {
+      alert("❌ Contraseña incorrecta");
     }
+  }
 
-    // Ejecutar funciones al cargar
-    verificarConexion().then(() => console.log("🔌 Verificación de conexión ejecutada."));
-    mostrarProductos().then(() => console.log("📦 Mostrar productos ejecutada."));
-  </script>
+  // ▶️ Ejecutar funciones al cargar
+  verificarConexion().then(() => console.log("✅ Verificación de conexión ejecutada."));
+  mostrarProductos().then(() => console.log("✅ Mostrar productos ejecutada."));
+</script>
+
 </body>
 </html>
