@@ -43,7 +43,7 @@
   <input type="password" id="clave" placeholder="Introduce la contraseña"/>
   <button onclick="entrar()">Entrar</button>
   <div id="panel" style="display:none;">
-    <h3>Subir nuevo producto (desde navegador)</h3>
+    <h3>Subir nuevo producto</h3>
     <input id="nombre" placeholder="Nombre"><br/>
     <input id="descripcion" placeholder="Descripción"><br/>
     <input id="precio" placeholder="Precio"><br/>
@@ -53,50 +53,53 @@
     <div id="respuesta"></div>
   </div>
 
-  <h2>🔧 Diagnóstico Técnico:</h2>
+  <h2>🛠️ Diagnóstico Técnico:</h2>
   <div id="diagnostico">🔄 Iniciando diagnóstico...</div>
 
+  <!-- Supabase SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script>
+    // Crear cliente Supabase
     const supabase = supabase.createClient(
       "https://uzqmsbkjontizhovxajx.supabase.co",
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmtqb250aXpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzMDY1NjYsImV4cCI6MjA2Mzg4MjU2Nn0.RtiBzB0k0qzFzsfgUZcIvW1eyu2VmBvEolCWQDkDwbU"
     );
 
     async function cargarProductos() {
-      document.getElementById("conexion").textContent = "🟢 Conectado a Supabase";
-      const { data, error } = await supabase.from("mercancilla").select("*");
       const contenedor = document.getElementById("productos");
-      contenedor.innerHTML = "";
+      const diagnostico = document.getElementById("diagnostico");
+      try {
+        const { data, error } = await supabase.from("mercancilla").select("*");
 
-      if (error) {
+        if (error) throw error;
+
+        document.getElementById("conexion").textContent = "🟢 Conectado a Supabase";
+        diagnostico.textContent = "✅ Supabase operativo y productos cargados.";
+
+        if (data.length === 0) {
+          contenedor.textContent = "⚠️ No hay productos aún.";
+          return;
+        }
+
+        contenedor.innerHTML = "";
+        data.forEach(producto => {
+          const div = document.createElement("div");
+          div.className = "producto";
+          div.innerHTML = `
+            <strong>${producto.nombre}</strong><br/>
+            ${producto.descripcion}<br/>
+            <strong>$${producto.precio}</strong><br/>
+            <em>${producto.categoria}</em><br/>
+            <img src="${producto.imagen_url}" />
+          `;
+          contenedor.appendChild(div);
+        });
+
+      } catch (error) {
         contenedor.textContent = "❌ Error cargando productos";
-        document.getElementById("diagnostico").innerText = "❌ ERROR: " + error.message;
-        return;
+        diagnostico.textContent = "❌ ERROR: " + error.message;
       }
-
-      if (data.length === 0) {
-        contenedor.textContent = "⚠️ No hay productos.";
-        return;
-      }
-
-      data.forEach(producto => {
-        const div = document.createElement("div");
-        div.className = "producto";
-        div.innerHTML = `
-          <strong>${producto.nombre}</strong><br/>
-          ${producto.descripcion}<br/>
-          <strong>$${producto.precio}</strong><br/>
-          <em>${producto.categoria}</em><br/>
-          <img src="${producto.imagen_url}" />
-        `;
-        contenedor.appendChild(div);
-      });
-
-      document.getElementById("diagnostico").innerText = "✅ Supabase operativo y productos cargados correctamente.";
     }
-
-    cargarProductos();
 
     function entrar() {
       const clave = document.getElementById("clave").value;
@@ -114,17 +117,21 @@
       const categoria = document.getElementById("categoria").value;
       const imagen_url = document.getElementById("imagen").value;
 
-      const { data, error } = await supabase.from("mercancilla").insert([{
+      const respuestaDiv = document.getElementById("respuesta");
+
+      const { error } = await supabase.from("mercancilla").insert([{
         nombre, descripcion, precio, categoria, imagen_url
       }]);
 
       if (error) {
-        document.getElementById("respuesta").innerText = "❌ Error al subir producto: " + error.message;
+        respuestaDiv.innerText = "❌ Error al subir producto: " + error.message;
       } else {
-        document.getElementById("respuesta").innerText = "✅ Producto subido correctamente";
+        respuestaDiv.innerText = "✅ Producto subido correctamente";
         cargarProductos();
       }
     }
+
+    cargarProductos();
   </script>
 </body>
 </html>
