@@ -2,96 +2,53 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Diagnóstico Avanzado - Trivo Store</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            background-color: #f7f7f7;
-            color: #333;
-        }
-        h1 {
-            color: #8A2BE2;
-        }
-        .ok { color: green; }
-        .fail { color: red; }
-        .section {
-            margin-bottom: 20px;
-        }
-        pre {
-            background: #eee;
-            padding: 10px;
-            border-radius: 5px;
-            overflow-x: auto;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Trivo Store Diagnóstico</title>
 </head>
 <body>
-    <h1>🧪 Diagnóstico Técnico Avanzado - Trivo Store</h1>
-    <div class="section" id="estadoConexion">⏳ Verificando conexión a Supabase...</div>
-    <div class="section" id="respuestaDiagnostico"></div>
+  <h1>Diagnóstico Avanzado - Trivo Store</h1>
+  <div id="diagnostico-avanzado" style="white-space: pre-wrap; background: #f5f5f5; padding: 1em; border: 1px solid #ccc;"></div>
 
-    <script type="module">
-        // Tu URL y API KEY públicas de Supabase (esto puedes modificarlo tú luego)
-        const SUPABASE_URL = "https://uzqmsbkjontizhovxajx.supabase.co";
-        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmtqb250aXpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzMDY1NjYsImV4cCI6MjA2Mzg4MjU2Nn0.RtiBzB0k0qzFzsfgUZcIvW1eyu2VmVbEolCWQDkDwbU";
+  <script type="module">
+    const diagnostico = document.getElementById('diagnostico-avanzado');
 
-        import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+    try {
+      const supabaseUrl = 'https://uzqmsbkjontizhovxajx.supabase.co';
+      const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzI...'; // Redactado por seguridad
+      const tableName = 'mercancilla';
 
-        const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+      diagnostico.innerText = '🔄 Iniciando diagnóstico...';
 
-        async function probarConexion() {
-            try {
-                const response = await supabase.from("mercancilla").select("*").limit(1);
-                const estadoDiv = document.getElementById("estadoConexion");
-                const diagnosticoDiv = document.getElementById("respuestaDiagnostico");
+      import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-                if (response.error) {
-                    estadoDiv.innerHTML = "📡 Estado de Conexión: <span class='fail'>❌ Error</span>";
-                    diagnosticoDiv.innerHTML = `
-                        <h3 class='fail'>Detalles del Error:</h3>
-                        <pre>${JSON.stringify(response.error, null, 2)}</pre>
-                        <p><strong>Explicación:</strong> Puede ser que:</p>
-                        <ul>
-                            <li>❌ Tu tabla <code>mercancilla</code> no exista o esté mal escrita.</li>
-                            <li>🔑 El API Key haya sido desactivado o reemplazado.</li>
-                            <li>🔒 Las reglas de RLS (Row Level Security) bloqueen los SELECT públicos.</li>
-                            <li>🌐 El dominio donde estás probando no esté habilitado en Supabase.</li>
-                        </ul>
-                        <p><strong>Soluciones recomendadas:</strong></p>
-                        <ol>
-                            <li>Revisa que la tabla <code>mercancilla</code> exista y tenga datos.</li>
-                            <li>Desactiva RLS en esa tabla (si no sabes cómo, puedo ayudarte).</li>
-                            <li>Revisa tu API Key y si es la "anon/public".</li>
-                            <li>Verifica que el dominio actual esté permitido en Supabase (en Settings > Auth > URL). Si estás usando Contabo, agrega la IP o dominio completo.</li>
-                        </ol>
-                    `;
-                } else {
-                    estadoDiv.innerHTML = "📡 Estado de Conexión: <span class='ok'>✅ Correcta</span>";
-                    diagnosticoDiv.innerHTML = `
-                        <h3 class='ok'>Conexión exitosa ✅</h3>
-                        <p>Se ha accedido a la tabla <code>mercancilla</code> correctamente.</p>
-                        <p>Respuesta:</p>
-                        <pre>${JSON.stringify(response.data, null, 2)}</pre>
-                    `;
-                }
-            } catch (error) {
-                document.getElementById("estadoConexion").innerHTML = "📡 Estado de Conexión: <span class='fail'>❌ Falló completamente</span>";
-                document.getElementById("respuestaDiagnostico").innerHTML = `
-                    <h3 class='fail'>Error JavaScript:</h3>
-                    <pre>${error.message}</pre>
-                    <p><strong>Posibles causas:</strong></p>
-                    <ul>
-                        <li>🔗 No se puede cargar el módulo Supabase desde CDN (problemas de red o bloqueo).</li>
-                        <li>📴 Tu dispositivo no tiene conexión a Internet.</li>
-                        <li>🧱 El navegador bloquea conexiones externas (modo seguro, restricciones, etc).</li>
-                    </ul>
-                `;
+      const supabase = createClient(supabaseUrl, supabaseKey);
+
+      const ejecutarDiagnostico = async () => {
+        try {
+          const { data, error, status } = await supabase.from(tableName).select('*');
+
+          if (error) {
+            diagnostico.innerText += `\n❌ ERROR al consultar Supabase: ${error.message}`;
+            console.error('❌ Detalle del error:', error);
+          } else {
+            diagnostico.innerText += `\n✅ Conexión a Supabase exitosa. Productos encontrados: ${data.length}`;
+            console.log('✅ Datos:', data);
+            if (data.length === 0) {
+              diagnostico.innerText += `\n⚠️ La tabla "${tableName}" está vacía. Inserta productos desde Supabase.`;
             }
+          }
+        } catch (err) {
+          diagnostico.innerText += `\n❌ Error inesperado: ${err.message}`;
+          console.error(err);
         }
+      };
 
-        probarConexion();
-    </script>
+      ejecutarDiagnostico();
+    } catch (fatal) {
+      diagnostico.innerText = '❌ Error crítico en el diagnóstico. Revisa tu código.';
+      console.error(fatal);
+    }
+  </script>
 </body>
 </html>
