@@ -2,65 +2,130 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Diagnóstico Avanzado - Trivo Store</title>
-    <style>
-        body {
-            background: #f5f5f5;
-            font-family: monospace;
-            padding: 2rem;
-        }
-        pre {
-            white-space: pre-wrap;
-            background: #fff;
-            padding: 1rem;
-            border-left: 4px solid #888;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Trivo Store</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #fff;
+      color: #222;
+    }
+    h1 {
+      color: purple;
+    }
+    .producto {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+    }
+    img {
+      max-width: 100px;
+      display: block;
+    }
+    #diagnostico {
+      background: #f9f9f9;
+      border-left: 5px solid #999;
+      padding: 10px;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
-    <h1>🔎 Diagnóstico Avanzado - Trivo Store</h1>
-    <pre id="diagnostico">Iniciando diagnóstico...</pre>
+  <h1>📦 Trivo Store</h1>
 
-    <script type="module">
-        const diagnostico = document.getElementById("diagnostico");
+  <div id="conexion">🔄 Verificando conexión...</div>
+  <h2>🛒 Productos Disponibles</h2>
+  <div id="productos">🔄 Cargando productos...</div>
 
-        const supabaseUrl = "https://uzqmsbkjontizhovxajx.supabase.co";
-        const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmtqb250aXpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzMDY1NjYsImV4cCI6MjA2Mzg4MjU2Nn0.RtiBzB0k0qzFzsfgUZcIvW1eyu2VmVbEolCWQDkDwbU";
-        const tableName = "mercancilla";
+  <h2>🔐 Panel Privado (Contraseña: trivo2025)</h2>
+  <input type="password" id="clave" placeholder="Introduce la contraseña"/>
+  <button onclick="entrar()">Entrar</button>
+  <div id="panel" style="display:none;">
+    <h3>Subir nuevo producto (desde navegador)</h3>
+    <input id="nombre" placeholder="Nombre"><br/>
+    <input id="descripcion" placeholder="Descripción"><br/>
+    <input id="precio" placeholder="Precio"><br/>
+    <input id="categoria" placeholder="Categoría"><br/>
+    <input id="imagen" placeholder="URL Imagen"><br/>
+    <button onclick="subirProducto()">Subir Producto</button>
+    <div id="respuesta"></div>
+  </div>
 
-        import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+  <h2>🔧 Diagnóstico Técnico:</h2>
+  <div id="diagnostico">🔄 Iniciando diagnóstico...</div>
 
-        const supabase = createClient(supabaseUrl, supabaseKey);
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script>
+    const supabase = supabase.createClient(
+      "https://uzqmsbkjontizhovxajx.supabase.co",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+    );
 
-        const ejecutarDiagnostico = async () => {
-            try {
-                const { data, error } = await supabase.from(tableName).select("*");
+    async function cargarProductos() {
+      document.getElementById("conexion").textContent = "🟢 Conectado a Supabase";
+      const { data, error } = await supabase.from("mercancilla").select("*");
+      const contenedor = document.getElementById("productos");
+      contenedor.innerHTML = "";
 
-                if (error) {
-                    diagnostico.innerText = "❌ ERROR al consultar Supabase:\n" + error.message;
-                    console.error("Error:", error);
-                    return;
-                }
+      if (error) {
+        contenedor.textContent = "❌ Error cargando productos";
+        document.getElementById("diagnostico").innerText = "❌ ERROR: " + error.message;
+        return;
+      }
 
-                if (!data || data.length === 0) {
-                    diagnostico.innerText = "⚠️ Conexión exitosa, pero la tabla '" + tableName + "' está vacía.";
-                    return;
-                }
+      if (data.length === 0) {
+        contenedor.textContent = "⚠️ No hay productos.";
+        return;
+      }
 
-                diagnostico.innerText = "✅ Conexión a Supabase exitosa. Productos encontrados: " + data.length + "\n\n";
-                data.forEach((item, index) => {
-                    diagnostico.innerText += `#${index + 1}: ${item.nombre} (${item.categoria}) - $${item.precio}\n`;
-                });
+      data.forEach(producto => {
+        const div = document.createElement("div");
+        div.className = "producto";
+        div.innerHTML = `
+          <strong>${producto.nombre}</strong><br/>
+          ${producto.descripcion}<br/>
+          <strong>$${producto.precio}</strong><br/>
+          <em>${producto.categoria}</em><br/>
+          <img src="${producto.imagen_url}" />
+        `;
+        contenedor.appendChild(div);
+      });
 
-            } catch (err) {
-                diagnostico.innerText = "🚫 Error inesperado:\n" + err.message;
-                console.error("Excepción crítica:", err);
-            }
-        };
+      document.getElementById("diagnostico").innerText = "✅ Supabase operativo y productos cargados correctamente.";
+    }
 
-        ejecutarDiagnostico();
-    </script>
+    cargarProductos();
+
+    function entrar() {
+      const clave = document.getElementById("clave").value;
+      if (clave === "trivo2025") {
+        document.getElementById("panel").style.display = "block";
+      } else {
+        alert("Contraseña incorrecta");
+      }
+    }
+
+    async function subirProducto() {
+      const nombre = document.getElementById("nombre").value;
+      const descripcion = document.getElementById("descripcion").value;
+      const precio = parseFloat(document.getElementById("precio").value);
+      const categoria = document.getElementById("categoria").value;
+      const imagen_url = document.getElementById("imagen").value;
+
+      const { data, error } = await supabase.from("mercancilla").insert([{
+        nombre, descripcion, precio, categoria, imagen_url
+      }]);
+
+      if (error) {
+        document.getElementById("respuesta").innerText = "❌ Error al subir producto: " + error.message;
+      } else {
+        document.getElementById("respuesta").innerText = "✅ Producto subido correctamente";
+        cargarProductos();
+      }
+    }
+  </script>
 </body>
 </html>
