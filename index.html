@@ -1,98 +1,97 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>🛒 Trivo Store</title>
-  <style>
-    body { font-family: sans-serif; background: #fff; padding: 20px; color: #333; }
-    h1 { color: #BA02E2; }
-    .seccion { margin-bottom: 20px; }
-    .error { color: red; font-weight: bold; }
-    .ok { color: green; font-weight: bold; }
-    .diagnostico { font-size: 14px; margin-top: 10px; }
-  </style>
+    <meta charset="UTF-8">
+    <title>Diagnóstico Avanzado - Trivo Store</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f7f7f7;
+            color: #333;
+        }
+        h1 {
+            color: #8A2BE2;
+        }
+        .ok { color: green; }
+        .fail { color: red; }
+        .section {
+            margin-bottom: 20px;
+        }
+        pre {
+            background: #eee;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
 </head>
 <body>
-  <h1>🐱‍🚀 Trivo Store</h1>
+    <h1>🧪 Diagnóstico Técnico Avanzado - Trivo Store</h1>
+    <div class="section" id="estadoConexion">⏳ Verificando conexión a Supabase...</div>
+    <div class="section" id="respuestaDiagnostico"></div>
 
-  <div class="seccion">
-    <strong>📶 Estado de Conexión:</strong>
-    <span id="estado-conexion">Verificando conexión...</span>
-  </div>
+    <script type="module">
+        // Tu URL y API KEY públicas de Supabase (esto puedes modificarlo tú luego)
+        const SUPABASE_URL = "https://uzqmsbkjontizhovxajx.supabase.co";
+        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmtqb250aXpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzMDY1NjYsImV4cCI6MjA2Mzg4MjU2Nn0.RtiBzB0k0qzFzsfgUZcIvW1eyu2VmVbEolCWQDkDwbU";
 
-  <div class="seccion">
-    <strong>🛍️ Productos Disponibles</strong>
-    <div id="productos">Cargando productos...</div>
-  </div>
+        import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-  <div class="seccion">
-    <strong>🔐 Panel Privado (Contraseña: trivo2025)</strong><br />
-    <input type="password" id="clave" placeholder="Introduce la contraseña" />
-    <button onclick="acceder()">Entrar</button>
-    <div id="panel" style="display:none; margin-top:10px;">
-      ✅ Acceso concedido al panel privado
-    </div>
-  </div>
+        const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  <div class="seccion">
-    <strong>📊 Diagnóstico Técnico:</strong>
-    <div id="diagnostico" class="diagnostico">Iniciando diagnóstico...</div>
-  </div>
+        async function probarConexion() {
+            try {
+                const response = await supabase.from("mercancilla").select("*").limit(1);
+                const estadoDiv = document.getElementById("estadoConexion");
+                const diagnosticoDiv = document.getElementById("respuestaDiagnostico");
 
-  <script type="module">
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
-
-    const supabaseUrl = 'https://uzqmsbkjontizhovxajx.supabase.co'
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmtqb250aXpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzMDY1NjYsImV4cCI6MjA2Mzg4MjU2Nn0.RtiBzB0k0qzFzsfgUZcIvW1eyu2VmVbEolCWQDkDwbU'
-    const supabase = createClient(supabaseUrl, supabaseKey)
-
-    const estadoConexion = document.getElementById('estado-conexion')
-    const productosDiv = document.getElementById('productos')
-    const diagnosticoDiv = document.getElementById('diagnostico')
-
-    async function verificarConexion() {
-      try {
-        const { data, error } = await supabase.from('mercancilla').select('*').limit(1)
-        if (error) throw error
-        estadoConexion.innerHTML = "<span class='ok'>✅ Conexión a Supabase exitosa.</span>"
-        return true
-      } catch (err) {
-        estadoConexion.innerHTML = "<span class='error'>❌ Error de conexión a Supabase.</span>"
-        diagnosticoDiv.innerHTML = `<span class='error'>Error: ${err.message}</span>`
-        return false
-      }
-    }
-
-    async function obtenerProductos() {
-      try {
-        const { data, error } = await supabase.from('mercancilla').select('*')
-        if (error) throw error
-        if (data.length === 0) {
-          productosDiv.innerHTML = "<span class='error'>❌ No hay productos disponibles.</span>"
-        } else {
-          productosDiv.innerHTML = data.map(p => `🧾 ${p.nombre} — $${p.precio}`).join('<br>')
+                if (response.error) {
+                    estadoDiv.innerHTML = "📡 Estado de Conexión: <span class='fail'>❌ Error</span>";
+                    diagnosticoDiv.innerHTML = `
+                        <h3 class='fail'>Detalles del Error:</h3>
+                        <pre>${JSON.stringify(response.error, null, 2)}</pre>
+                        <p><strong>Explicación:</strong> Puede ser que:</p>
+                        <ul>
+                            <li>❌ Tu tabla <code>mercancilla</code> no exista o esté mal escrita.</li>
+                            <li>🔑 El API Key haya sido desactivado o reemplazado.</li>
+                            <li>🔒 Las reglas de RLS (Row Level Security) bloqueen los SELECT públicos.</li>
+                            <li>🌐 El dominio donde estás probando no esté habilitado en Supabase.</li>
+                        </ul>
+                        <p><strong>Soluciones recomendadas:</strong></p>
+                        <ol>
+                            <li>Revisa que la tabla <code>mercancilla</code> exista y tenga datos.</li>
+                            <li>Desactiva RLS en esa tabla (si no sabes cómo, puedo ayudarte).</li>
+                            <li>Revisa tu API Key y si es la "anon/public".</li>
+                            <li>Verifica que el dominio actual esté permitido en Supabase (en Settings > Auth > URL). Si estás usando Contabo, agrega la IP o dominio completo.</li>
+                        </ol>
+                    `;
+                } else {
+                    estadoDiv.innerHTML = "📡 Estado de Conexión: <span class='ok'>✅ Correcta</span>";
+                    diagnosticoDiv.innerHTML = `
+                        <h3 class='ok'>Conexión exitosa ✅</h3>
+                        <p>Se ha accedido a la tabla <code>mercancilla</code> correctamente.</p>
+                        <p>Respuesta:</p>
+                        <pre>${JSON.stringify(response.data, null, 2)}</pre>
+                    `;
+                }
+            } catch (error) {
+                document.getElementById("estadoConexion").innerHTML = "📡 Estado de Conexión: <span class='fail'>❌ Falló completamente</span>";
+                document.getElementById("respuestaDiagnostico").innerHTML = `
+                    <h3 class='fail'>Error JavaScript:</h3>
+                    <pre>${error.message}</pre>
+                    <p><strong>Posibles causas:</strong></p>
+                    <ul>
+                        <li>🔗 No se puede cargar el módulo Supabase desde CDN (problemas de red o bloqueo).</li>
+                        <li>📴 Tu dispositivo no tiene conexión a Internet.</li>
+                        <li>🧱 El navegador bloquea conexiones externas (modo seguro, restricciones, etc).</li>
+                    </ul>
+                `;
+            }
         }
-      } catch (err) {
-        productosDiv.innerHTML = "<span class='error'>❌ Error al cargar productos.</span>"
-        diagnosticoDiv.innerHTML = `<span class='error'>Error: ${err.message}</span>`
-      }
-    }
 
-    function acceder() {
-      const clave = document.getElementById('clave').value
-      if (clave === "trivo2025") {
-        document.getElementById('panel').style.display = "block"
-      } else {
-        alert("❌ Contraseña incorrecta")
-      }
-    }
-
-    // Ejecutar diagnóstico automático
-    verificarConexion().then(ok => {
-      if (ok) {
-        obtenerProductos()
-      }
-    })
-  </script>
+        probarConexion();
+    </script>
 </body>
 </html>
