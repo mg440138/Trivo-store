@@ -1,137 +1,72 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
   <title>Trivo Store</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      background: #fff;
-      color: #222;
-    }
-    h1 {
-      color: purple;
-    }
-    .producto {
-      border: 1px solid #ccc;
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 5px;
-    }
-    img {
-      max-width: 100px;
-      display: block;
-    }
-    #diagnostico {
-      background: #f9f9f9;
-      border-left: 5px solid #999;
-      padding: 10px;
-      margin-top: 20px;
-    }
+    body { font-family: Arial, sans-serif; margin: 20px; background: #fafafa; }
+    h1 { color: #9333ea; }
+    .seccion { margin-bottom: 20px; }
+    .diagnostico { white-space: pre-wrap; background: #eee; padding: 10px; }
   </style>
 </head>
 <body>
   <h1>📦 Trivo Store</h1>
 
-  <div id="conexion">🔄 Verificando conexión...</div>
-  <h2>🛒 Productos Disponibles</h2>
-  <div id="productos">🔄 Cargando productos...</div>
-
-  <h2>🔐 Panel Privado (Contraseña: trivo2025)</h2>
-  <input type="password" id="clave" placeholder="Introduce la contraseña"/>
-  <button onclick="entrar()">Entrar</button>
-  <div id="panel" style="display:none;">
-    <h3>Subir nuevo producto</h3>
-    <input id="nombre" placeholder="Nombre"><br/>
-    <input id="descripcion" placeholder="Descripción"><br/>
-    <input id="precio" placeholder="Precio"><br/>
-    <input id="categoria" placeholder="Categoría"><br/>
-    <input id="imagen" placeholder="URL Imagen"><br/>
-    <button onclick="subirProducto()">Subir Producto</button>
-    <div id="respuesta"></div>
+  <div class="seccion">
+    <p id="conexion">🔄 Verificando conexión...</p>
+    <p id="productos">🛒 Cargando productos...</p>
   </div>
 
-  <h2>🛠️ Diagnóstico Técnico:</h2>
-  <div id="diagnostico">🔄 Iniciando diagnóstico...</div>
+  <div class="seccion">
+    <strong>🔐 Panel Privado (Contraseña: trivo2025):</strong><br>
+    <input type="password" id="clave" placeholder="Introduce la contraseña">
+    <button onclick="verificarClave()">Entrar</button>
+    <div id="zonaPrivada" style="display:none; margin-top:10px;">
+      <p>✅ Acceso concedido. Aquí va tu panel privado.</p>
+    </div>
+  </div>
 
-  <!-- Supabase SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script>
-    // Crear cliente Supabase
-    const supabase = supabase.createClient(
-      "https://uzqmsbkjontizhovxajx.supabase.co",
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmtqb250aXpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzMDY1NjYsImV4cCI6MjA2Mzg4MjU2Nn0.RtiBzB0k0qzFzsfgUZcIvW1eyu2VmBvEolCWQDkDwbU"
-    );
+  <div class="seccion">
+    <strong>🧪 Diagnóstico Técnico:</strong>
+    <div class="diagnostico" id="diagnostico">⏳ Iniciando diagnóstico...</div>
+  </div>
 
-    async function cargarProductos() {
-      const contenedor = document.getElementById("productos");
-      const diagnostico = document.getElementById("diagnostico");
-      try {
-        const { data, error } = await supabase.from("mercancilla").select("*");
+<script type="module">
+  const supabaseUrl = 'https://uzqmsbkjontizhovxajx.supabase.co';
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmtqb250aXpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzMDY1NjYsImV4cCI6MjA2Mzg4MjU2Nn0.RtiBzB0k0qzFzsfgUZcIvW1eyu2VmVbEolCWQDkDwbU';
+  const tableName = 'mercancilla';
 
-        if (error) throw error;
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+  const supabase = createClient(supabaseUrl, supabaseKey);
 
-        document.getElementById("conexion").textContent = "🟢 Conectado a Supabase";
-        diagnostico.textContent = "✅ Supabase operativo y productos cargados.";
+  // Diagnóstico
+  const diagnostico = document.getElementById('diagnostico');
+  try {
+    diagnostico.innerText = '🔌 Conectando a Supabase...';
+    const { data, error } = await supabase.from(tableName).select('*').limit(1);
+    if (error) throw error;
+    diagnostico.innerText = '✅ Conexión a Supabase exitosa.
+' + JSON.stringify(data, null, 2);
+    document.getElementById('conexion').innerText = '✅ Conexión verificada.';
+    document.getElementById('productos').innerText = '✅ Productos cargados.';
+  } catch (err) {
+    diagnostico.innerText = '❌ Error al conectar con Supabase:
+' + err.message;
+  }
 
-        if (data.length === 0) {
-          contenedor.textContent = "⚠️ No hay productos aún.";
-          return;
-        }
-
-        contenedor.innerHTML = "";
-        data.forEach(producto => {
-          const div = document.createElement("div");
-          div.className = "producto";
-          div.innerHTML = `
-            <strong>${producto.nombre}</strong><br/>
-            ${producto.descripcion}<br/>
-            <strong>$${producto.precio}</strong><br/>
-            <em>${producto.categoria}</em><br/>
-            <img src="${producto.imagen_url}" />
-          `;
-          contenedor.appendChild(div);
-        });
-
-      } catch (error) {
-        contenedor.textContent = "❌ Error cargando productos";
-        diagnostico.textContent = "❌ ERROR: " + error.message;
-      }
+  // Panel privado
+  function verificarClave() {
+    const clave = document.getElementById('clave').value;
+    if (clave === 'trivo2025') {
+      document.getElementById('zonaPrivada').style.display = 'block';
+    } else {
+      alert('Contraseña incorrecta');
     }
+  }
 
-    function entrar() {
-      const clave = document.getElementById("clave").value;
-      if (clave === "trivo2025") {
-        document.getElementById("panel").style.display = "block";
-      } else {
-        alert("Contraseña incorrecta");
-      }
-    }
-
-    async function subirProducto() {
-      const nombre = document.getElementById("nombre").value;
-      const descripcion = document.getElementById("descripcion").value;
-      const precio = parseFloat(document.getElementById("precio").value);
-      const categoria = document.getElementById("categoria").value;
-      const imagen_url = document.getElementById("imagen").value;
-
-      const respuestaDiv = document.getElementById("respuesta");
-
-      const { error } = await supabase.from("mercancilla").insert([{
-        nombre, descripcion, precio, categoria, imagen_url
-      }]);
-
-      if (error) {
-        respuestaDiv.innerText = "❌ Error al subir producto: " + error.message;
-      } else {
-        respuestaDiv.innerText = "✅ Producto subido correctamente";
-        cargarProductos();
-      }
-    }
-
-    cargarProductos();
-  </script>
+  window.verificarClave = verificarClave;
+</script>
 </body>
 </html>
