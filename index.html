@@ -1,72 +1,99 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <title>Trivo Store</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 20px; background: #fafafa; }
-    h1 { color: #9333ea; }
-    .seccion { margin-bottom: 20px; }
-    .diagnostico { white-space: pre-wrap; background: #eee; padding: 10px; }
+    body { font-family: Arial, sans-serif; padding: 20px; background: #fdfdfd; }
+    h1 { color: purple; }
+    .seccion { margin-top: 20px; }
+    .producto { margin: 10px 0; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+    #diagnostico-avanzado { margin-top: 30px; font-size: 14px; color: #555; }
   </style>
 </head>
 <body>
   <h1>📦 Trivo Store</h1>
 
-  <div class="seccion">
-    <p id="conexion">🔄 Verificando conexión...</p>
-    <p id="productos">🛒 Cargando productos...</p>
-  </div>
+  <div id="conexion" class="seccion">🔄 Verificando conexión...</div>
+  <div id="productos" class="seccion">🛒 <strong>Productos Disponibles</strong><br><span id="lista-productos">🔄 Cargando productos...</span></div>
 
   <div class="seccion">
-    <strong>🔐 Panel Privado (Contraseña: trivo2025):</strong><br>
-    <input type="password" id="clave" placeholder="Introduce la contraseña">
-    <button onclick="verificarClave()">Entrar</button>
-    <div id="zonaPrivada" style="display:none; margin-top:10px;">
-      <p>✅ Acceso concedido. Aquí va tu panel privado.</p>
+    🔐 <strong>Panel Privado (Contraseña: trivo2025):</strong><br>
+    <input type="password" id="password" placeholder="Introduce la contraseña">
+    <button onclick="verificarAcceso()">Entrar</button>
+    <div id="zona-privada" style="display:none;">
+      <p>✅ Acceso autorizado. Aquí iría tu panel privado...</p>
     </div>
   </div>
 
   <div class="seccion">
-    <strong>🧪 Diagnóstico Técnico:</strong>
-    <div class="diagnostico" id="diagnostico">⏳ Iniciando diagnóstico...</div>
+    🧠 <strong>Diagnóstico Técnico:</strong><br>
+    <div id="diagnostico">🔍 Iniciando diagnóstico...</div>
   </div>
 
-<script type="module">
-  const supabaseUrl = 'https://uzqmsbkjontizhovxajx.supabase.co';
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmtqb250aXpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzMDY1NjYsImV4cCI6MjA2Mzg4MjU2Nn0.RtiBzB0k0qzFzsfgUZcIvW1eyu2VmVbEolCWQDkDwbU';
-  const tableName = 'mercancilla';
+  <div id="diagnostico-avanzado"></div>
 
-  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-  const supabase = createClient(supabaseUrl, supabaseKey);
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script>
+    const supabaseUrl = "https://uzqmsbkjontizhovxajx.supabase.co";
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6cW1zYmtqb250aXpob3h2YWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzMDY1NjYsImV4cCI6MjA2Mzg4MjU2Nn0.RtiBzB0k0qzFzsfgUZcIvW1eyu2VmVbEolCWQDkDwbU";
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-  // Diagnóstico
-  const diagnostico = document.getElementById('diagnostico');
-  try {
-    diagnostico.innerText = '🔌 Conectando a Supabase...';
-    const { data, error } = await supabase.from(tableName).select('*').limit(1);
-    if (error) throw error;
-    diagnostico.innerText = '✅ Conexión a Supabase exitosa.
-' + JSON.stringify(data, null, 2);
-    document.getElementById('conexion').innerText = '✅ Conexión verificada.';
-    document.getElementById('productos').innerText = '✅ Productos cargados.';
-  } catch (err) {
-    diagnostico.innerText = '❌ Error al conectar con Supabase:
-' + err.message;
-  }
+    async function diagnostico() {
+      const conexionDiv = document.getElementById("conexion");
+      const diagnosticoDiv = document.getElementById("diagnostico");
+      const avanzado = document.getElementById("diagnostico-avanzado");
 
-  // Panel privado
-  function verificarClave() {
-    const clave = document.getElementById('clave').value;
-    if (clave === 'trivo2025') {
-      document.getElementById('zonaPrivada').style.display = 'block';
-    } else {
-      alert('Contraseña incorrecta');
+      try {
+        const { data, error } = await supabase.from('mercancilla').select('*').limit(1);
+        if (error) {
+          conexionDiv.innerHTML = "❌ Error al conectar con Supabase.";
+          diagnosticoDiv.innerHTML = "❌ Diagnóstico fallido: " + error.message;
+          avanzado.innerText = JSON.stringify(error, null, 2);
+        } else {
+          conexionDiv.innerHTML = "✅ Conexión establecida con Supabase.";
+          diagnosticoDiv.innerHTML = "✅ Diagnóstico exitoso.";
+          avanzado.innerText = "Primer producto encontrado (si hay):\n" + JSON.stringify(data[0], null, 2);
+        }
+      } catch (err) {
+        conexionDiv.innerHTML = "❌ Fallo general de conexión.";
+        diagnosticoDiv.innerHTML = "❌ Excepción: " + err.message;
+        avanzado.innerText = JSON.stringify(err, null, 2);
+      }
     }
-  }
 
-  window.verificarClave = verificarClave;
-</script>
+    async function mostrarProductos() {
+      const contenedor = document.getElementById("lista-productos");
+      const { data, error } = await supabase.from('mercancilla').select('*');
+      if (error || !data) {
+        contenedor.innerHTML = "❌ Error cargando productos.";
+        console.error("Error Supabase:", error);
+        return;
+      }
+      if (data.length === 0) {
+        contenedor.innerHTML = "⚠️ No hay productos disponibles.";
+        return;
+      }
+      contenedor.innerHTML = "";
+      data.forEach(p => {
+        const div = document.createElement("div");
+        div.className = "producto";
+        div.innerHTML = `<strong>${p.nombre}</strong><br>${p.descripcion}<br>💲${p.precio}`;
+        contenedor.appendChild(div);
+      });
+    }
+
+    function verificarAcceso() {
+      const pass = document.getElementById("password").value;
+      if (pass === "trivo2025") {
+        document.getElementById("zona-privada").style.display = "block";
+      } else {
+        alert("❌ Contraseña incorrecta.");
+      }
+    }
+
+    diagnostico();
+    mostrarProductos();
+  </script>
 </body>
 </html>
